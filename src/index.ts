@@ -1,4 +1,5 @@
 import app from './application/app';
+import "reflect-metadata";
 
 const port = 3000;
 
