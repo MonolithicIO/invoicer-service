@@ -76,3 +76,6 @@ build/
 # Windows
 Thumbs.db
 ehthumbs.db
+
+# Fleet
+.fleet
