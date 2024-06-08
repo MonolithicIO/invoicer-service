@@ -1,11 +1,12 @@
 {
   "name": "invoicer-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.ts",
   "repository": "git@github.com:alaksiondev/invoicer-backend.git",
   "author": "Lucca Beurmann <lbeurmann.dev@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "class-transformer": "^0.5.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "pg": "^8.12.0",
@@ -31,7 +32,7 @@
     "start": "ts-node src/index.ts",
     "build": "tsc",
     "serve": "node dist/index.js",
-    "lint": "eslint 'src/**/*.{js,ts}'"
+    "lint": "eslint src/**/*.{js,ts}'"
   },
   "husky": {
     "hooks": {
