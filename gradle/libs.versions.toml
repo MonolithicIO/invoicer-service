@@ -1,0 +1,7 @@
+[versions]
+ktorm = "4.0.0"
+
+[libraries]
+ktorm = {module = "org.ktorm:ktorm-core", version.ref = "ktorm"}
+
+[plugins]

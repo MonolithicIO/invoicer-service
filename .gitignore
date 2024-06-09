@@ -1,81 +1,39 @@
-# Node.js
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Logs
-logs/
-*.log
-pids/
-*.pid
-*.seed
-*.pid.lock
-
-# Diagnostic reports (https://nodejs.org/api/report.html)
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-
-# Runtime data
-pids/
-*.pid
-*.seed
-*.pid.lock
-lib-cov/
-
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
-
-# nyc test coverage
-.nyc_output/
-
-# Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
-.grunt/
-
-# Bower dependency directory (https://bower.io/)
-bower_components/
-
-# Lock files
-package-lock.json
-yarn.lock
-
-# Dependency directories
-node_modules/
-jspm_packages/
-
-# TypeScript
-*.tsbuildinfo
-dist/
+.gradle
 build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
 
-# Optional npm cache directory
-.npm
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
 
-# Optional eslint cache
-.eslintcache
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
 
-# Optional REPL history
-.node_repl_history
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
 
-# dotenv environment variables file
-.env
-.env.test
-
-# VSCode
+### VS Code ###
 .vscode/
 
-# IntelliJ IDEA
-.idea/
-
-# MacOS
-.DS_Store
-
-# Linux
-*.swp
-
-# Windows
-Thumbs.db
-ehthumbs.db
-
-# Fleet
-.fleet
+.env
+.kotlin
