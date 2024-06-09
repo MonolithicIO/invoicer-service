@@ -33,7 +33,7 @@
     "start": "ts-node src/index.ts",
     "build": "tsc",
     "serve": "node dist/index.js",
-    "lint": "eslint src/**/*.{js,ts}'"
+    "lint": "eslint src/**/*.{js,ts,json,css,md}"
   },
   "husky": {
     "hooks": {
