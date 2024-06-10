@@ -13,6 +13,9 @@ object InvoiceServiceTable : Table<InvoiceServiceEntity>("t_invoice_service") {
     val description = varchar("description").bindTo { it.description }
     val quantity = int("quantity").bindTo { it.quantity }
     val unitPrice = long("unit_price").bindTo { it.unitPrice }
+    val invoiceId = uuid("invoice_id").references(InvoiceTable) {
+        it.invoice
+    }
 }
 
 interface InvoiceServiceEntity : Entity<InvoiceServiceEntity> {
@@ -22,4 +25,5 @@ interface InvoiceServiceEntity : Entity<InvoiceServiceEntity> {
     var description: String
     var quantity: Int
     var unitPrice: Long
+    val invoice: InvoiceEntity
 }

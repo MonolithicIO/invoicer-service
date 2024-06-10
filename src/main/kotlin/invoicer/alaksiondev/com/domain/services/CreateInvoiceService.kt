@@ -2,6 +2,7 @@ package invoicer.alaksiondev.com.domain.services
 
 import invoicer.alaksiondev.com.domain.models.createinvoice.CreateInvoiceModel
 import invoicer.alaksiondev.com.domain.models.createinvoice.CreateInvoiceResponseModel
+import invoicer.alaksiondev.com.domain.models.createinvoice.CreateInvoiceServiceModel
 import invoicer.alaksiondev.com.domain.repository.IInvoiceRepository
 import invoicer.alaksiondev.com.errors.HttpError
 import invoicer.alaksiondev.com.validation.validateSwiftCode
@@ -17,6 +18,8 @@ internal class CreateInvoiceService(
 ) : ICreateInvoiceService {
 
     override suspend fun createInvoice(model: CreateInvoiceModel): CreateInvoiceResponseModel {
+        validateServices(model.services)
+
         validateSwifts(
             beneficiary = model.beneficiary.beneficiarySwift,
             intermediary = model.intermediary?.intermediarySwift
@@ -71,6 +74,15 @@ internal class CreateInvoiceService(
                 statusCode = HttpStatusCode.BadRequest
             )
         }
+    }
+
+    private fun validateServices(
+        services: List<CreateInvoiceServiceModel>
+    ) {
+        if (services.isEmpty()) throw HttpError(
+            message = "Invoice must have at least one service",
+            statusCode = HttpStatusCode.BadRequest
+        )
     }
 
 }
