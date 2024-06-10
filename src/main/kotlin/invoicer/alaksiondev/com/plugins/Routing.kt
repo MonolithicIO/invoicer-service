@@ -20,7 +20,6 @@ fun Application.configureRouting() {
             call.respondText(text = "500: $cause" , status = HttpStatusCode.InternalServerError)
         }
     }
-    install(Resources)
     install(Webjars) {
         path = "/webjars" //defaults to /webjars
     }

@@ -1,11 +1,11 @@
-package invoicer.alaksiondev.com.domain.models
+package invoicer.alaksiondev.com.domain.models.createinvoice
 
 import invoicer.alaksiondev.com.serializers.LocalDateSerializer
 import kotlinx.serialization.Serializable
 import java.time.LocalDate
 
 @Serializable
-internal data class CreateInvoiceModel(
+data class CreateInvoiceModel(
     val externalId: String,
     val senderCompanyName: String,
     val senderCompanyAddress: String,
@@ -20,7 +20,7 @@ internal data class CreateInvoiceModel(
 )
 
 @Serializable
-internal data class CreateInvoiceBeneficiaryModel(
+data class CreateInvoiceBeneficiaryModel(
     val beneficiaryName: String,
     val beneficiaryIban: String,
     val beneficiarySwift: String,
@@ -29,7 +29,7 @@ internal data class CreateInvoiceBeneficiaryModel(
 )
 
 @Serializable
-internal data class CreateInvoiceIntermediaryModel(
+data class CreateInvoiceIntermediaryModel(
     val intermediaryIban: String,
     val intermediarySwift: String,
     val intermediaryBankName: String,

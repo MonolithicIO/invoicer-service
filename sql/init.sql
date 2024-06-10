@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS t_invoice (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    external_id varchar not null,
+    external_id varchar unique not null,
     sender_company_name varchar not null,
     sender_company_address varchar not null,
     recipient_company_name varchar not null,

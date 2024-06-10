@@ -1,7 +1,7 @@
 package invoicer.alaksiondev.com
 
-import DatabaseFactory
 import invoicer.alaksiondev.com.plugins.configureSerialization
+import invoicer.alaksiondev.com.plugins.installDi
 import invoicer.alaksiondev.com.routes.invoiceRouting
 import io.ktor.server.application.Application
 
@@ -10,9 +10,7 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    DatabaseFactory.database
+    installDi()
     configureSerialization()
     invoiceRouting()
-//    configureRouting()
-    //    configureMonitoring()
 }

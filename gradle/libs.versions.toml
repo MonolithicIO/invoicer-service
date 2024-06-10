@@ -1,7 +1,9 @@
 [versions]
 ktorm = "4.0.0"
+kodein = "7.22.0"
 
 [libraries]
-ktorm = {module = "org.ktorm:ktorm-core", version.ref = "ktorm"}
+ktorm = { module = "org.ktorm:ktorm-core", version.ref = "ktorm" }
+kodein-server = { module = "org.kodein.di:kodein-di-framework-ktor-server-jvm", version.ref = "kodein" }
 
 [plugins]

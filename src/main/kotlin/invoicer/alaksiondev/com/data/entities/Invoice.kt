@@ -1,5 +1,6 @@
 package invoicer.alaksiondev.com.data.entities
 
+import invoicer.alaksiondev.com.domain.models.InvoiceModel
 import org.ktorm.entity.Entity
 import org.ktorm.schema.Table
 import org.ktorm.schema.date
@@ -52,4 +53,26 @@ interface InvoiceEntity : Entity<InvoiceEntity> {
     var intermediarySwift: String?
     var intermediaryBankName: String?
     var intermediaryBankAddress: String?
+}
+
+internal fun InvoiceEntity.toInvoiceModel(): InvoiceModel {
+    return InvoiceModel(
+        id = this.id.toString(),
+        externalId = this.externalId,
+        senderCompanyName = this.senderCompanyName,
+        senderCompanyAddress = this.senderCompanyAddress,
+        recipientCompanyAddress = this.recipientCompanyAddress,
+        recipientCompanyName = this.recipientCompanyName,
+        issueDate = this.issueDate.toString(),
+        dueDate = this.dueDate.toString(),
+        beneficiaryName = this.beneficiaryName,
+        beneficiaryIban = this.beneficiaryIban,
+        beneficiarySwift = this.beneficiarySwift,
+        beneficiaryBankName = this.beneficiaryBankName,
+        beneficiaryBankAddress = this.beneficiaryBankAddress,
+        intermediaryIban = this.intermediaryIban,
+        intermediarySwift = this.intermediarySwift,
+        intermediaryBankName = this.intermediaryBankName,
+        intermediaryBankAddress = this.intermediaryBankAddress,
+    )
 }

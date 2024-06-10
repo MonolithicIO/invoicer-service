@@ -26,6 +26,7 @@ repositories {
 
 dependencies {
     implementation(libs.ktorm)
+    implementation(libs.kodein.server)
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-server-content-negotiation-jvm")
