@@ -1,6 +1,6 @@
 package invoicer.alaksiondev.com.routes
 
-import invoicer.alaksiondev.com.data.services.ICreateInvoiceService
+import invoicer.alaksiondev.com.domain.services.ICreateInvoiceService
 import invoicer.alaksiondev.com.domain.models.createinvoice.CreateInvoiceModel
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application

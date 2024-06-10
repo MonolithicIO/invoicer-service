@@ -4,8 +4,8 @@ import DatabaseFactory
 import invoicer.alaksiondev.com.data.datasource.IInvoiceDataSource
 import invoicer.alaksiondev.com.data.datasource.InvoiceDataSource
 import invoicer.alaksiondev.com.data.repository.InvoiceRepository
-import invoicer.alaksiondev.com.data.services.CreateInvoiceService
-import invoicer.alaksiondev.com.data.services.ICreateInvoiceService
+import invoicer.alaksiondev.com.domain.services.CreateInvoiceService
+import invoicer.alaksiondev.com.domain.services.ICreateInvoiceService
 import invoicer.alaksiondev.com.domain.repository.IInvoiceRepository
 import io.ktor.server.application.Application
 import org.kodein.di.bindSingleton
@@ -19,6 +19,6 @@ fun Application.installDi() {
 
         bindSingleton<IInvoiceDataSource> { InvoiceDataSource(database = instance()) }
         bindSingleton<IInvoiceRepository> { InvoiceRepository(dataSource = instance()) }
-        bindSingleton<ICreateInvoiceService> { CreateInvoiceService(repository = instance()) }
+        bindSingleton<ICreateInvoiceService> { CreateInvoiceService(repository = instance(   )) }
     }
 }
