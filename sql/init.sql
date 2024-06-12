@@ -28,3 +28,15 @@ CREATE TABLE IF NOT EXISTS t_invoice_activity(
         foreign key (invoice_id)
             references t_invoice(id)
 );
+
+CREATE TYPE pdf_status as ENUM ('ok', 'pending', 'failed');
+
+CREATE TABLE IF NOT EXISTS t_invoice_pdf(
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    path varchar,
+    status pdf_status not null,
+    invoice_id uuid not null,
+    constraint fk_t_invoice_pdf
+        foreign key (invoice_id)
+            references t_invoice(id)
+);
