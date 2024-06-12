@@ -1,8 +1,8 @@
-package invoicer.alaksiondev.com.domain.services
+package invoicer.alaksiondev.com.services
 
-import invoicer.alaksiondev.com.domain.models.createinvoice.CreateInvoiceActivityModel
-import invoicer.alaksiondev.com.domain.models.createinvoice.CreateInvoiceModel
-import invoicer.alaksiondev.com.domain.models.createinvoice.CreateInvoiceResponseModel
+import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceActivityModel
+import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceModel
+import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceResponseModel
 import invoicer.alaksiondev.com.domain.repository.IInvoiceActivityRepository
 import invoicer.alaksiondev.com.domain.repository.IInvoiceRepository
 import invoicer.alaksiondev.com.errors.HttpError

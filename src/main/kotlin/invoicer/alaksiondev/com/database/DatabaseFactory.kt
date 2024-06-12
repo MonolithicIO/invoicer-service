@@ -1,4 +1,4 @@
-import invoicer.alaksiondev.com.data.entities.InvoiceTable
+import invoicer.alaksiondev.com.entities.InvoiceTable
 import org.ktorm.database.Database
 import org.ktorm.entity.sequenceOf
 

@@ -1,4 +1,4 @@
-package invoicer.alaksiondev.com.domain.models
+package invoicer.alaksiondev.com.models
 
 import kotlinx.serialization.Serializable
 

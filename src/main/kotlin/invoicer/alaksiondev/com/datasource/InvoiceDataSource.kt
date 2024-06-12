@@ -1,8 +1,8 @@
-package invoicer.alaksiondev.com.data.datasource
+package invoicer.alaksiondev.com.datasource
 
-import invoicer.alaksiondev.com.data.entities.InvoiceEntity
-import invoicer.alaksiondev.com.data.entities.InvoiceTable
-import invoicer.alaksiondev.com.domain.models.createinvoice.CreateInvoiceModel
+import invoicer.alaksiondev.com.entities.InvoiceEntity
+import invoicer.alaksiondev.com.entities.InvoiceTable
+import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceModel
 import invoices
 import org.ktorm.database.Database
 import org.ktorm.dsl.eq

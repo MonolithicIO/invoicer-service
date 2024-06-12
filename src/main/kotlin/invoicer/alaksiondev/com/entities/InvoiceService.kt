@@ -1,4 +1,4 @@
-package invoicer.alaksiondev.com.data.entities
+package invoicer.alaksiondev.com.entities
 
 import org.ktorm.entity.Entity
 import org.ktorm.schema.Table

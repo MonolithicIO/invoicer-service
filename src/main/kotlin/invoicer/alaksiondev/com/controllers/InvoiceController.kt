@@ -1,7 +1,7 @@
-package invoicer.alaksiondev.com.routes
+package invoicer.alaksiondev.com.controllers
 
-import invoicer.alaksiondev.com.domain.services.ICreateInvoiceService
-import invoicer.alaksiondev.com.domain.models.createinvoice.CreateInvoiceModel
+import invoicer.alaksiondev.com.services.ICreateInvoiceService
+import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceModel
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
 import io.ktor.server.application.call
@@ -16,7 +16,7 @@ import io.ktor.server.routing.routing
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 
-fun Application.invoiceRouting() {
+fun Application.invoiceController() {
 
 
     routing {

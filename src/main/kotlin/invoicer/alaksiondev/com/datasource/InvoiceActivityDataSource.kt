@@ -1,7 +1,7 @@
-package invoicer.alaksiondev.com.data.datasource
+package invoicer.alaksiondev.com.datasource
 
-import invoicer.alaksiondev.com.data.entities.InvoiceActivityTable
-import invoicer.alaksiondev.com.domain.models.createinvoice.CreateInvoiceActivityModel
+import invoicer.alaksiondev.com.entities.InvoiceActivityTable
+import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceActivityModel
 import org.ktorm.database.Database
 import org.ktorm.dsl.batchInsert
 import java.util.UUID

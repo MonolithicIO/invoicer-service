@@ -1,6 +1,6 @@
-package invoicer.alaksiondev.com.data.entities
+package invoicer.alaksiondev.com.entities
 
-import invoicer.alaksiondev.com.domain.models.InvoiceModel
+import invoicer.alaksiondev.com.models.InvoiceModel
 import org.ktorm.entity.Entity
 import org.ktorm.schema.Table
 import org.ktorm.schema.date
