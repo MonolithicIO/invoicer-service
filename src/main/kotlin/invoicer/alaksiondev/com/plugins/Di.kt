@@ -5,10 +5,10 @@ import invoicer.alaksiondev.com.datasource.IInvoiceActivityDataSource
 import invoicer.alaksiondev.com.datasource.IInvoiceDataSource
 import invoicer.alaksiondev.com.datasource.InvoiceActivityDataSource
 import invoicer.alaksiondev.com.datasource.InvoiceDataSource
+import invoicer.alaksiondev.com.repository.IInvoiceActivityRepository
+import invoicer.alaksiondev.com.repository.IInvoiceRepository
 import invoicer.alaksiondev.com.repository.InvoiceActivityRepository
 import invoicer.alaksiondev.com.repository.InvoiceRepository
-import invoicer.alaksiondev.com.domain.repository.IInvoiceActivityRepository
-import invoicer.alaksiondev.com.domain.repository.IInvoiceRepository
 import invoicer.alaksiondev.com.services.CreateInvoiceService
 import invoicer.alaksiondev.com.services.ICreateInvoiceService
 import io.ktor.server.application.Application

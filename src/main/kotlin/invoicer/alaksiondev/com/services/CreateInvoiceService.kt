@@ -1,11 +1,11 @@
 package invoicer.alaksiondev.com.services
 
+import invoicer.alaksiondev.com.errors.HttpError
 import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceActivityModel
 import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceModel
 import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceResponseModel
-import invoicer.alaksiondev.com.domain.repository.IInvoiceActivityRepository
-import invoicer.alaksiondev.com.domain.repository.IInvoiceRepository
-import invoicer.alaksiondev.com.errors.HttpError
+import invoicer.alaksiondev.com.repository.IInvoiceActivityRepository
+import invoicer.alaksiondev.com.repository.IInvoiceRepository
 import invoicer.alaksiondev.com.validation.validateSwiftCode
 import io.ktor.http.HttpStatusCode
 import java.time.LocalDate
