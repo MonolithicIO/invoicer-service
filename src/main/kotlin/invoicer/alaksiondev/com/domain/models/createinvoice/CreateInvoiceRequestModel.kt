@@ -17,7 +17,7 @@ data class CreateInvoiceModel(
     val dueDate: LocalDate,
     val beneficiary: CreateInvoiceBeneficiaryModel,
     val intermediary: CreateInvoiceIntermediaryModel? = null,
-    val services: List<CreateInvoiceServiceModel>
+    val activities: List<CreateInvoiceActivityModel>
 )
 
 @Serializable
@@ -38,8 +38,8 @@ data class CreateInvoiceIntermediaryModel(
 )
 
 @Serializable
-data class CreateInvoiceServiceModel(
+data class CreateInvoiceActivityModel(
     val description: String,
     val unitPrice: Long,
-    val quantity: Long
+    val quantity: Int
 )

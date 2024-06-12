@@ -1,8 +1,9 @@
 package invoicer.alaksiondev.com.domain.services
 
+import invoicer.alaksiondev.com.domain.models.createinvoice.CreateInvoiceActivityModel
 import invoicer.alaksiondev.com.domain.models.createinvoice.CreateInvoiceModel
 import invoicer.alaksiondev.com.domain.models.createinvoice.CreateInvoiceResponseModel
-import invoicer.alaksiondev.com.domain.models.createinvoice.CreateInvoiceServiceModel
+import invoicer.alaksiondev.com.domain.repository.IInvoiceActivityRepository
 import invoicer.alaksiondev.com.domain.repository.IInvoiceRepository
 import invoicer.alaksiondev.com.errors.HttpError
 import invoicer.alaksiondev.com.validation.validateSwiftCode
@@ -14,11 +15,12 @@ interface ICreateInvoiceService {
 }
 
 internal class CreateInvoiceService(
-    private val repository: IInvoiceRepository
+    private val invoiceRepository: IInvoiceRepository,
+    private val invoiceActivityRepository: IInvoiceActivityRepository
 ) : ICreateInvoiceService {
 
     override suspend fun createInvoice(model: CreateInvoiceModel): CreateInvoiceResponseModel {
-        validateServices(model.services)
+        validateActivities(model.activities)
 
         validateSwifts(
             beneficiary = model.beneficiary.beneficiarySwift,
@@ -29,14 +31,19 @@ internal class CreateInvoiceService(
             dueDate = model.dueDate
         )
 
-        if (repository.getInvoiceByExternalId(externalId = model.externalId) != null) {
+        if (invoiceRepository.getInvoiceByExternalId(externalId = model.externalId) != null) {
             throw HttpError(
                 message = "Invoice with externalId: ${model.externalId} already exists",
                 statusCode = HttpStatusCode.Conflict
             )
         }
 
-        val response = repository.createInvoice(data = model)
+        val response = invoiceRepository.createInvoice(data = model)
+        invoiceActivityRepository.createInvoiceActivities(
+            list = model.activities,
+            invoiceId = response
+        )
+
         return CreateInvoiceResponseModel(
             externalInvoiceId = model.externalId,
             invoiceId = response
@@ -76,13 +83,29 @@ internal class CreateInvoiceService(
         }
     }
 
-    private fun validateServices(
-        services: List<CreateInvoiceServiceModel>
+    private fun validateActivities(
+        services: List<CreateInvoiceActivityModel>
     ) {
         if (services.isEmpty()) throw HttpError(
             message = "Invoice must have at least one service",
             statusCode = HttpStatusCode.BadRequest
         )
+
+        services.forEach {
+            if (it.quantity <= 0) {
+                throw HttpError(
+                    message = "Invoice activity must have quantity > 0",
+                    statusCode = HttpStatusCode.BadRequest
+                )
+            }
+
+            if (it.unitPrice <= 0) {
+                throw HttpError(
+                    message = "Invoice activity must have unitPrice > 0",
+                    statusCode = HttpStatusCode.BadRequest
+                )
+            }
+        }
     }
 
 }

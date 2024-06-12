@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS t_invoice (
     intermediary_bank_address varchar
 );
 
-CREATE TABLE IF NOT EXISTS t_invoice_service(
+CREATE TABLE IF NOT EXISTS t_invoice_activity(
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     description varchar not null,
     quantity integer not null,

@@ -11,7 +11,7 @@ import org.slf4j.event.*
 
 fun Application.configureMonitoring() {
     install(CallLogging) {
-        level = Level.INFO
+        level = Level.DEBUG
         filter { call -> call.request.path().startsWith("/") }
         callIdMdc("call-id")
     }

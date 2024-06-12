@@ -8,7 +8,7 @@ import org.ktorm.schema.uuid
 import org.ktorm.schema.varchar
 import java.util.UUID
 
-object InvoiceServiceTable : Table<InvoiceServiceEntity>("t_invoice_service") {
+object InvoiceActivityTable : Table<InvoiceServiceEntity>("t_invoice_activity") {
     val id = uuid("id").primaryKey().bindTo { it.id }
     val description = varchar("description").bindTo { it.description }
     val quantity = int("quantity").bindTo { it.quantity }
