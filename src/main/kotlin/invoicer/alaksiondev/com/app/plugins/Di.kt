@@ -1,4 +1,4 @@
-package invoicer.alaksiondev.com.plugins
+package invoicer.alaksiondev.com.app.plugins
 
 import DatabaseFactory
 import invoicer.alaksiondev.com.datasource.InvoiceActivityDataSource
@@ -11,7 +11,7 @@ import invoicer.alaksiondev.com.files.filehandler.FileHandler
 import invoicer.alaksiondev.com.files.filehandler.TempFileHandler
 import invoicer.alaksiondev.com.files.pdfgenerator.OpenPdfGenerator
 import invoicer.alaksiondev.com.files.pdfgenerator.PdfGenerator
-import invoicer.alaksiondev.com.plugins.DITags.TEMP_FILE_HANDLER
+import invoicer.alaksiondev.com.app.plugins.DITags.TEMP_FILE_HANDLER
 import invoicer.alaksiondev.com.repository.InvoiceActivityRepository
 import invoicer.alaksiondev.com.repository.InvoiceActivityRepositoryImpl
 import invoicer.alaksiondev.com.repository.InvoicePdfRepository

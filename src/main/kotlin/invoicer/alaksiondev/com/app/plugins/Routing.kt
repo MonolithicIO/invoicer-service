@@ -1,4 +1,4 @@
-package invoicer.alaksiondev.com.plugins
+package invoicer.alaksiondev.com.app.plugins
 
 import io.github.smiley4.ktorswaggerui.SwaggerUI
 import io.ktor.http.*

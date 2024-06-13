@@ -1,4 +1,4 @@
-package invoicer.alaksiondev.com.plugins
+package invoicer.alaksiondev.com.app.plugins
 
 import invoicer.alaksiondev.com.errors.ErrorBody
 import invoicer.alaksiondev.com.errors.HttpError

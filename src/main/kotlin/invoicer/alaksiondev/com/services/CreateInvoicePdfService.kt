@@ -1,9 +1,10 @@
 package invoicer.alaksiondev.com.services
 
 import invoicer.alaksiondev.com.errors.HttpError
+import invoicer.alaksiondev.com.files.pdfgenerator.PdfGenerator
 import invoicer.alaksiondev.com.models.InvoiceActivityModel
 import invoicer.alaksiondev.com.models.InvoiceModel
-import invoicer.alaksiondev.com.files.pdfgenerator.PdfGenerator
+import invoicer.alaksiondev.com.models.PdfStatusModel
 import invoicer.alaksiondev.com.repository.InvoiceActivityRepository
 import invoicer.alaksiondev.com.repository.InvoicePdfRepository
 import invoicer.alaksiondev.com.repository.InvoiceRepository
@@ -23,27 +24,32 @@ class CreateInvoicePdfServiceImpl(
     override suspend fun create(invoiceId: String) {
         val invoice = getInvoice(invoiceId)
         val activities = getActivities(invoiceId)
-//        deleteExistingPdfIfExists(invoiceId)
-//
-//        val newPdf = invoicePdfRepository.generateInvoicePdf(invoiceId)
+        deleteExistingPdfIfExists(invoiceId)
+
+        val newPdf = invoicePdfRepository.generateInvoicePdf(invoiceId)
 
         runCatching {
             pdfGenerator.generate(
                 invoice = invoice,
                 activities = activities,
             )
-        }.onFailure {
-//            invoicePdfRepository.updateInvoicePdf(
-//                path = null,
-//                status = InvoicePDFStatus.failed,
-//                pdfId = newPdf
-//            )
-        }
-
-        // call pdf generator, generate file, store file in temp directory
-        // save file, get path, update path column, update status column
-        // end service
-        // on exception set pdf status to error, end call
+        }.fold(
+            onFailure = {
+                invoicePdfRepository.updateInvoicePdf(
+                    path = null,
+                    status = PdfStatusModel.Failed,
+                    pdfId = newPdf
+                )
+                throw it
+            },
+            onSuccess = { filePath ->
+                invoicePdfRepository.updateInvoicePdf(
+                    path = filePath,
+                    status = PdfStatusModel.Completed,
+                    pdfId = newPdf
+                )
+            }
+        )
 
     }
 
@@ -51,7 +57,7 @@ class CreateInvoicePdfServiceImpl(
 
         val existingPdf = invoicePdfRepository.findPdfByInvoiceId(invoiceId)
         existingPdf?.let { pdf ->
-            invoicePdfRepository.deleteInvoicePdf(pdf.id.toString())
+            invoicePdfRepository.deleteInvoicePdf(pdf.id)
         }
     }
 

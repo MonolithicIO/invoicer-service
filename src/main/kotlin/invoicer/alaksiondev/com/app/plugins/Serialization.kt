@@ -1,4 +1,4 @@
-package invoicer.alaksiondev.com.plugins
+package invoicer.alaksiondev.com.app.plugins
 
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*

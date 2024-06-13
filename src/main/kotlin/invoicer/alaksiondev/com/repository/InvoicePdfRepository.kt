@@ -1,8 +1,10 @@
 package invoicer.alaksiondev.com.repository
 
 import invoicer.alaksiondev.com.datasource.InvoicePdfDataSource
-import invoicer.alaksiondev.com.entities.InvoicePDFEntity
-import invoicer.alaksiondev.com.entities.InvoicePDFStatus
+import invoicer.alaksiondev.com.entities.fromDomain
+import invoicer.alaksiondev.com.entities.toDomain
+import invoicer.alaksiondev.com.models.InvoicePdfModel
+import invoicer.alaksiondev.com.models.PdfStatusModel
 
 interface InvoicePdfRepository {
 
@@ -10,13 +12,13 @@ interface InvoicePdfRepository {
 
     suspend fun updateInvoicePdf(
         path: String?,
-        status: InvoicePDFStatus,
+        status: PdfStatusModel,
         pdfId: String,
     ): String
 
     suspend fun deleteInvoicePdf(pdfId: String): String
 
-    suspend fun findPdfByInvoiceId(invoiceId: String): InvoicePDFEntity?
+    suspend fun findPdfByInvoiceId(invoiceId: String): InvoicePdfModel?
 
 }
 
@@ -30,18 +32,18 @@ internal class InvoicePdfRepositoryImpl(
 
     override suspend fun updateInvoicePdf(
         path: String?,
-        status: InvoicePDFStatus,
+        status: PdfStatusModel,
         pdfId: String
     ): String {
-        return dataSource.updateInvoicePdf(path = path, status = status, pdfId = pdfId)
+        return dataSource.updateInvoicePdf(path = path, status = status.fromDomain(), pdfId = pdfId)
     }
 
     override suspend fun deleteInvoicePdf(pdfId: String): String {
         return dataSource.deleteInvoicePdf(pdfId = pdfId)
     }
 
-    override suspend fun findPdfByInvoiceId(invoiceId: String): InvoicePDFEntity? {
-        TODO("Not yet implemented")
+    override suspend fun findPdfByInvoiceId(invoiceId: String): InvoicePdfModel? {
+        return dataSource.findPdfByInvoiceId(invoiceId)?.toDomain()
     }
 
 }

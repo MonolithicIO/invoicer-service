@@ -1,8 +1,8 @@
-package invoicer.alaksiondev.com
+package invoicer.alaksiondev.com.app
 
-import invoicer.alaksiondev.com.plugins.configureSerialization
-import invoicer.alaksiondev.com.plugins.installDi
-import invoicer.alaksiondev.com.plugins.installStatusPages
+import invoicer.alaksiondev.com.app.plugins.configureSerialization
+import invoicer.alaksiondev.com.app.plugins.installDi
+import invoicer.alaksiondev.com.app.plugins.installStatusPages
 import invoicer.alaksiondev.com.controllers.invoiceController
 import io.ktor.server.application.Application
 
