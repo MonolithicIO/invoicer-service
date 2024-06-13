@@ -7,8 +7,11 @@ import invoicer.alaksiondev.com.datasource.InvoiceDataSource
 import invoicer.alaksiondev.com.datasource.InvoiceDataSourceImpl
 import invoicer.alaksiondev.com.datasource.InvoicePdfDataSource
 import invoicer.alaksiondev.com.datasource.InvoicePdfDataSourceImpl
-import invoicer.alaksiondev.com.pdfgenerator.OpenPdfGenerator
-import invoicer.alaksiondev.com.pdfgenerator.PdfGenerator
+import invoicer.alaksiondev.com.files.filehandler.FileHandler
+import invoicer.alaksiondev.com.files.filehandler.TempFileHandler
+import invoicer.alaksiondev.com.files.pdfgenerator.OpenPdfGenerator
+import invoicer.alaksiondev.com.files.pdfgenerator.PdfGenerator
+import invoicer.alaksiondev.com.plugins.DITags.TEMP_FILE_HANDLER
 import invoicer.alaksiondev.com.repository.InvoiceActivityRepository
 import invoicer.alaksiondev.com.repository.InvoiceActivityRepositoryImpl
 import invoicer.alaksiondev.com.repository.InvoicePdfRepository
@@ -56,12 +59,16 @@ fun Application.installDi() {
 
         bindSingleton<PdfGenerator>(DITags.OPEN_PDF_GENERATOR) {
             OpenPdfGenerator(
-                dispatcher = Dispatchers.IO
+                dispatcher = Dispatchers.IO,
+                fileHandler = instance(TEMP_FILE_HANDLER)
             )
         }
+
+        bindSingleton<FileHandler>(TEMP_FILE_HANDLER) { TempFileHandler }
     }
 }
 
 internal object DITags {
     const val OPEN_PDF_GENERATOR = "open-pdf"
+    const val TEMP_FILE_HANDLER = "temp-file"
 }

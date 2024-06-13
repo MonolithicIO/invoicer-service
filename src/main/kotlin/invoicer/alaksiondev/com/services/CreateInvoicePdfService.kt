@@ -3,7 +3,7 @@ package invoicer.alaksiondev.com.services
 import invoicer.alaksiondev.com.errors.HttpError
 import invoicer.alaksiondev.com.models.InvoiceActivityModel
 import invoicer.alaksiondev.com.models.InvoiceModel
-import invoicer.alaksiondev.com.pdfgenerator.PdfGenerator
+import invoicer.alaksiondev.com.files.pdfgenerator.PdfGenerator
 import invoicer.alaksiondev.com.repository.InvoiceActivityRepository
 import invoicer.alaksiondev.com.repository.InvoicePdfRepository
 import invoicer.alaksiondev.com.repository.InvoiceRepository

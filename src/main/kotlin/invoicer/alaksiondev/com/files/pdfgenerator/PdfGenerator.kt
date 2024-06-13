@@ -1,4 +1,4 @@
-package invoicer.alaksiondev.com.pdfgenerator
+package invoicer.alaksiondev.com.files.pdfgenerator
 
 import invoicer.alaksiondev.com.models.InvoiceActivityModel
 import invoicer.alaksiondev.com.models.InvoiceModel
@@ -12,6 +12,6 @@ interface PdfGenerator {
     ): FilePath
 
     companion object {
-        const val tempPath = "temp/pdf"
+        const val tempPath = "pdfs"
     }
 }
