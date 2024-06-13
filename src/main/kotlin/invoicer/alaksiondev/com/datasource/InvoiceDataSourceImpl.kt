@@ -13,6 +13,7 @@ import java.util.UUID
 internal interface InvoiceDataSource {
     suspend fun createInvoice(model: CreateInvoiceModel): String
     suspend fun getInvoiceByExternalId(externalId: String): InvoiceEntity?
+    suspend fun getInvoiceById(id: String): InvoiceEntity?
 }
 
 internal class InvoiceDataSourceImpl(
@@ -51,6 +52,12 @@ internal class InvoiceDataSourceImpl(
     override suspend fun getInvoiceByExternalId(externalId: String): InvoiceEntity? {
         return database.invoices.find {
             it.externalId eq externalId
+        }
+    }
+
+    override suspend fun getInvoiceById(id: String): InvoiceEntity? {
+        return database.invoices.find {
+            it.id eq UUID.fromString(id)
         }
     }
 }

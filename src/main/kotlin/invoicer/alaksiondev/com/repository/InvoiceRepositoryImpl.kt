@@ -9,6 +9,8 @@ interface InvoiceRepository {
     suspend fun createInvoice(data: CreateInvoiceModel): String
 
     suspend fun getInvoiceByExternalId(externalId: String): InvoiceModel?
+
+    suspend fun getInvoiceById(id: String): InvoiceModel?
 }
 
 
@@ -22,6 +24,10 @@ internal class InvoiceRepositoryImpl(
 
     override suspend fun getInvoiceByExternalId(externalId: String): InvoiceModel? {
         return dataSource.getInvoiceByExternalId(externalId = externalId)?.toInvoiceModel()
+    }
+
+    override suspend fun getInvoiceById(id: String): InvoiceModel? {
+        return dataSource.getInvoiceById(id)?.toInvoiceModel()
     }
 
 }

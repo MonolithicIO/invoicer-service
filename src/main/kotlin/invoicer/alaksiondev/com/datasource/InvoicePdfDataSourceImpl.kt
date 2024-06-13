@@ -14,7 +14,7 @@ interface InvoicePdfDataSource {
     suspend fun generateInvoicePdf(invoiceId: String): String
 
     suspend fun updateInvoicePdf(
-        path: String,
+        path: String?,
         status: InvoicePDFStatus,
         pdfId: String,
     ): String
@@ -36,7 +36,7 @@ class InvoicePdfDataSourceImpl(
     }
 
     override suspend fun updateInvoicePdf(
-        path: String,
+        path: String?,
         status: InvoicePDFStatus,
         pdfId: String
     ): String {
@@ -51,7 +51,7 @@ class InvoicePdfDataSourceImpl(
 
     override suspend fun deleteInvoicePdf(pdfId: String): String {
         database.delete(InvoicePDFTable) { record ->
-            record.id eq UUID.fromString(pdfId)
+            record.id eq record.invoiceId
         }
 
         return pdfId
