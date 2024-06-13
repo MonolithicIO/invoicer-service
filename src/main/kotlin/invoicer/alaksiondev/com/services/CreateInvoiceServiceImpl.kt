@@ -4,20 +4,20 @@ import invoicer.alaksiondev.com.errors.HttpError
 import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceActivityModel
 import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceModel
 import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceResponseModel
-import invoicer.alaksiondev.com.repository.IInvoiceActivityRepository
-import invoicer.alaksiondev.com.repository.IInvoiceRepository
+import invoicer.alaksiondev.com.repository.InvoiceActivityRepository
+import invoicer.alaksiondev.com.repository.InvoiceRepository
 import invoicer.alaksiondev.com.validation.validateSwiftCode
 import io.ktor.http.HttpStatusCode
 import java.time.LocalDate
 
-interface ICreateInvoiceService {
+interface CreateInvoiceService {
     suspend fun createInvoice(model: CreateInvoiceModel): CreateInvoiceResponseModel
 }
 
-internal class CreateInvoiceService(
-    private val invoiceRepository: IInvoiceRepository,
-    private val invoiceActivityRepository: IInvoiceActivityRepository
-) : ICreateInvoiceService {
+internal class CreateInvoiceServiceImpl(
+    private val invoiceRepository: InvoiceRepository,
+    private val invoiceActivityRepository: InvoiceActivityRepository
+) : CreateInvoiceService {
 
     override suspend fun createInvoice(model: CreateInvoiceModel): CreateInvoiceResponseModel {
         validateActivities(model.activities)

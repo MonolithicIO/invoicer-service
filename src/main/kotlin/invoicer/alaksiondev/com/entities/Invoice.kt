@@ -31,6 +31,8 @@ object InvoiceTable : Table<InvoiceEntity>("t_invoice") {
     val intermediaryBankName = varchar("intermediary_bank_name").bindTo { it.intermediaryBankName }
     val intermediaryBankAddress =
         varchar("intermediary_bank_address").bindTo { it.intermediaryBankAddress }
+    val createdAt = date("created_at").bindTo { it.createdAt }
+    val updatedAt = date("updated_at").bindTo { it.updatedAt }
 }
 
 interface InvoiceEntity : Entity<InvoiceEntity> {
@@ -53,6 +55,8 @@ interface InvoiceEntity : Entity<InvoiceEntity> {
     var intermediarySwift: String?
     var intermediaryBankName: String?
     var intermediaryBankAddress: String?
+    var createdAt: LocalDate
+    var updatedAt: LocalDate
 }
 
 internal fun InvoiceEntity.toInvoiceModel(): InvoiceModel {

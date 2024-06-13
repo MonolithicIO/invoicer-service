@@ -1,6 +1,6 @@
 package invoicer.alaksiondev.com.controllers
 
-import invoicer.alaksiondev.com.services.ICreateInvoiceService
+import invoicer.alaksiondev.com.services.CreateInvoiceService
 import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceModel
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.Application
@@ -29,7 +29,7 @@ fun Application.invoiceController() {
             }
             post {
                 val body = call.receive<CreateInvoiceModel>()
-                val createService by closestDI().instance<ICreateInvoiceService>()
+                val createService by closestDI().instance<CreateInvoiceService>()
                 val response = createService.createInvoice(body)
                 call.respond(
                     message = response,

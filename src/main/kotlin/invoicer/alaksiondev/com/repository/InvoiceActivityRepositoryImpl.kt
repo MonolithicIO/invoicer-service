@@ -1,18 +1,18 @@
 package invoicer.alaksiondev.com.repository
 
-import invoicer.alaksiondev.com.datasource.IInvoiceActivityDataSource
+import invoicer.alaksiondev.com.datasource.InvoiceActivityDataSource
 import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceActivityModel
 
-interface IInvoiceActivityRepository {
+interface InvoiceActivityRepository {
     suspend fun createInvoiceActivities(
         list: List<CreateInvoiceActivityModel>,
         invoiceId: String,
     )
 }
 
-internal class InvoiceActivityRepository(
-    private val dataSource: IInvoiceActivityDataSource
-) : IInvoiceActivityRepository {
+internal class InvoiceActivityRepositoryImpl(
+    private val dataSource: InvoiceActivityDataSource
+) : InvoiceActivityRepository {
 
     override suspend fun createInvoiceActivities(
         list: List<CreateInvoiceActivityModel>,

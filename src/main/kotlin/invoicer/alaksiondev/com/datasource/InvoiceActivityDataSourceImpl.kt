@@ -6,16 +6,16 @@ import org.ktorm.database.Database
 import org.ktorm.dsl.batchInsert
 import java.util.UUID
 
-interface IInvoiceActivityDataSource {
+interface InvoiceActivityDataSource {
     suspend fun createInvoiceActivities(
         list: List<CreateInvoiceActivityModel>,
         invoiceId: String,
     )
 }
 
-internal class InvoiceActivityDataSource(
+internal class InvoiceActivityDataSourceImpl(
     private val database: Database
-) : IInvoiceActivityDataSource {
+) : InvoiceActivityDataSource {
 
     override suspend fun createInvoiceActivities(
         list: List<CreateInvoiceActivityModel>,

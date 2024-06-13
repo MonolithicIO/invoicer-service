@@ -2,9 +2,11 @@ package invoicer.alaksiondev.com.entities
 
 import org.ktorm.entity.Entity
 import org.ktorm.schema.Table
+import org.ktorm.schema.date
 import org.ktorm.schema.enum
 import org.ktorm.schema.uuid
 import org.ktorm.schema.varchar
+import java.time.LocalDate
 import java.util.UUID
 
 object InvoicePDFTable : Table<InvoicePDFEntity>("t_invoice_pdf") {
@@ -14,6 +16,8 @@ object InvoicePDFTable : Table<InvoicePDFEntity>("t_invoice_pdf") {
     val invoiceId = uuid("invoice_id").references(InvoiceTable) {
         it.invoice
     }
+    val createdAt = date("created_at").bindTo { it.createdAt }
+    val updatedAt = date("updated_at").bindTo { it.updatedAt }
 }
 
 interface InvoicePDFEntity : Entity<InvoicePDFEntity> {
@@ -23,6 +27,8 @@ interface InvoicePDFEntity : Entity<InvoicePDFEntity> {
     var path: String
     var status: InvoicePDFStatus
     var invoice: InvoiceEntity
+    var createdAt: LocalDate
+    var updatedAt: LocalDate
 }
 
 enum class InvoicePDFStatus {

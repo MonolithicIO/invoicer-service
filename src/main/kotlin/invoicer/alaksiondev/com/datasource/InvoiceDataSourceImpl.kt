@@ -10,14 +10,14 @@ import org.ktorm.dsl.insertAndGenerateKey
 import org.ktorm.entity.find
 import java.util.UUID
 
-internal interface IInvoiceDataSource {
+internal interface InvoiceDataSource {
     suspend fun createInvoice(model: CreateInvoiceModel): String
     suspend fun getInvoiceByExternalId(externalId: String): InvoiceEntity?
 }
 
-internal class InvoiceDataSource(
+internal class InvoiceDataSourceImpl(
     private val database: Database
-) : IInvoiceDataSource {
+) : InvoiceDataSource {
 
     override suspend fun createInvoice(model: CreateInvoiceModel): String {
         val key = database.insertAndGenerateKey(InvoiceTable) { invoiceTable ->

@@ -15,7 +15,9 @@ CREATE TABLE IF NOT EXISTS t_invoice (
     intermediary_iban varchar,
     intermediary_swift varchar(11),
     intermediary_bank_name varchar,
-    intermediary_bank_address varchar
+    intermediary_bank_address varchar,
+    created_at date not null default CURRENT_DATE,
+    updated_at date not null default CURRENT_DATE,
 );
 
 CREATE TABLE IF NOT EXISTS t_invoice_activity(
@@ -24,6 +26,8 @@ CREATE TABLE IF NOT EXISTS t_invoice_activity(
     quantity integer not null,
     unit_price bigint not null,
     invoice_id uuid not null,
+    created_at date not null default CURRENT_DATE,
+    updated_at date not null default CURRENT_DATE,
     constraint fk_invoice
         foreign key (invoice_id)
             references t_invoice(id)
@@ -36,6 +40,8 @@ CREATE TABLE IF NOT EXISTS t_invoice_pdf(
     path varchar,
     status pdf_status not null,
     invoice_id uuid not null,
+    created_at date not null default CURRENT_DATE,
+    updated_at date not null default CURRENT_DATE,
     constraint fk_t_invoice_pdf
         foreign key (invoice_id)
             references t_invoice(id)
