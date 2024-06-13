@@ -1,5 +1,6 @@
 package invoicer.alaksiondev.com.entities
 
+import invoicer.alaksiondev.com.models.InvoiceActivityModel
 import org.ktorm.entity.Entity
 import org.ktorm.schema.Table
 import org.ktorm.schema.date
@@ -15,9 +16,7 @@ object InvoiceActivityTable : Table<InvoiceActivityEntity>("t_invoice_activity")
     val description = varchar("description").bindTo { it.description }
     val quantity = int("quantity").bindTo { it.quantity }
     val unitPrice = long("unit_price").bindTo { it.unitPrice }
-    val invoiceId = uuid("invoice_id").references(InvoiceTable) {
-        it.invoice
-    }
+    val invoiceId = uuid("invoice_id").bindTo { it.invoiceId }
     val createdAt = date("created_at").bindTo { it.createdAt }
     val updatedAt = date("updated_at").bindTo { it.updatedAt }
 }
@@ -25,11 +24,19 @@ object InvoiceActivityTable : Table<InvoiceActivityEntity>("t_invoice_activity")
 interface InvoiceActivityEntity : Entity<InvoiceActivityEntity> {
     companion object : Entity.Factory<InvoiceActivityEntity>()
 
-    val id: UUID
+    var id: UUID
     var description: String
     var quantity: Int
     var unitPrice: Long
-    val invoice: InvoiceEntity
     var createdAt: LocalDate
     var updatedAt: LocalDate
+    var invoiceId: UUID
 }
+
+fun InvoiceActivityEntity.toDomain(): InvoiceActivityModel = InvoiceActivityModel(
+    description = this.description,
+    quantity = this.quantity,
+    unitPrice = this.unitPrice,
+    createdAt = this.createdAt.toString(),
+    updatedAt = this.updatedAt.toString(),
+)

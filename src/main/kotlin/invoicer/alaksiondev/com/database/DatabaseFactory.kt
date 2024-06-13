@@ -1,3 +1,4 @@
+import invoicer.alaksiondev.com.entities.InvoiceActivityTable
 import invoicer.alaksiondev.com.entities.InvoiceTable
 import org.ktorm.database.Database
 import org.ktorm.entity.sequenceOf
@@ -15,3 +16,4 @@ object DatabaseFactory {
 }
 
 val Database.invoices get() = this.sequenceOf(InvoiceTable)
+val Database.invoiceActivities get() = this.sequenceOf(InvoiceActivityTable)
