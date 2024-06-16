@@ -1,14 +1,12 @@
 package invoicer.alaksiondev.com.files.pdfgenerator
 
-import invoicer.alaksiondev.com.models.InvoiceActivityModel
-import invoicer.alaksiondev.com.models.InvoiceModel
+import invoicer.alaksiondev.com.entities.InvoiceEntity
 
 typealias FilePath = String
 
-interface PdfGenerator {
+internal interface PdfGenerator {
     suspend fun generate(
-        invoice: InvoiceModel,
-        activities: List<InvoiceActivityModel>,
+        invoice: InvoiceEntity,
     ): FilePath
 
     companion object {

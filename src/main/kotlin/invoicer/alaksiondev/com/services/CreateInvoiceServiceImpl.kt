@@ -7,10 +7,10 @@ import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceResponseModel
 import invoicer.alaksiondev.com.repository.InvoiceActivityRepository
 import invoicer.alaksiondev.com.repository.InvoiceRepository
 import invoicer.alaksiondev.com.validation.validateSwiftCode
-import io.ktor.http.HttpStatusCode
-import java.time.LocalDate
+import io.ktor.http.*
+import kotlinx.datetime.LocalDate
 
-interface CreateInvoiceService {
+internal interface CreateInvoiceService {
     suspend fun createInvoice(model: CreateInvoiceModel): CreateInvoiceResponseModel
 }
 
@@ -38,7 +38,7 @@ internal class CreateInvoiceServiceImpl(
             )
         }
 
-        val response = invoiceRepository.createInvoice(data = model)
+        val response = invoiceRepository.createInvoice(model = model)
         invoiceActivityRepository.createInvoiceActivities(
             list = model.activities,
             invoiceId = response
@@ -75,7 +75,7 @@ internal class CreateInvoiceServiceImpl(
         issueDate: LocalDate,
         dueDate: LocalDate
     ) {
-        if (issueDate.isAfter(dueDate)) {
+        if (issueDate >= dueDate) {
             throw HttpError(
                 message = "Issue date cannot be after due date",
                 statusCode = HttpStatusCode.BadRequest

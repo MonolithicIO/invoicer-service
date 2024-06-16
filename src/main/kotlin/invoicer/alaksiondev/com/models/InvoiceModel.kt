@@ -17,8 +17,9 @@ data class InvoiceModel(
     val beneficiarySwift: String,
     val beneficiaryBankName: String,
     val beneficiaryBankAddress: String,
-    val intermediaryIban: String? = null,
-    val intermediarySwift: String? = null,
-    val intermediaryBankName: String? = null,
-    val intermediaryBankAddress: String? = null,
+    val intermediaryIban: String?,
+    val intermediarySwift: String?,
+    val intermediaryBankName: String?,
+    val intermediaryBankAddress: String?,
+    val activities: List<InvoiceActivityModel>?
 )

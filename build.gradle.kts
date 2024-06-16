@@ -1,4 +1,3 @@
-
 val kotlin_version: String by project
 val logback_version: String by project
 val postgres_version: String by project
@@ -25,8 +24,9 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.ktorm)
+    implementation(libs.bundles.exposed)
     implementation(libs.kodein.server)
+    implementation(libs.kotlin.datetime)
     implementation(libs.openpdf)
     implementation(libs.dotenv)
     implementation("io.ktor:ktor-server-core-jvm")

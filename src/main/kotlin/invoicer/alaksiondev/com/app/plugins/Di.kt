@@ -1,8 +1,6 @@
 package invoicer.alaksiondev.com.app.plugins
 
-import DatabaseFactory
 import invoicer.alaksiondev.com.app.plugins.DITags.TEMP_FILE_HANDLER
-import invoicer.alaksiondev.com.datasource.*
 import invoicer.alaksiondev.com.files.filehandler.FileHandler
 import invoicer.alaksiondev.com.files.filehandler.TempFileHandler
 import invoicer.alaksiondev.com.files.pdfgenerator.OpenPdfGenerator
@@ -12,27 +10,20 @@ import invoicer.alaksiondev.com.services.CreateInvoicePdfService
 import invoicer.alaksiondev.com.services.CreateInvoicePdfServiceImpl
 import invoicer.alaksiondev.com.services.CreateInvoiceService
 import invoicer.alaksiondev.com.services.CreateInvoiceServiceImpl
+import invoicer.alaksiondev.com.util.DateProvider
+import invoicer.alaksiondev.com.util.DateProviderImplementation
 import io.ktor.server.application.*
 import kotlinx.coroutines.Dispatchers
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 import org.kodein.di.ktor.di
-import org.ktorm.database.Database
 
 fun Application.installDi() {
     di {
-        bindSingleton<Database> {
-            DatabaseFactory.connection
-        }
 
-        bindSingleton<InvoiceDataSource> { InvoiceDataSourceImpl(database = instance()) }
-        bindSingleton<InvoiceRepository> { InvoiceRepositoryImpl(dataSource = instance()) }
-
-        bindSingleton<InvoiceActivityDataSource> { InvoiceActivityDataSourceImpl(database = instance()) }
-        bindSingleton<InvoiceActivityRepository> { InvoiceActivityRepositoryImpl(dataSource = instance()) }
-
-        bindSingleton<InvoicePdfDataSource> { InvoicePdfDataSourceImpl(database = instance()) }
-        bindSingleton<InvoicePdfRepository> { InvoicePdfRepositoryImpl(dataSource = instance()) }
+        bindSingleton<InvoiceRepository> { InvoiceRepositoryImpl(dateProvider = instance()) }
+        bindSingleton<InvoiceActivityRepository> { InvoiceActivityRepositoryImpl(dateProvider = instance()) }
+        bindSingleton<InvoicePdfRepository> { InvoicePdfRepositoryImpl() }
 
         bindSingleton<CreateInvoiceService> {
             CreateInvoiceServiceImpl(
@@ -45,7 +36,6 @@ fun Application.installDi() {
                 invoiceRepository = instance(),
                 invoicePdfRepository = instance(),
                 pdfGenerator = instance(DITags.OPEN_PDF_GENERATOR),
-                invoiceActivityRepository = instance()
             )
         }
 
@@ -57,6 +47,8 @@ fun Application.installDi() {
         }
 
         bindSingleton<FileHandler>(TEMP_FILE_HANDLER) { TempFileHandler }
+
+        bindSingleton<DateProvider> { DateProviderImplementation }
     }
 }
 

@@ -1,41 +1,41 @@
 package invoicer.alaksiondev.com.entities
 
+import invoicer.alaksiondev.com.database.PostgreEnum
 import invoicer.alaksiondev.com.models.InvoicePdfModel
 import invoicer.alaksiondev.com.models.PdfStatusModel
-import org.ktorm.entity.Entity
-import org.ktorm.schema.Table
-import org.ktorm.schema.date
-import org.ktorm.schema.enum
-import org.ktorm.schema.uuid
-import org.ktorm.schema.varchar
-import java.time.LocalDate
-import java.util.UUID
+import kotlinx.datetime.LocalDate
+import org.jetbrains.exposed.dao.UUIDEntity
+import org.jetbrains.exposed.dao.UUIDEntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.UUIDTable
+import org.jetbrains.exposed.sql.kotlin.datetime.date
+import java.util.*
 
-internal object InvoicePDFTable : Table<InvoicePDFEntity>("t_invoice_pdf") {
-    val id = uuid("id").primaryKey().bindTo { it.id }
-    val path = varchar("path").bindTo { it.path }
-    val status = enum<InvoicePDFStatus>("status").bindTo { it.status }
-    val invoiceId = uuid("invoice_id").references(InvoiceTable) {
-        it.invoice
-    }
-    val createdAt = date("created_at").bindTo { it.createdAt }
-    val updatedAt = date("updated_at").bindTo { it.updatedAt }
+internal object InvoicePDFTable : UUIDTable("t_invoice_pdf") {
+    val path = varchar("path", 100).nullable()
+    val status = customEnumeration(
+        name = "status",
+        sql = "pdf_status",
+        fromDb = { value -> InvoicePDFStatus.valueOf(value as String) },
+        toDb = { PostgreEnum("pdf_status", it) })
+    val invoice = reference("invoice_id", InvoiceTable)
+    val createdAt = date("created_at")
+    val updatedAt = date("updated_at")
 }
 
-internal interface InvoicePDFEntity : Entity<InvoicePDFEntity> {
-    companion object : Entity.Factory<InvoicePDFEntity>()
+internal class InvoicePDFEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+    companion object : UUIDEntityClass<InvoicePDFEntity>(InvoicePDFTable)
 
-    val id: UUID
-    var path: String
-    var status: InvoicePDFStatus
-    var invoice: InvoiceEntity
-    var createdAt: LocalDate
-    var updatedAt: LocalDate
+    var path: String? by InvoicePDFTable.path
+    var status: InvoicePDFStatus by InvoicePDFTable.status
+    var createdAt: LocalDate by InvoicePDFTable.createdAt
+    var updatedAt: LocalDate by InvoicePDFTable.updatedAt
+    var invoice by InvoiceEntity referencedOn InvoicePDFTable.invoice
 }
 
 internal fun InvoicePDFEntity.toDomain(): InvoicePdfModel = InvoicePdfModel(
     id = this.id.toString(),
-    path = this.path,
+    path = this.path.orEmpty(),
     status = this.status.toDomain(),
     invoiceId = this.invoice.toString(),
     createdAt = this.createdAt.toString(),

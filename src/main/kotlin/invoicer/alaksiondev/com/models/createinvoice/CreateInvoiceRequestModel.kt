@@ -1,8 +1,7 @@
 package invoicer.alaksiondev.com.models.createinvoice
 
-import invoicer.alaksiondev.com.serializers.LocalDateSerializer
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
-import java.time.LocalDate
 
 @Serializable
 data class CreateInvoiceModel(
@@ -11,9 +10,7 @@ data class CreateInvoiceModel(
     val senderCompanyAddress: String,
     val recipientCompanyName: String,
     val recipientCompanyAddress: String,
-    @Serializable(with = LocalDateSerializer::class)
     val issueDate: LocalDate,
-    @Serializable(with = LocalDateSerializer::class)
     val dueDate: LocalDate,
     val beneficiary: CreateInvoiceBeneficiaryModel,
     val intermediary: CreateInvoiceIntermediaryModel? = null,

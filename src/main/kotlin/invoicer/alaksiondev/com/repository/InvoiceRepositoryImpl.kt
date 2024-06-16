@@ -1,33 +1,69 @@
 package invoicer.alaksiondev.com.repository
 
-import invoicer.alaksiondev.com.datasource.InvoiceDataSource
-import invoicer.alaksiondev.com.entities.toInvoiceModel
-import invoicer.alaksiondev.com.models.InvoiceModel
+import invoicer.alaksiondev.com.entities.InvoiceEntity
+import invoicer.alaksiondev.com.entities.InvoiceTable
 import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceModel
+import invoicer.alaksiondev.com.util.DateProvider
+import org.jetbrains.exposed.dao.load
+import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.*
 
-interface InvoiceRepository {
-    suspend fun createInvoice(data: CreateInvoiceModel): String
-
-    suspend fun getInvoiceByExternalId(externalId: String): InvoiceModel?
-
-    suspend fun getInvoiceById(id: String): InvoiceModel?
+internal interface InvoiceRepository {
+    suspend fun createInvoice(model: CreateInvoiceModel): String
+    suspend fun getInvoiceByExternalId(externalId: String): InvoiceEntity?
+    suspend fun getInvoiceById(
+        id: UUID,
+        eagerLoadActivities: Boolean
+    ): InvoiceEntity?
 }
 
-
 internal class InvoiceRepositoryImpl(
-    private val dataSource: InvoiceDataSource
+    private val dateProvider: DateProvider
 ) : InvoiceRepository {
 
-    override suspend fun createInvoice(data: CreateInvoiceModel): String {
-        return dataSource.createInvoice(model = data)
+    override suspend fun createInvoice(model: CreateInvoiceModel): String {
+        return transaction {
+            InvoiceEntity.new {
+                externalId = model.externalId
+                externalId = model.externalId
+                senderCompanyName = model.senderCompanyName
+                senderCompanyAddress = model.senderCompanyName
+                recipientCompanyName = model.recipientCompanyName
+                recipientCompanyAddress = model.recipientCompanyAddress
+                issueDate = model.issueDate
+                dueDate = model.dueDate
+                beneficiaryName = model.beneficiary.beneficiaryName
+                beneficiaryIban = model.beneficiary.beneficiaryIban
+                beneficiarySwift = model.beneficiary.beneficiarySwift
+                beneficiaryBankName = model.beneficiary.beneficiaryBankName
+                beneficiaryBankAddress = model.beneficiary.beneficiaryBankAddress
+
+                intermediaryIban = model.intermediary?.intermediaryIban
+                intermediarySwift = model.intermediary?.intermediarySwift
+                intermediaryBankName = model.intermediary?.intermediaryBankName
+                intermediaryBankAddress = model.intermediary?.intermediaryBankAddress
+                createdAt = dateProvider.now()
+                updatedAt = dateProvider.now()
+            }
+        }.id.value.toString()
     }
 
-    override suspend fun getInvoiceByExternalId(externalId: String): InvoiceModel? {
-        return dataSource.getInvoiceByExternalId(externalId = externalId)?.toInvoiceModel()
+    override suspend fun getInvoiceByExternalId(externalId: String): InvoiceEntity? {
+        return transaction {
+            InvoiceEntity.find {
+                InvoiceTable.externalId eq externalId
+            }.firstOrNull()
+        }
     }
 
-    override suspend fun getInvoiceById(id: String): InvoiceModel? {
-        return dataSource.getInvoiceById(id)?.toInvoiceModel()
+    override suspend fun getInvoiceById(
+        id: UUID,
+        eagerLoadActivities: Boolean
+    ): InvoiceEntity? {
+        return transaction {
+            val result = InvoiceEntity.findById(id)
+            if (eagerLoadActivities) result
+            else result
+        }
     }
-
 }

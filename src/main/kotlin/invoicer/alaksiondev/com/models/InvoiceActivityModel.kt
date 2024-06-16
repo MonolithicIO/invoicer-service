@@ -9,4 +9,5 @@ data class InvoiceActivityModel(
     val unitPrice: Long,
     val createdAt: String,
     val updatedAt: String,
+    val invoice: InvoiceModel?
 )

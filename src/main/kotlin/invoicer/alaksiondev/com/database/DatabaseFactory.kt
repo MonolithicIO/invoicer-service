@@ -1,12 +1,8 @@
-import invoicer.alaksiondev.com.entities.InvoiceActivityTable
-import invoicer.alaksiondev.com.entities.InvoiceTable
 import io.github.cdimascio.dotenv.dotenv
-import org.ktorm.database.Database
-import org.ktorm.entity.sequenceOf
-
+import org.jetbrains.exposed.sql.Database
 
 object DatabaseFactory {
-    val connection by lazy {
+    fun connect() {
         val env = dotenv()
         val database = env["DB_NAME"]
         val password = env["DB_PASSWORD"]
@@ -19,8 +15,4 @@ object DatabaseFactory {
             password = password,
         )
     }
-
 }
-
-val Database.invoices get() = this.sequenceOf(InvoiceTable)
-val Database.invoiceActivities get() = this.sequenceOf(InvoiceActivityTable)
