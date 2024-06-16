@@ -1,4 +1,4 @@
-package invoicer.alaksiondev.com.serializers
+package invoicer.alaksiondev.com.serializer
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

@@ -1,4 +1,4 @@
-package invoicer.alaksiondev.com.services
+package invoicer.alaksiondev.com.service
 
 import invoicer.alaksiondev.com.errors.HttpError
 import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceActivityModel

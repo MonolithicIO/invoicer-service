@@ -6,10 +6,7 @@ import invoicer.alaksiondev.com.files.filehandler.TempFileHandler
 import invoicer.alaksiondev.com.files.pdfgenerator.OpenPdfGenerator
 import invoicer.alaksiondev.com.files.pdfgenerator.PdfGenerator
 import invoicer.alaksiondev.com.repository.*
-import invoicer.alaksiondev.com.services.CreateInvoicePdfService
-import invoicer.alaksiondev.com.services.CreateInvoicePdfServiceImpl
-import invoicer.alaksiondev.com.services.CreateInvoiceService
-import invoicer.alaksiondev.com.services.CreateInvoiceServiceImpl
+import invoicer.alaksiondev.com.service.*
 import invoicer.alaksiondev.com.util.DateProvider
 import invoicer.alaksiondev.com.util.DateProviderImplementation
 import io.ktor.server.application.*
@@ -49,6 +46,10 @@ fun Application.installDi() {
         bindSingleton<FileHandler>(TEMP_FILE_HANDLER) { TempFileHandler }
 
         bindSingleton<DateProvider> { DateProviderImplementation }
+
+        bindSingleton<GetInvoiceByIdService> {
+            GetInvoiceByIdServiceImpl(repository = instance())
+        }
     }
 }
 
