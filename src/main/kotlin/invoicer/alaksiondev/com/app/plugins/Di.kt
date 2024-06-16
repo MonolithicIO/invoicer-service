@@ -1,28 +1,18 @@
 package invoicer.alaksiondev.com.app.plugins
 
 import DatabaseFactory
-import invoicer.alaksiondev.com.datasource.InvoiceActivityDataSource
-import invoicer.alaksiondev.com.datasource.InvoiceActivityDataSourceImpl
-import invoicer.alaksiondev.com.datasource.InvoiceDataSource
-import invoicer.alaksiondev.com.datasource.InvoiceDataSourceImpl
-import invoicer.alaksiondev.com.datasource.InvoicePdfDataSource
-import invoicer.alaksiondev.com.datasource.InvoicePdfDataSourceImpl
+import invoicer.alaksiondev.com.app.plugins.DITags.TEMP_FILE_HANDLER
+import invoicer.alaksiondev.com.datasource.*
 import invoicer.alaksiondev.com.files.filehandler.FileHandler
 import invoicer.alaksiondev.com.files.filehandler.TempFileHandler
 import invoicer.alaksiondev.com.files.pdfgenerator.OpenPdfGenerator
 import invoicer.alaksiondev.com.files.pdfgenerator.PdfGenerator
-import invoicer.alaksiondev.com.app.plugins.DITags.TEMP_FILE_HANDLER
-import invoicer.alaksiondev.com.repository.InvoiceActivityRepository
-import invoicer.alaksiondev.com.repository.InvoiceActivityRepositoryImpl
-import invoicer.alaksiondev.com.repository.InvoicePdfRepository
-import invoicer.alaksiondev.com.repository.InvoicePdfRepositoryImpl
-import invoicer.alaksiondev.com.repository.InvoiceRepository
-import invoicer.alaksiondev.com.repository.InvoiceRepositoryImpl
+import invoicer.alaksiondev.com.repository.*
 import invoicer.alaksiondev.com.services.CreateInvoicePdfService
 import invoicer.alaksiondev.com.services.CreateInvoicePdfServiceImpl
 import invoicer.alaksiondev.com.services.CreateInvoiceService
 import invoicer.alaksiondev.com.services.CreateInvoiceServiceImpl
-import io.ktor.server.application.Application
+import io.ktor.server.application.*
 import kotlinx.coroutines.Dispatchers
 import org.kodein.di.bindSingleton
 import org.kodein.di.instance
@@ -31,7 +21,9 @@ import org.ktorm.database.Database
 
 fun Application.installDi() {
     di {
-        bindSingleton<Database> { DatabaseFactory.database }
+        bindSingleton<Database> {
+            DatabaseFactory.connection
+        }
 
         bindSingleton<InvoiceDataSource> { InvoiceDataSourceImpl(database = instance()) }
         bindSingleton<InvoiceRepository> { InvoiceRepositoryImpl(dataSource = instance()) }

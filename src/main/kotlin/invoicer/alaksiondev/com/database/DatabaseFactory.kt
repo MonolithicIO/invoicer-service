@@ -1,18 +1,25 @@
 import invoicer.alaksiondev.com.entities.InvoiceActivityTable
 import invoicer.alaksiondev.com.entities.InvoiceTable
+import io.github.cdimascio.dotenv.dotenv
 import org.ktorm.database.Database
 import org.ktorm.entity.sequenceOf
 
 
 object DatabaseFactory {
-    val database by lazy {
+    val connection by lazy {
+        val env = dotenv()
+        val database = env["DB_NAME"]
+        val password = env["DB_PASSWORD"]
+        val username = env["DB_USERNAME"]
+
         Database.connect(
-            url = "jdbc:postgresql://localhost:5432/invoicer-api",
+            url = "jdbc:postgresql://localhost:5432/${database}",
             driver = "org.postgresql.Driver",
-            user = "invoicer",
-            password = "1234"
+            user = username,
+            password = password,
         )
     }
+
 }
 
 val Database.invoices get() = this.sequenceOf(InvoiceTable)
