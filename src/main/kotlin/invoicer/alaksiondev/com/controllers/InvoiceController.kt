@@ -4,6 +4,7 @@ import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceModel
 import invoicer.alaksiondev.com.service.CreateInvoicePdfService
 import invoicer.alaksiondev.com.service.CreateInvoiceService
 import invoicer.alaksiondev.com.service.GetInvoiceByIdService
+import invoicer.alaksiondev.com.viewmodel.InvoiceDetailsViewModel
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -20,6 +21,11 @@ fun Application.invoiceController() {
             get("/{id}") {
                 val invoiceId = call.parameters["id"]
                 val findOneService by closestDI().instance<GetInvoiceByIdService>()
+                val response = findOneService.get(invoiceId!!)
+                call.respond(
+                    status = HttpStatusCode.OK,
+                    message = InvoiceDetailsViewModel.Factory(response)
+                )
             }
             get {
 
