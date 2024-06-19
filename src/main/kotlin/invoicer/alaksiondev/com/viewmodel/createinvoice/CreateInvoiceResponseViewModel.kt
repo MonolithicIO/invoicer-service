@@ -1,9 +1,9 @@
-package invoicer.alaksiondev.com.models.createinvoice
+package invoicer.alaksiondev.com.viewmodel.createinvoice
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreateInvoiceResponseModel(
+data class CreateInvoiceResponseViewModel(
     val invoiceId: String,
     val externalInvoiceId: String
 )

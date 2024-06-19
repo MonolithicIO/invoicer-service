@@ -2,7 +2,7 @@ package invoicer.alaksiondev.com.repository
 
 import invoicer.alaksiondev.com.entities.InvoiceEntity
 import invoicer.alaksiondev.com.entities.InvoiceTable
-import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceModel
+import invoicer.alaksiondev.com.viewmodel.createinvoice.CreateInvoiceModel
 import invoicer.alaksiondev.com.util.DateProvider
 import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.sql.transactions.transaction

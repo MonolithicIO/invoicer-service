@@ -1,9 +1,9 @@
 package invoicer.alaksiondev.com.service
 
 import invoicer.alaksiondev.com.errors.HttpError
-import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceActivityModel
-import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceModel
-import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceResponseModel
+import invoicer.alaksiondev.com.viewmodel.createinvoice.CreateInvoiceActivityModel
+import invoicer.alaksiondev.com.viewmodel.createinvoice.CreateInvoiceModel
+import invoicer.alaksiondev.com.viewmodel.createinvoice.CreateInvoiceResponseViewModel
 import invoicer.alaksiondev.com.repository.InvoiceActivityRepository
 import invoicer.alaksiondev.com.repository.InvoiceRepository
 import invoicer.alaksiondev.com.validation.validateSwiftCode
@@ -11,7 +11,7 @@ import io.ktor.http.*
 import kotlinx.datetime.LocalDate
 
 internal interface CreateInvoiceService {
-    suspend fun createInvoice(model: CreateInvoiceModel): CreateInvoiceResponseModel
+    suspend fun createInvoice(model: CreateInvoiceModel): CreateInvoiceResponseViewModel
 }
 
 internal class CreateInvoiceServiceImpl(
@@ -19,7 +19,7 @@ internal class CreateInvoiceServiceImpl(
     private val invoiceActivityRepository: InvoiceActivityRepository
 ) : CreateInvoiceService {
 
-    override suspend fun createInvoice(model: CreateInvoiceModel): CreateInvoiceResponseModel {
+    override suspend fun createInvoice(model: CreateInvoiceModel): CreateInvoiceResponseViewModel {
         validateActivities(model.activities)
 
         validateSwifts(
@@ -44,7 +44,7 @@ internal class CreateInvoiceServiceImpl(
             invoiceId = response
         )
 
-        return CreateInvoiceResponseModel(
+        return CreateInvoiceResponseViewModel(
             externalInvoiceId = model.externalId,
             invoiceId = response
         )

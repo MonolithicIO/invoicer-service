@@ -1,8 +1,6 @@
 package invoicer.alaksiondev.com.entities
 
 import invoicer.alaksiondev.com.database.PostgreEnum
-import invoicer.alaksiondev.com.models.InvoicePdfModel
-import invoicer.alaksiondev.com.models.PdfStatusModel
 import kotlinx.datetime.LocalDate
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
@@ -33,33 +31,8 @@ internal class InvoicePDFEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var invoice by InvoiceEntity referencedOn InvoicePDFTable.invoice
 }
 
-internal fun InvoicePDFEntity.toDomain(): InvoicePdfModel = InvoicePdfModel(
-    id = this.id.toString(),
-    path = this.path.orEmpty(),
-    status = this.status.toDomain(),
-    invoiceId = this.invoice.toString(),
-    createdAt = this.createdAt.toString(),
-    updatedAt = this.updatedAt.toString(),
-)
-
 internal enum class InvoicePDFStatus {
     ok,
     pending,
     failed;
-}
-
-internal fun InvoicePDFStatus.toDomain(): PdfStatusModel {
-    return when (this) {
-        InvoicePDFStatus.ok -> PdfStatusModel.Completed
-        InvoicePDFStatus.failed -> PdfStatusModel.Failed
-        InvoicePDFStatus.pending -> PdfStatusModel.Pending
-    }
-}
-
-internal fun PdfStatusModel.fromDomain(): InvoicePDFStatus {
-    return when (this) {
-        PdfStatusModel.Completed -> InvoicePDFStatus.ok
-        PdfStatusModel.Failed -> InvoicePDFStatus.failed
-        PdfStatusModel.Pending -> InvoicePDFStatus.pending
-    }
 }

@@ -1,4 +1,4 @@
-package invoicer.alaksiondev.com.models.createinvoice
+package invoicer.alaksiondev.com.viewmodel.createinvoice
 
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable

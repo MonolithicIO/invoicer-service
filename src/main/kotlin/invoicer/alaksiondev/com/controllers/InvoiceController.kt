@@ -1,6 +1,6 @@
 package invoicer.alaksiondev.com.controllers
 
-import invoicer.alaksiondev.com.models.createinvoice.CreateInvoiceModel
+import invoicer.alaksiondev.com.viewmodel.createinvoice.CreateInvoiceModel
 import invoicer.alaksiondev.com.service.CreateInvoicePdfService
 import invoicer.alaksiondev.com.service.CreateInvoiceService
 import invoicer.alaksiondev.com.service.GetInvoiceByIdService
