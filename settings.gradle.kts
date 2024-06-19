@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "invoicer.alaksiondev.com.invoicer-backend"
 include(":server")
+include(":detekt")
