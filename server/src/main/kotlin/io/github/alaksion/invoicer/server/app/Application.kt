@@ -1,0 +1,20 @@
+package io.github.alaksion.invoicer.server.app
+
+import DatabaseFactory
+import io.github.alaksion.invoicer.server.app.plugins.configureSerialization
+import io.github.alaksion.invoicer.server.app.plugins.installDi
+import io.github.alaksion.invoicer.server.app.plugins.installStatusPages
+import io.github.alaksion.invoicer.server.controllers.invoiceController
+import io.ktor.server.application.*
+
+fun main(args: Array<String>) {
+    io.ktor.server.netty.EngineMain.main(args)
+}
+
+fun Application.module() {
+    DatabaseFactory.connect()
+    installDi()
+    configureSerialization()
+    installStatusPages()
+    invoiceController()
+}
