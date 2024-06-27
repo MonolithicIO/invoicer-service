@@ -4,7 +4,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetInvoiceViewModel(
+data class GetInvoicesFilterViewModel(
     val minIssueDate: LocalDate?,
     val maxIssueDate: LocalDate?,
     val minDueDate: LocalDate?,

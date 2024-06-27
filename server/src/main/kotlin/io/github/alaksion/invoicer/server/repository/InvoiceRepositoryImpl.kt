@@ -2,8 +2,11 @@ package io.github.alaksion.invoicer.server.repository
 
 import io.github.alaksion.invoicer.server.entities.InvoiceEntity
 import io.github.alaksion.invoicer.server.entities.InvoiceTable
-import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceViewModel
 import io.github.alaksion.invoicer.server.util.DateProvider
+import io.github.alaksion.invoicer.server.viewmodel.GetInvoicesFilterViewModel
+import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceViewModel
+import org.jetbrains.exposed.dao.load
+import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
@@ -14,6 +17,12 @@ internal interface InvoiceRepository {
         id: UUID,
         eagerLoadActivities: Boolean
     ): InvoiceEntity?
+
+    suspend fun getInvoices(
+        filterModel: GetInvoicesFilterViewModel,
+        page: Long,
+        limit: Int,
+    ): List<InvoiceEntity>
 }
 
 internal class InvoiceRepositoryImpl(
@@ -60,9 +69,22 @@ internal class InvoiceRepositoryImpl(
         eagerLoadActivities: Boolean
     ): InvoiceEntity? {
         return transaction {
-            val result = InvoiceEntity.findById(id)
-            if (eagerLoadActivities) result
-            else result
+            if (eagerLoadActivities) InvoiceEntity.findById(id)?.load(InvoiceEntity::activities)
+            else InvoiceEntity.findById(id)
+        }
+    }
+
+    override suspend fun getInvoices(
+        filterModel: GetInvoicesFilterViewModel,
+        page: Long,
+        limit: Int,
+    ): List<InvoiceEntity> {
+        return transaction {
+            val query = InvoiceTable
+                .selectAll()
+                .limit(n = limit, offset = page * limit)
+
+            InvoiceEntity.wrapRows(query).toList()
         }
     }
 }

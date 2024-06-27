@@ -3,7 +3,8 @@ package io.github.alaksion.invoicer.server.controllers
 import io.github.alaksion.invoicer.server.service.CreateInvoicePdfService
 import io.github.alaksion.invoicer.server.service.CreateInvoiceService
 import io.github.alaksion.invoicer.server.service.GetInvoiceByIdService
-import io.github.alaksion.invoicer.server.viewmodel.GetInvoiceViewModel
+import io.github.alaksion.invoicer.server.service.GetInvoicesService
+import io.github.alaksion.invoicer.server.viewmodel.GetInvoicesFilterViewModel
 import io.github.alaksion.invoicer.server.viewmodel.InvoiceDetailsViewModel
 import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceViewModel
 import io.ktor.http.*
@@ -29,9 +30,13 @@ fun Application.invoiceController() {
                 )
             }
             get {
-                val page = call.request.queryParameters["page"]
-                val limit = call.request.queryParameters["limit"]
-                val body = call.receive<GetInvoiceViewModel>()
+                val page = call.request.queryParameters["page"]?.toLongOrNull() ?: 0L
+                val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 0
+                val body = call.receive<GetInvoicesFilterViewModel>()
+                val findService by closestDI().instance<GetInvoicesService>()
+                call.respond(
+                    message = findService.get(filters = body, limit = limit, page = page)
+                )
             }
             post {
                 val body = call.receive<CreateInvoiceViewModel>()
