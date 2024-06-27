@@ -3,6 +3,7 @@ package io.github.alaksion.invoicer.server.viewmodel
 import io.github.alaksion.invoicer.server.entities.InvoiceActivityEntity
 import io.github.alaksion.invoicer.server.entities.InvoiceEntity
 import kotlinx.serialization.Serializable
+import org.jetbrains.exposed.sql.transactions.transaction
 
 @Serializable
 data class InvoiceDetailsViewModel(
@@ -20,31 +21,34 @@ data class InvoiceDetailsViewModel(
 ) {
     internal companion object Factory {
         operator fun invoke(entity: InvoiceEntity): InvoiceDetailsViewModel {
-            return InvoiceDetailsViewModel(
-                id = entity.id.value.toString(),
-                externalId = entity.externalId,
-                senderCompany = InvoiceDetailsCompanyViewModel(
-                    name = entity.senderCompanyName,
-                    address = entity.senderCompanyAddress
-                ),
-                recipientCompany = InvoiceDetailsCompanyViewModel(
-                    name = entity.recipientCompanyName,
-                    address = entity.recipientCompanyAddress
-                ),
-                issueDate = entity.issueDate.toString(),
-                dueDate = entity.dueDate.toString(),
-                beneficiary = InvoiceDetailsTransactionAccountViewModel(
-                    name = entity.beneficiaryName,
-                    bankName = entity.beneficiaryBankName,
-                    bankAddress = entity.beneficiaryBankAddress,
-                    swift = entity.beneficiarySwift,
-                    iban = entity.beneficiaryIban
-                ),
-                intermediary = makeIntermediaryBankAccount(entity),
-                activities = makeActivities(entity.activities.toList()),
-                createdAt = entity.createdAt.toString(),
-                updatedAt = entity.updatedAt.toString()
-            )
+            // FIXME: Exposed shouldn't be used at controller level
+            return transaction {
+                InvoiceDetailsViewModel(
+                    id = entity.id.value.toString(),
+                    externalId = entity.externalId,
+                    senderCompany = InvoiceDetailsCompanyViewModel(
+                        name = entity.senderCompanyName,
+                        address = entity.senderCompanyAddress
+                    ),
+                    recipientCompany = InvoiceDetailsCompanyViewModel(
+                        name = entity.recipientCompanyName,
+                        address = entity.recipientCompanyAddress
+                    ),
+                    issueDate = entity.issueDate.toString(),
+                    dueDate = entity.dueDate.toString(),
+                    beneficiary = InvoiceDetailsTransactionAccountViewModel(
+                        name = entity.beneficiaryName,
+                        bankName = entity.beneficiaryBankName,
+                        bankAddress = entity.beneficiaryBankAddress,
+                        swift = entity.beneficiarySwift,
+                        iban = entity.beneficiaryIban
+                    ),
+                    intermediary = makeIntermediaryBankAccount(entity),
+                    activities = makeActivities(entity.activities.toList()),
+                    createdAt = entity.createdAt.toString(),
+                    updatedAt = entity.updatedAt.toString()
+                )
+            }
         }
     }
 }
