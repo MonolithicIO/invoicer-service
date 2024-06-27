@@ -4,7 +4,7 @@ import io.github.alaksion.invoicer.server.service.CreateInvoicePdfService
 import io.github.alaksion.invoicer.server.service.CreateInvoiceService
 import io.github.alaksion.invoicer.server.service.GetInvoiceByIdService
 import io.github.alaksion.invoicer.server.service.GetInvoicesService
-import io.github.alaksion.invoicer.server.viewmodel.GetInvoicesFilterViewModel
+import io.github.alaksion.invoicer.server.viewmodel.getinvoices.GetInvoicesFilterViewModel
 import io.github.alaksion.invoicer.server.viewmodel.InvoiceDetailsViewModel
 import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceViewModel
 import io.ktor.http.*

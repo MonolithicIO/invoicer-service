@@ -2,7 +2,7 @@ package io.github.alaksion.invoicer.server.service
 
 import io.github.alaksion.invoicer.server.entities.InvoiceEntity
 import io.github.alaksion.invoicer.server.repository.InvoiceRepository
-import io.github.alaksion.invoicer.server.viewmodel.GetInvoicesFilterViewModel
+import io.github.alaksion.invoicer.server.viewmodel.getinvoices.GetInvoicesFilterViewModel
 
 internal interface GetInvoicesService {
     suspend fun get(filters: GetInvoicesFilterViewModel, page: Long, limit: Int): List<InvoiceEntity>

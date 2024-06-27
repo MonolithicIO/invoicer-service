@@ -3,7 +3,7 @@ package io.github.alaksion.invoicer.server.repository
 import io.github.alaksion.invoicer.server.entities.InvoiceEntity
 import io.github.alaksion.invoicer.server.entities.InvoiceTable
 import io.github.alaksion.invoicer.server.util.DateProvider
-import io.github.alaksion.invoicer.server.viewmodel.GetInvoicesFilterViewModel
+import io.github.alaksion.invoicer.server.viewmodel.getinvoices.GetInvoicesFilterViewModel
 import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceViewModel
 import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.sql.selectAll
