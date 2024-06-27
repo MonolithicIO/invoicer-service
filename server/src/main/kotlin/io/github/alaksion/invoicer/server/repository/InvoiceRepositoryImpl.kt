@@ -2,8 +2,8 @@ package io.github.alaksion.invoicer.server.repository
 
 import io.github.alaksion.invoicer.server.entities.InvoiceEntity
 import io.github.alaksion.invoicer.server.entities.InvoiceTable
+import io.github.alaksion.invoicer.server.models.GetInvoicesFilterModel
 import io.github.alaksion.invoicer.server.util.DateProvider
-import io.github.alaksion.invoicer.server.viewmodel.getinvoices.GetInvoicesFilterViewModel
 import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceViewModel
 import org.jetbrains.exposed.dao.load
 import org.jetbrains.exposed.sql.selectAll
@@ -19,7 +19,7 @@ internal interface InvoiceRepository {
     ): InvoiceEntity?
 
     suspend fun getInvoices(
-        filterModel: GetInvoicesFilterViewModel,
+        filterModel: GetInvoicesFilterModel,
         page: Long,
         limit: Int,
     ): List<InvoiceEntity>
@@ -75,7 +75,7 @@ internal class InvoiceRepositoryImpl(
     }
 
     override suspend fun getInvoices(
-        filterModel: GetInvoicesFilterViewModel,
+        filterModel: GetInvoicesFilterModel,
         page: Long,
         limit: Int,
     ): List<InvoiceEntity> {

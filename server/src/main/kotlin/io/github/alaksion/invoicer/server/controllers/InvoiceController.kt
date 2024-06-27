@@ -4,9 +4,10 @@ import io.github.alaksion.invoicer.server.service.CreateInvoicePdfService
 import io.github.alaksion.invoicer.server.service.CreateInvoiceService
 import io.github.alaksion.invoicer.server.service.GetInvoiceByIdService
 import io.github.alaksion.invoicer.server.service.GetInvoicesService
-import io.github.alaksion.invoicer.server.viewmodel.getinvoices.GetInvoicesFilterViewModel
 import io.github.alaksion.invoicer.server.viewmodel.InvoiceDetailsViewModel
 import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceViewModel
+import io.github.alaksion.invoicer.server.viewmodel.getinvoices.GetInvoicesFilterViewModel
+import io.github.alaksion.invoicer.server.viewmodel.getinvoices.GetInvoicesResponseViewModel
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -30,12 +31,26 @@ fun Application.invoiceController() {
                 )
             }
             get {
-                val page = call.request.queryParameters["page"]?.toLongOrNull() ?: 0L
+                val page = call.request.queryParameters["page"]?.toLongOrNull() ?: 0
                 val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 0
-                val body = call.receive<GetInvoicesFilterViewModel>()
+                val filters = GetInvoicesFilterViewModel(
+                    minIssueDate = call.request.queryParameters["minIssueDate"],
+                    maxIssueDate = call.request.queryParameters["maxIssueDate"],
+                    minDueDate = call.request.queryParameters["minDueDate"],
+                    maxDueDate = call.request.queryParameters["maxDueDate"],
+                    senderCompanyName = call.request.queryParameters["senderCompanyName"],
+                    recipientCompanyName = call.request.queryParameters["recipientCompanyName"],
+                )
                 val findService by closestDI().instance<GetInvoicesService>()
                 call.respond(
-                    message = findService.get(filters = body, limit = limit, page = page)
+                    message = GetInvoicesResponseViewModel.Factory(
+                        findService.get(
+                            filters = filters,
+                            limit = limit,
+                            page = page
+                        )
+                    ),
+                    status = HttpStatusCode.OK
                 )
             }
             post {

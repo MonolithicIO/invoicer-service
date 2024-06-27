@@ -10,6 +10,7 @@ data class GetInvoicesResponseViewModel(
 ) {
     internal companion object Factory {
         operator fun invoke(items: List<InvoiceEntity>): GetInvoicesResponseViewModel {
+            // FIXME: Exposed shouldn't be used at controller level
             return transaction {
                 GetInvoicesResponseViewModel(
                     results = items.map { entity ->
