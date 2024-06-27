@@ -4,7 +4,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreateInvoiceModel(
+data class CreateInvoiceViewModel(
     val externalId: String,
     val senderCompanyName: String,
     val senderCompanyAddress: String,
@@ -12,13 +12,13 @@ data class CreateInvoiceModel(
     val recipientCompanyAddress: String,
     val issueDate: LocalDate,
     val dueDate: LocalDate,
-    val beneficiary: CreateInvoiceBeneficiaryModel,
-    val intermediary: CreateInvoiceIntermediaryModel? = null,
-    val activities: List<CreateInvoiceActivityModel>
+    val beneficiary: CreateInvoiceBeneficiaryViewModel,
+    val intermediary: CreateInvoiceIntermediaryViewModel? = null,
+    val activities: List<CreateInvoiceActivityViewModel>
 )
 
 @Serializable
-data class CreateInvoiceBeneficiaryModel(
+data class CreateInvoiceBeneficiaryViewModel(
     val beneficiaryName: String,
     val beneficiaryIban: String,
     val beneficiarySwift: String,
@@ -27,7 +27,7 @@ data class CreateInvoiceBeneficiaryModel(
 )
 
 @Serializable
-data class CreateInvoiceIntermediaryModel(
+data class CreateInvoiceIntermediaryViewModel(
     val intermediaryIban: String,
     val intermediarySwift: String,
     val intermediaryBankName: String,
@@ -35,7 +35,7 @@ data class CreateInvoiceIntermediaryModel(
 )
 
 @Serializable
-data class CreateInvoiceActivityModel(
+data class CreateInvoiceActivityViewModel(
     val description: String,
     val unitPrice: Long,
     val quantity: Int

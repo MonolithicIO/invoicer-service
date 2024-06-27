@@ -2,13 +2,13 @@ package io.github.alaksion.invoicer.server.repository
 
 import io.github.alaksion.invoicer.server.entities.InvoiceEntity
 import io.github.alaksion.invoicer.server.entities.InvoiceTable
-import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceModel
+import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceViewModel
 import io.github.alaksion.invoicer.server.util.DateProvider
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 internal interface InvoiceRepository {
-    suspend fun createInvoice(model: CreateInvoiceModel): String
+    suspend fun createInvoice(model: CreateInvoiceViewModel): String
     suspend fun getInvoiceByExternalId(externalId: String): InvoiceEntity?
     suspend fun getInvoiceById(
         id: UUID,
@@ -20,7 +20,7 @@ internal class InvoiceRepositoryImpl(
     private val dateProvider: DateProvider
 ) : InvoiceRepository {
 
-    override suspend fun createInvoice(model: CreateInvoiceModel): String {
+    override suspend fun createInvoice(model: CreateInvoiceViewModel): String {
         return transaction {
             InvoiceEntity.new {
                 externalId = model.externalId

@@ -1,8 +1,8 @@
 package io.github.alaksion.invoicer.server.service
 
 import io.github.alaksion.invoicer.server.errors.HttpError
-import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceActivityModel
-import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceModel
+import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceActivityViewModel
+import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceViewModel
 import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceResponseViewModel
 import io.github.alaksion.invoicer.server.repository.InvoiceActivityRepository
 import io.github.alaksion.invoicer.server.repository.InvoiceRepository
@@ -11,7 +11,7 @@ import io.ktor.http.*
 import kotlinx.datetime.LocalDate
 
 internal interface CreateInvoiceService {
-    suspend fun createInvoice(model: CreateInvoiceModel): CreateInvoiceResponseViewModel
+    suspend fun createInvoice(model: CreateInvoiceViewModel): CreateInvoiceResponseViewModel
 }
 
 internal class CreateInvoiceServiceImpl(
@@ -19,7 +19,7 @@ internal class CreateInvoiceServiceImpl(
     private val invoiceActivityRepository: InvoiceActivityRepository
 ) : CreateInvoiceService {
 
-    override suspend fun createInvoice(model: CreateInvoiceModel): CreateInvoiceResponseViewModel {
+    override suspend fun createInvoice(model: CreateInvoiceViewModel): CreateInvoiceResponseViewModel {
         validateActivities(model.activities)
 
         validateSwifts(
@@ -84,7 +84,7 @@ internal class CreateInvoiceServiceImpl(
     }
 
     private fun validateActivities(
-        services: List<CreateInvoiceActivityModel>
+        services: List<CreateInvoiceActivityViewModel>
     ) {
         if (services.isEmpty()) throw HttpError(
             message = "Invoice must have at least one service",
