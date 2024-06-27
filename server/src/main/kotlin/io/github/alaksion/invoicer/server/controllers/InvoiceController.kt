@@ -32,7 +32,7 @@ fun Application.invoiceController() {
             }
             get {
                 val page = call.request.queryParameters["page"]?.toLongOrNull() ?: 0
-                val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 0
+                val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 10
                 val filters = GetInvoicesFilterViewModel(
                     minIssueDate = call.request.queryParameters["minIssueDate"],
                     maxIssueDate = call.request.queryParameters["maxIssueDate"],
