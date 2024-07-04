@@ -1,4 +1,4 @@
-package io.github.alaksion.invoicer.server.errors
+package io.github.alaksion.invoicer.server.domain.errors
 
 import io.ktor.http.HttpStatusCode
 

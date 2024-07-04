@@ -1,18 +1,18 @@
-package io.github.alaksion.invoicer.server.service
+package io.github.alaksion.invoicer.server.domain.usecase
 
-import io.github.alaksion.invoicer.server.entities.InvoiceEntity
-import io.github.alaksion.invoicer.server.errors.HttpError
+import io.github.alaksion.invoicer.server.data.entities.InvoiceEntity
+import io.github.alaksion.invoicer.server.domain.errors.HttpError
 import io.github.alaksion.invoicer.server.repository.InvoiceRepository
 import io.ktor.http.*
 import java.util.*
 
-internal interface GetInvoiceByIdService {
+internal interface GetInvoiceByIdUseCase {
     suspend fun get(id: String): InvoiceEntity
 }
 
-internal class GetInvoiceByIdServiceImpl(
+internal class GetInvoiceByIdUseCaseImpl(
     private val repository: InvoiceRepository
-) : GetInvoiceByIdService {
+) : GetInvoiceByIdUseCase {
 
     override suspend fun get(id: String): InvoiceEntity {
         val invoice = repository.getInvoiceById(id = UUID.fromString(id), eagerLoadActivities = true)

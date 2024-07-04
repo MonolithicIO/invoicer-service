@@ -1,4 +1,4 @@
-package io.github.alaksion.invoicer.server.entities
+package io.github.alaksion.invoicer.server.data.entities
 
 import kotlinx.datetime.LocalDate
 import org.jetbrains.exposed.dao.UUIDEntity

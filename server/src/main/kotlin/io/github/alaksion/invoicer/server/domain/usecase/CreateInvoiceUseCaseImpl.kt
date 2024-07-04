@@ -1,23 +1,23 @@
-package io.github.alaksion.invoicer.server.service
+package io.github.alaksion.invoicer.server.domain.usecase
 
-import io.github.alaksion.invoicer.server.errors.HttpError
-import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceActivityViewModel
-import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceViewModel
-import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceResponseViewModel
+import io.github.alaksion.invoicer.server.domain.errors.HttpError
+import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.CreateInvoiceActivityViewModel
+import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.CreateInvoiceViewModel
+import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.CreateInvoiceResponseViewModel
 import io.github.alaksion.invoicer.server.repository.InvoiceActivityRepository
 import io.github.alaksion.invoicer.server.repository.InvoiceRepository
 import io.github.alaksion.invoicer.server.validation.validateSwiftCode
 import io.ktor.http.*
 import kotlinx.datetime.LocalDate
 
-internal interface CreateInvoiceService {
+internal interface CreateInvoiceUseCase {
     suspend fun createInvoice(model: CreateInvoiceViewModel): CreateInvoiceResponseViewModel
 }
 
-internal class CreateInvoiceServiceImpl(
+internal class CreateInvoiceUseCaseImpl(
     private val invoiceRepository: InvoiceRepository,
     private val invoiceActivityRepository: InvoiceActivityRepository
-) : CreateInvoiceService {
+) : CreateInvoiceUseCase {
 
     override suspend fun createInvoice(model: CreateInvoiceViewModel): CreateInvoiceResponseViewModel {
         validateActivities(model.activities)

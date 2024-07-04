@@ -3,7 +3,7 @@ package io.github.alaksion.invoicer.server.files.pdfgenerator
 import com.lowagie.text.Document
 import com.lowagie.text.Paragraph
 import com.lowagie.text.pdf.PdfWriter
-import io.github.alaksion.invoicer.server.entities.InvoiceEntity
+import io.github.alaksion.invoicer.server.data.entities.InvoiceEntity
 import io.github.alaksion.invoicer.server.files.filehandler.FileHandler
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

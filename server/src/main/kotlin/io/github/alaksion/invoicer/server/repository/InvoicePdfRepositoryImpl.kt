@@ -1,8 +1,8 @@
 package io.github.alaksion.invoicer.server.repository
 
-import io.github.alaksion.invoicer.server.entities.InvoicePDFEntity
-import io.github.alaksion.invoicer.server.entities.InvoicePDFStatus
-import io.github.alaksion.invoicer.server.entities.InvoicePDFTable
+import io.github.alaksion.invoicer.server.data.entities.InvoicePDFEntity
+import io.github.alaksion.invoicer.server.data.entities.InvoicePDFStatus
+import io.github.alaksion.invoicer.server.data.entities.InvoicePDFTable
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insertAndGetId

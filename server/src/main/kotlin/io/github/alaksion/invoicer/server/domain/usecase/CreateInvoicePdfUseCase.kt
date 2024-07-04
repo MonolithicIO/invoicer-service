@@ -1,23 +1,23 @@
-package io.github.alaksion.invoicer.server.service
+package io.github.alaksion.invoicer.server.domain.usecase
 
-import io.github.alaksion.invoicer.server.entities.InvoiceEntity
-import io.github.alaksion.invoicer.server.entities.InvoicePDFStatus
-import io.github.alaksion.invoicer.server.errors.HttpError
+import io.github.alaksion.invoicer.server.data.entities.InvoiceEntity
+import io.github.alaksion.invoicer.server.data.entities.InvoicePDFStatus
+import io.github.alaksion.invoicer.server.domain.errors.HttpError
 import io.github.alaksion.invoicer.server.files.pdfgenerator.PdfGenerator
 import io.github.alaksion.invoicer.server.repository.InvoicePdfRepository
 import io.github.alaksion.invoicer.server.repository.InvoiceRepository
 import io.ktor.http.*
 import java.util.*
 
-interface CreateInvoicePdfService {
+interface CreateInvoicePdfUseCase {
     suspend fun create(invoiceId: String)
 }
 
-internal class CreateInvoicePdfServiceImpl(
+internal class CreateInvoicePdfUseCaseImpl(
     private val invoiceRepository: InvoiceRepository,
     private val invoicePdfRepository: InvoicePdfRepository,
     private val pdfGenerator: PdfGenerator
-) : CreateInvoicePdfService {
+) : CreateInvoicePdfUseCase {
 
     override suspend fun create(invoiceId: String) {
         val parsedId = UUID.fromString(invoiceId)

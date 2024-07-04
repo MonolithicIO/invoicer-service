@@ -1,18 +1,22 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
 import io.github.alaksion.invoicer.server.app.plugins.DITags.TEMP_FILE_HANDLER
+import io.github.alaksion.invoicer.server.domain.usecase.*
+import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoiceUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoiceUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.GetInvoiceByIdUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.GetInvoiceByIdUseCaseImpl
 import io.github.alaksion.invoicer.server.files.filehandler.FileHandler
 import io.github.alaksion.invoicer.server.files.filehandler.TempFileHandler
 import io.github.alaksion.invoicer.server.files.pdfgenerator.OpenPdfGenerator
 import io.github.alaksion.invoicer.server.files.pdfgenerator.PdfGenerator
 import io.github.alaksion.invoicer.server.repository.*
-import io.github.alaksion.invoicer.server.service.*
 import io.github.alaksion.invoicer.server.util.DateProvider
 import io.github.alaksion.invoicer.server.util.DateProviderImplementation
 import io.ktor.server.application.*
 import kotlinx.coroutines.Dispatchers
 import org.kodein.di.bindProvider
-import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 import org.kodein.di.ktor.di
 
@@ -23,21 +27,21 @@ fun Application.installDi() {
         bindProvider<InvoiceActivityRepository> { InvoiceActivityRepositoryImpl(dateProvider = instance()) }
         bindProvider<InvoicePdfRepository> { InvoicePdfRepositoryImpl() }
 
-        bindProvider<CreateInvoiceService> {
-            CreateInvoiceServiceImpl(
+        bindProvider<CreateInvoiceUseCase> {
+            CreateInvoiceUseCaseImpl(
                 invoiceRepository = instance(),
                 invoiceActivityRepository = instance()
             )
         }
-        bindProvider<CreateInvoicePdfService> {
-            CreateInvoicePdfServiceImpl(
+        bindProvider<CreateInvoicePdfUseCase> {
+            CreateInvoicePdfUseCaseImpl(
                 invoiceRepository = instance(),
                 invoicePdfRepository = instance(),
                 pdfGenerator = instance(DITags.OPEN_PDF_GENERATOR),
             )
         }
-        bindProvider<GetInvoicesService> {
-            GetInvoicesServiceImpl(
+        bindProvider<GetInvoicesUseCase> {
+            GetInvoicesUseCaseImpl(
                 repository = instance()
             )
         }
@@ -53,8 +57,8 @@ fun Application.installDi() {
 
         bindProvider<DateProvider> { DateProviderImplementation }
 
-        bindProvider<GetInvoiceByIdService> {
-            GetInvoiceByIdServiceImpl(repository = instance())
+        bindProvider<GetInvoiceByIdUseCase> {
+            GetInvoiceByIdUseCaseImpl(repository = instance())
         }
     }
 }

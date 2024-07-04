@@ -4,7 +4,7 @@ import DatabaseFactory
 import io.github.alaksion.invoicer.server.app.plugins.configureSerialization
 import io.github.alaksion.invoicer.server.app.plugins.installDi
 import io.github.alaksion.invoicer.server.app.plugins.installStatusPages
-import io.github.alaksion.invoicer.server.controllers.invoiceController
+import io.github.alaksion.invoicer.server.view.controller.invoiceController
 import io.ktor.server.application.*
 
 fun main(args: Array<String>) {

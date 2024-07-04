@@ -1,6 +1,6 @@
-package io.github.alaksion.invoicer.server.entities
+package io.github.alaksion.invoicer.server.data.entities
 
-import io.github.alaksion.invoicer.server.database.PostgreEnum
+import io.github.alaksion.invoicer.server.app.database.PostgreEnum
 import kotlinx.datetime.LocalDate
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass

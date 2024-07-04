@@ -1,6 +1,6 @@
 package io.github.alaksion.invoicer.server.files.pdfgenerator
 
-import io.github.alaksion.invoicer.server.entities.InvoiceEntity
+import io.github.alaksion.invoicer.server.data.entities.InvoiceEntity
 
 typealias FilePath = String
 

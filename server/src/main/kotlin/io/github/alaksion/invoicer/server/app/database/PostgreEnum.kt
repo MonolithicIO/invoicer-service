@@ -1,4 +1,4 @@
-package io.github.alaksion.invoicer.server.database
+package io.github.alaksion.invoicer.server.app.database
 
 import org.postgresql.util.PGobject
 

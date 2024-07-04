@@ -1,6 +1,6 @@
-package io.github.alaksion.invoicer.server.viewmodel.getinvoices
+package io.github.alaksion.invoicer.server.view.viewmodel.getinvoices
 
-import io.github.alaksion.invoicer.server.entities.InvoiceEntity
+import io.github.alaksion.invoicer.server.data.entities.InvoiceEntity
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.transactions.transaction
 

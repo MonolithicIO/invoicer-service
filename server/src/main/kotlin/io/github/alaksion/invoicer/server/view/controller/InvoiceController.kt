@@ -1,13 +1,13 @@
-package io.github.alaksion.invoicer.server.controllers
+package io.github.alaksion.invoicer.server.view.controller
 
-import io.github.alaksion.invoicer.server.service.CreateInvoicePdfService
-import io.github.alaksion.invoicer.server.service.CreateInvoiceService
-import io.github.alaksion.invoicer.server.service.GetInvoiceByIdService
-import io.github.alaksion.invoicer.server.service.GetInvoicesService
-import io.github.alaksion.invoicer.server.viewmodel.InvoiceDetailsViewModel
-import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceViewModel
-import io.github.alaksion.invoicer.server.viewmodel.getinvoices.GetInvoicesFilterViewModel
-import io.github.alaksion.invoicer.server.viewmodel.getinvoices.GetInvoicesResponseViewModel
+import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoiceUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.GetInvoiceByIdUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.GetInvoicesUseCase
+import io.github.alaksion.invoicer.server.view.viewmodel.InvoiceDetailsViewModel
+import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.CreateInvoiceViewModel
+import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.GetInvoicesFilterViewModel
+import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.GetInvoicesResponseViewModel
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -23,7 +23,7 @@ fun Application.invoiceController() {
         route("invoice") {
             get("/{id}") {
                 val invoiceId = call.parameters["id"]
-                val findOneService by closestDI().instance<GetInvoiceByIdService>()
+                val findOneService by closestDI().instance<GetInvoiceByIdUseCase>()
                 val response = findOneService.get(invoiceId!!)
                 call.respond(
                     status = HttpStatusCode.OK,
@@ -41,7 +41,7 @@ fun Application.invoiceController() {
                     senderCompanyName = call.request.queryParameters["senderCompanyName"],
                     recipientCompanyName = call.request.queryParameters["recipientCompanyName"],
                 )
-                val findService by closestDI().instance<GetInvoicesService>()
+                val findService by closestDI().instance<GetInvoicesUseCase>()
                 call.respond(
                     message = GetInvoicesResponseViewModel.Factory(
                         findService.get(
@@ -55,7 +55,7 @@ fun Application.invoiceController() {
             }
             post {
                 val body = call.receive<CreateInvoiceViewModel>()
-                val createService by closestDI().instance<CreateInvoiceService>()
+                val createService by closestDI().instance<CreateInvoiceUseCase>()
                 val response = createService.createInvoice(body)
                 call.respond(
                     message = response,
@@ -65,7 +65,7 @@ fun Application.invoiceController() {
 
             post("/pdf/{id}") {
                 val invoiceId = call.parameters["id"]
-                val pdfService by closestDI().instance<CreateInvoicePdfService>()
+                val pdfService by closestDI().instance<CreateInvoicePdfUseCase>()
                 pdfService.create(invoiceId!!)
                 call.respond("hehehehe")
             }

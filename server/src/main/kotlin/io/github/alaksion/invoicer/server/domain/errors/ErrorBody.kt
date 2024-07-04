@@ -1,4 +1,4 @@
-package io.github.alaksion.invoicer.server.errors
+package io.github.alaksion.invoicer.server.domain.errors
 
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime

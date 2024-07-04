@@ -1,8 +1,8 @@
 package io.github.alaksion.invoicer.server.repository
 
-import io.github.alaksion.invoicer.server.entities.InvoiceActivityEntity
-import io.github.alaksion.invoicer.server.entities.InvoiceActivityTable
-import io.github.alaksion.invoicer.server.viewmodel.createinvoice.CreateInvoiceActivityViewModel
+import io.github.alaksion.invoicer.server.data.entities.InvoiceActivityEntity
+import io.github.alaksion.invoicer.server.data.entities.InvoiceActivityTable
+import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.CreateInvoiceActivityViewModel
 import io.github.alaksion.invoicer.server.util.DateProvider
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.transactions.transaction

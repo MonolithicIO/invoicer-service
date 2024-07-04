@@ -1,4 +1,4 @@
-package io.github.alaksion.invoicer.server.models
+package io.github.alaksion.invoicer.server.domain.model
 
 import kotlinx.datetime.LocalDate
 
