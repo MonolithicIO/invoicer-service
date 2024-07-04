@@ -6,7 +6,6 @@ import io.github.alaksion.invoicer.server.data.entities.InvoiceTable
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
 import io.github.alaksion.invoicer.server.util.DateProvider
 import org.jetbrains.exposed.sql.batchInsert
-import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 internal interface InvoiceDataSource {
@@ -28,55 +27,49 @@ internal class InvoiceDataSourceImpl(
 ) : InvoiceDataSource {
 
     override suspend fun createInvoice(data: CreateInvoiceModel): String {
-        return transaction {
-            val newInvoice = InvoiceEntity.new {
-                externalId = data.externalId
-                externalId = data.externalId
-                senderCompanyName = data.senderCompanyName
-                senderCompanyAddress = data.senderCompanyName
-                recipientCompanyName = data.recipientCompanyName
-                recipientCompanyAddress = data.recipientCompanyAddress
-                issueDate = data.issueDate
-                dueDate = data.dueDate
-                beneficiaryName = data.beneficiaryName
-                beneficiaryIban = data.beneficiaryIban
-                beneficiarySwift = data.beneficiarySwift
-                beneficiaryBankName = data.beneficiaryBankName
-                beneficiaryBankAddress = data.beneficiaryBankAddress
+        val newInvoice = InvoiceEntity.new {
+            externalId = data.externalId
+            externalId = data.externalId
+            senderCompanyName = data.senderCompanyName
+            senderCompanyAddress = data.senderCompanyName
+            recipientCompanyName = data.recipientCompanyName
+            recipientCompanyAddress = data.recipientCompanyAddress
+            issueDate = data.issueDate
+            dueDate = data.dueDate
+            beneficiaryName = data.beneficiaryName
+            beneficiaryIban = data.beneficiaryIban
+            beneficiarySwift = data.beneficiarySwift
+            beneficiaryBankName = data.beneficiaryBankName
+            beneficiaryBankAddress = data.beneficiaryBankAddress
 
-                intermediaryIban = data.intermediaryIban
-                intermediarySwift = data.intermediarySwift
-                intermediaryBankName = data.intermediaryBankName
-                intermediaryBankAddress = data.intermediaryBankAddress
-                createdAt = dateProvider.now()
-                updatedAt = dateProvider.now()
-            }
-            val createdInvoiceId = newInvoice.id.value
-
-            InvoiceActivityTable.batchInsert(data.activities) { item ->
-                this[InvoiceActivityTable.invoice] = createdInvoiceId
-                this[InvoiceActivityTable.quantity] = item.quantity
-                this[InvoiceActivityTable.unitPrice] = item.unitPrice
-                this[InvoiceActivityTable.description] = item.description
-                this[InvoiceActivityTable.createdAt] = dateProvider.now()
-                this[InvoiceActivityTable.updatedAt] = dateProvider.now()
-            }
-
-            createdInvoiceId.toString()
+            intermediaryIban = data.intermediaryIban
+            intermediarySwift = data.intermediarySwift
+            intermediaryBankName = data.intermediaryBankName
+            intermediaryBankAddress = data.intermediaryBankAddress
+            createdAt = dateProvider.now()
+            updatedAt = dateProvider.now()
         }
+        val createdInvoiceId = newInvoice.id.value
+
+        InvoiceActivityTable.batchInsert(data.activities) { item ->
+            this[InvoiceActivityTable.invoice] = createdInvoiceId
+            this[InvoiceActivityTable.quantity] = item.quantity
+            this[InvoiceActivityTable.unitPrice] = item.unitPrice
+            this[InvoiceActivityTable.description] = item.description
+            this[InvoiceActivityTable.createdAt] = dateProvider.now()
+            this[InvoiceActivityTable.updatedAt] = dateProvider.now()
+        }
+
+        return createdInvoiceId.toString()
     }
 
     override suspend fun getInvoiceByUUID(uuid: UUID): InvoiceEntity? {
-        return transaction {
-            InvoiceEntity.findById(uuid)
-        }
+        return InvoiceEntity.findById(uuid)
     }
 
     override suspend fun getInvoiceByExternalId(externalId: String): InvoiceEntity? {
-        return transaction {
-            InvoiceEntity.find {
-                InvoiceTable.externalId eq externalId
-            }.firstOrNull()
-        }
+        return InvoiceEntity.find {
+            InvoiceTable.externalId eq externalId
+        }.firstOrNull()
     }
 }
