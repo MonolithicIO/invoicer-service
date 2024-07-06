@@ -1,25 +1,19 @@
 package io.github.alaksion.invoicer.server.domain.usecase
 
-import io.github.alaksion.invoicer.server.data.entities.InvoiceEntity
-import io.github.alaksion.invoicer.server.domain.model.GetInvoicesFilterModel
-import io.github.alaksion.invoicer.server.repository.InvoiceRepository
-import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.GetInvoicesFilterViewModel
+import io.github.alaksion.invoicer.server.domain.model.getinvoices.GetInvoicesFilterModel
+import io.github.alaksion.invoicer.server.domain.model.getinvoices.InvoiceListItemModel
+import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository
 
 internal interface GetInvoicesUseCase {
-    suspend fun get(filters: GetInvoicesFilterViewModel, page: Long, limit: Int): List<InvoiceEntity>
+    suspend fun get(filters: GetInvoicesFilterModel, page: Long, limit: Int): List<InvoiceListItemModel>
 }
 
 internal class GetInvoicesUseCaseImpl(
     private val repository: InvoiceRepository
 ) : GetInvoicesUseCase {
 
-    override suspend fun get(filters: GetInvoicesFilterViewModel, page: Long, limit: Int): List<InvoiceEntity> {
-        val filters = mapFilters(filters)
-        return repository.getInvoices(filterModel = filters, page = page, limit = limit)
+    override suspend fun get(filters: GetInvoicesFilterModel, page: Long, limit: Int): List<InvoiceListItemModel> {
+        // TODO -> Validate filters
+        return repository.getInvoices(filters = filters, page = page, limit = limit)
     }
-
-    private fun mapFilters(viewModel: GetInvoicesFilterViewModel): GetInvoicesFilterModel {
-        return GetInvoicesFilterModel(null, null, null, null, null, null)
-    }
-
 }

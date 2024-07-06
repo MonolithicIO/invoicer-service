@@ -4,29 +4,37 @@ import io.github.alaksion.invoicer.server.data.entities.InvoiceActivityTable
 import io.github.alaksion.invoicer.server.data.entities.InvoiceEntity
 import io.github.alaksion.invoicer.server.data.entities.InvoiceTable
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
+import io.github.alaksion.invoicer.server.domain.model.getinvoices.GetInvoicesFilterModel
 import io.github.alaksion.invoicer.server.util.DateProvider
 import org.jetbrains.exposed.sql.batchInsert
+import org.jetbrains.exposed.sql.selectAll
 import java.util.*
 
 internal interface InvoiceDataSource {
-    suspend fun createInvoice(
+    fun createInvoice(
         data: CreateInvoiceModel
     ): String
 
-    suspend fun getInvoiceByUUID(
+    fun getInvoiceByUUID(
         uuid: UUID
     ): InvoiceEntity?
 
-    suspend fun getInvoiceByExternalId(
+    fun getInvoiceByExternalId(
         externalId: String
     ): InvoiceEntity?
+
+    fun getInvoicesFiltered(
+        page: Long,
+        limit: Int,
+        filters: GetInvoicesFilterModel
+    ): List<InvoiceEntity>
 }
 
 internal class InvoiceDataSourceImpl(
     private val dateProvider: DateProvider
 ) : InvoiceDataSource {
 
-    override suspend fun createInvoice(data: CreateInvoiceModel): String {
+    override fun createInvoice(data: CreateInvoiceModel): String {
         val newInvoice = InvoiceEntity.new {
             externalId = data.externalId
             externalId = data.externalId
@@ -63,13 +71,21 @@ internal class InvoiceDataSourceImpl(
         return createdInvoiceId.toString()
     }
 
-    override suspend fun getInvoiceByUUID(uuid: UUID): InvoiceEntity? {
+    override fun getInvoiceByUUID(uuid: UUID): InvoiceEntity? {
         return InvoiceEntity.findById(uuid)
     }
 
-    override suspend fun getInvoiceByExternalId(externalId: String): InvoiceEntity? {
+    override fun getInvoiceByExternalId(externalId: String): InvoiceEntity? {
         return InvoiceEntity.find {
             InvoiceTable.externalId eq externalId
         }.firstOrNull()
+    }
+
+    override fun getInvoicesFiltered(page: Long, limit: Int, filters: GetInvoicesFilterModel): List<InvoiceEntity> {
+        val query = InvoiceTable
+            .selectAll()
+            .limit(n = limit, offset = page * limit)
+
+        return InvoiceEntity.wrapRows(query).toList()
     }
 }

@@ -1,6 +1,51 @@
 package io.github.alaksion.invoicer.server.data.repository
 
+import io.github.alaksion.invoicer.server.data.datasource.InvoiceDataSource
+import io.github.alaksion.invoicer.server.data.entities.toListItemModel
+import io.github.alaksion.invoicer.server.data.entities.toModel
+import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
+import io.github.alaksion.invoicer.server.domain.model.InvoiceModel
+import io.github.alaksion.invoicer.server.domain.model.getinvoices.GetInvoicesFilterModel
+import io.github.alaksion.invoicer.server.domain.model.getinvoices.InvoiceListItemModel
 import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import java.util.*
 
 
-class InvoiceRepositoryImpl : InvoiceRepository
+internal class InvoiceRepositoryImpl(
+    private val dataSource: InvoiceDataSource
+) : InvoiceRepository {
+
+    override suspend fun createInvoice(data: CreateInvoiceModel): String {
+        return newSuspendedTransaction {
+            dataSource.createInvoice(data)
+        }
+    }
+
+    override suspend fun getInvoiceByUUID(id: UUID): InvoiceModel? {
+        return newSuspendedTransaction {
+            dataSource.getInvoiceByUUID(uuid = id)?.toModel()
+        }
+    }
+
+    override suspend fun getInvoiceByExternalId(externalId: String): InvoiceModel? {
+        return newSuspendedTransaction {
+            dataSource.getInvoiceByExternalId(externalId = externalId)?.toModel()
+        }
+    }
+
+    override suspend fun getInvoices(
+        filters: GetInvoicesFilterModel,
+        page: Long,
+        limit: Int
+    ): List<InvoiceListItemModel> {
+        return newSuspendedTransaction {
+            dataSource.getInvoicesFiltered(page = page, limit = limit, filters = filters)
+                .map {
+                    it.toListItemModel()
+                }
+        }
+    }
+
+
+}

@@ -1,4 +1,4 @@
-package io.github.alaksion.invoicer.server.view.viewmodel.createinvoice
+package io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.response
 
 import kotlinx.serialization.Serializable
 

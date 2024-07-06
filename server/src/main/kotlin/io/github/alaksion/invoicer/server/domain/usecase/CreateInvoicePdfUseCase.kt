@@ -1,11 +1,11 @@
 package io.github.alaksion.invoicer.server.domain.usecase
 
-import io.github.alaksion.invoicer.server.data.entities.InvoiceEntity
 import io.github.alaksion.invoicer.server.data.entities.InvoicePDFStatus
 import io.github.alaksion.invoicer.server.domain.errors.HttpError
+import io.github.alaksion.invoicer.server.domain.model.InvoiceModel
+import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository
 import io.github.alaksion.invoicer.server.files.pdfgenerator.PdfGenerator
 import io.github.alaksion.invoicer.server.repository.InvoicePdfRepository
-import io.github.alaksion.invoicer.server.repository.InvoiceRepository
 import io.ktor.http.*
 import java.util.*
 
@@ -57,8 +57,8 @@ internal class CreateInvoicePdfUseCaseImpl(
         }
     }
 
-    private suspend fun getInvoice(id: UUID): InvoiceEntity {
-        return invoiceRepository.getInvoiceById(id, eagerLoadActivities = true)
+    private suspend fun getInvoice(id: UUID): InvoiceModel {
+        return invoiceRepository.getInvoiceByUUID(id)
             ?: throw HttpError(
                 statusCode = HttpStatusCode.NotFound,
                 message = "Invoice not found"

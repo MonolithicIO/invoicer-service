@@ -1,30 +1,28 @@
 package io.github.alaksion.invoicer.server.domain.usecase
 
 import io.github.alaksion.invoicer.server.domain.errors.HttpError
-import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.CreateInvoiceActivityViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.CreateInvoiceViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.CreateInvoiceResponseViewModel
-import io.github.alaksion.invoicer.server.repository.InvoiceActivityRepository
-import io.github.alaksion.invoicer.server.repository.InvoiceRepository
+import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceActivityModel
+import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
+import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository
 import io.github.alaksion.invoicer.server.validation.validateSwiftCode
+import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.response.CreateInvoiceResponseViewModel
 import io.ktor.http.*
 import kotlinx.datetime.LocalDate
 
 internal interface CreateInvoiceUseCase {
-    suspend fun createInvoice(model: CreateInvoiceViewModel): CreateInvoiceResponseViewModel
+    suspend fun createInvoice(model: CreateInvoiceModel): CreateInvoiceResponseViewModel
 }
 
 internal class CreateInvoiceUseCaseImpl(
     private val invoiceRepository: InvoiceRepository,
-    private val invoiceActivityRepository: InvoiceActivityRepository
 ) : CreateInvoiceUseCase {
 
-    override suspend fun createInvoice(model: CreateInvoiceViewModel): CreateInvoiceResponseViewModel {
+    override suspend fun createInvoice(model: CreateInvoiceModel): CreateInvoiceResponseViewModel {
         validateActivities(model.activities)
 
         validateSwifts(
-            beneficiary = model.beneficiary.beneficiarySwift,
-            intermediary = model.intermediary?.intermediarySwift
+            beneficiary = model.beneficiarySwift,
+            intermediary = model.intermediarySwift
         )
         validateDateRange(
             issueDate = model.issueDate,
@@ -38,11 +36,7 @@ internal class CreateInvoiceUseCaseImpl(
             )
         }
 
-        val response = invoiceRepository.createInvoice(model = model)
-        invoiceActivityRepository.createInvoiceActivities(
-            list = model.activities,
-            invoiceId = response
-        )
+        val response = invoiceRepository.createInvoice(data = model)
 
         return CreateInvoiceResponseViewModel(
             externalInvoiceId = model.externalId,
@@ -84,7 +78,7 @@ internal class CreateInvoiceUseCaseImpl(
     }
 
     private fun validateActivities(
-        services: List<CreateInvoiceActivityViewModel>
+        services: List<CreateInvoiceActivityModel>
     ) {
         if (services.isEmpty()) throw HttpError(
             message = "Invoice must have at least one service",

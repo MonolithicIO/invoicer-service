@@ -3,7 +3,7 @@ package io.github.alaksion.invoicer.server.files.pdfgenerator
 import com.lowagie.text.Document
 import com.lowagie.text.Paragraph
 import com.lowagie.text.pdf.PdfWriter
-import io.github.alaksion.invoicer.server.data.entities.InvoiceEntity
+import io.github.alaksion.invoicer.server.domain.model.InvoiceModel
 import io.github.alaksion.invoicer.server.files.filehandler.FileHandler
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -16,7 +16,7 @@ internal class OpenPdfGenerator(
 ) : PdfGenerator {
 
     override suspend fun generate(
-        invoice: InvoiceEntity,
+        invoice: InvoiceModel,
     ): FilePath {
 
         val file = File(
