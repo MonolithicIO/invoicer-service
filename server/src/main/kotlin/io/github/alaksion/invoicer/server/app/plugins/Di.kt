@@ -23,7 +23,6 @@ import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.response.Ge
 import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSender
 import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSenderImpl
 import io.ktor.server.application.*
-import kotlinx.coroutines.Dispatchers
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
 import org.kodein.di.ktor.di
@@ -61,7 +60,6 @@ fun Application.installDi() {
 
         bindProvider<PdfGenerator>(DITags.OPEN_PDF_GENERATOR) {
             OpenPdfGenerator(
-                dispatcher = Dispatchers.IO,
                 fileHandler = instance(TEMP_FILE_HANDLER)
             )
         }
