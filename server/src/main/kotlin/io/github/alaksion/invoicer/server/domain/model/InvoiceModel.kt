@@ -31,4 +31,6 @@ data class InvoiceModelActivityModel(
     val name: String,
     val unitPrice: Long,
     val quantity: Int
-)
+) {
+    val amount = unitPrice * quantity
+}

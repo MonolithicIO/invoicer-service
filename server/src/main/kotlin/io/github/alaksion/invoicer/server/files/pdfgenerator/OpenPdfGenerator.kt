@@ -8,6 +8,7 @@ import com.lowagie.text.pdf.PdfPCell
 import com.lowagie.text.pdf.PdfPTable
 import com.lowagie.text.pdf.PdfWriter
 import io.github.alaksion.invoicer.server.domain.model.InvoiceModel
+import io.github.alaksion.invoicer.server.domain.model.InvoiceModelActivityModel
 import io.github.alaksion.invoicer.server.files.filehandler.FileHandler
 import java.io.File
 import java.io.FileOutputStream
@@ -43,6 +44,9 @@ internal class OpenPdfGenerator(
                         issueDate = invoice.issueDate.toString(),
                         dueDate = invoice.dueDate.toString()
                     )
+                )
+                document.add(
+                    activitiesTable(activities = invoice.activities)
                 )
                 document.close()
             }.fold(
@@ -146,6 +150,46 @@ internal class OpenPdfGenerator(
         leftCell.addElement(Paragraph("Due Date $dueDate"))
         table.addCell(leftCell)
 
+        return table
+    }
+
+    private fun activitiesTable(
+        activities: List<InvoiceModelActivityModel>
+    ): PdfPTable {
+        val table = PdfPTable(4)
+        table.widthPercentage = 100f
+
+        val descriptionCell = PdfPCell().apply {
+            border = PdfPCell.NO_BORDER
+            addElement(Paragraph("Service Description"))
+        }
+
+        val quantityCell = PdfPCell().apply {
+            border = PdfPCell.NO_BORDER
+            addElement(Paragraph("Quantity"))
+        }
+
+        val unitPriceCell = PdfPCell().apply {
+            border = PdfPCell.NO_BORDER
+            addElement(Paragraph("Unit Price"))
+        }
+
+        val amountCell = PdfPCell().apply {
+            border = PdfPCell.NO_BORDER
+            addElement(Paragraph("Amount"))
+        }
+
+        table.addCell(descriptionCell)
+        table.addCell(quantityCell)
+        table.addCell(unitPriceCell)
+        table.addCell(amountCell)
+
+        activities.forEach {
+            descriptionCell.addElement(Paragraph(it.name))
+            quantityCell.addElement(Paragraph(it.quantity.toString()))
+            unitPriceCell.addElement(Paragraph(it.unitPrice.toString()))
+            amountCell.addElement(Paragraph(it.amount.toString()))
+        }
         return table
     }
 
