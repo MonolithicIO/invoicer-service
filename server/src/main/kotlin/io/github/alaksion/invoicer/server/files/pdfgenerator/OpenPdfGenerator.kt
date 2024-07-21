@@ -1,15 +1,14 @@
 package io.github.alaksion.invoicer.server.files.pdfgenerator
 
-import com.lowagie.text.Document
-import com.lowagie.text.Element
-import com.lowagie.text.Font
-import com.lowagie.text.Paragraph
+import com.lowagie.text.*
 import com.lowagie.text.pdf.PdfPCell
 import com.lowagie.text.pdf.PdfPTable
 import com.lowagie.text.pdf.PdfWriter
 import io.github.alaksion.invoicer.server.domain.model.InvoiceModel
 import io.github.alaksion.invoicer.server.domain.model.InvoiceModelActivityModel
 import io.github.alaksion.invoicer.server.files.filehandler.FileHandler
+import io.github.alaksion.invoicer.server.files.pdfgenerator.components.OpenPdfSpacer
+import io.github.alaksion.invoicer.server.utils.formatUsAmount
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.coroutines.resume
@@ -45,8 +44,15 @@ internal class OpenPdfGenerator(
                         dueDate = invoice.dueDate.toString()
                     )
                 )
+                document.add(OpenPdfSpacer(2))
+                document.add(activitiesTable(activities = invoice.activities))
+                document.add(OpenPdfSpacer(2))
                 document.add(
-                    activitiesTable(activities = invoice.activities)
+                    amountDueTable(
+                        invoice.activities
+                            .map { it.amount }
+                            .reduce { acc, l -> acc + l }
+                    )
                 )
                 document.close()
             }.fold(
@@ -158,24 +164,33 @@ internal class OpenPdfGenerator(
     ): PdfPTable {
         val table = PdfPTable(4)
         table.widthPercentage = 100f
+        table.setWidths(floatArrayOf(50f, 10f, 20f, 20f))
 
         val descriptionCell = PdfPCell().apply {
-            border = PdfPCell.NO_BORDER
+            horizontalAlignment = Element.ALIGN_MIDDLE
+            border = Rectangle.BOTTOM
+            paddingBottom = 5f
             addElement(Paragraph("Service Description"))
         }
 
         val quantityCell = PdfPCell().apply {
-            border = PdfPCell.NO_BORDER
+            horizontalAlignment = Element.ALIGN_MIDDLE
+            border = Rectangle.BOTTOM
+            paddingBottom = 5f
             addElement(Paragraph("Quantity"))
         }
 
         val unitPriceCell = PdfPCell().apply {
-            border = PdfPCell.NO_BORDER
+            horizontalAlignment = Element.ALIGN_MIDDLE
+            border = Rectangle.BOTTOM
+            paddingBottom = 5f
             addElement(Paragraph("Unit Price"))
         }
 
         val amountCell = PdfPCell().apply {
-            border = PdfPCell.NO_BORDER
+            horizontalAlignment = Element.ALIGN_MIDDLE
+            border = Rectangle.BOTTOM
+            paddingBottom = 5f
             addElement(Paragraph("Amount"))
         }
 
@@ -185,11 +200,40 @@ internal class OpenPdfGenerator(
         table.addCell(amountCell)
 
         activities.forEach {
-            descriptionCell.addElement(Paragraph(it.name))
-            quantityCell.addElement(Paragraph(it.quantity.toString()))
-            unitPriceCell.addElement(Paragraph(it.unitPrice.toString()))
-            amountCell.addElement(Paragraph(it.amount.toString()))
+            table.addCell(Paragraph(it.name)).apply {
+                horizontalAlignment = Element.ALIGN_MIDDLE
+                border = PdfPCell.NO_BORDER
+            }
+            table.addCell(Paragraph(it.quantity.toString())).apply {
+                horizontalAlignment = Element.ALIGN_MIDDLE
+                border = PdfPCell.NO_BORDER
+            }
+            table.addCell(Paragraph(it.unitPrice.formatUsAmount())).apply {
+                horizontalAlignment = Element.ALIGN_MIDDLE
+                border = PdfPCell.NO_BORDER
+            }
+            table.addCell(Paragraph(it.amount.formatUsAmount())).apply {
+                horizontalAlignment = Element.ALIGN_MIDDLE
+                border = PdfPCell.NO_BORDER
+            }
         }
+        return table
+    }
+
+    private fun amountDueTable(
+        value: Long
+    ): PdfPTable {
+        val table = PdfPTable(2)
+        table.widthPercentage = 40f
+        table.addCell(PdfPCell(Paragraph("Amount Due:"))).apply {
+            border = PdfPCell.NO_BORDER
+            horizontalAlignment = Element.ALIGN_RIGHT
+        }
+        table.addCell(PdfPCell(Paragraph(value.formatUsAmount()))).apply {
+            border = PdfPCell.NO_BORDER
+            horizontalAlignment = Element.ALIGN_RIGHT
+        }
+        table.horizontalAlignment = Element.ALIGN_RIGHT
         return table
     }
 
