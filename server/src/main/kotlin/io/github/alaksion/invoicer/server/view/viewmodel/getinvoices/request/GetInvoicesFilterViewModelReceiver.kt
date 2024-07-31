@@ -18,9 +18,9 @@ internal class GetInvoicesFilterViewModelReceiverImpl : GetInvoicesFilterViewMod
 
         return GetInvoicesFilterModel(
             minIssueDate = parseDate(model.minIssueDate, "Invalid date format: minIssueDate"),
-            maxIssueDate = parseDate(model.minIssueDate, "Invalid date format: maxIssueDate"),
-            minDueDate = parseDate(model.minIssueDate, "Invalid date format: minDueDate"),
-            maxDueDate = parseDate(model.minIssueDate, "Invalid date format: maxDueDate"),
+            maxIssueDate = parseDate(model.maxIssueDate, "Invalid date format: maxIssueDate"),
+            minDueDate = parseDate(model.minDueDate, "Invalid date format: minDueDate"),
+            maxDueDate = parseDate(model.maxDueDate, "Invalid date format: maxDueDate"),
             senderCompanyName = model.senderCompanyName,
             recipientCompanyName = model.recipientCompanyName,
         )

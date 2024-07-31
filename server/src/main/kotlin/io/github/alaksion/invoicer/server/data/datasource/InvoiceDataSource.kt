@@ -6,6 +6,7 @@ import io.github.alaksion.invoicer.server.data.entities.InvoiceTable
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
 import io.github.alaksion.invoicer.server.domain.model.getinvoices.GetInvoicesFilterModel
 import io.github.alaksion.invoicer.server.util.DateProvider
+import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.selectAll
 import java.util.*
@@ -84,8 +85,30 @@ internal class InvoiceDataSourceImpl(
     override fun getInvoicesFiltered(page: Long, limit: Int, filters: GetInvoicesFilterModel): List<InvoiceEntity> {
         val query = InvoiceTable
             .selectAll()
-            .limit(n = limit, offset = page * limit)
 
-        return InvoiceEntity.wrapRows(query).toList()
+        filters.senderCompanyName?.let { senderCompany ->
+            if (senderCompany.isNotBlank()) query.andWhere {
+                InvoiceTable.senderCompanyName like "%$senderCompany%"
+            }
+
+        }
+
+        filters.recipientCompanyName?.let { recipientCompany ->
+            if (recipientCompany.isNotBlank()) query.andWhere {
+                InvoiceTable.recipientCompanyName like "%$recipientCompany%"
+            }
+        }
+
+        if (filters.maxDueDate != null && filters.minDueDate != null) query.andWhere {
+            InvoiceTable.issueDate.between(filters.minDueDate, filters.maxDueDate)
+        }
+
+        if (filters.maxIssueDate != null && filters.minIssueDate != null) query.andWhere {
+            InvoiceTable.issueDate.between(filters.minIssueDate, filters.maxIssueDate)
+        }
+
+        return InvoiceEntity.wrapRows(
+            query.limit(n = limit, offset = page * limit)
+        ).toList()
     }
 }
