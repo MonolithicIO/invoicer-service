@@ -24,4 +24,8 @@ interface InvoiceRepository {
         page: Long,
         limit: Int
     ): List<InvoiceListItemModel>
+
+    suspend fun deleteByUUID(
+        id: UUID
+    )
 }

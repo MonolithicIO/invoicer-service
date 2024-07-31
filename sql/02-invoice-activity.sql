@@ -9,4 +9,5 @@ CREATE TABLE IF NOT EXISTS t_invoice_activity(
     constraint fk_invoice
         foreign key (invoice_id)
             references t_invoice(id)
+            ON DELETE CASCADE
 );

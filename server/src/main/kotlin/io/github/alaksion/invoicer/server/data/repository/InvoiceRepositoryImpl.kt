@@ -47,5 +47,11 @@ internal class InvoiceRepositoryImpl(
         }
     }
 
+    override suspend fun deleteByUUID(id: UUID) {
+        newSuspendedTransaction {
+            dataSource.deleteInvoice(id)
+        }
+    }
+
 
 }

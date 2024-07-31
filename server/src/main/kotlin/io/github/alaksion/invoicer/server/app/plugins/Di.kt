@@ -57,6 +57,12 @@ fun Application.installDi() {
                 repository = instance()
             )
         }
+        bindProvider<DeleteInvoiceUseCase> {
+            DeleteInvoiceUseCaseImpl(
+                repository = instance(),
+                getInvoiceByIdUseCase = instance()
+            )
+        }
 
         bindProvider<PdfGenerator>(DITags.OPEN_PDF_GENERATOR) {
             OpenPdfGenerator(

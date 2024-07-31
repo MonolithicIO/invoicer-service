@@ -10,4 +10,5 @@ CREATE TABLE IF NOT EXISTS t_invoice_pdf(
     constraint fk_t_invoice_pdf
         foreign key (invoice_id)
             references t_invoice(id)
+            ON DELETE CASCADE
 );

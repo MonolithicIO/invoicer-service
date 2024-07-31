@@ -1,9 +1,6 @@
 package io.github.alaksion.invoicer.server.view.controller
 
-import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCase
-import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoiceUseCase
-import io.github.alaksion.invoicer.server.domain.usecase.GetInvoiceByIdUseCase
-import io.github.alaksion.invoicer.server.domain.usecase.GetInvoicesUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.*
 import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.request.CreateInvoiceRequestViewModelReceiver
 import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.request.CreateInvoiceViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.request.GetInvoicesFilterViewModel
@@ -77,8 +74,11 @@ fun Application.invoiceController() {
                 pdfService.create(invoiceId!!)
                 call.respond("hehehehe")
             }
-            delete {
-
+            delete("/{id}") {
+                val invoiceId = call.parameters["id"]!!
+                val deleteUseCase by closestDI().instance<DeleteInvoiceUseCase>()
+                deleteUseCase.delete(invoiceId)
+                call.respond(HttpStatusCode.NoContent)
             }
         }
     }

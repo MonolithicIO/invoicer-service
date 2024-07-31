@@ -5,6 +5,7 @@ import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
+import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.kotlin.datetime.date
 import java.util.*
 
@@ -14,7 +15,7 @@ internal object InvoiceActivityTable : UUIDTable("t_invoice_activity") {
     val unitPrice = long("unit_price")
     val createdAt = date("created_at")
     val updatedAt = date("updated_at")
-    val invoice = reference("invoice_id", InvoiceTable)
+    val invoice = reference(name = "invoice_id", foreign = InvoiceTable, onDelete = ReferenceOption.CASCADE)
 }
 
 internal class InvoiceActivityEntity(id: EntityID<UUID>) : UUIDEntity(id) {
