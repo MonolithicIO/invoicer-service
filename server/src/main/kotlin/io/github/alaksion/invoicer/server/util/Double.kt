@@ -1,4 +1,4 @@
-package io.github.alaksion.invoicer.server.utils
+package io.github.alaksion.invoicer.server.util
 
 import java.text.NumberFormat
 import java.util.*

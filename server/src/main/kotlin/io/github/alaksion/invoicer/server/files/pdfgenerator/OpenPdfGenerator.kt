@@ -8,7 +8,7 @@ import io.github.alaksion.invoicer.server.domain.model.InvoiceModel
 import io.github.alaksion.invoicer.server.domain.model.InvoiceModelActivityModel
 import io.github.alaksion.invoicer.server.files.filehandler.FileHandler
 import io.github.alaksion.invoicer.server.files.pdfgenerator.components.OpenPdfSpacer
-import io.github.alaksion.invoicer.server.utils.formatUsAmount
+import io.github.alaksion.invoicer.server.util.formatUsAmount
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.coroutines.resume

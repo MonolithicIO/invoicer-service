@@ -3,9 +3,9 @@ package io.github.alaksion.invoicer.server.domain.usecase
 import io.github.alaksion.invoicer.server.data.entities.InvoicePDFStatus
 import io.github.alaksion.invoicer.server.domain.errors.HttpError
 import io.github.alaksion.invoicer.server.domain.model.InvoiceModel
+import io.github.alaksion.invoicer.server.domain.repository.InvoicePdfRepository
 import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository
 import io.github.alaksion.invoicer.server.files.pdfgenerator.PdfGenerator
-import io.github.alaksion.invoicer.server.repository.InvoicePdfRepository
 import io.ktor.http.*
 import java.util.*
 
@@ -53,7 +53,7 @@ internal class CreateInvoicePdfUseCaseImpl(
     private suspend fun deleteExistingPdfIfExists(invoiceId: UUID) {
         val existingPdf = invoicePdfRepository.findPdfByInvoiceId(invoiceId)
         existingPdf?.let { pdf ->
-            invoicePdfRepository.deleteInvoicePdf(pdf.id.value)
+            invoicePdfRepository.deleteInvoicePdf(UUID.fromString(pdf.id))
         }
     }
 
