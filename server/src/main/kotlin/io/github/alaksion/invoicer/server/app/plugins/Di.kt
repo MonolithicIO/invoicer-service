@@ -47,6 +47,7 @@ fun Application.installDi() {
         bindProvider<CreateInvoiceUseCase> {
             CreateInvoiceUseCaseImpl(
                 invoiceRepository = instance(),
+                dateProvider = instance()
             )
         }
         bindProvider<CreateInvoicePdfUseCase> {
