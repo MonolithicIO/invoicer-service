@@ -3,10 +3,14 @@ package io.github.alaksion.invoicer.server.app.plugins
 import io.github.alaksion.invoicer.server.app.plugins.DITags.TEMP_FILE_HANDLER
 import io.github.alaksion.invoicer.server.data.datasource.InvoiceDataSource
 import io.github.alaksion.invoicer.server.data.datasource.InvoiceDataSourceImpl
+import io.github.alaksion.invoicer.server.data.datasource.UserDataSource
+import io.github.alaksion.invoicer.server.data.datasource.UserDataSourceImpl
 import io.github.alaksion.invoicer.server.data.repository.InvoicePdfRepositoryImpl
 import io.github.alaksion.invoicer.server.data.repository.InvoiceRepositoryImpl
 import io.github.alaksion.invoicer.server.domain.repository.InvoicePdfRepository
 import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository
+import io.github.alaksion.invoicer.server.domain.repository.UserRepository
+import io.github.alaksion.invoicer.server.domain.repository.UserRepositoryImpl
 import io.github.alaksion.invoicer.server.domain.usecase.*
 import io.github.alaksion.invoicer.server.files.filehandler.FileHandler
 import io.github.alaksion.invoicer.server.files.filehandler.TempFileHandler
@@ -37,6 +41,12 @@ fun Application.installDi() {
         bindProvider<GetInvoicesFilterViewModelReceiver> { GetInvoicesFilterViewModelReceiverImpl() }
         bindProvider<GetInvoicesViewModelSender> { GetInvoicesViewModelSenderImpl() }
         bindProvider<InvoiceDetailsViewModelSender> { InvoiceDetailsViewModelSenderImpl() }
+        bindProvider<UserDataSource> { UserDataSourceImpl() }
+        bindProvider<UserRepository> {
+            UserRepositoryImpl(
+                dataSource = instance()
+            )
+        }
 
         bindProvider<InvoicePdfRepository> {
             InvoicePdfRepositoryImpl(
