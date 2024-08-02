@@ -1,11 +1,11 @@
 package io.github.alaksion.invoicer.server.view.controller
 
 import io.github.alaksion.invoicer.server.domain.usecase.*
-import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.request.CreateInvoiceRequestViewModelReceiver
 import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.request.CreateInvoiceViewModel
+import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.request.receiveCreateInvoiceViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.request.GetInvoicesFilterViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.request.GetInvoicesFilterViewModelReceiver
-import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.response.GetInvoicesViewModelSender
+import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.request.receiveGetInvoicesFilterViewModel
+import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.response.toViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSender
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -41,28 +41,22 @@ fun Application.invoiceController() {
                     senderCompanyName = call.request.queryParameters["senderCompanyName"],
                     recipientCompanyName = call.request.queryParameters["recipientCompanyName"],
                 )
-                val receiver by closestDI().instance<GetInvoicesFilterViewModelReceiver>()
                 val findService by closestDI().instance<GetInvoicesUseCase>()
-                val sender by closestDI().instance<GetInvoicesViewModelSender>()
 
                 call.respond(
-                    message = sender.send(
-                        findService.get(
-                            filters = receiver.receive(filters),
-                            limit = limit,
-                            page = page
-                        )
-                    ),
+                    message = findService.get(
+                        filters = receiveGetInvoicesFilterViewModel(filters),
+                        limit = limit,
+                        page = page
+                    ).toViewModel(),
                     status = HttpStatusCode.OK
                 )
             }
             post {
                 val body = call.receive<CreateInvoiceViewModel>()
-
-                val receiver by closestDI().instance<CreateInvoiceRequestViewModelReceiver>()
                 val createService by closestDI().instance<CreateInvoiceUseCase>()
 
-                val response = createService.createInvoice(receiver.receive(body))
+                val response = createService.createInvoice(receiveCreateInvoiceViewModel(body))
                 call.respond(
                     message = response,
                     status = HttpStatusCode.Created

@@ -18,12 +18,6 @@ import io.github.alaksion.invoicer.server.files.pdfgenerator.OpenPdfGenerator
 import io.github.alaksion.invoicer.server.files.pdfgenerator.PdfGenerator
 import io.github.alaksion.invoicer.server.util.DateProvider
 import io.github.alaksion.invoicer.server.util.DateProviderImplementation
-import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.request.CreateInvoiceRequestViewModelReceiver
-import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.request.CreateInvoiceRequestViewModelReceiverImpl
-import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.request.GetInvoicesFilterViewModelReceiver
-import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.request.GetInvoicesFilterViewModelReceiverImpl
-import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.response.GetInvoicesViewModelSender
-import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.response.GetInvoicesViewModelSenderImpl
 import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSender
 import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSenderImpl
 import io.ktor.server.application.*
@@ -36,10 +30,6 @@ fun Application.installDi() {
 
         bindProvider<InvoiceRepository> { InvoiceRepositoryImpl(dataSource = instance()) }
         bindProvider<InvoiceDataSource> { InvoiceDataSourceImpl(dateProvider = instance()) }
-        bindProvider<CreateInvoiceRequestViewModelReceiver> { CreateInvoiceRequestViewModelReceiverImpl() }
-
-        bindProvider<GetInvoicesFilterViewModelReceiver> { GetInvoicesFilterViewModelReceiverImpl() }
-        bindProvider<GetInvoicesViewModelSender> { GetInvoicesViewModelSenderImpl() }
         bindProvider<InvoiceDetailsViewModelSender> { InvoiceDetailsViewModelSenderImpl() }
         bindProvider<UserDataSource> { UserDataSourceImpl() }
         bindProvider<UserRepository> {
