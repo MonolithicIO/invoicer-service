@@ -11,6 +11,7 @@ logback = "1.4.14"
 postgres = "42.5.1"
 h2 = "2.1.214"
 swagger = "2.9.0"
+bcrypt = "0.4"
 
 [libraries]
 kodein-server = { module = "org.kodein.di:kodein-di-framework-ktor-server-jvm", version.ref = "kodein" }
@@ -52,6 +53,9 @@ ktor-server-tests-jvm = { module = "io.ktor:ktor-server-tests-jvm" }
 
 # Swagger
 swagger = { module = "io.github.smiley4:ktor-swagger-ui", version.ref = "swagger" }
+
+# Bcrypt
+bcrypt = { module = "org.mindrot:jbcrypt", version.ref = "bcrypt" }
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

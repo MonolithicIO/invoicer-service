@@ -4,22 +4,24 @@ import io.github.alaksion.invoicer.server.domain.errors.badRequestError
 import io.github.alaksion.invoicer.server.domain.errors.httpError
 import io.github.alaksion.invoicer.server.domain.model.user.CreateUserModel
 import io.github.alaksion.invoicer.server.domain.repository.UserRepository
-import io.github.alaksion.invoicer.server.util.PasswordStrength
-import io.github.alaksion.invoicer.server.util.PasswordValidator
+import utils.password.PasswordStrength
+import utils.password.PasswordValidator
 import io.github.alaksion.invoicer.server.util.isValidEmail
 import io.ktor.http.*
+import utils.password.PasswordEncryption
 
 interface CreateUserUseCase {
-    suspend fun create(userModel: CreateUserModel)
+    suspend fun create(userModel: CreateUserModel): String
 }
 
 internal class CreateUserUseCaseImpl(
     private val getUserByEmailUseCase: GetUserByEmailUseCase,
     private val passwordValidator: PasswordValidator,
-    private val repository: UserRepository
+    private val repository: UserRepository,
+    private val passwordEncryption: PasswordEncryption
 ) : CreateUserUseCase {
 
-    override suspend fun create(userModel: CreateUserModel) {
+    override suspend fun create(userModel: CreateUserModel): String {
 
         if (userModel.email != userModel.confirmEmail)
             badRequestError(message = "E-mails must mach")
@@ -36,7 +38,9 @@ internal class CreateUserUseCaseImpl(
             badRequestError(message = passwordLevel.reason)
         }
 
+        val encryptedPassword = passwordEncryption.encryptPassword(userModel.password)
 
+        return repository.createUser(userModel.copy(password = encryptedPassword))
     }
 
 }

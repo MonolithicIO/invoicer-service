@@ -14,6 +14,8 @@ import io.github.alaksion.invoicer.server.domain.repository.UserRepositoryImpl
 import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.*
+import io.github.alaksion.invoicer.server.domain.usecase.user.CreateUserUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.user.CreateUserUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.user.GetUserByEmailUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.user.GetUserByEmailUseCaseImpl
 import io.github.alaksion.invoicer.server.files.filehandler.FileHandler
@@ -22,17 +24,17 @@ import io.github.alaksion.invoicer.server.files.pdfgenerator.OpenPdfGenerator
 import io.github.alaksion.invoicer.server.files.pdfgenerator.PdfGenerator
 import io.github.alaksion.invoicer.server.util.DateProvider
 import io.github.alaksion.invoicer.server.util.DateProviderImplementation
-import io.github.alaksion.invoicer.server.util.PasswordValidator
-import io.github.alaksion.invoicer.server.util.PasswordValidatorImpl
 import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSender
 import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSenderImpl
 import io.ktor.server.application.*
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
 import org.kodein.di.ktor.di
+import utils.password.di.utilPasswordDi
 
 fun Application.installDi() {
     di {
+        import(utilPasswordDi)
 
         bindProvider<InvoiceRepository> { InvoiceRepositoryImpl(dataSource = instance()) }
         bindProvider<InvoiceDataSource> { InvoiceDataSourceImpl(dateProvider = instance()) }
@@ -91,7 +93,14 @@ fun Application.installDi() {
 
         bindProvider<GetUserByEmailUseCase> { GetUserByEmailUseCaseImpl(userRepository = instance()) }
 
-        bindProvider<PasswordValidator> { PasswordValidatorImpl() }
+        bindProvider<CreateUserUseCase> {
+            CreateUserUseCaseImpl(
+                getUserByEmailUseCase = instance(),
+                passwordValidator = instance(),
+                passwordEncryption = instance(),
+                repository = instance()
+            )
+        }
     }
 }
 

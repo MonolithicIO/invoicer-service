@@ -1,4 +1,4 @@
-package io.github.alaksion.invoicer.server.util
+package utils.password
 
 interface PasswordValidator {
     fun validate(password: String): PasswordStrength
