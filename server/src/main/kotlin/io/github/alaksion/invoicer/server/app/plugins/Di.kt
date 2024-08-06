@@ -11,13 +11,19 @@ import io.github.alaksion.invoicer.server.domain.repository.InvoicePdfRepository
 import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository
 import io.github.alaksion.invoicer.server.domain.repository.UserRepository
 import io.github.alaksion.invoicer.server.domain.repository.UserRepositoryImpl
-import io.github.alaksion.invoicer.server.domain.usecase.*
+import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.invoice.*
+import io.github.alaksion.invoicer.server.domain.usecase.user.GetUserByEmailUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.user.GetUserByEmailUseCaseImpl
 import io.github.alaksion.invoicer.server.files.filehandler.FileHandler
 import io.github.alaksion.invoicer.server.files.filehandler.TempFileHandler
 import io.github.alaksion.invoicer.server.files.pdfgenerator.OpenPdfGenerator
 import io.github.alaksion.invoicer.server.files.pdfgenerator.PdfGenerator
 import io.github.alaksion.invoicer.server.util.DateProvider
 import io.github.alaksion.invoicer.server.util.DateProviderImplementation
+import io.github.alaksion.invoicer.server.util.PasswordValidator
+import io.github.alaksion.invoicer.server.util.PasswordValidatorImpl
 import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSender
 import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSenderImpl
 import io.ktor.server.application.*
@@ -82,6 +88,10 @@ fun Application.installDi() {
         bindProvider<GetInvoiceByIdUseCase> {
             GetInvoiceByIdUseCaseImpl(repository = instance())
         }
+
+        bindProvider<GetUserByEmailUseCase> { GetUserByEmailUseCaseImpl(userRepository = instance()) }
+
+        bindProvider<PasswordValidator> { PasswordValidatorImpl() }
     }
 }
 

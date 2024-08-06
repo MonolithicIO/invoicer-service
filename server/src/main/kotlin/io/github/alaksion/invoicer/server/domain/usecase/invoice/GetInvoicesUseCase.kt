@@ -1,4 +1,4 @@
-package io.github.alaksion.invoicer.server.domain.usecase
+package io.github.alaksion.invoicer.server.domain.usecase.invoice
 
 import io.github.alaksion.invoicer.server.domain.errors.httpError
 import io.github.alaksion.invoicer.server.domain.model.getinvoices.GetInvoicesFilterModel

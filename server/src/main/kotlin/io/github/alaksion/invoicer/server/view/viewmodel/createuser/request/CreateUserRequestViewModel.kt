@@ -17,8 +17,8 @@ fun receiveUserRequest(request: CreateUserRequestViewModel): CreateUserModel {
     if (request.confirmEmail.isNullOrBlank()) badRequestError(message = "confirm e-mail field is required")
 
     return CreateUserModel(
-        email = request.email,
-        password = request.password,
-        confirmEmail = request.confirmEmail
+        email = request.email.trim(),
+        password = request.password.trim(),
+        confirmEmail = request.confirmEmail.trim()
     )
 }

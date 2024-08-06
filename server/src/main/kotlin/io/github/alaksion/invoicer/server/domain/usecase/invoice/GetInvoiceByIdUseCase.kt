@@ -1,6 +1,5 @@
-package io.github.alaksion.invoicer.server.domain.usecase
+package io.github.alaksion.invoicer.server.domain.usecase.invoice
 
-import io.github.alaksion.invoicer.server.data.entities.InvoiceEntity
 import io.github.alaksion.invoicer.server.domain.errors.HttpError
 import io.github.alaksion.invoicer.server.domain.model.InvoiceModel
 import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository

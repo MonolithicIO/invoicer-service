@@ -1,6 +1,10 @@
 package io.github.alaksion.invoicer.server.view.controller
 
 import io.github.alaksion.invoicer.server.domain.usecase.*
+import io.github.alaksion.invoicer.server.domain.usecase.invoice.CreateInvoiceUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.invoice.DeleteInvoiceUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.invoice.GetInvoiceByIdUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.invoice.GetInvoicesUseCase
 import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.request.CreateInvoiceViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.request.receiveCreateInvoiceViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.request.GetInvoicesFilterViewModel
