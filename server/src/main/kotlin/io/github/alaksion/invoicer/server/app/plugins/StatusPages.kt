@@ -1,11 +1,10 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
-import io.github.alaksion.invoicer.server.domain.errors.ErrorBody
-import io.github.alaksion.invoicer.server.domain.errors.HttpError
-import io.ktor.server.application.Application
-import io.ktor.server.application.install
-import io.ktor.server.plugins.statuspages.StatusPages
-import io.ktor.server.response.respond
+import io.ktor.server.application.*
+import io.ktor.server.plugins.statuspages.*
+import io.ktor.server.response.*
+import utils.exceptions.ErrorBody
+import utils.exceptions.HttpError
 
 fun Application.installStatusPages() {
     install(StatusPages) {

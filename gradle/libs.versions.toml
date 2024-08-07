@@ -12,6 +12,7 @@ postgres = "42.5.1"
 h2 = "2.1.214"
 swagger = "2.9.0"
 bcrypt = "0.4"
+serialization-json = "1.7.1"
 
 [libraries]
 kodein-server = { module = "org.kodein.di:kodein-di-framework-ktor-server-jvm", version.ref = "kodein" }
@@ -33,6 +34,7 @@ logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 # Kotlin
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime-jvm", version.ref = "datetime" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization-json" }
 
 # Detekt
 detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
@@ -50,6 +52,8 @@ ktor-server-webjars-jvm = { module = "io.ktor:ktor-server-webjars-jvm" }
 ktor-server-netty-jvm = { module = "io.ktor:ktor-server-netty-jvm" }
 ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml" }
 ktor-server-tests-jvm = { module = "io.ktor:ktor-server-tests-jvm" }
+ktor-server-auth-core = { module = "io.ktor:ktor-server-auth" }
+ktor-server-auth-jwt = { module = 'io.ktor:ktor-server-auth-jwt' }
 
 # Swagger
 swagger = { module = "io.github.smiley4:ktor-swagger-ui", version.ref = "swagger" }
@@ -76,5 +80,7 @@ ktor = [
     "ktor-server-resources-jvm",
     "ktor-server-webjars-jvm",
     "ktor-server-netty-jvm",
-    "ktor-server-config-yaml"
+    "ktor-server-config-yaml",
+    "ktor-server-auth-core",
+    "ktor-server-auth-jwt"
 ]

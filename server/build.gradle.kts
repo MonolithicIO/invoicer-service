@@ -29,6 +29,9 @@ dependencies {
     implementation("org.webjars:jquery:3.2.1")
     implementation(libs.swagger)
     implementation(projects.utils.password.api)
+    implementation(projects.utils.date.api)
+    implementation(projects.utils.authentication.api)
+    implementation(projects.utils.exceptions)
 
     testImplementation(libs.ktor.server.tests.jvm)
     testImplementation(libs.kotlin.test)

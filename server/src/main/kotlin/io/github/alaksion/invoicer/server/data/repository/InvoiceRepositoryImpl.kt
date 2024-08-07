@@ -16,9 +16,12 @@ internal class InvoiceRepositoryImpl(
     private val dataSource: InvoiceDataSource
 ) : InvoiceRepository {
 
-    override suspend fun createInvoice(data: CreateInvoiceModel): String {
+    override suspend fun createInvoice(
+        data: CreateInvoiceModel,
+        userId: UUID,
+    ): String {
         return newSuspendedTransaction {
-            dataSource.createInvoice(data)
+            dataSource.createInvoice(data, userId)
         }
     }
 

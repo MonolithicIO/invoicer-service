@@ -1,6 +1,6 @@
 package io.github.alaksion.invoicer.server.view.controller
 
-import io.github.alaksion.invoicer.server.domain.usecase.*
+import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.CreateInvoiceUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.DeleteInvoiceUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.GetInvoiceByIdUseCase
@@ -13,11 +13,15 @@ import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.response.to
 import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSender
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
+import utils.authentication.api.jwt.jwtProtected
+import utils.authentication.api.jwt.jwtUserId
 
 fun Application.invoiceController() {
 
@@ -56,15 +60,19 @@ fun Application.invoiceController() {
                     status = HttpStatusCode.OK
                 )
             }
-            post {
-                val body = call.receive<CreateInvoiceViewModel>()
-                val createService by closestDI().instance<CreateInvoiceUseCase>()
-
-                val response = createService.createInvoice(receiveCreateInvoiceViewModel(body))
-                call.respond(
-                    message = response,
-                    status = HttpStatusCode.Created
-                )
+            jwtProtected {
+                post {
+                    val body = call.receive<CreateInvoiceViewModel>()
+                    val createService by closestDI().instance<CreateInvoiceUseCase>()
+                    val response = createService.createInvoice(
+                        model = receiveCreateInvoiceViewModel(body),
+                        userId = jwtUserId()
+                    )
+                    call.respond(
+                        message = response,
+                        status = HttpStatusCode.Created
+                    )
+                }
             }
             post("/pdf/{id}") {
                 val invoiceId = call.parameters["id"]

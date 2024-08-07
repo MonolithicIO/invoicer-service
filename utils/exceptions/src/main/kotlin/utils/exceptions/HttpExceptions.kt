@@ -1,4 +1,4 @@
-package io.github.alaksion.invoicer.server.domain.errors
+package utils.exceptions
 
 import io.ktor.http.*
 

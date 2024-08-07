@@ -1,12 +1,12 @@
 package io.github.alaksion.invoicer.server.domain.usecase
 
 import io.github.alaksion.invoicer.server.data.entities.InvoicePDFStatus
-import io.github.alaksion.invoicer.server.domain.errors.HttpError
 import io.github.alaksion.invoicer.server.domain.model.InvoiceModel
 import io.github.alaksion.invoicer.server.domain.repository.InvoicePdfRepository
 import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository
 import io.github.alaksion.invoicer.server.files.pdfgenerator.PdfGenerator
 import io.ktor.http.*
+import utils.exceptions.HttpError
 import java.util.*
 
 interface CreateInvoicePdfUseCase {

@@ -1,18 +1,22 @@
 package io.github.alaksion.invoicer.server.domain.usecase.invoice
 
-import io.github.alaksion.invoicer.server.domain.errors.HttpError
-import io.github.alaksion.invoicer.server.domain.errors.httpError
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceActivityModel
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
 import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository
-import io.github.alaksion.invoicer.server.util.DateProvider
 import io.github.alaksion.invoicer.server.validation.validateSwiftCode
 import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.response.CreateInvoiceResponseViewModel
 import io.ktor.http.*
 import kotlinx.datetime.LocalDate
+import utils.date.api.DateProvider
+import utils.exceptions.HttpError
+import utils.exceptions.httpError
+import java.util.*
 
 internal interface CreateInvoiceUseCase {
-    suspend fun createInvoice(model: CreateInvoiceModel): CreateInvoiceResponseViewModel
+    suspend fun createInvoice(
+        model: CreateInvoiceModel,
+        userId: String
+    ): CreateInvoiceResponseViewModel
 }
 
 internal class CreateInvoiceUseCaseImpl(
@@ -20,7 +24,10 @@ internal class CreateInvoiceUseCaseImpl(
     private val dateProvider: DateProvider
 ) : CreateInvoiceUseCase {
 
-    override suspend fun createInvoice(model: CreateInvoiceModel): CreateInvoiceResponseViewModel {
+    override suspend fun createInvoice(
+        model: CreateInvoiceModel,
+        userId: String,
+    ): CreateInvoiceResponseViewModel {
         validateActivities(model.activities)
 
         validateSwifts(
@@ -39,7 +46,7 @@ internal class CreateInvoiceUseCaseImpl(
             )
         }
 
-        val response = invoiceRepository.createInvoice(data = model)
+        val response = invoiceRepository.createInvoice(data = model, userId = UUID.fromString(userId))
 
         return CreateInvoiceResponseViewModel(
             externalInvoiceId = model.externalId,

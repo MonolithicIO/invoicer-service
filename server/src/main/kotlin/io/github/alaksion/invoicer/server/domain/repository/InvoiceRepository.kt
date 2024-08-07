@@ -8,7 +8,8 @@ import java.util.*
 
 interface InvoiceRepository {
     suspend fun createInvoice(
-        data: CreateInvoiceModel
+        data: CreateInvoiceModel,
+        userId: UUID,
     ): String
 
     suspend fun getInvoiceByUUID(

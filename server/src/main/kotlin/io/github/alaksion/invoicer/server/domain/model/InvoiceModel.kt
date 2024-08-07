@@ -1,5 +1,6 @@
 package io.github.alaksion.invoicer.server.domain.model
 
+import io.github.alaksion.invoicer.server.domain.model.user.UserModel
 import kotlinx.datetime.LocalDate
 import java.util.*
 
@@ -24,6 +25,7 @@ data class InvoiceModel(
     val createdAt: LocalDate,
     val updatedAt: LocalDate,
     val activities: List<InvoiceModelActivityModel>,
+    val user: UserModel
 )
 
 data class InvoiceModelActivityModel(

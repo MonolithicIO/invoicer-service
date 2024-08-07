@@ -17,5 +17,10 @@ CREATE TABLE IF NOT EXISTS t_invoice (
     intermediary_bank_name varchar,
     intermediary_bank_address varchar,
     created_at DATE DEFAULT CURRENT_DATE,
-    updated_at DATE DEFAULT CURRENT_DATE
+    updated_at DATE DEFAULT CURRENT_DATE,
+    user_id uuid not null,
+    constraint fk_invoice_to_user
+        foreign key (user_id)
+            references t_user(id)
+            on delete CASCADE
 );

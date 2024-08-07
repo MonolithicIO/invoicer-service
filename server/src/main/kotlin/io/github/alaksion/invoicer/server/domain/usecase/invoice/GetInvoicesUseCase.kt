@@ -1,11 +1,11 @@
 package io.github.alaksion.invoicer.server.domain.usecase.invoice
 
-import io.github.alaksion.invoicer.server.domain.errors.httpError
 import io.github.alaksion.invoicer.server.domain.model.getinvoices.GetInvoicesFilterModel
 import io.github.alaksion.invoicer.server.domain.model.getinvoices.InvoiceListItemModel
 import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository
 import io.ktor.http.*
 import kotlinx.datetime.LocalDate
+import utils.exceptions.httpError
 
 internal interface GetInvoicesUseCase {
     suspend fun get(filters: GetInvoicesFilterModel, page: Long, limit: Int): List<InvoiceListItemModel>

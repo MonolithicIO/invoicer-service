@@ -19,7 +19,7 @@ data class CreateInvoiceModel(
     val intermediarySwift: String? = null,
     val intermediaryBankName: String? = null,
     val intermediaryBankAddress: String? = null,
-    val activities: List<CreateInvoiceActivityModel>
+    val activities: List<CreateInvoiceActivityModel>,
 )
 
 

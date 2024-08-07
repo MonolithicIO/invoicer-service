@@ -1,9 +1,9 @@
 package io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.request
 
-import io.github.alaksion.invoicer.server.domain.errors.badRequestError
 import io.github.alaksion.invoicer.server.domain.model.getinvoices.GetInvoicesFilterModel
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
+import utils.exceptions.badRequestError
 
 @Serializable
 data class GetInvoicesFilterViewModel(
@@ -30,7 +30,7 @@ fun receiveGetInvoicesFilterViewModel(
     )
 }
 
-private fun parseDate(rawString: String?, errorMessage: String): LocalDate? {
+private fun parseDate(rawString: String?, errorMessage: String): Any? {
     return rawString?.let {
         runCatching {
             LocalDate.parse(rawString)

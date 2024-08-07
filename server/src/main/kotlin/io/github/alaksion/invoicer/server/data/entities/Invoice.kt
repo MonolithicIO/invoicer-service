@@ -9,6 +9,7 @@ import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.kotlin.datetime.date
 import java.util.*
 
@@ -32,6 +33,7 @@ internal object InvoiceTable : UUIDTable("t_invoice") {
     val intermediaryBankAddress = varchar("intermediary_bank_address", 1000).nullable()
     val createdAt = date("created_at")
     val updatedAt = date("updated_at")
+    val user = reference(name = "user_id", foreign = UserTable, onDelete = ReferenceOption.CASCADE)
 }
 
 internal class InvoiceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
@@ -56,6 +58,7 @@ internal class InvoiceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var createdAt by InvoiceTable.createdAt
     var updatedAt by InvoiceTable.updatedAt
     val activities by InvoiceActivityEntity referrersOn InvoiceActivityTable.invoice
+    var user by UserEntity referencedOn InvoiceTable.user
 }
 
 internal fun InvoiceEntity.toModel(): InvoiceModel {
@@ -87,6 +90,7 @@ internal fun InvoiceEntity.toModel(): InvoiceModel {
                 id = it.id.value
             )
         },
+        user = this.user.toModel()
     )
 }
 

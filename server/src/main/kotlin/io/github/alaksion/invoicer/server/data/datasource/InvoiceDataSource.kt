@@ -5,17 +5,15 @@ import io.github.alaksion.invoicer.server.data.entities.InvoiceEntity
 import io.github.alaksion.invoicer.server.data.entities.InvoiceTable
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
 import io.github.alaksion.invoicer.server.domain.model.getinvoices.GetInvoicesFilterModel
-import io.github.alaksion.invoicer.server.util.DateProvider
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.andWhere
-import org.jetbrains.exposed.sql.batchInsert
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.selectAll
+import utils.date.api.DateProvider
 import java.util.*
 
 internal interface InvoiceDataSource {
     fun createInvoice(
-        data: CreateInvoiceModel
+        data: CreateInvoiceModel,
+        userId: UUID
     ): String
 
     fun getInvoiceByUUID(
@@ -41,30 +39,34 @@ internal class InvoiceDataSourceImpl(
     private val dateProvider: DateProvider
 ) : InvoiceDataSource {
 
-    override fun createInvoice(data: CreateInvoiceModel): String {
-        val newInvoice = InvoiceEntity.new {
-            externalId = data.externalId
-            externalId = data.externalId
-            senderCompanyName = data.senderCompanyName
-            senderCompanyAddress = data.senderCompanyName
-            recipientCompanyName = data.recipientCompanyName
-            recipientCompanyAddress = data.recipientCompanyAddress
-            issueDate = data.issueDate
-            dueDate = data.dueDate
-            beneficiaryName = data.beneficiaryName
-            beneficiaryIban = data.beneficiaryIban
-            beneficiarySwift = data.beneficiarySwift
-            beneficiaryBankName = data.beneficiaryBankName
-            beneficiaryBankAddress = data.beneficiaryBankAddress
+    override fun createInvoice(
+        data: CreateInvoiceModel,
+        userId: UUID
+    ): String {
+        val newInvoice = InvoiceTable.insertAndGetId {
+            it[externalId] = data.externalId
+            it[externalId] = data.externalId
+            it[senderCompanyName] = data.senderCompanyName
+            it[senderCompanyAddress] = data.senderCompanyName
+            it[recipientCompanyName] = data.recipientCompanyName
+            it[recipientCompanyAddress] = data.recipientCompanyAddress
+            it[issueDate] = data.issueDate
+            it[dueDate] = data.dueDate
+            it[beneficiaryName] = data.beneficiaryName
+            it[beneficiaryIban] = data.beneficiaryIban
+            it[beneficiarySwift] = data.beneficiarySwift
+            it[beneficiaryBankName] = data.beneficiaryBankName
+            it[beneficiaryBankAddress] = data.beneficiaryBankAddress
 
-            intermediaryIban = data.intermediaryIban
-            intermediarySwift = data.intermediarySwift
-            intermediaryBankName = data.intermediaryBankName
-            intermediaryBankAddress = data.intermediaryBankAddress
-            createdAt = dateProvider.now()
-            updatedAt = dateProvider.now()
+            it[intermediaryIban] = data.intermediaryIban
+            it[intermediarySwift] = data.intermediarySwift
+            it[intermediaryBankName] = data.intermediaryBankName
+            it[intermediaryBankAddress] = data.intermediaryBankAddress
+            it[createdAt] = dateProvider.now()
+            it[updatedAt] = dateProvider.now()
+            it[user] = userId
         }
-        val createdInvoiceId = newInvoice.id.value
+        val createdInvoiceId = newInvoice.value
 
         InvoiceActivityTable.batchInsert(data.activities) { item ->
             this[InvoiceActivityTable.invoice] = createdInvoiceId

@@ -1,9 +1,9 @@
 package io.github.alaksion.invoicer.server.domain.usecase.invoice
 
-import io.github.alaksion.invoicer.server.domain.errors.HttpError
 import io.github.alaksion.invoicer.server.domain.model.InvoiceModel
 import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository
 import io.ktor.http.*
+import utils.exceptions.HttpError
 import java.util.*
 
 internal interface GetInvoiceByIdUseCase {

@@ -22,19 +22,21 @@ import io.github.alaksion.invoicer.server.files.filehandler.FileHandler
 import io.github.alaksion.invoicer.server.files.filehandler.TempFileHandler
 import io.github.alaksion.invoicer.server.files.pdfgenerator.OpenPdfGenerator
 import io.github.alaksion.invoicer.server.files.pdfgenerator.PdfGenerator
-import io.github.alaksion.invoicer.server.util.DateProvider
-import io.github.alaksion.invoicer.server.util.DateProviderImplementation
 import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSender
 import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSenderImpl
 import io.ktor.server.application.*
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
 import org.kodein.di.ktor.di
+import utils.authentication.api.di.utilsAuthenticationModule
+import utils.date.api.di.utilsDateModule
 import utils.password.di.utilPasswordDi
 
 fun Application.installDi() {
     di {
         import(utilPasswordDi)
+        import(utilsDateModule)
+        import(utilsAuthenticationModule)
 
         bindProvider<InvoiceRepository> { InvoiceRepositoryImpl(dataSource = instance()) }
         bindProvider<InvoiceDataSource> { InvoiceDataSourceImpl(dateProvider = instance()) }
@@ -84,8 +86,6 @@ fun Application.installDi() {
         }
 
         bindProvider<FileHandler>(TEMP_FILE_HANDLER) { TempFileHandler }
-
-        bindProvider<DateProvider> { DateProviderImplementation }
 
         bindProvider<GetInvoiceByIdUseCase> {
             GetInvoiceByIdUseCaseImpl(repository = instance())
