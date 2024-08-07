@@ -9,7 +9,7 @@ import java.util.*
 
 internal object UserTable : UUIDTable("T_USER") {
     val email = varchar(name = "email", length = 500)
-    val password = varchar(name = "password", length = 20)
+    val password = varchar(name = "password", length = 60)
     val verified = bool("verified")
 }
 
