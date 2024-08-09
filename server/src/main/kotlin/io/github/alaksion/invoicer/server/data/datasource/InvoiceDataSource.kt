@@ -27,7 +27,8 @@ internal interface InvoiceDataSource {
     fun getInvoicesFiltered(
         page: Long,
         limit: Int,
-        filters: GetInvoicesFilterModel
+        filters: GetInvoicesFilterModel,
+        userId: String,
     ): List<InvoiceEntity>
 
     fun deleteInvoice(
@@ -90,9 +91,17 @@ internal class InvoiceDataSourceImpl(
         }.firstOrNull()
     }
 
-    override fun getInvoicesFiltered(page: Long, limit: Int, filters: GetInvoicesFilterModel): List<InvoiceEntity> {
+    override fun getInvoicesFiltered(
+        page: Long,
+        limit: Int,
+        filters: GetInvoicesFilterModel,
+        userId: String,
+    ): List<InvoiceEntity> {
         val query = InvoiceTable
             .selectAll()
+            .where {
+                InvoiceTable.user eq UUID.fromString(userId)
+            }
 
         filters.senderCompanyName?.let { senderCompany ->
             if (senderCompany.isNotBlank()) query.andWhere {

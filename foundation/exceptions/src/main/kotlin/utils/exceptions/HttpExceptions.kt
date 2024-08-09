@@ -15,3 +15,6 @@ fun badRequestError(message: String): Nothing = httpError(message = message, cod
 fun notFoundError(message: String): Nothing = httpError(message = message, code = HttpStatusCode.NotFound)
 
 fun unauthorizedError(message: String): Nothing = httpError(message = message, code = HttpStatusCode.Unauthorized)
+
+fun unauthorizedResourceError(): Nothing =
+    httpError(message = "User has no access to this resource", code = HttpStatusCode.Unauthorized)

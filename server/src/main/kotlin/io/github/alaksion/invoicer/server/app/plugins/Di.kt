@@ -63,7 +63,8 @@ fun Application.installDi() {
         bindProvider<CreateInvoiceUseCase> {
             CreateInvoiceUseCaseImpl(
                 invoiceRepository = instance(),
-                dateProvider = instance()
+                dateProvider = instance(),
+                getUserByIdUseCase = instance()
             )
         }
         bindProvider<CreateInvoicePdfUseCase> {
@@ -81,7 +82,8 @@ fun Application.installDi() {
         bindProvider<DeleteInvoiceUseCase> {
             DeleteInvoiceUseCaseImpl(
                 repository = instance(),
-                getInvoiceByIdUseCase = instance()
+                getInvoiceByIdUseCase = instance(),
+                getUserByIdUseCase = instance()
             )
         }
 
@@ -94,7 +96,10 @@ fun Application.installDi() {
         bindProvider<FileHandler>(TEMP_FILE_HANDLER) { TempFileHandler }
 
         bindProvider<GetInvoiceByIdUseCase> {
-            GetInvoiceByIdUseCaseImpl(repository = instance())
+            GetInvoiceByIdUseCaseImpl(
+                repository = instance(),
+                getUserByIdUseCase = instance()
+            )
         }
 
         bindProvider<GetUserByEmailUseCase> { GetUserByEmailUseCaseImpl(userRepository = instance()) }

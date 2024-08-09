@@ -3,6 +3,7 @@ package io.github.alaksion.invoicer.server.domain.usecase.invoice
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceActivityModel
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
 import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository
+import io.github.alaksion.invoicer.server.domain.usecase.user.GetUserByIdUseCase
 import io.github.alaksion.invoicer.server.validation.validateSwiftCode
 import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.response.CreateInvoiceResponseViewModel
 import io.ktor.http.*
@@ -21,7 +22,8 @@ internal interface CreateInvoiceUseCase {
 
 internal class CreateInvoiceUseCaseImpl(
     private val invoiceRepository: InvoiceRepository,
-    private val dateProvider: DateProvider
+    private val dateProvider: DateProvider,
+    private val getUserByIdUseCase: GetUserByIdUseCase
 ) : CreateInvoiceUseCase {
 
     override suspend fun createInvoice(
@@ -38,6 +40,8 @@ internal class CreateInvoiceUseCaseImpl(
             issueDate = model.issueDate,
             dueDate = model.dueDate
         )
+
+        getUserByIdUseCase.get(userId)
 
         if (invoiceRepository.getInvoiceByExternalId(externalId = model.externalId) != null) {
             throw HttpError(

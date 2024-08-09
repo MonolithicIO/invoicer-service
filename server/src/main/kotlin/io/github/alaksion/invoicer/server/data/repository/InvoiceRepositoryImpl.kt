@@ -40,13 +40,18 @@ internal class InvoiceRepositoryImpl(
     override suspend fun getInvoices(
         filters: GetInvoicesFilterModel,
         page: Long,
-        limit: Int
+        limit: Int,
+        userId: String,
     ): List<InvoiceListItemModel> {
         return newSuspendedTransaction {
-            dataSource.getInvoicesFiltered(page = page, limit = limit, filters = filters)
-                .map {
-                    it.toListItemModel()
-                }
+            dataSource.getInvoicesFiltered(
+                page = page,
+                limit = limit,
+                filters = filters,
+                userId = userId
+            ).map {
+                it.toListItemModel()
+            }
         }
     }
 

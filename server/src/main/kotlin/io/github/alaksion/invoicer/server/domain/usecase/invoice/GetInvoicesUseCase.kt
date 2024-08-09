@@ -8,14 +8,24 @@ import kotlinx.datetime.LocalDate
 import utils.exceptions.httpError
 
 internal interface GetInvoicesUseCase {
-    suspend fun get(filters: GetInvoicesFilterModel, page: Long, limit: Int): List<InvoiceListItemModel>
+    suspend fun get(
+        filters: GetInvoicesFilterModel,
+        page: Long,
+        limit: Int,
+        userId: String,
+    ): List<InvoiceListItemModel>
 }
 
 internal class GetInvoicesUseCaseImpl(
     private val repository: InvoiceRepository
 ) : GetInvoicesUseCase {
 
-    override suspend fun get(filters: GetInvoicesFilterModel, page: Long, limit: Int): List<InvoiceListItemModel> {
+    override suspend fun get(
+        filters: GetInvoicesFilterModel,
+        page: Long,
+        limit: Int,
+        userId: String,
+    ): List<InvoiceListItemModel> {
         validateDateFilter(
             min = filters.minIssueDate,
             max = filters.maxIssueDate
@@ -25,7 +35,12 @@ internal class GetInvoicesUseCaseImpl(
             min = filters.minDueDate,
             max = filters.maxDueDate
         )
-        return repository.getInvoices(filters = filters, page = page, limit = limit)
+        return repository.getInvoices(
+            filters = filters,
+            page = page,
+            limit = limit,
+            userId = userId
+        )
     }
 
     private fun validateDateFilter(

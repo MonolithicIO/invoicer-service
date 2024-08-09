@@ -23,7 +23,8 @@ interface InvoiceRepository {
     suspend fun getInvoices(
         filters: GetInvoicesFilterModel,
         page: Long,
-        limit: Int
+        limit: Int,
+        userId: String,
     ): List<InvoiceListItemModel>
 
     suspend fun deleteByUUID(

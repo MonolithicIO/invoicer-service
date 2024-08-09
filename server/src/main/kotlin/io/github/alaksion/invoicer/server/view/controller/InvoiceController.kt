@@ -31,7 +31,12 @@ fun Routing.invoiceController() {
 
                 call.respond(
                     status = HttpStatusCode.OK,
-                    message = sender.send(findOneService.get(invoiceId!!))
+                    message = sender.send(
+                        findOneService.get(
+                            id = invoiceId!!,
+                            userId = jwtUserId()
+                        )
+                    )
                 )
             }
 
@@ -55,7 +60,8 @@ fun Routing.invoiceController() {
                     message = findService.get(
                         filters = receiveGetInvoicesFilterViewModel(filters),
                         limit = limit,
-                        page = page
+                        page = page,
+                        userId = jwtUserId()
                     ).toViewModel(),
                     status = HttpStatusCode.OK
                 )
