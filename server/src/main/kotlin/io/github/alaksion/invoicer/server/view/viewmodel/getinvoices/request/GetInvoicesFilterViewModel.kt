@@ -30,7 +30,7 @@ fun receiveGetInvoicesFilterViewModel(
     )
 }
 
-private fun parseDate(rawString: String?, errorMessage: String): Any? {
+private fun parseDate(rawString: String?, errorMessage: String): LocalDate? {
     return rawString?.let {
         runCatching {
             LocalDate.parse(rawString)
