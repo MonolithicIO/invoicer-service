@@ -2,7 +2,9 @@ package io.github.alaksion.invoicer.server.domain.usecase.login
 
 import io.github.alaksion.invoicer.server.domain.model.login.LoginModel
 import io.github.alaksion.invoicer.server.domain.usecase.user.GetUserByEmailUseCase
+import io.github.alaksion.invoicer.server.util.isValidEmail
 import utils.authentication.api.AuthTokenManager
+import utils.exceptions.badRequestError
 import utils.exceptions.notFoundError
 import utils.password.PasswordEncryption
 
@@ -17,6 +19,9 @@ internal class LoginUseCaseImpl(
 ) : LoginUseCase {
 
     override suspend fun login(model: LoginModel): String {
+
+        if (isValidEmail(model.email).not()) badRequestError(message = "Invalid e-mail format")
+
         val account = getUserByEmailUseCase.get(model.email)
             ?: notFoundError(message = "Invalid credentials, user not found.")
 
