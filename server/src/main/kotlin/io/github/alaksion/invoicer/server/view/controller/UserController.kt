@@ -12,18 +12,16 @@ import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 
-fun Application.userController() {
-    routing {
-        route("user") {
-            post {
-                val body = call.receive<CreateUserRequestViewModel>()
-                val parsed = body.toDomainModel()
-                val useCase by closestDI().instance<CreateUserUseCase>()
-                call.respond(
-                    message = CreateUserResponseViewModel(useCase.create(parsed)),
-                    status = HttpStatusCode.Created
-                )
-            }
+fun Routing.userController() {
+    route("user") {
+        post {
+            val body = call.receive<CreateUserRequestViewModel>()
+            val parsed = body.toDomainModel()
+            val useCase by closestDI().instance<CreateUserUseCase>()
+            call.respond(
+                message = CreateUserResponseViewModel(useCase.create(parsed)),
+                status = HttpStatusCode.Created
+            )
         }
     }
 }

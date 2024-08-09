@@ -5,8 +5,7 @@ import io.github.alaksion.invoicer.server.app.plugins.configureSerialization
 import io.github.alaksion.invoicer.server.app.plugins.installAuth
 import io.github.alaksion.invoicer.server.app.plugins.installDi
 import io.github.alaksion.invoicer.server.app.plugins.installStatusPages
-import io.github.alaksion.invoicer.server.view.controller.invoiceController
-import io.github.alaksion.invoicer.server.view.controller.userController
+import io.github.alaksion.invoicer.server.view.controller.rootController
 import io.ktor.server.application.*
 
 fun main(args: Array<String>) {
@@ -19,6 +18,5 @@ fun Application.module() {
     installDi()
     configureSerialization()
     installStatusPages()
-    invoiceController()
-    userController()
+    rootController()
 }
