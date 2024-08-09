@@ -14,6 +14,8 @@ import io.github.alaksion.invoicer.server.domain.repository.UserRepositoryImpl
 import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.*
+import io.github.alaksion.invoicer.server.domain.usecase.login.LoginUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.login.LoginUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.user.CreateUserUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.user.CreateUserUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.user.GetUserByEmailUseCase
@@ -99,6 +101,14 @@ fun Application.installDi() {
                 passwordValidator = instance(),
                 passwordEncryption = instance(),
                 repository = instance()
+            )
+        }
+
+        bindProvider<LoginUseCase> {
+            LoginUseCaseImpl(
+                getUserByEmailUseCase = instance(),
+                authTokenManager = instance(),
+                passwordEncryption = instance()
             )
         }
     }

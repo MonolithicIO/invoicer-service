@@ -55,6 +55,7 @@ fun Routing.invoiceController() {
                 status = HttpStatusCode.OK
             )
         }
+
         jwtProtected {
             post {
                 val body = call.receive<CreateInvoiceViewModel>()
@@ -69,12 +70,14 @@ fun Routing.invoiceController() {
                 )
             }
         }
+
         post("/pdf/{id}") {
             val invoiceId = call.parameters["id"]
             val pdfService by closestDI().instance<CreateInvoicePdfUseCase>()
             pdfService.create(invoiceId!!)
             call.respond("hehehehe")
         }
+
         delete("/{id}") {
             val invoiceId = call.parameters["id"]!!
             val deleteUseCase by closestDI().instance<DeleteInvoiceUseCase>()
