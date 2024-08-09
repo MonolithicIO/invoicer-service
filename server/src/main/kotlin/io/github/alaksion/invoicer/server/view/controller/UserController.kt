@@ -1,6 +1,7 @@
 package io.github.alaksion.invoicer.server.view.controller
 
 import io.github.alaksion.invoicer.server.domain.usecase.user.CreateUserUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.user.DeleteUserUseCase
 import io.github.alaksion.invoicer.server.view.viewmodel.createuser.CreateUserRequestViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.createuser.CreateUserResponseViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.createuser.toDomainModel
@@ -11,6 +12,8 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
+import utils.authentication.api.jwt.jwtProtected
+import utils.authentication.api.jwt.jwtUserId
 
 fun Routing.userController() {
     route("user") {
@@ -22,6 +25,14 @@ fun Routing.userController() {
                 message = CreateUserResponseViewModel(useCase.create(parsed)),
                 status = HttpStatusCode.Created
             )
+        }
+
+        jwtProtected {
+            delete {
+                val useCase by closestDI().instance<DeleteUserUseCase>()
+                useCase.delete(jwtUserId())
+                call.respond(HttpStatusCode.NoContent)
+            }
         }
     }
 }

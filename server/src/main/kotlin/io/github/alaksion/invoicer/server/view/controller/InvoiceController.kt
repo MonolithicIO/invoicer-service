@@ -1,6 +1,5 @@
 package io.github.alaksion.invoicer.server.view.controller
 
-import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.CreateInvoiceUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.DeleteInvoiceUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.GetInvoiceByIdUseCase
@@ -23,37 +22,44 @@ import utils.authentication.api.jwt.jwtUserId
 
 fun Routing.invoiceController() {
     route("invoice") {
-        get("/{id}") {
-            val invoiceId = call.parameters["id"]
-            val findOneService by closestDI().instance<GetInvoiceByIdUseCase>()
-            val sender by closestDI().instance<InvoiceDetailsViewModelSender>()
 
-            call.respond(
-                status = HttpStatusCode.OK,
-                message = sender.send(findOneService.get(invoiceId!!))
-            )
+        jwtProtected {
+            get("/{id}") {
+                val invoiceId = call.parameters["id"]
+                val findOneService by closestDI().instance<GetInvoiceByIdUseCase>()
+                val sender by closestDI().instance<InvoiceDetailsViewModelSender>()
+
+                call.respond(
+                    status = HttpStatusCode.OK,
+                    message = sender.send(findOneService.get(invoiceId!!))
+                )
+            }
+
         }
-        get {
-            val page = call.request.queryParameters["page"]?.toLongOrNull() ?: 0
-            val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 10
-            val filters = GetInvoicesFilterViewModel(
-                minIssueDate = call.request.queryParameters["minIssueDate"],
-                maxIssueDate = call.request.queryParameters["maxIssueDate"],
-                minDueDate = call.request.queryParameters["minDueDate"],
-                maxDueDate = call.request.queryParameters["maxDueDate"],
-                senderCompanyName = call.request.queryParameters["senderCompanyName"],
-                recipientCompanyName = call.request.queryParameters["recipientCompanyName"],
-            )
-            val findService by closestDI().instance<GetInvoicesUseCase>()
 
-            call.respond(
-                message = findService.get(
-                    filters = receiveGetInvoicesFilterViewModel(filters),
-                    limit = limit,
-                    page = page
-                ).toViewModel(),
-                status = HttpStatusCode.OK
-            )
+        jwtProtected {
+            get {
+                val page = call.request.queryParameters["page"]?.toLongOrNull() ?: 0
+                val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 10
+                val filters = GetInvoicesFilterViewModel(
+                    minIssueDate = call.request.queryParameters["minIssueDate"],
+                    maxIssueDate = call.request.queryParameters["maxIssueDate"],
+                    minDueDate = call.request.queryParameters["minDueDate"],
+                    maxDueDate = call.request.queryParameters["maxDueDate"],
+                    senderCompanyName = call.request.queryParameters["senderCompanyName"],
+                    recipientCompanyName = call.request.queryParameters["recipientCompanyName"],
+                )
+                val findService by closestDI().instance<GetInvoicesUseCase>()
+
+                call.respond(
+                    message = findService.get(
+                        filters = receiveGetInvoicesFilterViewModel(filters),
+                        limit = limit,
+                        page = page
+                    ).toViewModel(),
+                    status = HttpStatusCode.OK
+                )
+            }
         }
 
         jwtProtected {
@@ -71,18 +77,14 @@ fun Routing.invoiceController() {
             }
         }
 
-        post("/pdf/{id}") {
-            val invoiceId = call.parameters["id"]
-            val pdfService by closestDI().instance<CreateInvoicePdfUseCase>()
-            pdfService.create(invoiceId!!)
-            call.respond("hehehehe")
-        }
 
-        delete("/{id}") {
-            val invoiceId = call.parameters["id"]!!
-            val deleteUseCase by closestDI().instance<DeleteInvoiceUseCase>()
-            deleteUseCase.delete(invoiceId)
-            call.respond(HttpStatusCode.NoContent)
+        jwtProtected {
+            delete("/{id}") {
+                val invoiceId = call.parameters["id"]!!
+                val deleteUseCase by closestDI().instance<DeleteInvoiceUseCase>()
+                deleteUseCase.delete(invoiceId = invoiceId, userId = jwtUserId())
+                call.respond(HttpStatusCode.NoContent)
+            }
         }
     }
 }

@@ -18,8 +18,12 @@ import io.github.alaksion.invoicer.server.domain.usecase.login.LoginUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.login.LoginUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.user.CreateUserUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.user.CreateUserUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.user.DeleteUserUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.user.DeleteUserUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.user.GetUserByEmailUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.user.GetUserByEmailUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.user.GetUserByIdUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.user.GetUserByIdUseCaseImpl
 import io.github.alaksion.invoicer.server.files.filehandler.FileHandler
 import io.github.alaksion.invoicer.server.files.filehandler.TempFileHandler
 import io.github.alaksion.invoicer.server.files.pdfgenerator.OpenPdfGenerator
@@ -110,6 +114,20 @@ fun Application.installDi() {
                 authTokenManager = instance(),
                 passwordEncryption = instance()
             )
+        }
+
+        bindProvider<DeleteUserUseCase> {
+            DeleteUserUseCaseImpl(
+                userRepository = instance(),
+                getUserByIdUseCase = instance()
+            )
+        }
+
+        bindProvider<GetUserByIdUseCase> {
+            GetUserByIdUseCaseImpl(
+                userRepository = instance()
+            )
+
         }
     }
 }

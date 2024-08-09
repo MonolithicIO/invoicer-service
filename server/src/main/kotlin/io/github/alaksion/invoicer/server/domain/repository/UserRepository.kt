@@ -11,6 +11,7 @@ interface UserRepository {
     suspend fun getUserByEmail(email: String): UserModel?
     suspend fun getUserById(id: UUID): UserModel?
     suspend fun createUser(data: CreateUserModel): String
+    suspend fun deleteUser(id: UUID)
 }
 
 internal class UserRepositoryImpl(
@@ -34,5 +35,12 @@ internal class UserRepositoryImpl(
             dataSource.createUser(data)
         }
     }
+
+    override suspend fun deleteUser(id: UUID) {
+        return newSuspendedTransaction {
+            dataSource.deleteUser(id)
+        }
+    }
+
 
 }
