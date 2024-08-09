@@ -8,5 +8,5 @@ version = "0.0.1"
 
 dependencies {
     implementation(libs.kotlin.datetime)
-    implementation(projects.utils.date.api)
+    implementation(projects.foundation.date.api)
 }

@@ -16,8 +16,8 @@ dependencies {
     implementation(libs.kodein.server)
 
     // Project
-    implementation(projects.utils.date.api)
-    implementation(projects.utils.exceptions)
+    implementation(projects.foundation.date.api)
+    implementation(projects.foundation.exceptions)
 
     // Test
     testImplementation(libs.kotlin.test)

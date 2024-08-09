@@ -7,5 +7,5 @@ group = "io.github.alaksion.invoicer.utils.password.test"
 version = "0.0.1"
 
 dependencies {
-    implementation(projects.utils.password.api)
+    implementation(projects.foundation.password.api)
 }
