@@ -4,5 +4,10 @@ CREATE TABLE IF NOT EXISTS t_beneficiary(
     iban varchar not null,
     swift varchar(11) not null,
     bank_name varchar not null,
-    bank_address varchar not null
+    bank_address varchar not null,
+    user_id uuid not null,
+        constraint fk_beneficiary_to_user
+                foreign key (user_id)
+                    references t_user(id)
+                    on delete CASCADE
 );
