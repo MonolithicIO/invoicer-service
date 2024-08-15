@@ -1,19 +1,32 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
 import io.github.alaksion.invoicer.server.app.plugins.DITags.TEMP_FILE_HANDLER
+import io.github.alaksion.invoicer.server.data.datasource.BeneficiaryDataSource
+import io.github.alaksion.invoicer.server.data.datasource.BeneficiaryDataSourceImpl
 import io.github.alaksion.invoicer.server.data.datasource.InvoiceDataSource
 import io.github.alaksion.invoicer.server.data.datasource.InvoiceDataSourceImpl
 import io.github.alaksion.invoicer.server.data.datasource.UserDataSource
 import io.github.alaksion.invoicer.server.data.datasource.UserDataSourceImpl
 import io.github.alaksion.invoicer.server.data.repository.InvoicePdfRepositoryImpl
 import io.github.alaksion.invoicer.server.data.repository.InvoiceRepositoryImpl
+import io.github.alaksion.invoicer.server.domain.repository.BeneficiaryRepository
+import io.github.alaksion.invoicer.server.domain.repository.BeneficiaryRepositoryImpl
 import io.github.alaksion.invoicer.server.domain.repository.InvoicePdfRepository
 import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository
 import io.github.alaksion.invoicer.server.domain.repository.UserRepository
 import io.github.alaksion.invoicer.server.domain.repository.UserRepositoryImpl
 import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCaseImpl
-import io.github.alaksion.invoicer.server.domain.usecase.invoice.*
+import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CreateBeneficiaryUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CreateBeneficiaryUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.invoice.CreateInvoiceUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.invoice.CreateInvoiceUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.invoice.DeleteInvoiceUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.invoice.DeleteInvoiceUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.invoice.GetInvoiceByIdUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.invoice.GetInvoiceByIdUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.invoice.GetInvoicesUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.invoice.GetInvoicesUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.login.LoginUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.login.LoginUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.user.CreateUserUseCase
@@ -30,7 +43,7 @@ import io.github.alaksion.invoicer.server.files.pdfgenerator.OpenPdfGenerator
 import io.github.alaksion.invoicer.server.files.pdfgenerator.PdfGenerator
 import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSender
 import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSenderImpl
-import io.ktor.server.application.*
+import io.ktor.server.application.Application
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
 import org.kodein.di.ktor.di
@@ -132,7 +145,19 @@ fun Application.installDi() {
             GetUserByIdUseCaseImpl(
                 userRepository = instance()
             )
+        }
 
+        bindProvider<BeneficiaryDataSource> { BeneficiaryDataSourceImpl() }
+        bindProvider<BeneficiaryRepository> {
+            BeneficiaryRepositoryImpl(
+                dataSource = instance()
+            )
+        }
+        bindProvider<CreateBeneficiaryUseCase> {
+            CreateBeneficiaryUseCaseImpl(
+                getUserByIdUseCase = instance(),
+                repository = instance()
+            )
         }
     }
 }
