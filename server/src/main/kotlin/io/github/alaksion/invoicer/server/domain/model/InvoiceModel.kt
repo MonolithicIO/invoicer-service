@@ -1,8 +1,10 @@
 package io.github.alaksion.invoicer.server.domain.model
 
+import io.github.alaksion.invoicer.server.domain.model.beneficiary.BeneficiaryModel
+import io.github.alaksion.invoicer.server.domain.model.intermediary.IntermediaryModel
 import io.github.alaksion.invoicer.server.domain.model.user.UserModel
 import kotlinx.datetime.LocalDate
-import java.util.*
+import java.util.UUID
 
 data class InvoiceModel(
     val id: UUID,
@@ -13,19 +15,12 @@ data class InvoiceModel(
     val recipientCompanyName: String,
     val issueDate: LocalDate,
     val dueDate: LocalDate,
-    val beneficiaryName: String,
-    val beneficiaryIban: String,
-    val beneficiarySwift: String,
-    val beneficiaryBankName: String,
-    val beneficiaryBankAddress: String,
-    val intermediaryIban: String?,
-    val intermediarySwift: String?,
-    val intermediaryBankName: String?,
-    val intermediaryBankAddress: String?,
     val createdAt: LocalDate,
     val updatedAt: LocalDate,
     val activities: List<InvoiceModelActivityModel>,
-    val user: UserModel
+    val user: UserModel,
+    val beneficiary: BeneficiaryModel,
+    val intermediary: IntermediaryModel?
 )
 
 data class InvoiceModelActivityModel(

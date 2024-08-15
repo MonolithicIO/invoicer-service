@@ -1,5 +1,6 @@
 package utils.date.test
 
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import utils.date.api.DateProvider
@@ -23,7 +24,8 @@ class FakeDateProvider : DateProvider {
         return nowResponse()
     }
 
-    override fun nowDateTime(): LocalDateTime {
-        return nowDateTimeResponse()
+    override fun currentInstant(): Instant {
+        TODO("Not yet implemented")
     }
+
 }

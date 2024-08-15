@@ -21,7 +21,6 @@ internal interface BeneficiaryDataSource {
     )
 
     fun getById(
-        userId: UUID,
         beneficiaryId: UUID
     ): BeneficiaryEntity?
 
@@ -54,9 +53,9 @@ internal class BeneficiaryDataSourceImpl : BeneficiaryDataSource {
         }
     }
 
-    override fun getById(userId: UUID, beneficiaryId: UUID): BeneficiaryEntity? {
+    override fun getById(beneficiaryId: UUID): BeneficiaryEntity? {
         return BeneficiaryEntity.find {
-            (BeneficiaryTable.user eq userId).and(BeneficiaryTable.id eq beneficiaryId)
+            BeneficiaryTable.id eq beneficiaryId
         }.firstOrNull()
     }
 

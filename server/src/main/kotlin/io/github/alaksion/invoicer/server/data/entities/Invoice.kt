@@ -11,7 +11,7 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.kotlin.datetime.date
-import java.util.*
+import java.util.UUID
 
 
 internal object InvoiceTable : UUIDTable("t_invoice") {
@@ -22,18 +22,11 @@ internal object InvoiceTable : UUIDTable("t_invoice") {
     val recipientCompanyAddress = varchar("recipient_company_address", 1000)
     val issueDate: Column<LocalDate> = date("issue_date")
     val dueDate = date("due_date")
-    val beneficiaryName = varchar("beneficiary_name", 500)
-    val beneficiaryIban = varchar("beneficiary_iban", 100)
-    val beneficiarySwift = varchar("beneficiary_swift", 11)
-    val beneficiaryBankName = varchar("beneficiary_bank_name", 500)
-    val beneficiaryBankAddress = varchar("beneficiary_bank_address", 1000)
-    val intermediaryIban = varchar("intermediary_iban", 100).nullable()
-    val intermediarySwift = varchar("intermediary_swift", 11).nullable()
-    val intermediaryBankName = varchar("intermediary_bank_name", 500).nullable()
-    val intermediaryBankAddress = varchar("intermediary_bank_address", 1000).nullable()
     val createdAt = date("created_at")
     val updatedAt = date("updated_at")
     val user = reference(name = "user_id", foreign = UserTable, onDelete = ReferenceOption.CASCADE)
+    val beneficiary = reference("beneficiary_id", foreign = BeneficiaryTable)
+    val intermediary = optReference("intermediary_id", foreign = IntermediaryTable)
 }
 
 internal class InvoiceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
@@ -46,19 +39,12 @@ internal class InvoiceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var recipientCompanyName by InvoiceTable.recipientCompanyName
     var issueDate by InvoiceTable.issueDate
     var dueDate by InvoiceTable.dueDate
-    var beneficiaryName by InvoiceTable.beneficiaryName
-    var beneficiaryIban by InvoiceTable.beneficiaryIban
-    var beneficiarySwift by InvoiceTable.beneficiarySwift
-    var beneficiaryBankName by InvoiceTable.beneficiaryBankName
-    var beneficiaryBankAddress by InvoiceTable.beneficiaryBankAddress
-    var intermediaryIban by InvoiceTable.intermediaryIban
-    var intermediarySwift by InvoiceTable.intermediarySwift
-    var intermediaryBankName by InvoiceTable.intermediaryBankName
-    var intermediaryBankAddress by InvoiceTable.intermediaryBankAddress
     var createdAt by InvoiceTable.createdAt
     var updatedAt by InvoiceTable.updatedAt
     val activities by InvoiceActivityEntity referrersOn InvoiceActivityTable.invoice
     var user by UserEntity referencedOn InvoiceTable.user
+    var beneficiary by BeneficiaryEntity referencedOn InvoiceTable.beneficiary
+    var intermediary by IntermediaryEntity optionalReferencedOn InvoiceTable.intermediary
 }
 
 internal fun InvoiceEntity.toModel(): InvoiceModel {
@@ -71,15 +57,6 @@ internal fun InvoiceEntity.toModel(): InvoiceModel {
         recipientCompanyName = this.recipientCompanyName,
         issueDate = this.issueDate,
         dueDate = this.dueDate,
-        beneficiaryName = this.beneficiaryName,
-        beneficiaryIban = this.beneficiaryIban,
-        beneficiarySwift = this.beneficiarySwift,
-        beneficiaryBankName = this.beneficiaryBankName,
-        beneficiaryBankAddress = this.beneficiaryBankAddress,
-        intermediaryIban = this.intermediaryIban,
-        intermediarySwift = this.intermediarySwift,
-        intermediaryBankName = this.intermediaryBankName,
-        intermediaryBankAddress = this.intermediaryBankAddress,
         createdAt = this.createdAt,
         updatedAt = this.updatedAt,
         activities = this.activities.map {
@@ -90,7 +67,9 @@ internal fun InvoiceEntity.toModel(): InvoiceModel {
                 id = it.id.value
             )
         },
-        user = this.user.toModel()
+        user = this.user.toModel(),
+        intermediary = this.intermediary?.toModel(),
+        beneficiary = this.beneficiary.toModel()
     )
 }
 

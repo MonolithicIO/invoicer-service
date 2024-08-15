@@ -12,12 +12,11 @@ interface IntermediaryRepository {
 
     suspend fun delete(
         userId: UUID,
-        beneficiaryId: UUID
+        intermediaryId: UUID
     )
 
     suspend fun getById(
-        userId: UUID,
-        beneficiaryId: UUID
+        intermediaryId: UUID
     ): IntermediaryModel?
 
     suspend fun getBySwift(

@@ -20,11 +20,11 @@ internal object IntermediaryTable : UUIDTable("t_intermediary") {
 internal class IntermediaryEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<IntermediaryEntity>(IntermediaryTable)
 
-    var name by BeneficiaryTable.name
-    var iban by BeneficiaryTable.iban
-    var swift by BeneficiaryTable.swift
-    var bankName by BeneficiaryTable.bankName
-    var bankAddress by BeneficiaryTable.bankAddress
+    var name by IntermediaryTable.name
+    var iban by IntermediaryTable.iban
+    var swift by IntermediaryTable.swift
+    var bankName by IntermediaryTable.bankName
+    var bankAddress by IntermediaryTable.bankAddress
     val user by UserEntity referencedOn IntermediaryTable.user
 }
 

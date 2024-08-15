@@ -1,7 +1,5 @@
 package io.github.alaksion.invoicer.server.data.datasource
 
-import io.github.alaksion.invoicer.server.data.entities.BeneficiaryEntity
-import io.github.alaksion.invoicer.server.data.entities.BeneficiaryTable
 import io.github.alaksion.invoicer.server.data.entities.IntermediaryEntity
 import io.github.alaksion.invoicer.server.data.entities.IntermediaryTable
 import io.github.alaksion.invoicer.server.domain.model.intermediary.CreateIntermediaryModel
@@ -23,7 +21,6 @@ internal interface IntermediaryDataSource {
     )
 
     fun getById(
-        userId: UUID,
         intermediaryId: UUID
     ): IntermediaryEntity?
 
@@ -56,9 +53,9 @@ internal class IntermediaryDataSourceImpl : IntermediaryDataSource {
         }
     }
 
-    override fun getById(userId: UUID, intermediaryId: UUID): IntermediaryEntity? {
+    override fun getById(intermediaryId: UUID): IntermediaryEntity? {
         return IntermediaryEntity.find {
-            (IntermediaryTable.user eq userId).and(IntermediaryTable.id eq intermediaryId)
+            IntermediaryTable.id eq intermediaryId
         }.firstOrNull()
     }
 

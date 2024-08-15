@@ -16,7 +16,6 @@ internal interface BeneficiaryRepository {
     )
 
     suspend fun getById(
-        userId: UUID,
         beneficiaryId: UUID
     ): BeneficiaryModel?
 

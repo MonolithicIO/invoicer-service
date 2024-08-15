@@ -5,16 +5,20 @@ import io.github.alaksion.invoicer.server.domain.usecase.invoice.DeleteInvoiceUs
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.GetInvoiceByIdUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.GetInvoicesUseCase
 import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.request.CreateInvoiceViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.request.receiveCreateInvoiceViewModel
+import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.request.toModel
 import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.request.GetInvoicesFilterViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.request.receiveGetInvoicesFilterViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.response.toViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSender
-import io.ktor.http.*
-import io.ktor.server.application.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.application.call
+import io.ktor.server.request.receive
+import io.ktor.server.response.respond
+import io.ktor.server.routing.Routing
+import io.ktor.server.routing.delete
+import io.ktor.server.routing.get
+import io.ktor.server.routing.post
+import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import utils.authentication.api.jwt.jwtProtected
@@ -73,7 +77,7 @@ fun Routing.invoiceController() {
                 val body = call.receive<CreateInvoiceViewModel>()
                 val createService by closestDI().instance<CreateInvoiceUseCase>()
                 val response = createService.createInvoice(
-                    model = receiveCreateInvoiceViewModel(body),
+                    model = body.toModel(),
                     userId = jwtUserId()
                 )
                 call.respond(

@@ -18,15 +18,15 @@ internal class IntermediaryRepositoryImpl(
         }
     }
 
-    override suspend fun delete(userId: UUID, beneficiaryId: UUID) {
+    override suspend fun delete(userId: UUID, intermediaryId: UUID) {
         return newSuspendedTransaction {
-            dataSource.delete(userId, beneficiaryId)
+            dataSource.delete(userId, intermediaryId)
         }
     }
 
-    override suspend fun getById(userId: UUID, beneficiaryId: UUID): IntermediaryModel? {
+    override suspend fun getById(intermediaryId: UUID): IntermediaryModel? {
         return newSuspendedTransaction {
-            dataSource.getById(userId, beneficiaryId)?.toModel()
+            dataSource.getById(intermediaryId)?.toModel()
         }
     }
 

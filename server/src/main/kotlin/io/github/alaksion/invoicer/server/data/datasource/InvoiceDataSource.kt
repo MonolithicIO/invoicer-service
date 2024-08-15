@@ -5,10 +5,14 @@ import io.github.alaksion.invoicer.server.data.entities.InvoiceEntity
 import io.github.alaksion.invoicer.server.data.entities.InvoiceTable
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
 import io.github.alaksion.invoicer.server.domain.model.getinvoices.GetInvoicesFilterModel
-import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.andWhere
+import org.jetbrains.exposed.sql.batchInsert
+import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.insertAndGetId
+import org.jetbrains.exposed.sql.selectAll
 import utils.date.api.DateProvider
-import java.util.*
+import java.util.UUID
 
 internal interface InvoiceDataSource {
     fun createInvoice(
@@ -53,16 +57,9 @@ internal class InvoiceDataSourceImpl(
             it[recipientCompanyAddress] = data.recipientCompanyAddress
             it[issueDate] = data.issueDate
             it[dueDate] = data.dueDate
-            it[beneficiaryName] = data.beneficiaryName
-            it[beneficiaryIban] = data.beneficiaryIban
-            it[beneficiarySwift] = data.beneficiarySwift
-            it[beneficiaryBankName] = data.beneficiaryBankName
-            it[beneficiaryBankAddress] = data.beneficiaryBankAddress
-
-            it[intermediaryIban] = data.intermediaryIban
-            it[intermediarySwift] = data.intermediarySwift
-            it[intermediaryBankName] = data.intermediaryBankName
-            it[intermediaryBankAddress] = data.intermediaryBankAddress
+            it[beneficiary] = UUID.fromString(data.beneficiaryId)
+            it[intermediary] =
+                data.intermediaryId?.let { intermediaryId -> UUID.fromString(intermediaryId) }
             it[createdAt] = dateProvider.now()
             it[updatedAt] = dateProvider.now()
             it[user] = userId

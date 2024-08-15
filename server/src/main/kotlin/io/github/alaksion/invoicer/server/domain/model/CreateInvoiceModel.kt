@@ -10,15 +10,8 @@ data class CreateInvoiceModel(
     val recipientCompanyAddress: String,
     val issueDate: LocalDate,
     val dueDate: LocalDate,
-    val beneficiaryName: String,
-    val beneficiaryIban: String,
-    val beneficiarySwift: String,
-    val beneficiaryBankName: String,
-    val beneficiaryBankAddress: String,
-    val intermediaryIban: String? = null,
-    val intermediarySwift: String? = null,
-    val intermediaryBankName: String? = null,
-    val intermediaryBankAddress: String? = null,
+    val beneficiaryId: String,
+    val intermediaryId: String?,
     val activities: List<CreateInvoiceActivityModel>,
 )
 

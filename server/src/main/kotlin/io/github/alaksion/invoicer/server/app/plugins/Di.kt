@@ -23,8 +23,12 @@ import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CreateBeneficiaryUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CreateBeneficiaryUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.GetBeneficiaryByIdUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.GetBeneficiaryByIdUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.intermediary.CreateIntermediaryUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.intermediary.CreateIntermediaryUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.intermediary.GetIntermediaryByIdUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.intermediary.GetIntermediaryByIdUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.CreateInvoiceUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.CreateInvoiceUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.DeleteInvoiceUseCase
@@ -83,9 +87,12 @@ fun Application.installDi() {
             CreateInvoiceUseCaseImpl(
                 invoiceRepository = instance(),
                 dateProvider = instance(),
-                getUserByIdUseCase = instance()
+                getUserByIdUseCase = instance(),
+                getBeneficiaryByIdUseCase = instance(),
+                getIntermediaryByIdUseCase = instance()
             )
         }
+
         bindProvider<CreateInvoicePdfUseCase> {
             CreateInvoicePdfUseCaseImpl(
                 invoiceRepository = instance(),
@@ -93,11 +100,13 @@ fun Application.installDi() {
                 pdfGenerator = instance(DITags.OPEN_PDF_GENERATOR),
             )
         }
+
         bindProvider<GetInvoicesUseCase> {
             GetInvoicesUseCaseImpl(
                 repository = instance()
             )
         }
+
         bindProvider<DeleteInvoiceUseCase> {
             DeleteInvoiceUseCaseImpl(
                 repository = instance(),
@@ -167,6 +176,7 @@ fun Application.installDi() {
         }
 
         bindProvider<IntermediaryDataSource> { IntermediaryDataSourceImpl() }
+
         bindProvider<IntermediaryRepository> {
             IntermediaryRepositoryImpl(
                 dataSource = instance()
@@ -175,6 +185,16 @@ fun Application.installDi() {
         bindProvider<CreateIntermediaryUseCase> {
             CreateIntermediaryUseCaseImpl(
                 getUserByIdUseCase = instance(),
+                repository = instance()
+            )
+        }
+        bindProvider<GetBeneficiaryByIdUseCase> {
+            GetBeneficiaryByIdUseCaseImpl(
+                repository = instance()
+            )
+        }
+        bindProvider<GetIntermediaryByIdUseCase> {
+            GetIntermediaryByIdUseCaseImpl(
                 repository = instance()
             )
         }

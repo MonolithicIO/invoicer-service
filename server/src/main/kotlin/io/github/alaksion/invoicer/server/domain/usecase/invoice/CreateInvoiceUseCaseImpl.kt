@@ -3,15 +3,16 @@ package io.github.alaksion.invoicer.server.domain.usecase.invoice
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceActivityModel
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
 import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository
+import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.GetBeneficiaryByIdUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.intermediary.GetIntermediaryByIdUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.user.GetUserByIdUseCase
-import io.github.alaksion.invoicer.server.validation.validateSwiftCode
 import io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.response.CreateInvoiceResponseViewModel
-import io.ktor.http.*
+import io.ktor.http.HttpStatusCode
 import kotlinx.datetime.LocalDate
 import utils.date.api.DateProvider
 import utils.exceptions.HttpError
 import utils.exceptions.httpError
-import java.util.*
+import java.util.UUID
 
 internal interface CreateInvoiceUseCase {
     suspend fun createInvoice(
@@ -23,7 +24,9 @@ internal interface CreateInvoiceUseCase {
 internal class CreateInvoiceUseCaseImpl(
     private val invoiceRepository: InvoiceRepository,
     private val dateProvider: DateProvider,
-    private val getUserByIdUseCase: GetUserByIdUseCase
+    private val getUserByIdUseCase: GetUserByIdUseCase,
+    private val getBeneficiaryByIdUseCase: GetBeneficiaryByIdUseCase,
+    private val getIntermediaryByIdUseCase: GetIntermediaryByIdUseCase
 ) : CreateInvoiceUseCase {
 
     override suspend fun createInvoice(
@@ -32,14 +35,22 @@ internal class CreateInvoiceUseCaseImpl(
     ): CreateInvoiceResponseViewModel {
         validateActivities(model.activities)
 
-        validateSwifts(
-            beneficiary = model.beneficiarySwift,
-            intermediary = model.intermediarySwift
-        )
         validateDateRange(
             issueDate = model.issueDate,
             dueDate = model.dueDate
         )
+
+        getBeneficiaryByIdUseCase.get(
+            beneficiaryId = model.beneficiaryId,
+            userId = userId
+        )
+
+        if (model.intermediaryId != null) {
+            getIntermediaryByIdUseCase.get(
+                intermediaryId = model.intermediaryId,
+                userId = userId
+            )
+        }
 
         getUserByIdUseCase.get(userId)
 
@@ -50,33 +61,13 @@ internal class CreateInvoiceUseCaseImpl(
             )
         }
 
-        val response = invoiceRepository.createInvoice(data = model, userId = UUID.fromString(userId))
+        val response =
+            invoiceRepository.createInvoice(data = model, userId = UUID.fromString(userId))
 
         return CreateInvoiceResponseViewModel(
             externalInvoiceId = model.externalId,
             invoiceId = response
         )
-    }
-
-    private fun validateSwifts(
-        beneficiary: String,
-        intermediary: String?
-    ) {
-        if (validateSwiftCode(beneficiary).not()) {
-            throw HttpError(
-                message = "Beneficiary SWIFT code is invalid: $beneficiary",
-                statusCode = HttpStatusCode.BadRequest
-            )
-        }
-
-        intermediary?.let { intermediarySwift ->
-            if (validateSwiftCode(intermediarySwift).not()) {
-                throw HttpError(
-                    message = "Beneficiary SWIFT code is invalid: $intermediarySwift",
-                    statusCode = HttpStatusCode.BadRequest
-                )
-            }
-        }
     }
 
     private fun validateDateRange(

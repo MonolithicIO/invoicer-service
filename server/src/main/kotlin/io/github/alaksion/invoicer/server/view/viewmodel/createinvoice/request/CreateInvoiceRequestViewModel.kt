@@ -2,6 +2,7 @@ package io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.request
 
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceActivityModel
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
+import io.github.alaksion.invoicer.server.validation.requireFilledString
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import utils.exceptions.badRequestError
@@ -15,27 +16,11 @@ data class CreateInvoiceViewModel(
     val recipientCompanyAddress: String? = null,
     val issueDate: LocalDate? = null,
     val dueDate: LocalDate? = null,
-    val beneficiary: CreateInvoiceBeneficiaryViewModel? = null,
-    val intermediary: CreateInvoiceIntermediaryViewModel? = null,
+    val beneficiaryId: String? = null,
+    val intermediaryId: String? = null,
     val activities: List<CreateInvoiceActivityViewModel> = listOf()
 )
 
-@Serializable
-data class CreateInvoiceBeneficiaryViewModel(
-    val beneficiaryName: String? = null,
-    val beneficiaryIban: String? = null,
-    val beneficiarySwift: String? = null,
-    val beneficiaryBankName: String? = null,
-    val beneficiaryBankAddress: String? = null,
-)
-
-@Serializable
-data class CreateInvoiceIntermediaryViewModel(
-    val intermediaryIban: String? = null,
-    val intermediarySwift: String? = null,
-    val intermediaryBankName: String? = null,
-    val intermediaryBankAddress: String? = null,
-)
 
 @Serializable
 data class CreateInvoiceActivityViewModel(
@@ -44,31 +29,18 @@ data class CreateInvoiceActivityViewModel(
     val quantity: Int? = null
 )
 
-fun receiveCreateInvoiceViewModel(viewModel: CreateInvoiceViewModel): CreateInvoiceModel {
-
+fun CreateInvoiceViewModel.toModel(): CreateInvoiceModel {
     return CreateInvoiceModel(
-        externalId = viewModel.externalId ?: badRequestError(message = "Missing external Id"),
-        senderCompanyName = viewModel.senderCompanyName ?: badRequestError(message = "Missing sender company name"),
-        senderCompanyAddress = viewModel.senderCompanyAddress
-            ?: badRequestError(message = "Missing sender company address"),
-        recipientCompanyName = viewModel.recipientCompanyName
-            ?: badRequestError(message = "Missing recipient company name"),
-        recipientCompanyAddress = viewModel.recipientCompanyAddress
-            ?: badRequestError(message = "Missing recipient company name"),
-        issueDate = viewModel.issueDate ?: badRequestError("Missing issue date"),
-        dueDate = viewModel.dueDate ?: badRequestError("Missing issue date"),
-        beneficiaryName = viewModel.beneficiary?.beneficiaryName ?: badRequestError("Missing beneficiary name"),
-        beneficiaryIban = viewModel.beneficiary.beneficiaryIban ?: badRequestError("Missing beneficiary IBAN"),
-        beneficiarySwift = viewModel.beneficiary.beneficiarySwift ?: badRequestError("Missing beneficiary SWIFT"),
-        beneficiaryBankName = viewModel.beneficiary.beneficiaryBankName
-            ?: badRequestError("Missing beneficiary bank name"),
-        beneficiaryBankAddress = viewModel.beneficiary.beneficiaryBankAddress
-            ?: badRequestError("Missing beneficiary bank address"),
-        intermediaryIban = viewModel.intermediary?.intermediaryIban,
-        intermediarySwift = viewModel.intermediary?.intermediarySwift,
-        intermediaryBankName = viewModel.intermediary?.intermediaryBankName,
-        intermediaryBankAddress = viewModel.intermediary?.intermediaryBankAddress,
-        activities = receiveActivities(viewModel.activities),
+        externalId = externalId.requireFilledString("Missing external Id"),
+        senderCompanyName = senderCompanyName.requireFilledString("Missing sender company name"),
+        senderCompanyAddress = senderCompanyAddress.requireFilledString("Missing sender company address"),
+        recipientCompanyName = recipientCompanyName.requireFilledString("Missing recipient company name"),
+        recipientCompanyAddress = recipientCompanyAddress.requireFilledString("Missing recipient company name"),
+        issueDate = issueDate ?: badRequestError("Missing issue date"),
+        dueDate = dueDate ?: badRequestError("Missing issue date"),
+        beneficiaryId = beneficiaryId.requireFilledString("Missing beneficiary id"),
+        intermediaryId = intermediaryId,
+        activities = receiveActivities(activities),
     )
 }
 

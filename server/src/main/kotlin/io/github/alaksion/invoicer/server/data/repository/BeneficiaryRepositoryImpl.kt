@@ -24,9 +24,9 @@ internal class BeneficiaryRepositoryImpl(
         }
     }
 
-    override suspend fun getById(userId: UUID, beneficiaryId: UUID): BeneficiaryModel? {
+    override suspend fun getById(beneficiaryId: UUID): BeneficiaryModel? {
         return newSuspendedTransaction {
-            dataSource.getById(userId, beneficiaryId)?.toModel()
+            dataSource.getById(beneficiaryId)?.toModel()
         }
     }
 

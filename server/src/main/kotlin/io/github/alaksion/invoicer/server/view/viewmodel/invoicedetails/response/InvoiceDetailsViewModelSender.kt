@@ -24,34 +24,25 @@ internal class InvoiceDetailsViewModelSenderImpl : InvoiceDetailsViewModelSender
             issueDate = model.issueDate.toString(),
             dueDate = model.dueDate.toString(),
             beneficiary = InvoiceDetailsTransactionAccountViewModel(
-                name = model.beneficiaryName,
-                bankName = model.beneficiaryBankName,
-                bankAddress = model.beneficiaryBankAddress,
-                swift = model.beneficiarySwift,
-                iban = model.beneficiaryIban
+                name = model.beneficiary.name,
+                bankName = model.beneficiary.bankName,
+                bankAddress = model.beneficiary.bankAddress,
+                swift = model.beneficiary.swift,
+                iban = model.beneficiary.iban
             ),
-            intermediary = makeIntermediaryBankAccount(model),
+            intermediary = model.intermediary?.let {
+                InvoiceDetailsTransactionAccountViewModel(
+                    name = it.name,
+                    bankName = it.bankName,
+                    bankAddress = it.bankAddress,
+                    swift = it.swift,
+                    iban = it.iban
+                )
+            },
             activities = makeActivities(model.activities.toList()),
             createdAt = model.createdAt.toString(),
             updatedAt = model.updatedAt.toString()
         )
-    }
-
-    private fun makeIntermediaryBankAccount(entity: InvoiceModel): InvoiceDetailsTransactionAccountViewModel? {
-        return if (
-            entity.intermediaryBankName != null &&
-            entity.intermediaryBankAddress != null &&
-            entity.intermediarySwift != null &&
-            entity.intermediaryIban != null
-        ) {
-            return InvoiceDetailsTransactionAccountViewModel(
-                name = null,
-                bankName = entity.intermediaryBankName,
-                bankAddress = entity.intermediaryBankAddress,
-                swift = entity.intermediarySwift,
-                iban = entity.intermediaryIban
-            )
-        } else null
     }
 
     private fun makeActivities(activities: List<InvoiceModelActivityModel>): List<InvoiceDetailsActivityViewModel> {
