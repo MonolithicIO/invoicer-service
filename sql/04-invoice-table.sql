@@ -7,20 +7,19 @@ CREATE TABLE IF NOT EXISTS t_invoice (
     recipient_company_address varchar not null,
     issue_date date not null,
     due_date date not null,
-    beneficiary_name varchar not null,
-    beneficiary_iban varchar not null,
-    beneficiary_swift varchar(11) not null,
-    beneficiary_bank_name varchar not null,
-    beneficiary_bank_address varchar not null,
-    intermediary_iban varchar,
-    intermediary_swift varchar(11),
-    intermediary_bank_name varchar,
-    intermediary_bank_address varchar,
     created_at DATE DEFAULT CURRENT_DATE,
     updated_at DATE DEFAULT CURRENT_DATE,
     user_id uuid not null,
+    beneficiary_id uuid not null,
+    intermediary_id uuid,
     constraint fk_invoice_to_user
         foreign key (user_id)
             references t_user(id)
-            on delete CASCADE
+            on delete CASCADE,
+    constraint fk_invoice_to_beneficiary
+        foreign key (beneficiary_id)
+            references t_beneficiary(id),
+    constraint fk_invoice_to_intermediary
+            foreign key (intermediary_id)
+                references t_intermediary(id)
 );
