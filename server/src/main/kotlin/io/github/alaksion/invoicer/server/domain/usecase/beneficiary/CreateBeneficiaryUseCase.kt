@@ -27,11 +27,12 @@ internal class CreateBeneficiaryUseCaseImpl(
 
         val user = getUserByIdUseCase.get(userId)
 
-        repository.getBySwift(user.id, model.swift)
-            ?: httpError(
+        repository.getBySwift(user.id, model.swift)?.let {
+            httpError(
                 message = "Swift code: ${model.swift} is already in use by another beneficiary",
                 code = HttpStatusCode.Conflict
             )
+        }
 
         return repository.create(
             userId = user.id,

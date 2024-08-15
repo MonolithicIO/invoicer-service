@@ -1,6 +1,5 @@
 package io.github.alaksion.invoicer.server.domain.usecase.intermediary
 
-import io.github.alaksion.invoicer.server.domain.model.beneficiary.CreateBeneficiaryModel
 import io.github.alaksion.invoicer.server.domain.model.intermediary.CreateIntermediaryModel
 import io.github.alaksion.invoicer.server.domain.repository.IntermediaryRepository
 import io.github.alaksion.invoicer.server.domain.usecase.user.GetUserByIdUseCase
@@ -28,11 +27,12 @@ internal class CreateIntermediaryUseCaseImpl(
 
         val user = getUserByIdUseCase.get(userId)
 
-        repository.getBySwift(user.id, model.swift)
-            ?: httpError(
+        repository.getBySwift(user.id, model.swift)?.let {
+            httpError(
                 message = "Swift code: ${model.swift} is already in use by another beneficiary",
                 code = HttpStatusCode.Conflict
             )
+        }
 
         return repository.create(
             userId = user.id,
