@@ -1,9 +1,9 @@
 package io.github.alaksion.invoicer.server.view.controller
 
-import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CreateBeneficiaryUseCase
-import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.CreateBeneficiaryResponseViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.CreateBeneficiaryViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.toModel
+import io.github.alaksion.invoicer.server.domain.usecase.intermediary.CreateIntermediaryUseCase
+import io.github.alaksion.invoicer.server.view.viewmodel.intermediary.CreateIntermediaryResponseViewModel
+import io.github.alaksion.invoicer.server.view.viewmodel.intermediary.CreateIntermediaryViewModel
+import io.github.alaksion.invoicer.server.view.viewmodel.intermediary.toModel
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.request.receive
@@ -16,17 +16,17 @@ import org.kodein.di.ktor.closestDI
 import utils.authentication.api.jwt.jwtProtected
 import utils.authentication.api.jwt.jwtUserId
 
-fun Routing.beneficiaryController() {
-    route("/beneficiary") {
+fun Routing.intermediaryController() {
+    route("/intermediary") {
         jwtProtected {
             post {
-                val body = call.receive<CreateBeneficiaryViewModel>()
+                val body = call.receive<CreateIntermediaryViewModel>()
                 val model = body.toModel()
-                val useCase by closestDI().instance<CreateBeneficiaryUseCase>()
+                val useCase by closestDI().instance<CreateIntermediaryUseCase>()
 
                 call.respond(
                     message =
-                    CreateBeneficiaryResponseViewModel(
+                    CreateIntermediaryResponseViewModel(
                         id = useCase.create(
                             model = model,
                             userId = jwtUserId()

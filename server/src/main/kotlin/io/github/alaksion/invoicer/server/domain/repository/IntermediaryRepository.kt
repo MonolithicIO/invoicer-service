@@ -1,13 +1,13 @@
 package io.github.alaksion.invoicer.server.domain.repository
 
-import io.github.alaksion.invoicer.server.domain.model.beneficiary.BeneficiaryModel
-import io.github.alaksion.invoicer.server.domain.model.beneficiary.CreateBeneficiaryModel
+import io.github.alaksion.invoicer.server.domain.model.intermediary.CreateIntermediaryModel
+import io.github.alaksion.invoicer.server.domain.model.intermediary.IntermediaryModel
 import java.util.UUID
 
-internal interface BeneficiaryRepository {
+interface IntermediaryRepository {
     suspend fun create(
         userId: UUID,
-        model: CreateBeneficiaryModel
+        model: CreateIntermediaryModel
     ): String
 
     suspend fun delete(
@@ -18,14 +18,14 @@ internal interface BeneficiaryRepository {
     suspend fun getById(
         userId: UUID,
         beneficiaryId: UUID
-    ): BeneficiaryModel?
+    ): IntermediaryModel?
 
     suspend fun getBySwift(
         userId: UUID,
         swift: String
-    ): BeneficiaryModel?
+    ): IntermediaryModel?
 
     suspend fun getAll(
         userId: UUID
-    ): List<BeneficiaryModel>
+    ): List<IntermediaryModel>
 }

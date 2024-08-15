@@ -9,5 +9,6 @@ fun Application.rootController() {
         userController()
         authController()
         beneficiaryController()
+        intermediaryController()
     }
 }
