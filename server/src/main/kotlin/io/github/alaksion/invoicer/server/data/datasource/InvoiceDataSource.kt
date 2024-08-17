@@ -6,6 +6,7 @@ import io.github.alaksion.invoicer.server.data.entities.InvoiceTable
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
 import io.github.alaksion.invoicer.server.domain.model.getinvoices.GetInvoicesFilterModel
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.deleteWhere
@@ -38,6 +39,11 @@ internal interface InvoiceDataSource {
     fun deleteInvoice(
         id: UUID
     )
+
+    fun getInvoicesByBeneficiaryId(
+        beneficiaryId: UUID,
+        userId: UUID,
+    ): List<InvoiceEntity>
 }
 
 internal class InvoiceDataSourceImpl(
@@ -130,5 +136,14 @@ internal class InvoiceDataSourceImpl(
         InvoiceTable.deleteWhere {
             InvoiceTable.id eq id
         }
+    }
+
+    override fun getInvoicesByBeneficiaryId(
+        beneficiaryId: UUID,
+        userId: UUID
+    ): List<InvoiceEntity> {
+        return InvoiceEntity.find {
+            (InvoiceTable.beneficiary eq beneficiaryId) and (InvoiceTable.user eq userId)
+        }.toList()
     }
 }

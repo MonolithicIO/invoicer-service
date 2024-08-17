@@ -30,4 +30,9 @@ interface InvoiceRepository {
     suspend fun deleteByUUID(
         id: UUID
     )
+
+    suspend fun getInvoicesByBeneficiaryId(
+        beneficiaryId: UUID,
+        userId: UUID,
+    ): List<InvoiceListItemModel>
 }

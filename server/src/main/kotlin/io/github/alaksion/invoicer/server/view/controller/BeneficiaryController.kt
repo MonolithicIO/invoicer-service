@@ -1,6 +1,7 @@
 package io.github.alaksion.invoicer.server.view.controller
 
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CreateBeneficiaryUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.DeleteBeneficiaryUseCase
 import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.CreateBeneficiaryResponseViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.CreateBeneficiaryViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.toModel
@@ -9,6 +10,7 @@ import io.ktor.server.application.call
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Routing
+import io.ktor.server.routing.delete
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import org.kodein.di.instance
@@ -34,6 +36,20 @@ fun Routing.beneficiaryController() {
                     ),
                     status = HttpStatusCode.Created
                 )
+            }
+        }
+
+        jwtProtected {
+            delete("/{id}") {
+                val beneficiaryId = call.parameters["id"]!!
+                val useCase by closestDI().instance<DeleteBeneficiaryUseCase>()
+
+                useCase.execute(
+                    beneficiaryId = beneficiaryId,
+                    userId = jwtUserId()
+                )
+
+                call.respond(HttpStatusCode.NoContent)
             }
         }
     }

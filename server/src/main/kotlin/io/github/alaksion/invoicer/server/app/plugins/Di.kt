@@ -23,6 +23,8 @@ import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CreateBeneficiaryUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CreateBeneficiaryUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.DeleteBeneficiaryUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.DeleteBeneficiaryUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.GetBeneficiaryByIdUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.GetBeneficiaryByIdUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.intermediary.CreateIntermediaryUseCase
@@ -196,6 +198,15 @@ fun Application.installDi() {
         bindProvider<GetIntermediaryByIdUseCase> {
             GetIntermediaryByIdUseCaseImpl(
                 repository = instance()
+            )
+        }
+
+        bindProvider<DeleteBeneficiaryUseCase> {
+            DeleteBeneficiaryUseCaseImpl(
+                getBeneficiaryByIdUseCase = instance(),
+                beneficiaryRepository = instance(),
+                getUserByIdUseCase = instance(),
+                invoiceRepository = instance()
             )
         }
     }
