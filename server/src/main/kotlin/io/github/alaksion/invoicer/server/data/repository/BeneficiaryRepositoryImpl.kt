@@ -36,9 +36,17 @@ internal class BeneficiaryRepositoryImpl(
         }
     }
 
-    override suspend fun getAll(userId: UUID): List<BeneficiaryModel> {
+    override suspend fun getAll(
+        userId: UUID,
+        page: Long,
+        limit: Int,
+    ): List<BeneficiaryModel> {
         return newSuspendedTransaction {
-            dataSource.getAll(userId).map { it.toModel() }
+            dataSource.getAll(
+                userId = userId,
+                page = page,
+                limit = limit,
+            ).map { it.toModel() }
         }
     }
 }

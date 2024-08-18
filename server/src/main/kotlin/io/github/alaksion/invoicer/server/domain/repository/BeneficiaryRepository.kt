@@ -25,6 +25,8 @@ internal interface BeneficiaryRepository {
     ): BeneficiaryModel?
 
     suspend fun getAll(
-        userId: UUID
+        userId: UUID,
+        page: Long,
+        limit: Int,
     ): List<BeneficiaryModel>
 }

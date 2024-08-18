@@ -76,6 +76,9 @@ fun Route.jwtProtected(
 }
 
 fun PipelineContext<Unit, ApplicationCall>.jwtUserId(): String {
-    return call.principal<JWTPrincipal>()?.payload?.getClaim(JWTConfig.USER_ID_CLAIM)?.asString()
+    val principal = call.principal<JWTPrincipal>()
+
+    val id = principal?.payload?.getClaim(JWTConfig.USER_ID_CLAIM)?.asString()
         ?: httpError(message = AuthTokenManager.NOT_AUTHENTICATED_MESSAGE, code = HttpStatusCode.Unauthorized)
+    return id
 }

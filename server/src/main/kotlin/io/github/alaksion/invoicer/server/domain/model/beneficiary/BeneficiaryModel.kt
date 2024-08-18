@@ -6,5 +6,6 @@ data class BeneficiaryModel(
     val swift: String,
     val bankName: String,
     val bankAddress: String,
-    val userId: String
+    val userId: String,
+    val id: String,
 )

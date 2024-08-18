@@ -7,6 +7,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insertAndGetId
+import org.jetbrains.exposed.sql.selectAll
 import java.util.UUID
 
 internal interface BeneficiaryDataSource {
@@ -30,7 +31,9 @@ internal interface BeneficiaryDataSource {
     ): BeneficiaryEntity?
 
     fun getAll(
-        userId: UUID
+        userId: UUID,
+        page: Long,
+        limit: Int,
     ): List<BeneficiaryEntity>
 }
 
@@ -65,10 +68,19 @@ internal class BeneficiaryDataSourceImpl : BeneficiaryDataSource {
         }.firstOrNull()
     }
 
-    override fun getAll(userId: UUID): List<BeneficiaryEntity> {
-        return BeneficiaryEntity.find {
-            BeneficiaryTable.user eq userId
-        }.toList()
+    override fun getAll(
+        userId: UUID,
+        page: Long,
+        limit: Int,
+    ): List<BeneficiaryEntity> {
+        val query = BeneficiaryTable
+            .selectAll()
+            .where {
+                BeneficiaryTable.user eq userId
+            }
+            .limit(n = limit, offset = page * limit)
+
+        return BeneficiaryEntity.wrapRows(query).toList()
     }
 
 }
