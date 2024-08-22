@@ -3,8 +3,10 @@ package io.github.alaksion.invoicer.server.view.controller
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CreateBeneficiaryUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.DeleteBeneficiaryUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.GetUserBeneficiariesUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.UpdateBeneficiaryUseCase
 import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.CreateBeneficiaryResponseViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.CreateBeneficiaryViewModel
+import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.UpdateBeneficiaryViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.UserBeneficiariesViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.toModel
 import io.ktor.http.HttpStatusCode
@@ -15,6 +17,7 @@ import io.ktor.server.routing.Routing
 import io.ktor.server.routing.delete
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
+import io.ktor.server.routing.put
 import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
@@ -71,6 +74,23 @@ fun Routing.beneficiaryController() {
                             limit = limit
                         ).map { it.toModel() }
                     )
+                )
+            }
+        }
+
+        jwtProtected {
+            put("/{id}") {
+                val beneficiaryId = call.parameters["id"]!!
+                val useCase by closestDI().instance<UpdateBeneficiaryUseCase>()
+                val userId = jwtUserId()
+                val body = call.receive<UpdateBeneficiaryViewModel>()
+                call.respond(
+                    status = HttpStatusCode.OK,
+                    message = useCase.execute(
+                        beneficiaryId = beneficiaryId,
+                        model = body.toModel(),
+                        userId = userId
+                    ).toModel()
                 )
             }
         }

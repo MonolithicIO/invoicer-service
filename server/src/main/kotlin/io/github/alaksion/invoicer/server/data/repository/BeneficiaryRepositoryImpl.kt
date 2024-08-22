@@ -4,6 +4,7 @@ import io.github.alaksion.invoicer.server.data.datasource.BeneficiaryDataSource
 import io.github.alaksion.invoicer.server.data.entities.toModel
 import io.github.alaksion.invoicer.server.domain.model.beneficiary.BeneficiaryModel
 import io.github.alaksion.invoicer.server.domain.model.beneficiary.CreateBeneficiaryModel
+import io.github.alaksion.invoicer.server.domain.model.beneficiary.UpdateBeneficiaryModel
 import io.github.alaksion.invoicer.server.domain.repository.BeneficiaryRepository
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.util.UUID
@@ -47,6 +48,20 @@ internal class BeneficiaryRepositoryImpl(
                 page = page,
                 limit = limit,
             ).map { it.toModel() }
+        }
+    }
+
+    override suspend fun update(
+        userId: UUID,
+        beneficiaryId: UUID,
+        model: UpdateBeneficiaryModel
+    ): BeneficiaryModel {
+        return newSuspendedTransaction {
+            dataSource.update(
+                userId = userId,
+                beneficiaryId = beneficiaryId,
+                model = model
+            ).toModel()
         }
     }
 }

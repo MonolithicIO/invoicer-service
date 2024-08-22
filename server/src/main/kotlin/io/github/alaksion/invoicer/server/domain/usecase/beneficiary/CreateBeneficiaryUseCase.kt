@@ -17,7 +17,8 @@ interface CreateBeneficiaryUseCase {
 
 internal class CreateBeneficiaryUseCaseImpl(
     private val getUserByIdUseCase: GetUserByIdUseCase,
-    private val repository: BeneficiaryRepository
+    private val repository: BeneficiaryRepository,
+    private val checkSwiftUseCase: CheckSwiftAlreadyUsedUseCase
 ) : CreateBeneficiaryUseCase {
 
     override suspend fun create(model: CreateBeneficiaryModel, userId: String): String {
@@ -27,7 +28,7 @@ internal class CreateBeneficiaryUseCaseImpl(
 
         val user = getUserByIdUseCase.get(userId)
 
-        repository.getBySwift(user.id, model.swift)?.let {
+        if (checkSwiftUseCase.execute(model.swift, userId)) {
             httpError(
                 message = "Swift code: ${model.swift} is already in use by another beneficiary",
                 code = HttpStatusCode.Conflict

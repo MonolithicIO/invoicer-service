@@ -3,11 +3,13 @@ package io.github.alaksion.invoicer.server.data.datasource
 import io.github.alaksion.invoicer.server.data.entities.BeneficiaryEntity
 import io.github.alaksion.invoicer.server.data.entities.BeneficiaryTable
 import io.github.alaksion.invoicer.server.domain.model.beneficiary.CreateBeneficiaryModel
+import io.github.alaksion.invoicer.server.domain.model.beneficiary.UpdateBeneficiaryModel
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.updateReturning
 import java.util.UUID
 
 internal interface BeneficiaryDataSource {
@@ -35,6 +37,12 @@ internal interface BeneficiaryDataSource {
         page: Long,
         limit: Int,
     ): List<BeneficiaryEntity>
+
+    fun update(
+        userId: UUID,
+        beneficiaryId: UUID,
+        model: UpdateBeneficiaryModel
+    ): BeneficiaryEntity
 }
 
 internal class BeneficiaryDataSourceImpl : BeneficiaryDataSource {
@@ -83,4 +91,24 @@ internal class BeneficiaryDataSourceImpl : BeneficiaryDataSource {
         return BeneficiaryEntity.wrapRows(query).toList()
     }
 
+    override fun update(
+        userId: UUID,
+        beneficiaryId: UUID,
+        model: UpdateBeneficiaryModel
+    ): BeneficiaryEntity {
+        return BeneficiaryTable.updateReturning(
+            where = {
+                BeneficiaryTable.user eq userId
+                BeneficiaryTable.id eq beneficiaryId
+            }
+        ) {
+            it[name] = model.name
+            it[iban] = model.iban
+            it[swift] = model.swift
+            it[bankName] = model.bankName
+            it[bankAddress] = model.bankAddress
+        }.map {
+            BeneficiaryEntity.wrapRow(it)
+        }.first()
+    }
 }

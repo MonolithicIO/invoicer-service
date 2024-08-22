@@ -21,6 +21,8 @@ import io.github.alaksion.invoicer.server.domain.repository.UserRepository
 import io.github.alaksion.invoicer.server.domain.repository.UserRepositoryImpl
 import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CheckSwiftAlreadyUsedUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CheckSwiftAvailableUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CreateBeneficiaryUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CreateBeneficiaryUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.DeleteBeneficiaryUseCase
@@ -29,6 +31,8 @@ import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.GetBenefici
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.GetBeneficiaryByIdUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.GetUserBeneficiariesUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.GetUserBeneficiariesUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.UpdateBeneficiaryUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.UpdateBeneficiaryUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.intermediary.CreateIntermediaryUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.intermediary.CreateIntermediaryUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.intermediary.GetIntermediaryByIdUseCase
@@ -175,7 +179,8 @@ fun Application.installDi() {
         bindProvider<CreateBeneficiaryUseCase> {
             CreateBeneficiaryUseCaseImpl(
                 getUserByIdUseCase = instance(),
-                repository = instance()
+                repository = instance(),
+                checkSwiftUseCase = instance()
             )
         }
 
@@ -215,6 +220,21 @@ fun Application.installDi() {
         bindProvider<GetUserBeneficiariesUseCase> {
             GetUserBeneficiariesUseCaseImpl(
                 repository = instance()
+            )
+        }
+
+        bindProvider<CheckSwiftAlreadyUsedUseCase> {
+            CheckSwiftAvailableUseCaseImpl(
+                repository = instance()
+            )
+        }
+
+        bindProvider<UpdateBeneficiaryUseCase> {
+            UpdateBeneficiaryUseCaseImpl(
+                getUserByIdUseCase = instance(),
+                getBeneficiaryByIdUseCase = instance(),
+                checkSwiftAlreadyUsedUseCase = instance(),
+                beneficiaryRepository = instance()
             )
         }
     }
