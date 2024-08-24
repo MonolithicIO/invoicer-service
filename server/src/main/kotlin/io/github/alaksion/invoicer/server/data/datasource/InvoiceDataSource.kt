@@ -44,6 +44,11 @@ internal interface InvoiceDataSource {
         beneficiaryId: UUID,
         userId: UUID,
     ): List<InvoiceEntity>
+
+    fun getInvoicesByIntermediaryId(
+        intermediaryId: UUID,
+        userId: UUID,
+    ): List<InvoiceEntity>
 }
 
 internal class InvoiceDataSourceImpl(
@@ -144,6 +149,15 @@ internal class InvoiceDataSourceImpl(
     ): List<InvoiceEntity> {
         return InvoiceEntity.find {
             (InvoiceTable.beneficiary eq beneficiaryId) and (InvoiceTable.user eq userId)
+        }.toList()
+    }
+
+    override fun getInvoicesByIntermediaryId(
+        intermediaryId: UUID,
+        userId: UUID
+    ): List<InvoiceEntity> {
+        return InvoiceEntity.find {
+            (InvoiceTable.intermediary eq intermediaryId) and (InvoiceTable.user eq userId)
         }.toList()
     }
 }

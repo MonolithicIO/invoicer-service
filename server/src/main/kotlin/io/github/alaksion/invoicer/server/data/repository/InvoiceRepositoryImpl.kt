@@ -72,5 +72,16 @@ internal class InvoiceRepositoryImpl(
         }
     }
 
+    override suspend fun getInvoicesByIntermediaryId(
+        intermediaryId: UUID,
+        userId: UUID
+    ): List<InvoiceListItemModel> {
+        return newSuspendedTransaction {
+            dataSource.getInvoicesByIntermediaryId(intermediaryId, userId).map {
+                it.toListItemModel()
+            }
+        }
+    }
+
 
 }

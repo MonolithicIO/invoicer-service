@@ -35,4 +35,9 @@ interface InvoiceRepository {
         beneficiaryId: UUID,
         userId: UUID,
     ): List<InvoiceListItemModel>
+
+    suspend fun getInvoicesByIntermediaryId(
+        intermediaryId: UUID,
+        userId: UUID,
+    ): List<InvoiceListItemModel>
 }

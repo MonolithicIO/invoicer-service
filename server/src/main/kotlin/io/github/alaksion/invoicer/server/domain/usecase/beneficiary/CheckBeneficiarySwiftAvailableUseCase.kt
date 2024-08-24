@@ -3,16 +3,16 @@ package io.github.alaksion.invoicer.server.domain.usecase.beneficiary
 import io.github.alaksion.invoicer.server.domain.repository.BeneficiaryRepository
 import java.util.UUID
 
-interface CheckSwiftAlreadyUsedUseCase {
+interface CheckBeneficiarySwiftAvailableUseCase {
     suspend fun execute(
         swift: String,
         userId: String
     ): Boolean
 }
 
-internal class CheckSwiftAvailableUseCaseImpl(
+internal class CheckBeneficiarySwiftAvailableUseCaseImpl(
     private val repository: BeneficiaryRepository
-) : CheckSwiftAlreadyUsedUseCase {
+) : CheckBeneficiarySwiftAvailableUseCase {
 
     override suspend fun execute(swift: String, userId: String): Boolean {
         val response =

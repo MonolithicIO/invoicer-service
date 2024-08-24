@@ -17,7 +17,8 @@ interface CreateIntermediaryUseCase {
 
 internal class CreateIntermediaryUseCaseImpl(
     private val getUserByIdUseCase: GetUserByIdUseCase,
-    private val repository: IntermediaryRepository
+    private val repository: IntermediaryRepository,
+    private val checkIntermediarySwiftAlreadyUsedUseCaseImpl: CheckIntermediarySwiftAvailableUseCase
 ) : CreateIntermediaryUseCase {
 
     override suspend fun create(model: CreateIntermediaryModel, userId: String): String {
@@ -27,9 +28,9 @@ internal class CreateIntermediaryUseCaseImpl(
 
         val user = getUserByIdUseCase.get(userId)
 
-        repository.getBySwift(user.id, model.swift)?.let {
+        if (checkIntermediarySwiftAlreadyUsedUseCaseImpl.execute(model.swift, userId)) {
             httpError(
-                message = "Swift code: ${model.swift} is already in use by another beneficiary",
+                message = "Swift code: ${model.swift} is already in use by another intermediary",
                 code = HttpStatusCode.Conflict
             )
         }

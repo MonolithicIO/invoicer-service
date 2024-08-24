@@ -34,5 +34,6 @@ internal fun IntermediaryEntity.toModel(): IntermediaryModel = IntermediaryModel
     swift = this.swift,
     bankName = this.bankName,
     bankAddress = this.bankAddress,
-    userId = this.user.id.value.toString()
+    userId = this.user.id.value.toString(),
+    id = this.id.value.toString()
 )

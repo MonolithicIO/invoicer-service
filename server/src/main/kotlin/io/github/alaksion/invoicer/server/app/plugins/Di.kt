@@ -21,8 +21,8 @@ import io.github.alaksion.invoicer.server.domain.repository.UserRepository
 import io.github.alaksion.invoicer.server.domain.repository.UserRepositoryImpl
 import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCaseImpl
-import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CheckSwiftAlreadyUsedUseCase
-import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CheckSwiftAvailableUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CheckBeneficiarySwiftAvailableUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CheckBeneficiarySwiftAvailableUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CreateBeneficiaryUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CreateBeneficiaryUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.DeleteBeneficiaryUseCase
@@ -33,10 +33,18 @@ import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.GetUserBene
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.GetUserBeneficiariesUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.UpdateBeneficiaryUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.UpdateBeneficiaryUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.intermediary.CheckIntermediarySwiftAvailableUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.intermediary.CheckIntermediarySwiftAvailableUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.intermediary.CreateIntermediaryUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.intermediary.CreateIntermediaryUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.intermediary.DeleteIntermediaryUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.intermediary.DeleteIntermediaryUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.intermediary.GetIntermediaryByIdUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.intermediary.GetIntermediaryByIdUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.intermediary.GetUserIntermediariesUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.intermediary.GetUserIntermediariesUseCaseImpl
+import io.github.alaksion.invoicer.server.domain.usecase.intermediary.UpdateIntermediaryUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.intermediary.UpdateIntermediaryUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.CreateInvoiceUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.CreateInvoiceUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.invoice.DeleteInvoiceUseCase
@@ -194,7 +202,8 @@ fun Application.installDi() {
         bindProvider<CreateIntermediaryUseCase> {
             CreateIntermediaryUseCaseImpl(
                 getUserByIdUseCase = instance(),
-                repository = instance()
+                repository = instance(),
+                checkIntermediarySwiftAlreadyUsedUseCaseImpl = instance()
             )
         }
         bindProvider<GetBeneficiaryByIdUseCase> {
@@ -223,8 +232,14 @@ fun Application.installDi() {
             )
         }
 
-        bindProvider<CheckSwiftAlreadyUsedUseCase> {
-            CheckSwiftAvailableUseCaseImpl(
+        bindProvider<CheckBeneficiarySwiftAvailableUseCase> {
+            CheckBeneficiarySwiftAvailableUseCaseImpl(
+                repository = instance()
+            )
+        }
+
+        bindProvider<CheckIntermediarySwiftAvailableUseCase> {
+            CheckIntermediarySwiftAvailableUseCaseImpl(
                 repository = instance()
             )
         }
@@ -233,8 +248,30 @@ fun Application.installDi() {
             UpdateBeneficiaryUseCaseImpl(
                 getUserByIdUseCase = instance(),
                 getBeneficiaryByIdUseCase = instance(),
-                checkSwiftAlreadyUsedUseCase = instance(),
+                checkBeneficiarySwiftAvailableUseCase = instance(),
                 beneficiaryRepository = instance()
+            )
+        }
+
+        bindProvider<DeleteIntermediaryUseCase> {
+            DeleteIntermediaryUseCaseImpl(
+                intermediaryRepo = instance(),
+                getUserByIdUseCase = instance(),
+                invoiceRepository = instance(),
+                getIntermediaryByIdUseCase = instance()
+            )
+        }
+        bindProvider<UpdateIntermediaryUseCase> {
+            UpdateIntermediaryUseCaseImpl(
+                getUserByIdUseCase = instance(),
+                getIntermediaryByIdUseCase = instance(),
+                checkIntermediarySwiftAlreadyUsedUseCaseImpl = instance(),
+                intermediaryRepository = instance()
+            )
+        }
+        bindProvider<GetUserIntermediariesUseCase> {
+            GetUserIntermediariesUseCaseImpl(
+                repository = instance()
             )
         }
     }

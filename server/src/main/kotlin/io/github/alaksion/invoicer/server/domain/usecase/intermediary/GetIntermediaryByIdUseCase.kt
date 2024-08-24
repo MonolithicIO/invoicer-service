@@ -19,7 +19,7 @@ internal class GetIntermediaryByIdUseCaseImpl(
             intermediaryId = UUID.fromString(intermediaryId),
         )
 
-        if (intermediary == null) notFoundError("Beneficiary not found")
+        if (intermediary == null) notFoundError("Intermediary not found")
 
         if (intermediary.userId != userId) unauthorizedResourceError()
 

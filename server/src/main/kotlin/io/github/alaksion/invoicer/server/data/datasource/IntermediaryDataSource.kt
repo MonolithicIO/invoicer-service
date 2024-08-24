@@ -1,12 +1,16 @@
 package io.github.alaksion.invoicer.server.data.datasource
 
+import io.github.alaksion.invoicer.server.data.entities.BeneficiaryTable
 import io.github.alaksion.invoicer.server.data.entities.IntermediaryEntity
 import io.github.alaksion.invoicer.server.data.entities.IntermediaryTable
 import io.github.alaksion.invoicer.server.domain.model.intermediary.CreateIntermediaryModel
+import io.github.alaksion.invoicer.server.domain.model.intermediary.UpdateIntermediaryModel
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insertAndGetId
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.updateReturning
 import java.util.UUID
 
 internal interface IntermediaryDataSource {
@@ -30,8 +34,16 @@ internal interface IntermediaryDataSource {
     ): IntermediaryEntity?
 
     fun getAll(
-        userId: UUID
+        userId: UUID,
+        page: Long,
+        limit: Int,
     ): List<IntermediaryEntity>
+
+    fun update(
+        userId: UUID,
+        beneficiaryId: UUID,
+        model: UpdateIntermediaryModel
+    ): IntermediaryEntity
 }
 
 internal class IntermediaryDataSourceImpl : IntermediaryDataSource {
@@ -65,10 +77,40 @@ internal class IntermediaryDataSourceImpl : IntermediaryDataSource {
         }.firstOrNull()
     }
 
-    override fun getAll(userId: UUID): List<IntermediaryEntity> {
-        return IntermediaryEntity.find {
-            IntermediaryTable.user eq userId
-        }.toList()
+    override fun getAll(
+        userId: UUID,
+        page: Long,
+        limit: Int,
+    ): List<IntermediaryEntity> {
+        val query = IntermediaryTable
+            .selectAll()
+            .where {
+                IntermediaryTable.user eq userId
+            }
+            .limit(n = limit, offset = page * limit)
+
+        return IntermediaryEntity.wrapRows(query).toList()
+    }
+
+    override fun update(
+        userId: UUID,
+        beneficiaryId: UUID,
+        model: UpdateIntermediaryModel
+    ): IntermediaryEntity {
+        return IntermediaryTable.updateReturning(
+            where = {
+                IntermediaryTable.user eq userId
+                IntermediaryTable.id eq beneficiaryId
+            }
+        ) {
+            it[name] = model.name
+            it[iban] = model.iban
+            it[swift] = model.swift
+            it[bankName] = model.bankName
+            it[bankAddress] = model.bankAddress
+        }.map {
+            IntermediaryEntity.wrapRow(it)
+        }.first()
     }
 
 }

@@ -18,7 +18,7 @@ interface CreateBeneficiaryUseCase {
 internal class CreateBeneficiaryUseCaseImpl(
     private val getUserByIdUseCase: GetUserByIdUseCase,
     private val repository: BeneficiaryRepository,
-    private val checkSwiftUseCase: CheckSwiftAlreadyUsedUseCase
+    private val checkSwiftUseCase: CheckBeneficiarySwiftAvailableUseCase
 ) : CreateBeneficiaryUseCase {
 
     override suspend fun create(model: CreateBeneficiaryModel, userId: String): String {

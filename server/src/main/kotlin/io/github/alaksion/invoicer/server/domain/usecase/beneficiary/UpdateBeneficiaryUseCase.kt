@@ -20,7 +20,7 @@ interface UpdateBeneficiaryUseCase {
 internal class UpdateBeneficiaryUseCaseImpl(
     private val getUserByIdUseCase: GetUserByIdUseCase,
     private val getBeneficiaryByIdUseCase: GetBeneficiaryByIdUseCase,
-    private val checkSwiftAlreadyUsedUseCase: CheckSwiftAlreadyUsedUseCase,
+    private val checkBeneficiarySwiftAvailableUseCase: CheckBeneficiarySwiftAvailableUseCase,
     private val beneficiaryRepository: BeneficiaryRepository
 ) : UpdateBeneficiaryUseCase {
 
@@ -40,7 +40,7 @@ internal class UpdateBeneficiaryUseCaseImpl(
             userId = userId
         )
 
-        if (checkSwiftAlreadyUsedUseCase.execute(
+        if (checkBeneficiarySwiftAvailableUseCase.execute(
                 swift = model.swift,
                 userId = userId
             )

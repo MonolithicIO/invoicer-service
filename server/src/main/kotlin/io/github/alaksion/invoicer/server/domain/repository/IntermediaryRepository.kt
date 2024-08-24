@@ -2,6 +2,7 @@ package io.github.alaksion.invoicer.server.domain.repository
 
 import io.github.alaksion.invoicer.server.domain.model.intermediary.CreateIntermediaryModel
 import io.github.alaksion.invoicer.server.domain.model.intermediary.IntermediaryModel
+import io.github.alaksion.invoicer.server.domain.model.intermediary.UpdateIntermediaryModel
 import java.util.UUID
 
 interface IntermediaryRepository {
@@ -25,6 +26,14 @@ interface IntermediaryRepository {
     ): IntermediaryModel?
 
     suspend fun getAll(
-        userId: UUID
+        userId: UUID,
+        page: Long,
+        limit: Int,
     ): List<IntermediaryModel>
+
+    suspend fun update(
+        userId: UUID,
+        intermediaryId: UUID,
+        model: UpdateIntermediaryModel
+    ): IntermediaryModel
 }
