@@ -1,8 +1,5 @@
 plugins {
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.ktor)
-    alias(libs.plugins.serialization)
-    alias(libs.plugins.detekt)
 }
 
 // Move to build plugin
