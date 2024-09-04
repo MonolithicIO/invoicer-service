@@ -28,10 +28,18 @@ dependencies {
     implementation(libs.bundles.ktor)
     implementation("org.webjars:jquery:3.2.1")
     implementation(libs.swagger)
+
+    // Foundation
     implementation(projects.foundation.password.api)
     implementation(projects.foundation.date.api)
     implementation(projects.foundation.authentication.api)
     implementation(projects.foundation.exceptions)
+    implementation(projects.foundation.validator.api)
+
+    // Domains
+    implementation(projects.domains.user.domain.api)
+    implementation(projects.domains.user.data.api)
+    implementation(projects.domains.user.controller)
 
     testImplementation(libs.ktor.server.tests.jvm)
     testImplementation(libs.kotlin.test)

@@ -1,5 +1,8 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
+import domains.user.data.api.di.userDataModule
+import domains.user.domain.api.di.userDomainModule
+import foundation.validator.api.di.validatorModule
 import io.github.alaksion.invoicer.server.app.plugins.DITags.TEMP_FILE_HANDLER
 import io.github.alaksion.invoicer.server.data.datasource.BeneficiaryDataSource
 import io.github.alaksion.invoicer.server.data.datasource.BeneficiaryDataSourceImpl
@@ -82,6 +85,9 @@ fun Application.installDi() {
         import(utilPasswordDi)
         import(utilsDateModule)
         import(utilsAuthenticationModule)
+        import(validatorModule)
+        import(userDataModule)
+        import(userDomainModule)
 
         bindProvider<InvoiceRepository> { InvoiceRepositoryImpl(dataSource = instance()) }
         bindProvider<InvoiceDataSource> { InvoiceDataSourceImpl(dateProvider = instance()) }
