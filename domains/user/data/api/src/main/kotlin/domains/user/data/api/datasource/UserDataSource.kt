@@ -1,6 +1,6 @@
 package domains.user.data.api.datasource
 
-import domains.user.domain.models.CreateUserModel
+import domains.user.domain.api.models.CreateUserModel
 import entities.UserEntity
 import entities.UserTable
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq

@@ -2,9 +2,9 @@ package domains.user.data.api.repository
 
 import domains.user.data.api.datasource.UserDataSource
 import domains.user.data.api.extensions.toModel
-import domains.user.domain.models.CreateUserModel
-import domains.user.domain.models.UserModel
-import domains.user.domain.repository.UserRepository
+import domains.user.domain.api.models.CreateUserModel
+import domains.user.domain.api.models.UserModel
+import domains.user.domain.api.repository.UserRepository
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.util.UUID
 

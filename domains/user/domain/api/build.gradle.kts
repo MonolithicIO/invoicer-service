@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin)
+    alias(libs.plugins.ktor)
 }
 
 group = "io.github.alaksion.invoicer.server.domains.user.domain.api"
