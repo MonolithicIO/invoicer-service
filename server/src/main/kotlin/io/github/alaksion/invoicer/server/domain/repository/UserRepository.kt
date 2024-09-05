@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.server.domain.repository
 
 import io.github.alaksion.invoicer.server.data.datasource.UserDataSource
-import io.github.alaksion.invoicer.server.data.entities.toModel
+import io.github.alaksion.invoicer.server.data.extensions.toModel
 import io.github.alaksion.invoicer.server.domain.model.user.CreateUserModel
 import io.github.alaksion.invoicer.server.domain.model.user.UserModel
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction

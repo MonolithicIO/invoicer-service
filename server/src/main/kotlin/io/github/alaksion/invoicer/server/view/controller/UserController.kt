@@ -1,10 +1,10 @@
-package domains.user.controller
+package io.github.alaksion.invoicer.server.view.controller
 
-import domains.user.controller.viewmodel.createuser.CreateUserRequestViewModel
-import domains.user.controller.viewmodel.createuser.CreateUserResponseViewModel
-import domains.user.controller.viewmodel.createuser.toDomainModel
-import domains.user.domain.api.usecase.CreateUserUseCase
-import domains.user.domain.api.usecase.DeleteUserUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.user.CreateUserUseCase
+import io.github.alaksion.invoicer.server.domain.usecase.user.DeleteUserUseCase
+import io.github.alaksion.invoicer.server.view.viewmodel.createuser.CreateUserRequestViewModel
+import io.github.alaksion.invoicer.server.view.viewmodel.createuser.CreateUserResponseViewModel
+import io.github.alaksion.invoicer.server.view.viewmodel.createuser.toDomainModel
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.request.receive

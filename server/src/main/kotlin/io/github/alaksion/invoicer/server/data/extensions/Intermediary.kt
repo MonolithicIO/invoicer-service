@@ -1,7 +1,8 @@
-package domains.intermediary.data.api.extensions
+package io.github.alaksion.invoicer.server.data.extensions
 
-import domains.intermediary.domain.api.model.IntermediaryModel
 import entities.IntermediaryEntity
+import io.github.alaksion.invoicer.server.domain.model.intermediary.IntermediaryModel
+
 
 internal fun IntermediaryEntity.toModel(): IntermediaryModel = IntermediaryModel(
     name = this.name,

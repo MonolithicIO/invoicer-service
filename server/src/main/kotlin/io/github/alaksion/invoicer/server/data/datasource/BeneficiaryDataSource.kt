@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.server.data.datasource
 
-import io.github.alaksion.invoicer.server.data.entities.BeneficiaryEntity
-import io.github.alaksion.invoicer.server.data.entities.BeneficiaryTable
+import entities.BeneficiaryEntity
+import entities.BeneficiaryTable
 import io.github.alaksion.invoicer.server.domain.model.beneficiary.CreateBeneficiaryModel
 import io.github.alaksion.invoicer.server.domain.model.beneficiary.UpdateBeneficiaryModel
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq

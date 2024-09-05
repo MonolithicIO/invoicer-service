@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.server.data.repository
 
 import io.github.alaksion.invoicer.server.data.datasource.BeneficiaryDataSource
-import io.github.alaksion.invoicer.server.data.entities.toModel
+import io.github.alaksion.invoicer.server.data.extensions.toModel
 import io.github.alaksion.invoicer.server.domain.model.beneficiary.BeneficiaryModel
 import io.github.alaksion.invoicer.server.domain.model.beneficiary.CreateBeneficiaryModel
 import io.github.alaksion.invoicer.server.domain.model.beneficiary.UpdateBeneficiaryModel

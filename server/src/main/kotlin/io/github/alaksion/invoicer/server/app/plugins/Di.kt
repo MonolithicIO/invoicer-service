@@ -1,9 +1,5 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
-import domains.intermediary.data.api.di.intermediaryDataModule
-import domains.invoice.data.api.di.invoiceDataModule
-import domains.user.data.api.di.userDataModule
-import domains.user.domain.api.di.userDomainModule
 import foundation.validator.api.di.validatorModule
 import io.github.alaksion.invoicer.server.app.plugins.DITags.TEMP_FILE_HANDLER
 import io.github.alaksion.invoicer.server.data.datasource.BeneficiaryDataSource
@@ -16,16 +12,12 @@ import io.github.alaksion.invoicer.server.data.datasource.UserDataSource
 import io.github.alaksion.invoicer.server.data.datasource.UserDataSourceImpl
 import io.github.alaksion.invoicer.server.data.repository.BeneficiaryRepositoryImpl
 import io.github.alaksion.invoicer.server.data.repository.IntermediaryRepositoryImpl
-import io.github.alaksion.invoicer.server.data.repository.InvoicePdfRepositoryImpl
 import io.github.alaksion.invoicer.server.data.repository.InvoiceRepositoryImpl
 import io.github.alaksion.invoicer.server.domain.repository.BeneficiaryRepository
 import io.github.alaksion.invoicer.server.domain.repository.IntermediaryRepository
-import io.github.alaksion.invoicer.server.domain.repository.InvoicePdfRepository
 import io.github.alaksion.invoicer.server.domain.repository.InvoiceRepository
 import io.github.alaksion.invoicer.server.domain.repository.UserRepository
 import io.github.alaksion.invoicer.server.domain.repository.UserRepositoryImpl
-import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCase
-import io.github.alaksion.invoicer.server.domain.usecase.CreateInvoicePdfUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CheckBeneficiarySwiftAvailableUseCase
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CheckBeneficiarySwiftAvailableUseCaseImpl
 import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CreateBeneficiaryUseCase
@@ -88,10 +80,7 @@ fun Application.installDi() {
         import(utilsDateModule)
         import(utilsAuthenticationModule)
         import(validatorModule)
-        import(userDataModule)
-        import(userDomainModule)
-        import(invoiceDataModule)
-        import(intermediaryDataModule)
+
 
         bindProvider<InvoiceRepository> { InvoiceRepositoryImpl(dataSource = instance()) }
         bindProvider<InvoiceDataSource> { InvoiceDataSourceImpl(dateProvider = instance()) }
@@ -99,12 +88,6 @@ fun Application.installDi() {
         bindProvider<UserDataSource> { UserDataSourceImpl() }
         bindProvider<UserRepository> {
             UserRepositoryImpl(
-                dataSource = instance()
-            )
-        }
-
-        bindProvider<InvoicePdfRepository> {
-            InvoicePdfRepositoryImpl(
                 dataSource = instance()
             )
         }
@@ -119,13 +102,6 @@ fun Application.installDi() {
             )
         }
 
-        bindProvider<CreateInvoicePdfUseCase> {
-            CreateInvoicePdfUseCaseImpl(
-                invoiceRepository = instance(),
-                invoicePdfRepository = instance(),
-                pdfGenerator = instance(DITags.OPEN_PDF_GENERATOR),
-            )
-        }
 
         bindProvider<GetInvoicesUseCase> {
             GetInvoicesUseCaseImpl(
@@ -198,7 +174,8 @@ fun Application.installDi() {
             CreateBeneficiaryUseCaseImpl(
                 getUserByIdUseCase = instance(),
                 repository = instance(),
-                checkSwiftUseCase = instance()
+                checkSwiftUseCase = instance(),
+                swiftValidator = instance()
             )
         }
 
@@ -213,7 +190,8 @@ fun Application.installDi() {
             CreateIntermediaryUseCaseImpl(
                 getUserByIdUseCase = instance(),
                 repository = instance(),
-                checkIntermediarySwiftAlreadyUsedUseCaseImpl = instance()
+                checkIntermediarySwiftAlreadyUsedUseCaseImpl = instance(),
+                swiftValidator = instance()
             )
         }
         bindProvider<GetBeneficiaryByIdUseCase> {
@@ -259,7 +237,8 @@ fun Application.installDi() {
                 getUserByIdUseCase = instance(),
                 getBeneficiaryByIdUseCase = instance(),
                 checkBeneficiarySwiftAvailableUseCase = instance(),
-                beneficiaryRepository = instance()
+                beneficiaryRepository = instance(),
+                swiftValidator = instance()
             )
         }
 
@@ -276,7 +255,8 @@ fun Application.installDi() {
                 getUserByIdUseCase = instance(),
                 getIntermediaryByIdUseCase = instance(),
                 checkIntermediarySwiftAlreadyUsedUseCaseImpl = instance(),
-                intermediaryRepository = instance()
+                intermediaryRepository = instance(),
+                swiftValidator = instance()
             )
         }
         bindProvider<GetUserIntermediariesUseCase> {

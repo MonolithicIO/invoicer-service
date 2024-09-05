@@ -1,11 +1,10 @@
 package io.github.alaksion.invoicer.server.domain.usecase.intermediary
 
-import io.github.alaksion.invoicer.server.domain.model.beneficiary.BeneficiaryModel
+import foundation.validator.api.SwiftValidator
 import io.github.alaksion.invoicer.server.domain.model.intermediary.IntermediaryModel
 import io.github.alaksion.invoicer.server.domain.model.intermediary.UpdateIntermediaryModel
 import io.github.alaksion.invoicer.server.domain.repository.IntermediaryRepository
 import io.github.alaksion.invoicer.server.domain.usecase.user.GetUserByIdUseCase
-import io.github.alaksion.invoicer.server.validation.validateSwiftCode
 import io.ktor.http.HttpStatusCode
 import utils.exceptions.httpError
 import java.util.UUID
@@ -22,7 +21,8 @@ internal class UpdateIntermediaryUseCaseImpl(
     private val getUserByIdUseCase: GetUserByIdUseCase,
     private val getIntermediaryByIdUseCase: GetIntermediaryByIdUseCase,
     private val checkIntermediarySwiftAlreadyUsedUseCaseImpl: CheckIntermediarySwiftAvailableUseCase,
-    private val intermediaryRepository: IntermediaryRepository
+    private val intermediaryRepository: IntermediaryRepository,
+    private val swiftValidator: SwiftValidator
 ) : UpdateIntermediaryUseCase {
 
     override suspend fun execute(
@@ -30,7 +30,7 @@ internal class UpdateIntermediaryUseCaseImpl(
         userId: String,
         intermediaryId: String
     ): IntermediaryModel {
-        if (validateSwiftCode(model.swift).not()) {
+        if (swiftValidator.validate(model.swift).not()) {
             httpError("Invalid swift code: ${model.swift}", HttpStatusCode.BadRequest)
         }
 

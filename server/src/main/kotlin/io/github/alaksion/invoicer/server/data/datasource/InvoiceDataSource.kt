@@ -1,8 +1,8 @@
 package io.github.alaksion.invoicer.server.data.datasource
 
-import io.github.alaksion.invoicer.server.data.entities.InvoiceActivityTable
-import io.github.alaksion.invoicer.server.data.entities.InvoiceEntity
-import io.github.alaksion.invoicer.server.data.entities.InvoiceTable
+import entities.InvoiceActivityTable
+import entities.InvoiceEntity
+import entities.InvoiceTable
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
 import io.github.alaksion.invoicer.server.domain.model.getinvoices.GetInvoicesFilterModel
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq

@@ -1,8 +1,7 @@
 package io.github.alaksion.invoicer.server.data.datasource
 
-import io.github.alaksion.invoicer.server.data.entities.BeneficiaryTable
-import io.github.alaksion.invoicer.server.data.entities.IntermediaryEntity
-import io.github.alaksion.invoicer.server.data.entities.IntermediaryTable
+import entities.IntermediaryEntity
+import entities.IntermediaryTable
 import io.github.alaksion.invoicer.server.domain.model.intermediary.CreateIntermediaryModel
 import io.github.alaksion.invoicer.server.domain.model.intermediary.UpdateIntermediaryModel
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq

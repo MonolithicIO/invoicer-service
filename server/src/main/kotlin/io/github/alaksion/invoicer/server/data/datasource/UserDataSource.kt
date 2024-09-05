@@ -1,10 +1,10 @@
 package io.github.alaksion.invoicer.server.data.datasource
 
-import io.github.alaksion.invoicer.server.data.entities.UserEntity
-import io.github.alaksion.invoicer.server.data.entities.UserTable
+import entities.UserEntity
+import entities.UserTable
 import io.github.alaksion.invoicer.server.domain.model.user.CreateUserModel
-import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.deleteWhere
 import java.util.*
 
 internal interface UserDataSource {

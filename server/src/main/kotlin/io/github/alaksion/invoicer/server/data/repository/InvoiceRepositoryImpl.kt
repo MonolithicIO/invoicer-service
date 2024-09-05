@@ -1,8 +1,8 @@
 package io.github.alaksion.invoicer.server.data.repository
 
 import io.github.alaksion.invoicer.server.data.datasource.InvoiceDataSource
-import io.github.alaksion.invoicer.server.data.entities.toListItemModel
-import io.github.alaksion.invoicer.server.data.entities.toModel
+import io.github.alaksion.invoicer.server.data.extensions.toListItemModel
+import io.github.alaksion.invoicer.server.data.extensions.toModel
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
 import io.github.alaksion.invoicer.server.domain.model.InvoiceModel
 import io.github.alaksion.invoicer.server.domain.model.getinvoices.GetInvoicesFilterModel

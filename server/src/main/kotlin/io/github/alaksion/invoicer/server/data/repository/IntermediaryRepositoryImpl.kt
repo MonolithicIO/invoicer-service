@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.server.data.repository
 
 import io.github.alaksion.invoicer.server.data.datasource.IntermediaryDataSource
-import io.github.alaksion.invoicer.server.data.entities.toModel
+import io.github.alaksion.invoicer.server.data.extensions.toModel
 import io.github.alaksion.invoicer.server.domain.model.intermediary.CreateIntermediaryModel
 import io.github.alaksion.invoicer.server.domain.model.intermediary.IntermediaryModel
 import io.github.alaksion.invoicer.server.domain.model.intermediary.UpdateIntermediaryModel
