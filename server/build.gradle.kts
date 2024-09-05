@@ -36,10 +36,15 @@ dependencies {
     implementation(projects.foundation.exceptions)
     implementation(projects.foundation.validator.api)
 
-    // Domains
+    // Domains User
     implementation(projects.domains.user.domain.api)
     implementation(projects.domains.user.data.api)
     implementation(projects.domains.user.controller)
+
+    // Domains Invoice
+    implementation(projects.domains.invoice.domain.api)
+    implementation(projects.domains.invoice.data.api)
+    implementation(projects.domains.invoice.controller)
 
     testImplementation(libs.ktor.server.tests.jvm)
     testImplementation(libs.kotlin.test)
