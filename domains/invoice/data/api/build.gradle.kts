@@ -8,6 +8,7 @@ version = "0.0.1"
 dependencies {
     implementation(projects.domains.invoice.domain.api)
     implementation(projects.entities)
+    implementation(projects.foundation.date.api)
     implementation(libs.kodein.server)
     implementation(libs.bundles.exposed)
 }

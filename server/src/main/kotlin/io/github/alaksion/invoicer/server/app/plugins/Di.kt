@@ -1,5 +1,6 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
+import domains.invoice.data.api.di.invoiceDataModule
 import domains.user.data.api.di.userDataModule
 import domains.user.domain.api.di.userDomainModule
 import foundation.validator.api.di.validatorModule
@@ -88,6 +89,7 @@ fun Application.installDi() {
         import(validatorModule)
         import(userDataModule)
         import(userDomainModule)
+        import(invoiceDataModule)
 
         bindProvider<InvoiceRepository> { InvoiceRepositoryImpl(dataSource = instance()) }
         bindProvider<InvoiceDataSource> { InvoiceDataSourceImpl(dateProvider = instance()) }
