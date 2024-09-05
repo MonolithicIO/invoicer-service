@@ -12,9 +12,9 @@ data class CreateUserRequestViewModel(
 )
 
 internal fun CreateUserRequestViewModel.toDomainModel(): CreateUserModel {
-    if (this.email.isNullOrBlank()) badRequestError(message = "E-mail field is required")
-    if (this.password.isNullOrBlank()) badRequestError(message = "password field is required")
-    if (this.confirmEmail.isNullOrBlank()) badRequestError(message = "confirm e-mail field is required")
+    if (this.email == null) badRequestError(message = "E-mail field is required")
+    if (this.password == null) badRequestError(message = "password field is required")
+    if (this.confirmEmail == null) badRequestError(message = "confirm e-mail field is required")
 
     return CreateUserModel(
         email = this.email.trim(),
