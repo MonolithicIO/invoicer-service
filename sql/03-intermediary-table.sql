@@ -6,6 +6,7 @@ create table if not exists t_intermediary(
     bank_name varchar not null,
     bank_address varchar not null,
     user_id uuid not null,
+    is_deleted boolean default false,
     constraint fk_intermediary_to_user
             foreign key (user_id)
                 references t_user(id)
