@@ -4,11 +4,10 @@ import entities.BeneficiaryEntity
 import entities.BeneficiaryTable
 import io.github.alaksion.invoicer.server.domain.model.beneficiary.CreateBeneficiaryModel
 import io.github.alaksion.invoicer.server.domain.model.beneficiary.UpdateBeneficiaryModel
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.updateReturning
 import java.util.UUID
 
@@ -23,22 +22,22 @@ internal interface BeneficiaryDataSource {
         beneficiaryId: UUID
     )
 
-    fun getById(
+    fun getUserBeneficiaryById(
         beneficiaryId: UUID
     ): BeneficiaryEntity?
 
-    fun getBySwift(
+    fun getUserBeneficiaryBySwift(
         userId: UUID,
         swift: String
     ): BeneficiaryEntity?
 
-    fun getAll(
+    fun getUserBeneficiaries(
         userId: UUID,
         page: Long,
         limit: Int,
     ): List<BeneficiaryEntity>
 
-    fun update(
+    fun updateUserBeneficiary(
         userId: UUID,
         beneficiaryId: UUID,
         model: UpdateBeneficiaryModel
@@ -59,24 +58,28 @@ internal class BeneficiaryDataSourceImpl : BeneficiaryDataSource {
     }
 
     override fun delete(userId: UUID, beneficiaryId: UUID) {
-        BeneficiaryTable.deleteWhere {
-            user.eq(userId).and(id eq beneficiaryId)
+        BeneficiaryTable.update(
+            where = {
+                BeneficiaryTable.user.eq(userId).and(BeneficiaryTable.id eq beneficiaryId)
+            }
+        ) {
+            it[isDeleted] = true
         }
     }
 
-    override fun getById(beneficiaryId: UUID): BeneficiaryEntity? {
+    override fun getUserBeneficiaryById(beneficiaryId: UUID): BeneficiaryEntity? {
         return BeneficiaryEntity.find {
-            BeneficiaryTable.id eq beneficiaryId
+            (BeneficiaryTable.id eq beneficiaryId) and (BeneficiaryTable.isDeleted eq false)
         }.firstOrNull()
     }
 
-    override fun getBySwift(userId: UUID, swift: String): BeneficiaryEntity? {
+    override fun getUserBeneficiaryBySwift(userId: UUID, swift: String): BeneficiaryEntity? {
         return BeneficiaryEntity.find {
-            (BeneficiaryTable.user eq userId).and(BeneficiaryTable.swift eq swift)
+            (BeneficiaryTable.user eq userId).and(BeneficiaryTable.swift eq swift) and (BeneficiaryTable.isDeleted eq false)
         }.firstOrNull()
     }
 
-    override fun getAll(
+    override fun getUserBeneficiaries(
         userId: UUID,
         page: Long,
         limit: Int,
@@ -84,14 +87,14 @@ internal class BeneficiaryDataSourceImpl : BeneficiaryDataSource {
         val query = BeneficiaryTable
             .selectAll()
             .where {
-                BeneficiaryTable.user eq userId
+                BeneficiaryTable.user eq userId and (BeneficiaryTable.isDeleted eq false)
             }
             .limit(n = limit, offset = page * limit)
 
         return BeneficiaryEntity.wrapRows(query).toList()
     }
 
-    override fun update(
+    override fun updateUserBeneficiary(
         userId: UUID,
         beneficiaryId: UUID,
         model: UpdateBeneficiaryModel
