@@ -33,7 +33,7 @@ internal class InvoiceRepositoryImpl(
 
     override suspend fun getInvoiceByExternalId(externalId: String): InvoiceModel? {
         return newSuspendedTransaction {
-            dataSource.getInvoiceByExternalId(externalId = externalId)?.toModel()
+            dataSource.getUserInvoiceByExternalId(externalId = externalId)?.toModel()
         }
     }
 
@@ -44,7 +44,7 @@ internal class InvoiceRepositoryImpl(
         userId: String,
     ): List<InvoiceListItemModel> {
         return newSuspendedTransaction {
-            dataSource.getInvoicesFiltered(
+            dataSource.getUserInvoicesFiltered(
                 page = page,
                 limit = limit,
                 filters = filters,
@@ -66,7 +66,7 @@ internal class InvoiceRepositoryImpl(
         userId: UUID
     ): List<InvoiceListItemModel> {
         return newSuspendedTransaction {
-            dataSource.getInvoicesByBeneficiaryId(beneficiaryId, userId).map {
+            dataSource.getUserInvoicesByBeneficiaryId(beneficiaryId, userId).map {
                 it.toListItemModel()
             }
         }
@@ -77,7 +77,7 @@ internal class InvoiceRepositoryImpl(
         userId: UUID
     ): List<InvoiceListItemModel> {
         return newSuspendedTransaction {
-            dataSource.getInvoicesByIntermediaryId(intermediaryId, userId).map {
+            dataSource.getUserInvoicesByIntermediaryId(intermediaryId, userId).map {
                 it.toListItemModel()
             }
         }

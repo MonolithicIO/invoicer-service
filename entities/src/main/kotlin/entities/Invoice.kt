@@ -21,6 +21,7 @@ object InvoiceTable : UUIDTable("t_invoice") {
     val dueDate = date("due_date")
     val createdAt = date("created_at")
     val updatedAt = date("updated_at")
+    val isDeleted = bool("is_deleted").default(false)
     val user = reference(name = "user_id", foreign = UserTable, onDelete = ReferenceOption.CASCADE)
     val beneficiary = reference("beneficiary_id", foreign = BeneficiaryTable)
     val intermediary = optReference("intermediary_id", foreign = IntermediaryTable)
@@ -38,6 +39,7 @@ class InvoiceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var dueDate by InvoiceTable.dueDate
     var createdAt by InvoiceTable.createdAt
     var updatedAt by InvoiceTable.updatedAt
+    var isDeleted by InvoiceTable.isDeleted
     val activities by InvoiceActivityEntity referrersOn InvoiceActivityTable.invoice
     var user by UserEntity referencedOn InvoiceTable.user
     var beneficiary by BeneficiaryEntity referencedOn InvoiceTable.beneficiary
