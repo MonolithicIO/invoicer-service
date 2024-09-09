@@ -27,13 +27,13 @@ internal class BeneficiaryRepositoryImpl(
 
     override suspend fun getById(beneficiaryId: UUID): BeneficiaryModel? {
         return newSuspendedTransaction {
-            dataSource.getById(beneficiaryId)?.toModel()
+            dataSource.getUserBeneficiaryById(beneficiaryId)?.toModel()
         }
     }
 
     override suspend fun getBySwift(userId: UUID, swift: String): BeneficiaryModel? {
         return newSuspendedTransaction {
-            dataSource.getBySwift(userId, swift)?.toModel()
+            dataSource.getUserBeneficiaryBySwift(userId, swift)?.toModel()
         }
     }
 
@@ -43,7 +43,7 @@ internal class BeneficiaryRepositoryImpl(
         limit: Int,
     ): List<BeneficiaryModel> {
         return newSuspendedTransaction {
-            dataSource.getAll(
+            dataSource.getUserBeneficiaries(
                 userId = userId,
                 page = page,
                 limit = limit,
@@ -57,7 +57,7 @@ internal class BeneficiaryRepositoryImpl(
         model: UpdateBeneficiaryModel
     ): BeneficiaryModel {
         return newSuspendedTransaction {
-            dataSource.update(
+            dataSource.updateUserBeneficiary(
                 userId = userId,
                 beneficiaryId = beneficiaryId,
                 model = model

@@ -13,6 +13,7 @@ object BeneficiaryTable : UUIDTable("t_beneficiary") {
     val swift = varchar("swift", 11)
     val bankName = varchar("bank_name", 1000)
     val bankAddress = varchar("bank_address", 1000)
+    val isDeleted = bool("is_deleted").default(false)
     val user = reference("user_id", foreign = UserTable, onDelete = ReferenceOption.CASCADE)
 }
 
@@ -24,5 +25,6 @@ class BeneficiaryEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var swift by BeneficiaryTable.swift
     var bankName by BeneficiaryTable.bankName
     var bankAddress by BeneficiaryTable.bankAddress
+    var isDeleted by BeneficiaryTable.isDeleted
     val user by UserEntity referencedOn BeneficiaryTable.user
 }
