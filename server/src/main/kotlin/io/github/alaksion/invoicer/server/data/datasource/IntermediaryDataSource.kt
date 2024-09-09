@@ -4,11 +4,10 @@ import entities.IntermediaryEntity
 import entities.IntermediaryTable
 import io.github.alaksion.invoicer.server.domain.model.intermediary.CreateIntermediaryModel
 import io.github.alaksion.invoicer.server.domain.model.intermediary.UpdateIntermediaryModel
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.updateReturning
 import java.util.UUID
 
@@ -23,16 +22,16 @@ internal interface IntermediaryDataSource {
         intermediaryId: UUID
     )
 
-    fun getById(
+    fun getUserIntermediaryById(
         intermediaryId: UUID
     ): IntermediaryEntity?
 
-    fun getBySwift(
+    fun getUserIntermediaryBySwift(
         userId: UUID,
         swift: String
     ): IntermediaryEntity?
 
-    fun getAll(
+    fun getUserIntermediaries(
         userId: UUID,
         page: Long,
         limit: Int,
@@ -59,24 +58,28 @@ internal class IntermediaryDataSourceImpl : IntermediaryDataSource {
     }
 
     override fun delete(userId: UUID, intermediaryId: UUID) {
-        IntermediaryTable.deleteWhere {
-            user.eq(userId).and(id eq intermediaryId)
+        IntermediaryTable.update(
+            where = {
+                IntermediaryTable.user.eq(userId).and(IntermediaryTable.id eq intermediaryId)
+            }
+        ) {
+            it[isDeleted] = true
         }
     }
 
-    override fun getById(intermediaryId: UUID): IntermediaryEntity? {
+    override fun getUserIntermediaryById(intermediaryId: UUID): IntermediaryEntity? {
         return IntermediaryEntity.find {
-            IntermediaryTable.id eq intermediaryId
+            (IntermediaryTable.id eq intermediaryId) and (IntermediaryTable.isDeleted eq false)
         }.firstOrNull()
     }
 
-    override fun getBySwift(userId: UUID, swift: String): IntermediaryEntity? {
+    override fun getUserIntermediaryBySwift(userId: UUID, swift: String): IntermediaryEntity? {
         return IntermediaryEntity.find {
-            (IntermediaryTable.user eq userId).and(IntermediaryTable.swift eq swift)
+            (IntermediaryTable.user eq userId).and(IntermediaryTable.swift eq swift) and (IntermediaryTable.isDeleted eq false)
         }.firstOrNull()
     }
 
-    override fun getAll(
+    override fun getUserIntermediaries(
         userId: UUID,
         page: Long,
         limit: Int,
@@ -84,7 +87,7 @@ internal class IntermediaryDataSourceImpl : IntermediaryDataSource {
         val query = IntermediaryTable
             .selectAll()
             .where {
-                IntermediaryTable.user eq userId
+                IntermediaryTable.user eq userId and (IntermediaryTable.isDeleted eq false)
             }
             .limit(n = limit, offset = page * limit)
 

@@ -13,6 +13,7 @@ object IntermediaryTable : UUIDTable("t_intermediary") {
     val swift = varchar("swift", 11)
     val bankName = varchar("bank_name", 1000)
     val bankAddress = varchar("bank_address", 1000)
+    val isDeleted = bool("is_deleted").default(false)
     val user = reference("user_id", foreign = UserTable, onDelete = ReferenceOption.CASCADE)
 }
 
@@ -24,5 +25,6 @@ class IntermediaryEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var swift by IntermediaryTable.swift
     var bankName by IntermediaryTable.bankName
     var bankAddress by IntermediaryTable.bankAddress
+    var isDeleted by IntermediaryTable.isDeleted
     val user by UserEntity referencedOn IntermediaryTable.user
 }

@@ -27,13 +27,13 @@ internal class IntermediaryRepositoryImpl(
 
     override suspend fun getById(intermediaryId: UUID): IntermediaryModel? {
         return newSuspendedTransaction {
-            dataSource.getById(intermediaryId)?.toModel()
+            dataSource.getUserIntermediaryById(intermediaryId)?.toModel()
         }
     }
 
     override suspend fun getBySwift(userId: UUID, swift: String): IntermediaryModel? {
         return newSuspendedTransaction {
-            dataSource.getBySwift(userId, swift)?.toModel()
+            dataSource.getUserIntermediaryBySwift(userId, swift)?.toModel()
         }
     }
 
@@ -43,7 +43,7 @@ internal class IntermediaryRepositoryImpl(
         limit: Int
     ): List<IntermediaryModel> {
         return newSuspendedTransaction {
-            dataSource.getAll(
+            dataSource.getUserIntermediaries(
                 userId = userId,
                 page = page,
                 limit = limit
