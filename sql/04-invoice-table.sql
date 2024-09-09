@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS t_invoice (
     user_id uuid not null,
     beneficiary_id uuid not null,
     intermediary_id uuid,
+    is_deleted boolean default false,
     constraint fk_invoice_to_user
         foreign key (user_id)
             references t_user(id)

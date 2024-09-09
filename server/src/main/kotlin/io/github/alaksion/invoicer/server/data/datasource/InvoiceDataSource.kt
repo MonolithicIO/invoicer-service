@@ -5,13 +5,12 @@ import entities.InvoiceEntity
 import entities.InvoiceTable
 import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
 import io.github.alaksion.invoicer.server.domain.model.getinvoices.GetInvoicesFilterModel
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.andWhere
 import org.jetbrains.exposed.sql.batchInsert
-import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.update
 import utils.date.api.DateProvider
 import java.util.UUID
 
@@ -25,11 +24,11 @@ internal interface InvoiceDataSource {
         uuid: UUID
     ): InvoiceEntity?
 
-    fun getInvoiceByExternalId(
+    fun getUserInvoiceByExternalId(
         externalId: String
     ): InvoiceEntity?
 
-    fun getInvoicesFiltered(
+    fun getUserInvoicesFiltered(
         page: Long,
         limit: Int,
         filters: GetInvoicesFilterModel,
@@ -40,12 +39,12 @@ internal interface InvoiceDataSource {
         id: UUID
     )
 
-    fun getInvoicesByBeneficiaryId(
+    fun getUserInvoicesByBeneficiaryId(
         beneficiaryId: UUID,
         userId: UUID,
     ): List<InvoiceEntity>
 
-    fun getInvoicesByIntermediaryId(
+    fun getUserInvoicesByIntermediaryId(
         intermediaryId: UUID,
         userId: UUID,
     ): List<InvoiceEntity>
@@ -90,16 +89,18 @@ internal class InvoiceDataSourceImpl(
     }
 
     override fun getInvoiceByUUID(uuid: UUID): InvoiceEntity? {
-        return InvoiceEntity.findById(uuid)
-    }
-
-    override fun getInvoiceByExternalId(externalId: String): InvoiceEntity? {
         return InvoiceEntity.find {
-            InvoiceTable.externalId eq externalId
+            (InvoiceTable.id eq uuid) and (InvoiceTable.isDeleted eq false)
         }.firstOrNull()
     }
 
-    override fun getInvoicesFiltered(
+    override fun getUserInvoiceByExternalId(externalId: String): InvoiceEntity? {
+        return InvoiceEntity.find {
+            (InvoiceTable.externalId eq externalId) and (InvoiceTable.isDeleted eq false)
+        }.firstOrNull()
+    }
+
+    override fun getUserInvoicesFiltered(
         page: Long,
         limit: Int,
         filters: GetInvoicesFilterModel,
@@ -108,7 +109,7 @@ internal class InvoiceDataSourceImpl(
         val query = InvoiceTable
             .selectAll()
             .where {
-                InvoiceTable.user eq UUID.fromString(userId)
+                InvoiceTable.user eq UUID.fromString(userId) and (InvoiceTable.isDeleted eq false)
             }
 
         filters.senderCompanyName?.let { senderCompany ->
@@ -138,26 +139,31 @@ internal class InvoiceDataSourceImpl(
     }
 
     override fun deleteInvoice(id: UUID) {
-        InvoiceTable.deleteWhere {
-            InvoiceTable.id eq id
+        InvoiceTable.update(
+            where = {
+                InvoiceTable.id eq id
+            }
+        ) {
+            it[isDeleted] = true
+            it[updatedAt] = dateProvider.now()
         }
     }
 
-    override fun getInvoicesByBeneficiaryId(
+    override fun getUserInvoicesByBeneficiaryId(
         beneficiaryId: UUID,
         userId: UUID
     ): List<InvoiceEntity> {
         return InvoiceEntity.find {
-            (InvoiceTable.beneficiary eq beneficiaryId) and (InvoiceTable.user eq userId)
+            (InvoiceTable.beneficiary eq beneficiaryId) and (InvoiceTable.user eq userId) and (InvoiceTable.isDeleted eq false)
         }.toList()
     }
 
-    override fun getInvoicesByIntermediaryId(
+    override fun getUserInvoicesByIntermediaryId(
         intermediaryId: UUID,
         userId: UUID
     ): List<InvoiceEntity> {
         return InvoiceEntity.find {
-            (InvoiceTable.intermediary eq intermediaryId) and (InvoiceTable.user eq userId)
+            (InvoiceTable.intermediary eq intermediaryId) and (InvoiceTable.user eq userId) and (InvoiceTable.isDeleted eq false)
         }.toList()
     }
 }
