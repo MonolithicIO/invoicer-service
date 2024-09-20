@@ -10,7 +10,9 @@ data class UserIntermediaryViewModel(
     val swift: String,
     val bankName: String,
     val bankAddress: String,
-    val id: String
+    val id: String,
+    val createdAt: String,
+    val updatedAt: String
 )
 
 internal fun IntermediaryModel.toViewModel() = UserIntermediaryViewModel(
@@ -19,7 +21,9 @@ internal fun IntermediaryModel.toViewModel() = UserIntermediaryViewModel(
     swift = swift,
     bankName = bankName,
     bankAddress = bankAddress,
-    id = this.id
+    id = this.id,
+    createdAt = createdAt.toString(),
+    updatedAt = updatedAt.toString()
 )
 
 @Serializable

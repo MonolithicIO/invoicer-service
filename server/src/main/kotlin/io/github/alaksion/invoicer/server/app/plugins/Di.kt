@@ -181,7 +181,9 @@ fun Application.installDi() {
             )
         }
 
-        bindProvider<IntermediaryDataSource> { IntermediaryDataSourceImpl() }
+        bindProvider<IntermediaryDataSource> { IntermediaryDataSourceImpl(
+            dateProvider = instance()
+        ) }
 
         bindProvider<IntermediaryRepository> {
             IntermediaryRepositoryImpl(
