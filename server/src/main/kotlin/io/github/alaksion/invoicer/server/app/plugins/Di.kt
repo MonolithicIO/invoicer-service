@@ -164,7 +164,9 @@ fun Application.installDi() {
             )
         }
 
-        bindProvider<BeneficiaryDataSource> { BeneficiaryDataSourceImpl() }
+        bindProvider<BeneficiaryDataSource> { BeneficiaryDataSourceImpl(
+            dateProvider = instance()
+        ) }
         bindProvider<BeneficiaryRepository> {
             BeneficiaryRepositoryImpl(
                 dataSource = instance()

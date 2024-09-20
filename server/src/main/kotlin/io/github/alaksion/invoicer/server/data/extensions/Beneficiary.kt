@@ -10,5 +10,7 @@ internal fun BeneficiaryEntity.toModel(): BeneficiaryModel = BeneficiaryModel(
     bankName = this.bankName,
     bankAddress = this.bankAddress,
     userId = this.user.id.value.toString(),
-    id = this.id.value.toString()
+    id = this.id.value.toString(),
+    createdAt = this.createdAt,
+    updatedAt = this.updatedAt
 )

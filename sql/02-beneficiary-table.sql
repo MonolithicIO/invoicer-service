@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS t_beneficiary(
     bank_name varchar not null,
     bank_address varchar not null,
     user_id uuid not null,
+    created_at DATE DEFAULT CURRENT_DATE,
+    updated_at DATE DEFAULT CURRENT_DATE,
     is_deleted boolean default false,
         constraint fk_beneficiary_to_user
                 foreign key (user_id)
