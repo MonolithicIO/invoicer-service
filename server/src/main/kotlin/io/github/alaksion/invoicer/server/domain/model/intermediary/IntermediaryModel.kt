@@ -1,5 +1,7 @@
 package io.github.alaksion.invoicer.server.domain.model.intermediary
 
+import kotlinx.datetime.LocalDate
+
 data class IntermediaryModel(
     val name: String,
     val iban: String,
@@ -7,5 +9,7 @@ data class IntermediaryModel(
     val bankName: String,
     val bankAddress: String,
     val userId: String,
-    val id: String
+    val id: String,
+    val createdAt: LocalDate,
+    val updatedAt: LocalDate
 )

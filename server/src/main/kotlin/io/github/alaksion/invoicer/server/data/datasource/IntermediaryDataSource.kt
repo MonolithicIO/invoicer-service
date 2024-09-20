@@ -9,6 +9,7 @@ import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.updateReturning
+import utils.date.api.DateProvider
 import java.util.UUID
 
 internal interface IntermediaryDataSource {
@@ -44,7 +45,9 @@ internal interface IntermediaryDataSource {
     ): IntermediaryEntity
 }
 
-internal class IntermediaryDataSourceImpl : IntermediaryDataSource {
+internal class IntermediaryDataSourceImpl(
+    private val dateProvider: DateProvider
+) : IntermediaryDataSource {
 
     override fun create(userId: UUID, model: CreateIntermediaryModel): String {
         return IntermediaryTable.insertAndGetId { table ->
@@ -54,6 +57,8 @@ internal class IntermediaryDataSourceImpl : IntermediaryDataSource {
             table[bankName] = model.bankName
             table[bankAddress] = model.bankAddress
             table[user] = userId
+            table[createdAt] = dateProvider.now()
+            table[updatedAt] = dateProvider.now()
         }.value.toString()
     }
 
@@ -110,6 +115,7 @@ internal class IntermediaryDataSourceImpl : IntermediaryDataSource {
             it[swift] = model.swift
             it[bankName] = model.bankName
             it[bankAddress] = model.bankAddress
+            it[updatedAt] = dateProvider.now()
         }.map {
             IntermediaryEntity.wrapRow(it)
         }.first()
