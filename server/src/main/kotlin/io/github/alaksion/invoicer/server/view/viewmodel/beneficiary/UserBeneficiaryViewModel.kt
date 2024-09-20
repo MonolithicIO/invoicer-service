@@ -10,7 +10,9 @@ internal data class UserBeneficiaryViewModel(
     val swift: String,
     val bankName: String,
     val bankAddress: String,
-    val id: String
+    val id: String,
+    val createdAt: String,
+    val updatedAt: String
 )
 
 @Serializable
@@ -26,5 +28,7 @@ internal fun BeneficiaryModel.toModel(): UserBeneficiaryViewModel {
         bankName = bankName,
         bankAddress = bankAddress,
         id = id,
+        createdAt = createdAt.toString(),
+        updatedAt = updatedAt.toString()
     )
 }

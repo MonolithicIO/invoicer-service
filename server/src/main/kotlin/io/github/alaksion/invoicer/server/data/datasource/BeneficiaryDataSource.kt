@@ -9,6 +9,7 @@ import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.update
 import org.jetbrains.exposed.sql.updateReturning
+import utils.date.api.DateProvider
 import java.util.UUID
 
 internal interface BeneficiaryDataSource {
@@ -44,7 +45,9 @@ internal interface BeneficiaryDataSource {
     ): BeneficiaryEntity
 }
 
-internal class BeneficiaryDataSourceImpl : BeneficiaryDataSource {
+internal class BeneficiaryDataSourceImpl(
+    private val dateProvider: DateProvider
+) : BeneficiaryDataSource {
 
     override fun create(userId: UUID, model: CreateBeneficiaryModel): String {
         return BeneficiaryTable.insertAndGetId { table ->
@@ -54,6 +57,8 @@ internal class BeneficiaryDataSourceImpl : BeneficiaryDataSource {
             table[bankName] = model.bankName
             table[bankAddress] = model.bankAddress
             table[user] = userId
+            table[createdAt] = dateProvider.now()
+            table[updatedAt] = dateProvider.now()
         }.value.toString()
     }
 
@@ -110,6 +115,7 @@ internal class BeneficiaryDataSourceImpl : BeneficiaryDataSource {
             it[swift] = model.swift
             it[bankName] = model.bankName
             it[bankAddress] = model.bankAddress
+            it[updatedAt] = dateProvider.now()
         }.map {
             BeneficiaryEntity.wrapRow(it)
         }.first()
