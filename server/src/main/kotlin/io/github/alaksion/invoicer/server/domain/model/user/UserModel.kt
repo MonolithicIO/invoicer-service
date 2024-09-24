@@ -1,5 +1,6 @@
 package io.github.alaksion.invoicer.server.domain.model.user
 
+import kotlinx.datetime.LocalDate
 import java.util.*
 
 data class UserModel(
@@ -7,4 +8,6 @@ data class UserModel(
     val password: String,
     val verified: Boolean,
     val email: String,
+    val createdAt: LocalDate,
+    val updatedAt: LocalDate
 )

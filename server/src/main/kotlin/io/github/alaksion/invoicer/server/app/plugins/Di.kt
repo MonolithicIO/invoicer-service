@@ -85,7 +85,11 @@ fun Application.installDi() {
         bindProvider<InvoiceRepository> { InvoiceRepositoryImpl(dataSource = instance()) }
         bindProvider<InvoiceDataSource> { InvoiceDataSourceImpl(dateProvider = instance()) }
         bindProvider<InvoiceDetailsViewModelSender> { InvoiceDetailsViewModelSenderImpl() }
-        bindProvider<UserDataSource> { UserDataSourceImpl() }
+        bindProvider<UserDataSource> {
+            UserDataSourceImpl(
+                dateProvider = instance()
+            )
+        }
         bindProvider<UserRepository> {
             UserRepositoryImpl(
                 dataSource = instance()
@@ -164,9 +168,11 @@ fun Application.installDi() {
             )
         }
 
-        bindProvider<BeneficiaryDataSource> { BeneficiaryDataSourceImpl(
-            dateProvider = instance()
-        ) }
+        bindProvider<BeneficiaryDataSource> {
+            BeneficiaryDataSourceImpl(
+                dateProvider = instance()
+            )
+        }
         bindProvider<BeneficiaryRepository> {
             BeneficiaryRepositoryImpl(
                 dataSource = instance()
@@ -181,9 +187,11 @@ fun Application.installDi() {
             )
         }
 
-        bindProvider<IntermediaryDataSource> { IntermediaryDataSourceImpl(
-            dateProvider = instance()
-        ) }
+        bindProvider<IntermediaryDataSource> {
+            IntermediaryDataSourceImpl(
+                dateProvider = instance()
+            )
+        }
 
         bindProvider<IntermediaryRepository> {
             IntermediaryRepositoryImpl(
