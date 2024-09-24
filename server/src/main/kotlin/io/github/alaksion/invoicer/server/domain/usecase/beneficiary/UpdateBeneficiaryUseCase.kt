@@ -1,11 +1,13 @@
 package io.github.alaksion.invoicer.server.domain.usecase.beneficiary
 
+import foundation.validator.api.IbanValidator
 import foundation.validator.api.SwiftValidator
 import io.github.alaksion.invoicer.server.domain.model.beneficiary.BeneficiaryModel
 import io.github.alaksion.invoicer.server.domain.model.beneficiary.UpdateBeneficiaryModel
 import io.github.alaksion.invoicer.server.domain.repository.BeneficiaryRepository
 import io.github.alaksion.invoicer.server.domain.usecase.user.GetUserByIdUseCase
 import io.ktor.http.HttpStatusCode
+import utils.exceptions.badRequestError
 import utils.exceptions.httpError
 import java.util.UUID
 
@@ -22,7 +24,8 @@ internal class UpdateBeneficiaryUseCaseImpl(
     private val getBeneficiaryByIdUseCase: GetBeneficiaryByIdUseCase,
     private val checkBeneficiarySwiftAvailableUseCase: CheckBeneficiarySwiftAvailableUseCase,
     private val beneficiaryRepository: BeneficiaryRepository,
-    private val swiftValidator: SwiftValidator
+    private val swiftValidator: SwiftValidator,
+    private val ibanValidator: IbanValidator
 ) : UpdateBeneficiaryUseCase {
 
     override suspend fun execute(
@@ -30,20 +33,31 @@ internal class UpdateBeneficiaryUseCaseImpl(
         userId: String,
         beneficiaryId: String
     ): BeneficiaryModel {
-        if (swiftValidator.validate(model.swift).not()) {
-            httpError("Invalid swift code: ${model.swift}", HttpStatusCode.BadRequest)
-        }
+        validateSwift(model.swift)
+        validateIban(model.iban)
+        validateString(
+            value = model.name,
+            fieldName = "Name"
+        )
+        validateString(
+            value = model.bankName,
+            fieldName = "Bank name"
+        )
+        validateString(
+            value = model.bankAddress,
+            fieldName = "Bank address"
+        )
 
-        getUserByIdUseCase.get(userId)
+        val user = getUserByIdUseCase.get(userId)
 
-        getBeneficiaryByIdUseCase.get(
+        val beneficiary = getBeneficiaryByIdUseCase.get(
             beneficiaryId = beneficiaryId,
-            userId = userId
+            userId = user.id.toString()
         )
 
         if (checkBeneficiarySwiftAvailableUseCase.execute(
                 swift = model.swift,
-                userId = userId
+                userId = user.id.toString(),
             )
         ) {
             httpError(
@@ -54,9 +68,29 @@ internal class UpdateBeneficiaryUseCaseImpl(
 
         return beneficiaryRepository.update(
             userId = UUID.fromString(userId),
-            beneficiaryId = UUID.fromString(beneficiaryId),
+            beneficiaryId = UUID.fromString(beneficiary.id),
             model = model
         )
     }
 
+    private fun validateString(
+        value: String,
+        fieldName: String
+    ) {
+        if (value.trim().isBlank()) {
+            badRequestError("$fieldName cannot be blank")
+        }
+    }
+
+    private fun validateSwift(swift: String) {
+        if (swiftValidator.validate(swift).not()) {
+            badRequestError("Invalid swift code: $swift")
+        }
+    }
+
+    private fun validateIban(iban: String) {
+        if (ibanValidator.validate(iban).not()) {
+            badRequestError("Invalid iban code: $iban")
+        }
+    }
 }

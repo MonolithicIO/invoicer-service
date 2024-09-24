@@ -253,7 +253,8 @@ fun Application.installDi() {
                 getBeneficiaryByIdUseCase = instance(),
                 checkBeneficiarySwiftAvailableUseCase = instance(),
                 beneficiaryRepository = instance(),
-                swiftValidator = instance()
+                swiftValidator = instance(),
+                ibanValidator = instance()
             )
         }
 
