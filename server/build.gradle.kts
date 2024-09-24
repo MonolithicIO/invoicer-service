@@ -35,6 +35,7 @@ dependencies {
     implementation(projects.foundation.authentication.api)
     implementation(projects.foundation.exceptions)
     implementation(projects.foundation.validator.api)
+    implementation(projects.foundation.secrets.api)
 
     // Entities
     implementation(projects.entities)
