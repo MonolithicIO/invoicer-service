@@ -16,10 +16,12 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
+    installDi()
     val secrets by closestDI().instance<SecretsProvider>()
 
-    installAuth()
-    installDi()
+    installAuth(
+        secretsProvider = secrets
+    )
     configureSerialization()
     installStatusPages()
     rootController()

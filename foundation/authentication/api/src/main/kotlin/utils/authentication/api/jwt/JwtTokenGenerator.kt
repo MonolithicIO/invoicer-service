@@ -2,6 +2,8 @@ package utils.authentication.api.jwt
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import foundation.api.SecretKeys
+import foundation.api.SecretsProvider
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -16,29 +18,38 @@ import utils.exceptions.httpError
 import kotlin.time.Duration.Companion.hours
 
 internal class JwtTokenGenerator(
-    private val dateProvider: DateProvider
+    private val dateProvider: DateProvider,
+    private val secretsProvider: SecretsProvider
 ) : AuthTokenGenerator {
 
     override fun generateToken(userId: String): String {
         val token = JWT.create()
-            .withAudience(JWTConfig.AUDIENCE)
-            .withIssuer(JWTConfig.ISSUER)
+            .withAudience(secretsProvider.getSecret(SecretKeys.JWT_AUDIENCE))
+            .withIssuer(secretsProvider.getSecret(SecretKeys.JWT_ISSUER))
             .withClaim(JWTConfig.USER_ID_CLAIM, userId)
             .withExpiresAt(dateProvider.currentInstant().plus(24.hours).toJavaInstant())
-            .sign(Algorithm.HMAC256(JWTConfig.SECRET))
+            .sign(Algorithm.HMAC256(secretsProvider.getSecret(SecretKeys.JWT_SECRET)))
 
         return token
     }
 }
 
-fun AuthenticationConfig.appJwt() {
+fun AuthenticationConfig.appJwt(
+    secretsProvider: SecretsProvider,
+) {
     jwt("auth-jwt") {
-        realm = JWTConfig.REALM
+        realm = secretsProvider.getSecret(SecretKeys.JWT_REALM)
         verifier(
             JWT
-                .require(Algorithm.HMAC256(JWTConfig.SECRET))
-                .withAudience(JWTConfig.AUDIENCE)
-                .withIssuer(JWTConfig.ISSUER)
+                .require(
+                    Algorithm.HMAC256(
+                        secretsProvider.getSecret(
+                            SecretKeys.JWT_SECRET
+                        )
+                    )
+                )
+                .withAudience(secretsProvider.getSecret(SecretKeys.JWT_AUDIENCE))
+                .withIssuer(secretsProvider.getSecret(SecretKeys.JWT_ISSUER))
                 .build()
         )
         validate { token ->
@@ -58,11 +69,7 @@ fun AuthenticationConfig.appJwt() {
 }
 
 private object JWTConfig {
-    const val AUDIENCE = "sample_audience"
-    const val ISSUER = "sample_issuer"
     const val USER_ID_CLAIM = "userId"
-    const val SECRET = "sample_secret"
-    const val REALM = "invoicer"
     const val AUTH_NAME = "auth-jwt"
 }
 

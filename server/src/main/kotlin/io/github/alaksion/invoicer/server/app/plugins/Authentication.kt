@@ -1,11 +1,14 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
+import foundation.api.SecretsProvider
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import utils.authentication.api.jwt.appJwt
 
-fun Application.installAuth() {
+fun Application.installAuth(
+    secretsProvider: SecretsProvider
+) {
     install(Authentication) {
-        appJwt()
+        appJwt(secretsProvider)
     }
 }
