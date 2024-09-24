@@ -3,7 +3,7 @@ plugins {
 }
 
 // Move to build plugin
-group = "io.github.alaksion.invoicer.utils.password.test"
+group = "io.github.alaksion.invoicer.foundation.password.test"
 version = "0.0.1"
 
 dependencies {
