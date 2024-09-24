@@ -185,7 +185,8 @@ fun Application.installDi() {
                 getUserByIdUseCase = instance(),
                 repository = instance(),
                 checkSwiftUseCase = instance(),
-                swiftValidator = instance()
+                swiftValidator = instance(),
+                ibanValidator = instance()
             )
         }
 

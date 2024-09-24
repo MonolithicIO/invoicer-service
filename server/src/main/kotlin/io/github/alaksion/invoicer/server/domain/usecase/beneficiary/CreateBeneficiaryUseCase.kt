@@ -1,5 +1,6 @@
 package io.github.alaksion.invoicer.server.domain.usecase.beneficiary
 
+import foundation.validator.api.IbanValidator
 import foundation.validator.api.SwiftValidator
 import io.github.alaksion.invoicer.server.domain.model.beneficiary.CreateBeneficiaryModel
 import io.github.alaksion.invoicer.server.domain.repository.BeneficiaryRepository
@@ -19,13 +20,26 @@ internal class CreateBeneficiaryUseCaseImpl(
     private val getUserByIdUseCase: GetUserByIdUseCase,
     private val repository: BeneficiaryRepository,
     private val checkSwiftUseCase: CheckBeneficiarySwiftAvailableUseCase,
-    private val swiftValidator: SwiftValidator
+    private val swiftValidator: SwiftValidator,
+    private val ibanValidator: IbanValidator,
 ) : CreateBeneficiaryUseCase {
 
     override suspend fun create(model: CreateBeneficiaryModel, userId: String): String {
-        if (swiftValidator.validate(model.swift).not()) {
-            badRequestError("Invalid swift code: ${model.swift}")
-        }
+
+        validateSwift(model.swift)
+        validateIban(model.iban)
+        validateString(
+            value = model.name,
+            fieldName = "Name"
+        )
+        validateString(
+            value = model.bankName,
+            fieldName = "Bank name"
+        )
+        validateString(
+            value = model.bankAddress,
+            fieldName = "Bank address"
+        )
 
         val user = getUserByIdUseCase.get(userId)
 
@@ -42,4 +56,24 @@ internal class CreateBeneficiaryUseCaseImpl(
         )
     }
 
+    private fun validateString(
+        value: String,
+        fieldName: String
+    ) {
+        if (value.trim().isBlank()) {
+            badRequestError("$fieldName cannot be blank")
+        }
+    }
+
+    private fun validateSwift(swift: String) {
+        if (swiftValidator.validate(swift).not()) {
+            badRequestError("Invalid swift code: $swift")
+        }
+    }
+
+    private fun validateIban(iban: String) {
+        if (ibanValidator.validate(iban).not()) {
+            badRequestError("Invalid iban code: $iban")
+        }
+    }
 }
