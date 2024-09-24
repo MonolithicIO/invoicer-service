@@ -5,6 +5,8 @@ import entities.UserTable
 import io.github.alaksion.invoicer.server.domain.model.user.CreateUserModel
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
+import org.jetbrains.exposed.sql.insertAndGetId
+import utils.date.api.DateProvider
 import java.util.*
 
 internal interface UserDataSource {
@@ -14,7 +16,9 @@ internal interface UserDataSource {
     suspend fun deleteUser(id: UUID)
 }
 
-internal class UserDataSourceImpl : UserDataSource {
+internal class UserDataSourceImpl(
+    private val dateProvider: DateProvider
+) : UserDataSource {
 
     override suspend fun getUserByEmail(email: String): UserEntity? {
         return UserEntity.find { UserTable.email eq email }.firstOrNull()
@@ -25,11 +29,13 @@ internal class UserDataSourceImpl : UserDataSource {
     }
 
     override suspend fun createUser(data: CreateUserModel): String {
-        return UserEntity.new {
-            verified = true
-            email = data.email
-            password = data.password
-        }.id.value.toString()
+        return UserTable.insertAndGetId {
+            it[verified] = true
+            it[email] = data.email
+            it[password] = data.password
+            it[updatedAt] = dateProvider.now()
+            it[createdAt] = dateProvider.now()
+        }.value.toString()
     }
 
     override suspend fun deleteUser(id: UUID) {
