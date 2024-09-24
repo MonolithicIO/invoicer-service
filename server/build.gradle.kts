@@ -21,7 +21,6 @@ dependencies {
     implementation(libs.kodein.server)
     implementation(libs.kotlin.datetime)
     implementation(libs.openpdf)
-    implementation(libs.dotenv)
     implementation(libs.postgres)
     implementation(libs.h2)
     implementation(libs.logback)
