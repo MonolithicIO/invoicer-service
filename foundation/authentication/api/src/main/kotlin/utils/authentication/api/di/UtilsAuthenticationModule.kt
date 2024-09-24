@@ -18,7 +18,8 @@ val utilsAuthenticationModule = DI.Module("utils-authentication") {
 
     bindProvider<AuthTokenGenerator>(tag = AuthTokenGenerator.Tags.Jwt) {
         JwtTokenGenerator(
-            dateProvider = instance()
+            dateProvider = instance(),
+            secretsProvider = instance()
         )
     }
 }

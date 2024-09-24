@@ -18,6 +18,7 @@ dependencies {
     // Project
     implementation(projects.foundation.date.api)
     implementation(projects.foundation.exceptions)
+    implementation(projects.foundation.secrets.api)
 
     // Test
     testImplementation(libs.kotlin.test)
