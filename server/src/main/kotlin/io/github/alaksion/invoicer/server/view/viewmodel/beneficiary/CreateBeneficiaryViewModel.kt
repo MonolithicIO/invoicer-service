@@ -14,11 +14,11 @@ data class CreateBeneficiaryViewModel(
 )
 
 internal fun CreateBeneficiaryViewModel.toModel(): CreateBeneficiaryModel = CreateBeneficiaryModel(
-    name = this.name?.trim() ?: badRequestError("Missing name field"),
-    swift = this.swift?.trim() ?: badRequestError("Missing swift field"),
-    bankName = this.bankName?.trim() ?: badRequestError("Missing bank name field"),
-    bankAddress = this.bankAddress?.trim() ?: badRequestError("Missing bank address field"),
-    iban = this.iban?.trim() ?: badRequestError("Missing iban field")
+    name = this.name ?: badRequestError("Missing name field"),
+    swift = this.swift ?: badRequestError("Missing swift field"),
+    bankName = this.bankName ?: badRequestError("Missing bank name field"),
+    bankAddress = this.bankAddress ?: badRequestError("Missing bank address field"),
+    iban = this.iban ?: badRequestError("Missing iban field")
 )
 
 @Serializable
