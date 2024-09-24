@@ -21,7 +21,6 @@ dependencies {
     implementation(libs.kodein.server)
     implementation(libs.kotlin.datetime)
     implementation(libs.openpdf)
-    implementation(libs.dotenv)
     implementation(libs.postgres)
     implementation(libs.h2)
     implementation(libs.logback)
@@ -35,6 +34,7 @@ dependencies {
     implementation(projects.foundation.authentication.api)
     implementation(projects.foundation.exceptions)
     implementation(projects.foundation.validator.api)
+    implementation(projects.foundation.secrets.api)
 
     // Entities
     implementation(projects.entities)

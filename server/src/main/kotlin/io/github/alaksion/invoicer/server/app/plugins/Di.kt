@@ -1,5 +1,6 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
+import foundation.api.di.secretsModule
 import foundation.validator.api.di.validatorModule
 import io.github.alaksion.invoicer.server.app.plugins.DITags.TEMP_FILE_HANDLER
 import io.github.alaksion.invoicer.server.data.datasource.BeneficiaryDataSource
@@ -80,6 +81,7 @@ fun Application.installDi() {
         import(utilsDateModule)
         import(utilsAuthenticationModule)
         import(validatorModule)
+        import(secretsModule)
 
 
         bindProvider<InvoiceRepository> { InvoiceRepositoryImpl(dataSource = instance()) }
