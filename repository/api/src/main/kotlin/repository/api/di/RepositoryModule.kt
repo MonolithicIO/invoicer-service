@@ -6,9 +6,11 @@ import org.kodein.di.instance
 import repository.api.repository.BeneficiaryRepositoryImpl
 import repository.api.repository.IntermediaryRepositoryImpl
 import repository.api.repository.InvoiceRepositoryImpl
+import repository.api.repository.UserRepositoryImpl
 import services.api.repository.BeneficiaryRepository
 import services.api.repository.IntermediaryRepository
 import services.api.repository.InvoiceRepository
+import services.api.repository.UserRepository
 
 val repositoryModule = DI.Module("invocer-repository") {
 
@@ -26,6 +28,12 @@ val repositoryModule = DI.Module("invocer-repository") {
 
     bindProvider<InvoiceRepository> {
         InvoiceRepositoryImpl(
+            dateProvider = instance()
+        )
+    }
+
+    bindProvider<UserRepository> {
+        UserRepositoryImpl(
             dateProvider = instance()
         )
     }
