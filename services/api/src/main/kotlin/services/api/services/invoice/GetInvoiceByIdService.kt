@@ -8,7 +8,7 @@ import utils.exceptions.HttpError
 import utils.exceptions.unauthorizedResourceError
 import java.util.*
 
-internal interface GetInvoiceByIdService {
+interface GetInvoiceByIdService {
     suspend fun get(id: String, userId: String): InvoiceModel
 }
 

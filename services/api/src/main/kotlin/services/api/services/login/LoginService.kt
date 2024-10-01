@@ -1,6 +1,6 @@
 package services.api.services.login
 
-import io.github.alaksion.invoicer.server.util.isValidEmail
+import foundation.validator.api.EmailValidator
 import services.api.model.login.LoginModel
 import services.api.services.user.GetUserByEmailService
 import utils.authentication.api.AuthTokenManager
@@ -15,12 +15,13 @@ interface LoginService {
 internal class LoginServiceImpl(
     private val getUserByEmailService: GetUserByEmailService,
     private val authTokenManager: AuthTokenManager,
-    private val passwordEncryption: PasswordEncryption
+    private val passwordEncryption: PasswordEncryption,
+    private val emailValidator: EmailValidator
 ) : LoginService {
 
     override suspend fun login(model: LoginModel): String {
 
-        if (isValidEmail(model.email).not()) badRequestError(message = "Invalid e-mail format")
+        if (emailValidator.validate(model.email).not()) badRequestError(message = "Invalid e-mail format")
 
         val account = getUserByEmailService.get(model.email)
             ?: notFoundError(message = "Invalid credentials, user not found.")

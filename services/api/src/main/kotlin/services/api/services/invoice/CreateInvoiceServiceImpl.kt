@@ -14,7 +14,7 @@ import utils.exceptions.HttpError
 import utils.exceptions.httpError
 import java.util.UUID
 
-internal interface CreateInvoiceService {
+interface CreateInvoiceService {
     suspend fun createInvoice(
         model: CreateInvoiceModel,
         userId: String

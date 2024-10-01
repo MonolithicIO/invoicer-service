@@ -1,9 +1,5 @@
 package io.github.alaksion.invoicer.server.view.controller
 
-import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.CreateBeneficiaryUseCase
-import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.DeleteBeneficiaryUseCase
-import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.GetUserBeneficiariesUseCase
-import io.github.alaksion.invoicer.server.domain.usecase.beneficiary.UpdateBeneficiaryUseCase
 import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.CreateBeneficiaryResponseViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.CreateBeneficiaryViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.UpdateBeneficiaryViewModel
@@ -21,6 +17,10 @@ import io.ktor.server.routing.put
 import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
+import services.api.services.beneficiary.CreateBeneficiaryService
+import services.api.services.beneficiary.DeleteBeneficiaryService
+import services.api.services.beneficiary.GetUserBeneficiariesService
+import services.api.services.beneficiary.UpdateBeneficiaryService
 import utils.authentication.api.jwt.jwtProtected
 import utils.authentication.api.jwt.jwtUserId
 
@@ -30,7 +30,7 @@ fun Routing.beneficiaryController() {
             post {
                 val body = call.receive<CreateBeneficiaryViewModel>()
                 val model = body.toModel()
-                val useCase by closestDI().instance<CreateBeneficiaryUseCase>()
+                val useCase by closestDI().instance<CreateBeneficiaryService>()
 
                 call.respond(
                     message =
@@ -48,7 +48,7 @@ fun Routing.beneficiaryController() {
         jwtProtected {
             delete("/{id}") {
                 val beneficiaryId = call.parameters["id"]!!
-                val useCase by closestDI().instance<DeleteBeneficiaryUseCase>()
+                val useCase by closestDI().instance<DeleteBeneficiaryService>()
 
                 useCase.execute(
                     beneficiaryId = beneficiaryId,
@@ -63,7 +63,7 @@ fun Routing.beneficiaryController() {
             get {
                 val page = call.request.queryParameters["page"]?.toLongOrNull() ?: 0
                 val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 10
-                val useCase by closestDI().instance<GetUserBeneficiariesUseCase>()
+                val useCase by closestDI().instance<GetUserBeneficiariesService>()
 
                 call.respond(
                     status = HttpStatusCode.OK,
@@ -81,7 +81,7 @@ fun Routing.beneficiaryController() {
         jwtProtected {
             put("/{id}") {
                 val beneficiaryId = call.parameters["id"]!!
-                val useCase by closestDI().instance<UpdateBeneficiaryUseCase>()
+                val useCase by closestDI().instance<UpdateBeneficiaryService>()
                 val userId = jwtUserId()
                 val body = call.receive<UpdateBeneficiaryViewModel>()
                 call.respond(

@@ -11,7 +11,7 @@ import utils.exceptions.badRequestError
 import utils.exceptions.httpError
 import java.util.UUID
 
-interface UpdateBeneficiaryUseService {
+interface UpdateBeneficiaryService {
     suspend fun execute(
         model: UpdateBeneficiaryModel,
         userId: String,
@@ -19,14 +19,14 @@ interface UpdateBeneficiaryUseService {
     ): BeneficiaryModel
 }
 
-internal class UpdateBeneficiaryUseServiceImpl(
+internal class UpdateBeneficiaryServiceImpl(
     private val getUserByIdUseCase: GetUserByIdService,
     private val getBeneficiaryByIdService: GetBeneficiaryByIdService,
     private val checkBeneficiarySwiftAvailableService: CheckBeneficiarySwiftAvailableService,
     private val beneficiaryRepository: BeneficiaryRepository,
     private val swiftValidator: SwiftValidator,
     private val ibanValidator: IbanValidator
-) : UpdateBeneficiaryUseService {
+) : UpdateBeneficiaryService {
 
     override suspend fun execute(
         model: UpdateBeneficiaryModel,

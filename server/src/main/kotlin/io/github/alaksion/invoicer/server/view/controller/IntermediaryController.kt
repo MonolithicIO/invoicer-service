@@ -1,10 +1,5 @@
 package io.github.alaksion.invoicer.server.view.controller
 
-import io.github.alaksion.invoicer.server.domain.usecase.intermediary.CreateIntermediaryUseCase
-import io.github.alaksion.invoicer.server.domain.usecase.intermediary.DeleteIntermediaryUseCase
-import io.github.alaksion.invoicer.server.domain.usecase.intermediary.GetUserIntermediariesUseCase
-import io.github.alaksion.invoicer.server.domain.usecase.intermediary.UpdateIntermediaryUseCase
-import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.toModel
 import io.github.alaksion.invoicer.server.view.viewmodel.intermediary.CreateIntermediaryResponseViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.intermediary.CreateIntermediaryViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.intermediary.UpdateIntermediaryViewModel
@@ -23,6 +18,10 @@ import io.ktor.server.routing.put
 import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
+import services.api.services.intermediary.CreateIntermediaryService
+import services.api.services.intermediary.DeleteIntermediaryService
+import services.api.services.intermediary.GetUserIntermediariesService
+import services.api.services.intermediary.UpdateIntermediaryService
 import utils.authentication.api.jwt.jwtProtected
 import utils.authentication.api.jwt.jwtUserId
 import kotlin.getValue
@@ -33,7 +32,7 @@ fun Routing.intermediaryController() {
             post {
                 val body = call.receive<CreateIntermediaryViewModel>()
                 val model = body.toModel()
-                val useCase by closestDI().instance<CreateIntermediaryUseCase>()
+                val useCase by closestDI().instance<CreateIntermediaryService>()
 
                 call.respond(
                     message =
@@ -50,7 +49,7 @@ fun Routing.intermediaryController() {
         jwtProtected {
             delete("/{id}") {
                 val intermediaryId = call.parameters["id"]!!
-                val useCase by closestDI().instance<DeleteIntermediaryUseCase>()
+                val useCase by closestDI().instance<DeleteIntermediaryService>()
 
                 useCase.execute(
                     beneficiaryId = intermediaryId,
@@ -65,7 +64,7 @@ fun Routing.intermediaryController() {
             get {
                 val page = call.request.queryParameters["page"]?.toLongOrNull() ?: 0
                 val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 10
-                val useCase by closestDI().instance<GetUserIntermediariesUseCase>()
+                val useCase by closestDI().instance<GetUserIntermediariesService>()
 
                 call.respond(
                     status = HttpStatusCode.OK,
@@ -83,7 +82,7 @@ fun Routing.intermediaryController() {
         jwtProtected {
             put("/{id}") {
                 val intermediaryId = call.parameters["id"]!!
-                val useCase by closestDI().instance<UpdateIntermediaryUseCase>()
+                val useCase by closestDI().instance<UpdateIntermediaryService>()
                 val userId = jwtUserId()
                 val body = call.receive<UpdateIntermediaryViewModel>()
                 call.respond(

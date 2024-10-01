@@ -13,8 +13,8 @@ import services.api.services.beneficiary.GetBeneficiaryByIdService
 import services.api.services.beneficiary.GetBeneficiaryByIdServiceImpl
 import services.api.services.beneficiary.GetUserBeneficiariesService
 import services.api.services.beneficiary.GetUserBeneficiariesServiceImpl
-import services.api.services.beneficiary.UpdateBeneficiaryUseService
-import services.api.services.beneficiary.UpdateBeneficiaryUseServiceImpl
+import services.api.services.beneficiary.UpdateBeneficiaryService
+import services.api.services.beneficiary.UpdateBeneficiaryServiceImpl
 import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
 import services.api.services.intermediary.CheckIntermediarySwiftAvailableServiceImpl
 import services.api.services.intermediary.CreateIntermediaryService
@@ -89,8 +89,8 @@ private fun DI.Builder.beneficiaryServices() {
         )
     }
 
-    bindProvider<UpdateBeneficiaryUseService> {
-        UpdateBeneficiaryUseServiceImpl(
+    bindProvider<UpdateBeneficiaryService> {
+        UpdateBeneficiaryServiceImpl(
             swiftValidator = instance(),
             getBeneficiaryByIdService = instance(),
             beneficiaryRepository = instance(),
@@ -187,7 +187,8 @@ private fun DI.Builder.loginServices() {
         LoginServiceImpl(
             getUserByEmailService = instance(),
             authTokenManager = instance(),
-            passwordEncryption = instance()
+            passwordEncryption = instance(),
+            emailValidator = instance()
         )
     }
 }

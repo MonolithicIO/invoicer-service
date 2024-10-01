@@ -1,10 +1,10 @@
 package io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.request
 
-import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceActivityModel
-import io.github.alaksion.invoicer.server.domain.model.CreateInvoiceModel
 import io.github.alaksion.invoicer.server.validation.requireFilledString
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
+import services.api.model.createinvoice.CreateInvoiceActivityModel
+import services.api.model.createinvoice.CreateInvoiceModel
 import utils.exceptions.badRequestError
 
 @Serializable

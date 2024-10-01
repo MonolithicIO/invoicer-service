@@ -7,7 +7,7 @@ import services.api.repository.InvoiceRepository
 import utils.exceptions.HttpCode
 import utils.exceptions.httpError
 
-internal interface GetUserInvoicesService {
+interface GetUserInvoicesService {
     suspend fun get(
         filters: GetInvoicesFilterModel,
         page: Long,

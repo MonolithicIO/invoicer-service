@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.server.view.viewmodel.login
 
-import io.github.alaksion.invoicer.server.domain.model.login.LoginModel
 import kotlinx.serialization.Serializable
+import services.api.model.login.LoginModel
 import utils.exceptions.badRequestError
 
 @Serializable

@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.server.view.viewmodel.beneficiary
 
-import io.github.alaksion.invoicer.server.domain.model.beneficiary.BeneficiaryModel
 import kotlinx.serialization.Serializable
+import services.api.model.beneficiary.BeneficiaryModel
 
 @Serializable
 internal data class UserBeneficiaryViewModel(
