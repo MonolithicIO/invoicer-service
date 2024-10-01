@@ -27,7 +27,7 @@ interface InvoiceRepository {
         userId: String,
     ): List<InvoiceListItemModel>
 
-    suspend fun deleteByUUID(
+    suspend fun delete(
         id: UUID
     )
 

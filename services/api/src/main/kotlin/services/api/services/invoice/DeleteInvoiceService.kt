@@ -29,7 +29,7 @@ internal class DeleteInvoiceServiceImpl(
             unauthorizedResourceError()
         }
 
-        repository.deleteByUUID(UUID.fromString(invoiceId))
+        repository.delete(UUID.fromString(invoiceId))
     }
 
 }

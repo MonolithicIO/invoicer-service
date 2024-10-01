@@ -39,6 +39,12 @@ dependencies {
     // Entities
     implementation(projects.entities)
 
+    // Repository
+    implementation(projects.repository.api)
+
+    // Services
+    implementation(projects.services.api)
+
     testImplementation(libs.ktor.server.tests.jvm)
     testImplementation(libs.kotlin.test)
 }

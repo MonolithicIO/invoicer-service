@@ -48,6 +48,7 @@ val servicesModule = DI.Module("invoicer-services") {
     intermediaryServices()
     invoiceServices()
     loginServices()
+    userServices()
 }
 
 private fun DI.Builder.beneficiaryServices() {

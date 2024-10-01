@@ -5,7 +5,7 @@ import services.api.model.beneficiary.CreateBeneficiaryModel
 import services.api.model.beneficiary.UpdateBeneficiaryModel
 import java.util.UUID
 
-internal interface BeneficiaryRepository {
+interface BeneficiaryRepository {
     suspend fun create(
         userId: UUID,
         model: CreateBeneficiaryModel
