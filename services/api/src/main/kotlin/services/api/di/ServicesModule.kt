@@ -23,6 +23,8 @@ import services.api.services.intermediary.DeleteIntermediaryService
 import services.api.services.intermediary.DeleteIntermediaryServiceImpl
 import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.intermediary.GetIntermediaryByIdServiceImpl
+import services.api.services.intermediary.GetUserIntermediariesService
+import services.api.services.intermediary.GetUserIntermediariesServiceImpl
 import services.api.services.intermediary.UpdateIntermediaryService
 import services.api.services.intermediary.UpdateIntermediaryServiceImpl
 import services.api.services.invoice.CreateInvoiceService
@@ -132,12 +134,6 @@ private fun DI.Builder.intermediaryServices() {
         )
     }
 
-    bindProvider<GetUserBeneficiariesService> {
-        GetUserBeneficiariesServiceImpl(
-            repository = instance()
-        )
-    }
-
     bindProvider<UpdateIntermediaryService> {
         UpdateIntermediaryServiceImpl(
             swiftValidator = instance(),
@@ -145,6 +141,12 @@ private fun DI.Builder.intermediaryServices() {
             intermediaryRepository = instance(),
             getUserByIdUseCase = instance(),
             checkIntermediarySwiftAlreadyUsedService = instance(),
+        )
+    }
+
+    bindProvider<GetUserIntermediariesService> {
+        GetUserIntermediariesServiceImpl(
+            repository = instance()
         )
     }
 }
