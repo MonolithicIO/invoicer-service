@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response
 
-import io.github.alaksion.invoicer.server.domain.model.InvoiceModel
-import io.github.alaksion.invoicer.server.domain.model.InvoiceModelActivityModel
+import services.api.model.InvoiceModel
+import services.api.model.InvoiceModelActivityModel
 
 interface InvoiceDetailsViewModelSender {
     fun send(model: InvoiceModel): InvoiceDetailsViewModel

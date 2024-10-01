@@ -1,6 +1,5 @@
 package io.github.alaksion.invoicer.server.view.controller
 
-import io.github.alaksion.invoicer.server.domain.usecase.login.LoginUseCase
 import io.github.alaksion.invoicer.server.view.viewmodel.login.LoginResponseViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.login.LoginViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.login.toDomainModel
@@ -11,13 +10,14 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
+import services.api.services.login.LoginService
 
 fun Routing.authController() {
     route("auth") {
         post("/login") {
             val body = call.receive<LoginViewModel>()
             val model = body.toDomainModel()
-            val loginUseCase by closestDI().instance<LoginUseCase>()
+            val loginUseCase by closestDI().instance<LoginService>()
 
             call.respond(
                 message = LoginResponseViewModel(
