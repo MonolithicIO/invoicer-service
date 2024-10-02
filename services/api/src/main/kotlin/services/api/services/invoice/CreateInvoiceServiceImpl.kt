@@ -45,9 +45,9 @@ internal class CreateInvoiceServiceImpl(
             userId = userId
         )
 
-        if (model.intermediaryId != null) {
+        model.intermediaryId?.let {
             getIntermediaryByIdUseCase.get(
-                intermediaryId = model.intermediaryId,
+                intermediaryId = it,
                 userId = userId
             )
         }

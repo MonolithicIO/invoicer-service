@@ -9,7 +9,6 @@ version = "0.0.1"
 
 dependencies {
     implementation(projects.entities)
-    implementation(projects.services.api)
     implementation(projects.foundation.date.api)
     implementation(projects.models)
 
