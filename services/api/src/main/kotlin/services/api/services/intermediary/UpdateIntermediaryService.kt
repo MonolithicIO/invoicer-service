@@ -1,13 +1,13 @@
 package services.api.services.intermediary
 
 import foundation.validator.api.SwiftValidator
-import services.api.model.intermediary.IntermediaryModel
-import services.api.model.intermediary.UpdateIntermediaryModel
-import services.api.repository.IntermediaryRepository
+import models.intermediary.IntermediaryModel
+import models.intermediary.UpdateIntermediaryModel
+import repository.api.repository.IntermediaryRepository
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.HttpCode
 import utils.exceptions.httpError
-import java.util.UUID
+import java.util.*
 
 interface UpdateIntermediaryService {
     suspend fun execute(

@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.server.view.viewmodel.createuser
 
 import kotlinx.serialization.Serializable
-import services.api.model.user.CreateUserModel
+import models.user.CreateUserModel
 import utils.exceptions.badRequestError
 
 @Serializable

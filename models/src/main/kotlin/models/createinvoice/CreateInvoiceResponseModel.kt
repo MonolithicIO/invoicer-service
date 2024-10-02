@@ -1,4 +1,4 @@
-package services.api.model.createinvoice
+package models.createinvoice
 
 data class CreateInvoiceResponseModel(
     val externalInvoiceId: String,

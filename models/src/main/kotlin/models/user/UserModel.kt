@@ -1,4 +1,4 @@
-package services.api.model.user
+package models.user
 
 import kotlinx.datetime.LocalDate
 import java.util.*

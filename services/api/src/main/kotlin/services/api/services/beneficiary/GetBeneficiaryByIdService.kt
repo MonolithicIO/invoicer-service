@@ -1,10 +1,10 @@
 package services.api.services.beneficiary
 
-import services.api.model.beneficiary.BeneficiaryModel
-import services.api.repository.BeneficiaryRepository
+import models.beneficiary.BeneficiaryModel
+import repository.api.repository.BeneficiaryRepository
 import utils.exceptions.notFoundError
 import utils.exceptions.unauthorizedResourceError
-import java.util.UUID
+import java.util.*
 
 interface GetBeneficiaryByIdService {
     suspend fun get(beneficiaryId: String, userId: String): BeneficiaryModel

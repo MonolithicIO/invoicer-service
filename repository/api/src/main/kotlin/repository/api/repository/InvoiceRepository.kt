@@ -3,22 +3,52 @@ package repository.api.repository
 import entities.InvoiceActivityTable
 import entities.InvoiceEntity
 import entities.InvoiceTable
-import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.andWhere
-import org.jetbrains.exposed.sql.batchInsert
-import org.jetbrains.exposed.sql.insertAndGetId
-import org.jetbrains.exposed.sql.selectAll
+import models.InvoiceModel
+import models.createinvoice.CreateInvoiceModel
+import models.getinvoices.GetInvoicesFilterModel
+import models.getinvoices.InvoiceListItemModel
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import org.jetbrains.exposed.sql.update
 import repository.api.mapper.toListItemModel
 import repository.api.mapper.toModel
-import services.api.model.InvoiceModel
-import services.api.model.createinvoice.CreateInvoiceModel
-import services.api.model.getinvoices.GetInvoicesFilterModel
-import services.api.model.getinvoices.InvoiceListItemModel
-import services.api.repository.InvoiceRepository
 import utils.date.api.DateProvider
 import java.util.*
+
+interface InvoiceRepository {
+    suspend fun createInvoice(
+        data: CreateInvoiceModel,
+        userId: UUID,
+    ): String
+
+    suspend fun getInvoiceByUUID(
+        id: UUID
+    ): InvoiceModel?
+
+    suspend fun getInvoiceByExternalId(
+        externalId: String
+    ): InvoiceModel?
+
+    suspend fun getInvoices(
+        filters: GetInvoicesFilterModel,
+        page: Long,
+        limit: Int,
+        userId: String,
+    ): List<InvoiceListItemModel>
+
+    suspend fun delete(
+        id: UUID
+    )
+
+    suspend fun getInvoicesByBeneficiaryId(
+        beneficiaryId: UUID,
+        userId: UUID,
+    ): List<InvoiceListItemModel>
+
+    suspend fun getInvoicesByIntermediaryId(
+        intermediaryId: UUID,
+        userId: UUID,
+    ): List<InvoiceListItemModel>
+}
 
 
 internal class InvoiceRepositoryImpl(

@@ -1,4 +1,4 @@
-package services.api.model.beneficiary
+package models.beneficiary
 
 import kotlinx.datetime.LocalDate
 

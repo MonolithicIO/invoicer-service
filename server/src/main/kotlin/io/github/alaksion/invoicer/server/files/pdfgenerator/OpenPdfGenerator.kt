@@ -7,8 +7,8 @@ import com.lowagie.text.pdf.PdfWriter
 import io.github.alaksion.invoicer.server.files.filehandler.FileHandler
 import io.github.alaksion.invoicer.server.files.pdfgenerator.components.OpenPdfSpacer
 import io.github.alaksion.invoicer.server.util.formatUsAmount
-import services.api.model.InvoiceModel
-import services.api.model.InvoiceModelActivityModel
+import models.InvoiceModel
+import models.InvoiceModelActivityModel
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.coroutines.resume

@@ -1,7 +1,7 @@
 package services.api.services.user
 
-import services.api.model.user.UserModel
-import services.api.repository.UserRepository
+import models.user.UserModel
+import repository.api.repository.UserRepository
 
 interface GetUserByEmailService {
     suspend fun get(email: String): UserModel?

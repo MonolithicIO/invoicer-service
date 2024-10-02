@@ -1,7 +1,7 @@
 package services.api.services.intermediary
 
-import services.api.repository.IntermediaryRepository
-import java.util.UUID
+import repository.api.repository.IntermediaryRepository
+import java.util.*
 
 interface CheckIntermediarySwiftAvailableService {
     suspend fun execute(

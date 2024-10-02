@@ -2,7 +2,7 @@ package io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.request
 
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
-import services.api.model.getinvoices.GetInvoicesFilterModel
+import models.getinvoices.GetInvoicesFilterModel
 import utils.exceptions.badRequestError
 
 @Serializable

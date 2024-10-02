@@ -1,10 +1,10 @@
 package services.api.services.invoice
 
 import kotlinx.datetime.LocalDate
-import services.api.model.createinvoice.CreateInvoiceActivityModel
-import services.api.model.createinvoice.CreateInvoiceModel
-import services.api.model.createinvoice.CreateInvoiceResponseModel
-import services.api.repository.InvoiceRepository
+import models.createinvoice.CreateInvoiceActivityModel
+import models.createinvoice.CreateInvoiceModel
+import models.createinvoice.CreateInvoiceResponseModel
+import repository.api.repository.InvoiceRepository
 import services.api.services.beneficiary.GetBeneficiaryByIdService
 import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.user.GetUserByIdService
@@ -12,7 +12,7 @@ import utils.date.api.DateProvider
 import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import utils.exceptions.httpError
-import java.util.UUID
+import java.util.*
 
 interface CreateInvoiceService {
     suspend fun createInvoice(
@@ -45,9 +45,9 @@ internal class CreateInvoiceServiceImpl(
             userId = userId
         )
 
-        if (model.intermediaryId != null) {
+        model.intermediaryId?.let {
             getIntermediaryByIdUseCase.get(
-                intermediaryId = model.intermediaryId,
+                intermediaryId = it,
                 userId = userId
             )
         }

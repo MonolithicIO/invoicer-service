@@ -1,11 +1,11 @@
 package services.api.services.beneficiary
 
-import services.api.repository.BeneficiaryRepository
-import services.api.repository.InvoiceRepository
+import repository.api.repository.BeneficiaryRepository
+import repository.api.repository.InvoiceRepository
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.HttpCode
 import utils.exceptions.httpError
-import java.util.UUID
+import java.util.*
 
 interface DeleteBeneficiaryService {
     suspend fun execute(

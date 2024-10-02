@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.server.view.viewmodel.intermediary
 
 import kotlinx.serialization.Serializable
-import services.api.model.intermediary.UpdateIntermediaryModel
+import models.intermediary.UpdateIntermediaryModel
 import utils.exceptions.badRequestError
 
 @Serializable

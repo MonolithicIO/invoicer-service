@@ -1,7 +1,7 @@
 package repository.api.mapper
 
 import entities.UserEntity
-import services.api.model.user.UserModel
+import models.user.UserModel
 
 
 internal fun UserEntity.toModel(): UserModel = UserModel(

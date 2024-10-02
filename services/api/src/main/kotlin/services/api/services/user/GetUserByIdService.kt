@@ -1,9 +1,9 @@
 package services.api.services.user
 
-import services.api.model.user.UserModel
-import services.api.repository.UserRepository
+import models.user.UserModel
+import repository.api.repository.UserRepository
 import utils.exceptions.notFoundError
-import java.util.UUID
+import java.util.*
 
 interface GetUserByIdService {
     suspend fun get(id: String): UserModel

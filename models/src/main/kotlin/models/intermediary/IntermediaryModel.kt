@@ -1,4 +1,4 @@
-package services.api.model.intermediary
+package models.intermediary
 
 import kotlinx.datetime.LocalDate
 

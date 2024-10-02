@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.server.view.viewmodel.intermediary
 
 import kotlinx.serialization.Serializable
-import services.api.model.intermediary.IntermediaryModel
+import models.intermediary.IntermediaryModel
 
 @Serializable
 data class UserIntermediaryViewModel(

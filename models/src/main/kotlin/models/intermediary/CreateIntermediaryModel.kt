@@ -1,4 +1,4 @@
-package services.api.model.intermediary
+package models.intermediary
 
 data class CreateIntermediaryModel(
     val name: String,

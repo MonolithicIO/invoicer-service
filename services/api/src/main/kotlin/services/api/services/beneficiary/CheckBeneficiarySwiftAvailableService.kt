@@ -1,7 +1,7 @@
 package services.api.services.beneficiary
 
-import services.api.repository.BeneficiaryRepository
-import java.util.UUID
+import repository.api.repository.BeneficiaryRepository
+import java.util.*
 
 interface CheckBeneficiarySwiftAvailableService {
     suspend fun execute(
