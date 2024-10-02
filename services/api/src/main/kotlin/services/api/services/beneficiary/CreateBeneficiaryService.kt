@@ -2,7 +2,7 @@ package services.api.services.beneficiary
 
 import foundation.validator.api.IbanValidator
 import foundation.validator.api.SwiftValidator
-import services.api.model.beneficiary.CreateBeneficiaryModel
+import models.beneficiary.CreateBeneficiaryModel
 import services.api.repository.BeneficiaryRepository
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.HttpCode

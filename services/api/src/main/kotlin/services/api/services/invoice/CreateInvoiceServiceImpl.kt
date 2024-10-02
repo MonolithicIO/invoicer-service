@@ -1,9 +1,9 @@
 package services.api.services.invoice
 
 import kotlinx.datetime.LocalDate
-import services.api.model.createinvoice.CreateInvoiceActivityModel
-import services.api.model.createinvoice.CreateInvoiceModel
-import services.api.model.createinvoice.CreateInvoiceResponseModel
+import models.createinvoice.CreateInvoiceActivityModel
+import models.createinvoice.CreateInvoiceModel
+import models.createinvoice.CreateInvoiceResponseModel
 import services.api.repository.InvoiceRepository
 import services.api.services.beneficiary.GetBeneficiaryByIdService
 import services.api.services.intermediary.GetIntermediaryByIdService
@@ -12,7 +12,7 @@ import utils.date.api.DateProvider
 import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import utils.exceptions.httpError
-import java.util.UUID
+import java.util.*
 
 interface CreateInvoiceService {
     suspend fun createInvoice(

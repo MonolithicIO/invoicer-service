@@ -1,4 +1,4 @@
-package services.api.model.user
+package models.user
 
 data class CreateUserModel(
     val email: String,

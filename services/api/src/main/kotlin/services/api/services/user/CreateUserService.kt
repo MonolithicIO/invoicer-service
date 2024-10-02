@@ -1,7 +1,7 @@
 package services.api.services.user
 
 import foundation.validator.api.EmailValidator
-import services.api.model.user.CreateUserModel
+import models.user.CreateUserModel
 import services.api.repository.UserRepository
 import utils.exceptions.HttpCode
 import utils.exceptions.badRequestError

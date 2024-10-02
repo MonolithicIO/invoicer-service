@@ -1,8 +1,8 @@
 package services.api.services.intermediary
 
-import services.api.model.intermediary.IntermediaryModel
+import models.intermediary.IntermediaryModel
 import services.api.repository.IntermediaryRepository
-import java.util.UUID
+import java.util.*
 
 interface GetUserIntermediariesService {
     suspend fun execute(

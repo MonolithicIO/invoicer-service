@@ -1,4 +1,4 @@
-package services.api.model.login
+package models.login
 
 data class LoginModel(
     val email: String,

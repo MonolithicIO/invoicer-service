@@ -1,6 +1,6 @@
 package services.api.services.user
 
-import services.api.model.user.UserModel
+import models.user.UserModel
 import services.api.repository.UserRepository
 
 interface GetUserByEmailService {

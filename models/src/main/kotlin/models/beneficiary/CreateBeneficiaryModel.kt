@@ -1,6 +1,6 @@
-package services.api.model.beneficiary
+package models.beneficiary
 
-data class UpdateBeneficiaryModel(
+data class CreateBeneficiaryModel(
     val name: String,
     val iban: String,
     val swift: String,

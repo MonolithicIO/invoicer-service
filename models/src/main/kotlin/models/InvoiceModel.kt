@@ -1,9 +1,9 @@
-package services.api.model
+package models
 
 import kotlinx.datetime.LocalDate
-import services.api.model.beneficiary.BeneficiaryModel
-import services.api.model.intermediary.IntermediaryModel
-import services.api.model.user.UserModel
+import models.beneficiary.BeneficiaryModel
+import models.intermediary.IntermediaryModel
+import models.user.UserModel
 import java.util.UUID
 
 data class InvoiceModel(

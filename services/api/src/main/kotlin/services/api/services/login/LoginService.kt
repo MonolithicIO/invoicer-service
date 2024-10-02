@@ -1,6 +1,7 @@
 package services.api.services.login
 
 import foundation.validator.api.EmailValidator
+import models.login.LoginModel
 import services.api.model.login.LoginModel
 import services.api.services.user.GetUserByEmailService
 import utils.authentication.api.AuthTokenManager

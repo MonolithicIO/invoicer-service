@@ -1,8 +1,8 @@
 package services.api.services.beneficiary
 
-import services.api.model.beneficiary.BeneficiaryModel
+import models.beneficiary.BeneficiaryModel
 import services.api.repository.BeneficiaryRepository
-import java.util.UUID
+import java.util.*
 
 interface GetUserBeneficiariesService {
     suspend fun execute(

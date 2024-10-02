@@ -1,4 +1,4 @@
-package services.api.model.getinvoices
+package models.getinvoices
 
 import kotlinx.datetime.LocalDate
 import java.util.*

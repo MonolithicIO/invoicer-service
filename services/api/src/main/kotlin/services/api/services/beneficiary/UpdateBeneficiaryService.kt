@@ -2,14 +2,14 @@ package services.api.services.beneficiary
 
 import foundation.validator.api.IbanValidator
 import foundation.validator.api.SwiftValidator
-import services.api.model.beneficiary.BeneficiaryModel
-import services.api.model.beneficiary.UpdateBeneficiaryModel
+import models.beneficiary.BeneficiaryModel
+import models.beneficiary.UpdateBeneficiaryModel
 import services.api.repository.BeneficiaryRepository
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.HttpCode
 import utils.exceptions.badRequestError
 import utils.exceptions.httpError
-import java.util.UUID
+import java.util.*
 
 interface UpdateBeneficiaryService {
     suspend fun execute(
