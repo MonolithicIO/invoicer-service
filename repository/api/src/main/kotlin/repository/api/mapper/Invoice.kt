@@ -1,9 +1,9 @@
 package repository.api.mapper
 
 import entities.InvoiceEntity
-import services.api.model.InvoiceModel
-import services.api.model.InvoiceModelActivityModel
-import services.api.model.getinvoices.InvoiceListItemModel
+import models.InvoiceModel
+import models.InvoiceModelActivityModel
+import models.getinvoices.InvoiceListItemModel
 
 internal fun InvoiceEntity.toModel(): InvoiceModel {
     return InvoiceModel(

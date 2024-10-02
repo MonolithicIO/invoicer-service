@@ -11,6 +11,7 @@ dependencies {
     implementation(projects.entities)
     implementation(projects.services.api)
     implementation(projects.foundation.date.api)
+    implementation(projects.models)
 
     implementation(libs.kodein.server)
     implementation(libs.kotlin.datetime)

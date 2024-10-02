@@ -1,7 +1,7 @@
 package repository.api.mapper
 
 import entities.IntermediaryEntity
-import services.api.model.intermediary.IntermediaryModel
+import models.intermediary.IntermediaryModel
 
 
 internal fun IntermediaryEntity.toModel(): IntermediaryModel = IntermediaryModel(

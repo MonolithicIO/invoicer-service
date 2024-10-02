@@ -1,7 +1,7 @@
 package repository.api.mapper
 
 import entities.BeneficiaryEntity
-import services.api.model.beneficiary.BeneficiaryModel
+import models.beneficiary.BeneficiaryModel
 
 internal fun BeneficiaryEntity.toModel(): BeneficiaryModel = BeneficiaryModel(
     name = this.name,
