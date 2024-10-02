@@ -1,7 +1,7 @@
 package services.api.services.beneficiary
 
 import models.beneficiary.BeneficiaryModel
-import services.api.repository.BeneficiaryRepository
+import repository.api.repository.BeneficiaryRepository
 import utils.exceptions.notFoundError
 import utils.exceptions.unauthorizedResourceError
 import java.util.*

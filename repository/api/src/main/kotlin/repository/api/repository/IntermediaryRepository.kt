@@ -9,9 +9,41 @@ import models.intermediary.UpdateIntermediaryModel
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import repository.api.mapper.toModel
-import services.api.repository.IntermediaryRepository
 import utils.date.api.DateProvider
 import java.util.*
+
+interface IntermediaryRepository {
+    suspend fun create(
+        userId: UUID,
+        model: CreateIntermediaryModel
+    ): String
+
+    suspend fun delete(
+        userId: UUID,
+        intermediaryId: UUID
+    )
+
+    suspend fun getById(
+        intermediaryId: UUID
+    ): IntermediaryModel?
+
+    suspend fun getBySwift(
+        userId: UUID,
+        swift: String
+    ): IntermediaryModel?
+
+    suspend fun getAll(
+        userId: UUID,
+        page: Long,
+        limit: Int,
+    ): List<IntermediaryModel>
+
+    suspend fun update(
+        userId: UUID,
+        intermediaryId: UUID,
+        model: UpdateIntermediaryModel
+    ): IntermediaryModel
+}
 
 internal class IntermediaryRepositoryImpl(
     private val dateProvider: DateProvider

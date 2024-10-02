@@ -1,7 +1,7 @@
 package services.api.services.intermediary
 
 import models.intermediary.IntermediaryModel
-import services.api.repository.IntermediaryRepository
+import repository.api.repository.IntermediaryRepository
 import java.util.*
 
 interface GetUserIntermediariesService {

@@ -1,11 +1,11 @@
 package services.api.services.intermediary
 
-import services.api.repository.IntermediaryRepository
-import services.api.repository.InvoiceRepository
+import repository.api.repository.IntermediaryRepository
+import repository.api.repository.InvoiceRepository
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.HttpCode
 import utils.exceptions.httpError
-import java.util.UUID
+import java.util.*
 
 interface DeleteIntermediaryService {
     suspend fun execute(

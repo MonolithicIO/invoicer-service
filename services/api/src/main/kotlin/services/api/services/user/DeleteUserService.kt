@@ -1,6 +1,6 @@
 package services.api.services.user
 
-import services.api.repository.UserRepository
+import repository.api.repository.UserRepository
 
 interface DeleteUserService {
     suspend fun delete(userId: String)

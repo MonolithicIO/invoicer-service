@@ -1,6 +1,6 @@
 package services.api.services.invoice
 
-import services.api.repository.InvoiceRepository
+import repository.api.repository.InvoiceRepository
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.unauthorizedResourceError
 import java.util.*

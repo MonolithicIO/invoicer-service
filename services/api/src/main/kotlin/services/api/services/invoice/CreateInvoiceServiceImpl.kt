@@ -4,7 +4,7 @@ import kotlinx.datetime.LocalDate
 import models.createinvoice.CreateInvoiceActivityModel
 import models.createinvoice.CreateInvoiceModel
 import models.createinvoice.CreateInvoiceResponseModel
-import services.api.repository.InvoiceRepository
+import repository.api.repository.InvoiceRepository
 import services.api.services.beneficiary.GetBeneficiaryByIdService
 import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.user.GetUserByIdService

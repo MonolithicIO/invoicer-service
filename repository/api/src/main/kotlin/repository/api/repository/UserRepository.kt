@@ -9,9 +9,16 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import repository.api.mapper.toModel
-import services.api.repository.UserRepository
 import utils.date.api.DateProvider
 import java.util.*
+
+interface UserRepository {
+    suspend fun getUserByEmail(email: String): UserModel?
+    suspend fun getUserById(id: UUID): UserModel?
+    suspend fun createUser(data: CreateUserModel): String
+    suspend fun deleteUser(id: UUID)
+}
+
 
 internal class UserRepositoryImpl(
     private val dateProvider: DateProvider

@@ -11,9 +11,44 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import repository.api.mapper.toListItemModel
 import repository.api.mapper.toModel
-import services.api.repository.InvoiceRepository
 import utils.date.api.DateProvider
 import java.util.*
+
+interface InvoiceRepository {
+    suspend fun createInvoice(
+        data: CreateInvoiceModel,
+        userId: UUID,
+    ): String
+
+    suspend fun getInvoiceByUUID(
+        id: UUID
+    ): InvoiceModel?
+
+    suspend fun getInvoiceByExternalId(
+        externalId: String
+    ): InvoiceModel?
+
+    suspend fun getInvoices(
+        filters: GetInvoicesFilterModel,
+        page: Long,
+        limit: Int,
+        userId: String,
+    ): List<InvoiceListItemModel>
+
+    suspend fun delete(
+        id: UUID
+    )
+
+    suspend fun getInvoicesByBeneficiaryId(
+        beneficiaryId: UUID,
+        userId: UUID,
+    ): List<InvoiceListItemModel>
+
+    suspend fun getInvoicesByIntermediaryId(
+        intermediaryId: UUID,
+        userId: UUID,
+    ): List<InvoiceListItemModel>
+}
 
 
 internal class InvoiceRepositoryImpl(

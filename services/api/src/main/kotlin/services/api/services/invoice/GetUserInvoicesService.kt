@@ -3,7 +3,7 @@ package services.api.services.invoice
 import kotlinx.datetime.LocalDate
 import models.getinvoices.GetInvoicesFilterModel
 import models.getinvoices.InvoiceListItemModel
-import services.api.repository.InvoiceRepository
+import repository.api.repository.InvoiceRepository
 import utils.exceptions.HttpCode
 import utils.exceptions.httpError
 

@@ -8,9 +8,41 @@ import models.beneficiary.UpdateBeneficiaryModel
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import repository.api.mapper.toModel
-import services.api.repository.BeneficiaryRepository
 import utils.date.api.DateProvider
 import java.util.*
+
+interface BeneficiaryRepository {
+    suspend fun create(
+        userId: UUID,
+        model: CreateBeneficiaryModel
+    ): String
+
+    suspend fun delete(
+        userId: UUID,
+        beneficiaryId: UUID
+    )
+
+    suspend fun getById(
+        beneficiaryId: UUID
+    ): BeneficiaryModel?
+
+    suspend fun getBySwift(
+        userId: UUID,
+        swift: String
+    ): BeneficiaryModel?
+
+    suspend fun getAll(
+        userId: UUID,
+        page: Long,
+        limit: Int,
+    ): List<BeneficiaryModel>
+
+    suspend fun update(
+        userId: UUID,
+        beneficiaryId: UUID,
+        model: UpdateBeneficiaryModel
+    ): BeneficiaryModel
+}
 
 internal class BeneficiaryRepositoryImpl(
     private val dateProvider: DateProvider

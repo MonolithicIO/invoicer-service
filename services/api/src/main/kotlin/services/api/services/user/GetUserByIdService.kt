@@ -1,7 +1,7 @@
 package services.api.services.user
 
 import models.user.UserModel
-import services.api.repository.UserRepository
+import repository.api.repository.UserRepository
 import utils.exceptions.notFoundError
 import java.util.*
 

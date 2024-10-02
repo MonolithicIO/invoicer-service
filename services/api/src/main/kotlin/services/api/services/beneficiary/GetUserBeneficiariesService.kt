@@ -1,7 +1,7 @@
 package services.api.services.beneficiary
 
 import models.beneficiary.BeneficiaryModel
-import services.api.repository.BeneficiaryRepository
+import repository.api.repository.BeneficiaryRepository
 import java.util.*
 
 interface GetUserBeneficiariesService {
