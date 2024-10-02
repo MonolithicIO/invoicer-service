@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.server.view.viewmodel.beneficiary
 
 import kotlinx.serialization.Serializable
-import services.api.model.beneficiary.UpdateBeneficiaryModel
+import models.beneficiary.UpdateBeneficiaryModel
 import utils.exceptions.badRequestError
 
 @Serializable

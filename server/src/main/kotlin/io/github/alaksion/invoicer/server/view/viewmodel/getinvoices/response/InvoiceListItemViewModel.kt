@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.response
 
 import kotlinx.serialization.Serializable
-import services.api.model.getinvoices.InvoiceListItemModel
+import models.getinvoices.InvoiceListItemModel
 
 @Serializable
 data class InvoiceListItemViewModel(

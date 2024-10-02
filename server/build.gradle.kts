@@ -45,6 +45,9 @@ dependencies {
     // Services
     implementation(projects.services.api)
 
+    // Models
+    implementation(projects.models)
+
     testImplementation(libs.ktor.server.tests.jvm)
     testImplementation(libs.kotlin.test)
 }
