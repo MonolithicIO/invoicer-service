@@ -41,8 +41,8 @@ jobs:
     - name: Parse coverage XML
       id: coverage
       run: |
-        COVERAGE=$(grep -oPm1 "(?<=<counter type=\"INSTRUCTION\" missed=\")[^\"]+" build/reports/kover/xml/report.xml)
-        COVERED=$(grep -oPm1 "(?<=covered=\")[^\"]+" build/reports/kover/xml/report.xml)
+        COVERAGE=$(grep -oPm1 "(?<=<counter type=\"INSTRUCTION\" missed=\")[^\"]+" server/build/reports/kover/xml/report.xml)
+        COVERED=$(grep -oPm1 "(?<=covered=\")[^\"]+" server/build/reports/kover/xml/report.xml)
         TOTAL=$((COVERAGE + COVERED))
         COVERAGE_PERCENTAGE=$((COVERED * 100 / TOTAL))
         echo "coverage=$COVERAGE_PERCENTAGE%" >> $GITHUB_ENV
