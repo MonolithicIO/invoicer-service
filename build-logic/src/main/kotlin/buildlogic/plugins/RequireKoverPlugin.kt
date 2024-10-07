@@ -7,7 +7,6 @@ import org.gradle.api.plugins.UnknownPluginException
 class RequireKoverPlugin : Plugin<Project> {
 
     private val ignoredProjects = listOf(
-        "server",
         "test",
         "entities",
         "models",
