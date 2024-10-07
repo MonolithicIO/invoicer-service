@@ -4,7 +4,7 @@ open-pdf = "2.0.2"
 dotenv = "6.4.1"
 exposed = "0.51.1"
 datetime = "0.6.0"
-detekt = "1.23.3"
+detekt-plugin = "1.23.3"
 ktor = "2.3.11"
 kotlin = "2.0.0"
 logback = "1.4.14"
@@ -15,6 +15,7 @@ bcrypt = "0.4"
 serialization-json = "1.7.1"
 kover-plugin = "0.9.0-RC"
 kover-gradle = "0.6.1"
+detekt-gradle = "1.23.7"
 
 [libraries]
 kodein-server = { module = "org.kodein.di:kodein-di-framework-ktor-server-jvm", version.ref = "kodein" }
@@ -39,7 +40,8 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref =
 kotlin-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization-json" }
 
 # Detekt
-detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt" }
+detekt-api = { module = "io.gitlab.arturbosch.detekt:detekt-api", version.ref = "detekt-plugin" }
+detekt-gradle = { module = "io.gitlab.arturbosch.detekt:io.gitlab.arturbosch.detekt.gradle.plugin", version.ref = "detekt-gradle" }
 
 # Ktor
 ktor-server-core-jvm = { module = "io.ktor:ktor-server-core-jvm" }
@@ -67,7 +69,7 @@ swagger = { module = "io.github.smiley4:ktor-swagger-ui", version.ref = "swagger
 bcrypt = { module = "org.mindrot:jbcrypt", version.ref = "bcrypt" }
 
 [plugins]
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt-plugin" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

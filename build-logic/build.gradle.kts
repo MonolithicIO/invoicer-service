@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     implementation(libs.kover.gradle)
+    implementation(libs.detekt.gradle)
 }
 
 gradlePlugin {
@@ -18,6 +19,10 @@ gradlePlugin {
         create("require-cover-plugin") {
             id = "requireKover"
             implementationClass = "buildlogic.plugins.RequireKoverPlugin"
+        }
+        create("invoicer-detekt") {
+            id = "invoicer.detekt"
+            implementationClass = "buildlogic.plugins.InvoicerDetektPlugin"
         }
     }
 }
