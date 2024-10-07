@@ -57,6 +57,8 @@ jobs:
         if [ -s comment_id.txt ]; then
           echo "comment_id=$(cat comment_id.txt)" >> $GITHUB_ENV
         fi
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Post or update coverage comment
       run: |
