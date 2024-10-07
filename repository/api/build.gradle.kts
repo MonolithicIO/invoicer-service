@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.ktor)
+    alias(libs.plugins.kover)
 }
 
 // Move to build plugin
