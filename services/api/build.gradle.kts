@@ -19,4 +19,9 @@ dependencies {
     implementation(projects.foundation.date.api)
     implementation(projects.foundation.authentication.api)
     implementation(projects.foundation.password.api)
+    implementation(libs.kotlin.coroutines.core)
+
+    testImplementation(projects.repository.test)
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.kotlin.coroutines.test)
 }
