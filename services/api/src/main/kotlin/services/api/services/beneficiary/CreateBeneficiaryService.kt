@@ -19,7 +19,7 @@ interface CreateBeneficiaryService {
 internal class CreateBeneficiaryServiceImpl(
     private val getUserByIdService: GetUserByIdService,
     private val repository: BeneficiaryRepository,
-    private val checkSwiftUseCase: CheckBeneficiarySwiftAvailableService,
+    private val checkSwiftService: CheckBeneficiarySwiftAvailableService,
     private val swiftValidator: SwiftValidator,
     private val ibanValidator: IbanValidator,
 ) : CreateBeneficiaryService {
@@ -43,7 +43,7 @@ internal class CreateBeneficiaryServiceImpl(
 
         val user = getUserByIdService.get(userId)
 
-        if (checkSwiftUseCase.execute(model.swift, userId)) {
+        if (checkSwiftService.execute(model.swift, userId)) {
             httpError(
                 message = "Swift code: ${model.swift} is already in use by another beneficiary",
                 code = HttpCode.Conflict

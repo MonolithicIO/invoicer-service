@@ -22,6 +22,7 @@ dependencies {
     implementation(libs.kotlin.coroutines.core)
 
     testImplementation(projects.repository.test)
+    testImplementation(projects.foundation.validator.test)
     testImplementation(libs.kotlin.test)
     testImplementation(libs.kotlin.coroutines.test)
 }

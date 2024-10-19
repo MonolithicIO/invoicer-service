@@ -64,7 +64,7 @@ private fun DI.Builder.beneficiaryServices() {
         CreateBeneficiaryServiceImpl(
             repository = instance(),
             getUserByIdService = instance(),
-            checkSwiftUseCase = instance(),
+            checkSwiftService = instance(),
             swiftValidator = instance(),
             ibanValidator = instance()
         )
