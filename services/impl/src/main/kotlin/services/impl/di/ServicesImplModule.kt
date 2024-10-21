@@ -1,51 +1,17 @@
-package services.api.di
+package services.impl.di
 
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
-import services.api.services.beneficiary.CheckBeneficiarySwiftAvailableService
-import services.api.services.beneficiary.CheckBeneficiarySwiftAvailableServiceImpl
-import services.api.services.beneficiary.CreateBeneficiaryService
-import services.api.services.beneficiary.CreateBeneficiaryServiceImpl
-import services.api.services.beneficiary.DeleteBeneficiaryService
-import services.api.services.beneficiary.DeleteBeneficiaryServiceImpl
-import services.api.services.beneficiary.GetBeneficiaryByIdService
-import services.api.services.beneficiary.GetBeneficiaryByIdServiceImpl
-import services.api.services.beneficiary.GetUserBeneficiariesService
-import services.api.services.beneficiary.GetUserBeneficiariesServiceImpl
-import services.api.services.beneficiary.UpdateBeneficiaryService
-import services.api.services.beneficiary.UpdateBeneficiaryServiceImpl
-import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
-import services.api.services.intermediary.CheckIntermediarySwiftAvailableServiceImpl
-import services.api.services.intermediary.CreateIntermediaryService
-import services.api.services.intermediary.CreateIntermediaryServiceImpl
-import services.api.services.intermediary.DeleteIntermediaryService
-import services.api.services.intermediary.DeleteIntermediaryServiceImpl
-import services.api.services.intermediary.GetIntermediaryByIdService
-import services.api.services.intermediary.GetIntermediaryByIdServiceImpl
-import services.api.services.intermediary.GetUserIntermediariesService
-import services.api.services.intermediary.GetUserIntermediariesServiceImpl
-import services.api.services.intermediary.UpdateIntermediaryService
-import services.api.services.intermediary.UpdateIntermediaryServiceImpl
-import services.api.services.invoice.CreateInvoiceService
-import services.api.services.invoice.CreateInvoiceServiceImpl
-import services.api.services.invoice.DeleteInvoiceService
-import services.api.services.invoice.DeleteInvoiceServiceImpl
-import services.api.services.invoice.GetInvoiceByIdService
-import services.api.services.invoice.GetInvoiceByIdServiceImpl
-import services.api.services.invoice.GetUserInvoicesService
-import services.api.services.invoice.GetUserInvoicesServiceImpl
+import services.api.services.beneficiary.*
+import services.api.services.intermediary.*
+import services.api.services.invoice.*
 import services.api.services.login.LoginService
 import services.api.services.login.LoginServiceImpl
-import services.api.services.user.CreateUserService
-import services.api.services.user.CreateUserServiceImpl
-import services.api.services.user.DeleteUserService
-import services.api.services.user.DeleteUserServiceImpl
-import services.api.services.user.GetUserByEmailService
-import services.api.services.user.GetUserByEmailServiceImpl
-import services.api.services.user.GetUserByIdServiceImpl
+import services.api.services.user.*
+import services.impl.beneficiary.*
 
-val servicesModule = DI.Module("invoicer-services") {
+val servicesImplModule = DI.Module("invoicer-services") {
     beneficiaryServices()
     intermediaryServices()
     invoiceServices()

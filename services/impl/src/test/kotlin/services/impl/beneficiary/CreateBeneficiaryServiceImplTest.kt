@@ -1,4 +1,4 @@
-package services.api.services.beneficiary
+package services.impl.beneficiary
 
 import foundation.validator.test.FakeIbanValidator
 import foundation.validator.test.FakeSwiftValidator

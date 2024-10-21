@@ -17,9 +17,9 @@ import io.ktor.server.routing.put
 import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.beneficiary.CreateBeneficiaryService
+import services.impl.beneficiary.CreateBeneficiaryService
 import services.api.services.beneficiary.DeleteBeneficiaryService
-import services.api.services.beneficiary.GetUserBeneficiariesService
+import services.impl.beneficiary.GetUserBeneficiariesService
 import services.api.services.beneficiary.UpdateBeneficiaryService
 import utils.authentication.api.jwt.jwtProtected
 import utils.authentication.api.jwt.jwtUserId

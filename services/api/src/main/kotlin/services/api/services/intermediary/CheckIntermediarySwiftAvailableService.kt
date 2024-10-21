@@ -1,8 +1,8 @@
 package services.api.services.intermediary
 
-interface DeleteIntermediaryService {
+interface CheckIntermediarySwiftAvailableService {
     suspend fun execute(
-        beneficiaryId: String,
+        swift: String,
         userId: String
-    )
+    ): Boolean
 }
