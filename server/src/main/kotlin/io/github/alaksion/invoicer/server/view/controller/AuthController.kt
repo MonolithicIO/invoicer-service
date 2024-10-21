@@ -10,7 +10,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.login.LoginService
+import services.impl.login.LoginService
 
 fun Routing.authController() {
     route("auth") {

@@ -1,4 +1,4 @@
-package services.api.services.intermediary
+package services.impl.intermediary
 
 import repository.api.repository.IntermediaryRepository
 import repository.api.repository.InvoiceRepository

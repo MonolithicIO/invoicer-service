@@ -10,16 +10,20 @@ class FakeBeneficiaryRepository : BeneficiaryRepository {
 
     var createResponse: suspend () -> String = { DEFAULT_CREATE_RESPONSE }
     var getAllResponse: suspend () -> List<BeneficiaryModel> = { listOf() }
-
     lateinit var getByIdResponse: suspend () -> BeneficiaryModel
     var getBySwiftResponse: suspend () -> BeneficiaryModel? = { null }
     lateinit var updateBeneficiaryResponse: suspend () -> BeneficiaryModel
+
+    var deleteCalls = 0
+        private set
 
     override suspend fun create(userId: UUID, model: CreateBeneficiaryModel): String {
         return createResponse()
     }
 
-    override suspend fun delete(userId: UUID, beneficiaryId: UUID) = Unit
+    override suspend fun delete(userId: UUID, beneficiaryId: UUID) {
+        deleteCalls++
+    }
 
     override suspend fun getById(beneficiaryId: UUID): BeneficiaryModel? {
         return getByIdResponse()

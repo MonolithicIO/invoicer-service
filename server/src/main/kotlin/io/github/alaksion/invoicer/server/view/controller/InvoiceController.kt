@@ -17,10 +17,10 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.invoice.CreateInvoiceService
-import services.api.services.invoice.DeleteInvoiceService
-import services.api.services.invoice.GetInvoiceByIdService
-import services.api.services.invoice.GetUserInvoicesService
+import services.impl.invoice.CreateInvoiceService
+import services.impl.invoice.DeleteInvoiceService
+import services.impl.invoice.GetInvoiceByIdService
+import services.impl.invoice.GetUserInvoicesService
 import utils.authentication.api.jwt.jwtProtected
 import utils.authentication.api.jwt.jwtUserId
 

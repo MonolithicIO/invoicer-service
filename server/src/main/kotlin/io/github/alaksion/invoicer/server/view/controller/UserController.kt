@@ -13,7 +13,7 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.user.CreateUserService
+import services.impl.user.CreateUserService
 import services.api.services.user.DeleteUserService
 import utils.authentication.api.jwt.jwtProtected
 import utils.authentication.api.jwt.jwtUserId

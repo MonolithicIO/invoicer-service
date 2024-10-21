@@ -12,12 +12,12 @@ import java.util.*
 internal class DeleteBeneficiaryServiceImpl(
     private val getBeneficiaryByIdService: GetBeneficiaryByIdService,
     private val beneficiaryRepository: BeneficiaryRepository,
-    private val getUserByIdUseCase: GetUserByIdService,
+    private val getUserByIdService: GetUserByIdService,
     private val invoiceRepository: InvoiceRepository
 ) : DeleteBeneficiaryService {
 
     override suspend fun execute(beneficiaryId: String, userId: String) {
-        getUserByIdUseCase.get(userId)
+        getUserByIdService.get(userId)
 
         getBeneficiaryByIdService.get(
             beneficiaryId = beneficiaryId,

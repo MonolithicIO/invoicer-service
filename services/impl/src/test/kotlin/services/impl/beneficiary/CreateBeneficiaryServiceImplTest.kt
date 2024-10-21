@@ -3,13 +3,11 @@ package services.impl.beneficiary
 import foundation.validator.test.FakeIbanValidator
 import foundation.validator.test.FakeSwiftValidator
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.LocalDate
-import models.beneficiary.BeneficiaryModel
 import models.beneficiary.CreateBeneficiaryModel
 import repository.test.repository.FakeBeneficiaryRepository
 import repository.test.repository.FakeUserRepository
-import services.api.services.user.GetUserByIdService
-import services.api.services.user.GetUserByIdServiceImpl
+import services.test.beneficiary.FakeCheckBeneficiarySwiftAvailableService
+import services.test.user.FakeGetUserByIdService
 import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import kotlin.test.BeforeTest
@@ -22,8 +20,8 @@ class CreateBeneficiaryServiceImplTest {
     private lateinit var service: CreateBeneficiaryServiceImpl
     private lateinit var beneficiaryRepository: FakeBeneficiaryRepository
     private lateinit var userRepository: FakeUserRepository
-    private lateinit var checkSwiftService: CheckBeneficiarySwiftAvailableService
-    private lateinit var getUserByIdService: GetUserByIdService
+    private lateinit var checkSwiftService: FakeCheckBeneficiarySwiftAvailableService
+    private lateinit var getUserByIdService: FakeGetUserByIdService
     private lateinit var swiftValidator: FakeSwiftValidator
     private lateinit var ibanValidator: FakeIbanValidator
 
@@ -33,12 +31,9 @@ class CreateBeneficiaryServiceImplTest {
         beneficiaryRepository = FakeBeneficiaryRepository()
         swiftValidator = FakeSwiftValidator()
         ibanValidator = FakeIbanValidator()
-        checkSwiftService = CheckBeneficiarySwiftAvailableServiceImpl(
-            repository = beneficiaryRepository
-        )
-        getUserByIdService = GetUserByIdServiceImpl(
-            userRepository = userRepository
-        )
+        checkSwiftService = FakeCheckBeneficiarySwiftAvailableService()
+        getUserByIdService = FakeGetUserByIdService()
+
         service = CreateBeneficiaryServiceImpl(
             getUserByIdService = getUserByIdService,
             repository = beneficiaryRepository,
@@ -134,7 +129,7 @@ class CreateBeneficiaryServiceImplTest {
     @Test
     fun `should throw error when swift is already in use`() = runTest {
         val exception = assertFailsWith<HttpError> {
-            beneficiaryRepository.getBySwiftResponse = { EXISTING_BENEFICIARY }
+            checkSwiftService.response = { false }
 
             service.create(
                 model = INPUT,
@@ -173,18 +168,5 @@ class CreateBeneficiaryServiceImplTest {
             bankName = "Bank of America",
             bankAddress = "Bank address"
         )
-
-        val EXISTING_BENEFICIARY = BeneficiaryModel(
-            name = "Sample Name 2",
-            iban = "1234",
-            swift = "87654",
-            bankName = "Bank of America",
-            bankAddress = "addres",
-            id = "1",
-            userId = "999",
-            createdAt = LocalDate(2000, 6, 19),
-            updatedAt = LocalDate(2000, 6, 19)
-        )
     }
-
 }

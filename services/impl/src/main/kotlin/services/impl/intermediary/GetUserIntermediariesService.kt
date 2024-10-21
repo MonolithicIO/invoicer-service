@@ -1,4 +1,4 @@
-package services.api.services.intermediary
+package services.impl.intermediary
 
 import models.intermediary.IntermediaryModel
 import repository.api.repository.IntermediaryRepository

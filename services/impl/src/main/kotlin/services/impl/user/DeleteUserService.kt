@@ -1,10 +1,8 @@
-package services.api.services.user
+package services.impl.user
 
 import repository.api.repository.UserRepository
-
-interface DeleteUserService {
-    suspend fun delete(userId: String)
-}
+import services.api.services.user.DeleteUserService
+import services.api.services.user.GetUserByIdService
 
 internal class DeleteUserServiceImpl(
     private val userRepository: UserRepository,

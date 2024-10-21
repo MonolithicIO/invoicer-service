@@ -1,4 +1,4 @@
-package services.api.services.invoice
+package services.impl.invoice
 
 import repository.api.repository.InvoiceRepository
 import services.api.services.user.GetUserByIdService

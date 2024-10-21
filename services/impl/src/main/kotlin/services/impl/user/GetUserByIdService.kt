@@ -1,13 +1,10 @@
-package services.api.services.user
+package services.impl.user
 
 import models.user.UserModel
 import repository.api.repository.UserRepository
+import services.api.services.user.GetUserByIdService
 import utils.exceptions.notFoundError
 import java.util.*
-
-interface GetUserByIdService {
-    suspend fun get(id: String): UserModel
-}
 
 internal class GetUserByIdServiceImpl(
     private val userRepository: UserRepository

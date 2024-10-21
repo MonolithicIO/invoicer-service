@@ -7,6 +7,7 @@ group = "io.github.alaksion.invoicer.service.test"
 version = "0.0.1"
 
 dependencies {
+    implementation(libs.kotlin.datetime)
     implementation(projects.services.api)
     implementation(projects.models)
 }

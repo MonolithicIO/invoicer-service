@@ -1,4 +1,4 @@
-package services.api.services.intermediary
+package services.impl.intermediary
 
 import foundation.validator.api.SwiftValidator
 import models.intermediary.CreateIntermediaryModel

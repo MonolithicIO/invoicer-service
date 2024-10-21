@@ -18,10 +18,10 @@ import io.ktor.server.routing.put
 import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.intermediary.CreateIntermediaryService
-import services.api.services.intermediary.DeleteIntermediaryService
-import services.api.services.intermediary.GetUserIntermediariesService
-import services.api.services.intermediary.UpdateIntermediaryService
+import services.impl.intermediary.CreateIntermediaryService
+import services.impl.intermediary.DeleteIntermediaryService
+import services.impl.intermediary.GetUserIntermediariesService
+import services.impl.intermediary.UpdateIntermediaryService
 import utils.authentication.api.jwt.jwtProtected
 import utils.authentication.api.jwt.jwtUserId
 import kotlin.getValue

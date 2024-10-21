@@ -10,6 +10,7 @@ class RequireKoverPlugin : Plugin<Project> {
         "test",
         "entities",
         "models",
+        "api"
     )
 
     override fun apply(target: Project) {

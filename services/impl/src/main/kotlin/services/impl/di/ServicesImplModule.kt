@@ -4,12 +4,34 @@ import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
 import services.api.services.beneficiary.*
-import services.api.services.intermediary.*
-import services.api.services.invoice.*
-import services.api.services.login.LoginService
-import services.api.services.login.LoginServiceImpl
+import services.impl.login.LoginService
+import services.impl.login.LoginServiceImpl
 import services.api.services.user.*
 import services.impl.beneficiary.*
+import services.impl.intermediary.CheckIntermediarySwiftAvailableService
+import services.impl.intermediary.CheckIntermediarySwiftAvailableServiceImpl
+import services.impl.intermediary.CreateIntermediaryService
+import services.impl.intermediary.CreateIntermediaryServiceImpl
+import services.impl.intermediary.DeleteIntermediaryService
+import services.impl.intermediary.DeleteIntermediaryServiceImpl
+import services.impl.intermediary.GetIntermediaryByIdService
+import services.impl.intermediary.GetIntermediaryByIdServiceImpl
+import services.impl.intermediary.GetUserIntermediariesService
+import services.impl.intermediary.GetUserIntermediariesServiceImpl
+import services.impl.intermediary.UpdateIntermediaryService
+import services.impl.intermediary.UpdateIntermediaryServiceImpl
+import services.impl.invoice.CreateInvoiceService
+import services.impl.invoice.CreateInvoiceServiceImpl
+import services.impl.invoice.DeleteInvoiceService
+import services.impl.invoice.DeleteInvoiceServiceImpl
+import services.impl.invoice.GetInvoiceByIdService
+import services.impl.invoice.GetInvoiceByIdServiceImpl
+import services.impl.invoice.GetUserInvoicesService
+import services.impl.invoice.GetUserInvoicesServiceImpl
+import services.impl.user.CreateUserServiceImpl
+import services.impl.user.DeleteUserServiceImpl
+import services.impl.user.GetUserByEmailServiceImpl
+import services.impl.user.GetUserByIdServiceImpl
 
 val servicesImplModule = DI.Module("invoicer-services") {
     beneficiaryServices()
@@ -40,7 +62,7 @@ private fun DI.Builder.beneficiaryServices() {
         DeleteBeneficiaryServiceImpl(
             getBeneficiaryByIdService = instance(),
             beneficiaryRepository = instance(),
-            getUserByIdUseCase = instance(),
+            getUserByIdService = instance(),
             invoiceRepository = instance()
         )
     }

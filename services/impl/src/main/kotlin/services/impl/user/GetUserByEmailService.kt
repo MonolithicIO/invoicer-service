@@ -1,11 +1,8 @@
-package services.api.services.user
+package services.impl.user
 
 import models.user.UserModel
 import repository.api.repository.UserRepository
-
-interface GetUserByEmailService {
-    suspend fun get(email: String): UserModel?
-}
+import services.api.services.user.GetUserByEmailService
 
 internal class GetUserByEmailServiceImpl(
     private val userRepository: UserRepository

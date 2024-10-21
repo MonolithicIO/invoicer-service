@@ -1,18 +1,16 @@
-package services.api.services.user
+package services.impl.user
 
 import foundation.validator.api.EmailValidator
 import models.user.CreateUserModel
 import repository.api.repository.UserRepository
+import services.api.services.user.CreateUserService
+import services.api.services.user.GetUserByEmailService
 import utils.exceptions.HttpCode
 import utils.exceptions.badRequestError
 import utils.exceptions.httpError
 import utils.password.PasswordEncryption
 import utils.password.PasswordStrength
 import utils.password.PasswordValidator
-
-interface CreateUserService {
-    suspend fun create(userModel: CreateUserModel): String
-}
 
 internal class CreateUserServiceImpl(
     private val getUserByEmailService: GetUserByEmailService,

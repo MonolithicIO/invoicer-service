@@ -1,4 +1,4 @@
-package services.api.services.invoice
+package services.impl.invoice
 
 import kotlinx.datetime.LocalDate
 import models.getinvoices.GetInvoicesFilterModel
