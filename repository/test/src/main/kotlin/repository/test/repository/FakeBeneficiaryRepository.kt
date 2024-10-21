@@ -12,7 +12,7 @@ class FakeBeneficiaryRepository : BeneficiaryRepository {
     var getAllResponse: suspend () -> List<BeneficiaryModel> = { listOf() }
 
     lateinit var getByIdResponse: suspend () -> BeneficiaryModel
-    lateinit var getBySwiftResponse: suspend () -> BeneficiaryModel?
+    var getBySwiftResponse: suspend () -> BeneficiaryModel? = { null }
     lateinit var updateBeneficiaryResponse: suspend () -> BeneficiaryModel
 
     override suspend fun create(userId: UUID, model: CreateBeneficiaryModel): String {
