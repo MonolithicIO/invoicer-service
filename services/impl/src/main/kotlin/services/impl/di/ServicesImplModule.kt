@@ -75,7 +75,8 @@ private fun DI.Builder.beneficiaryServices() {
 
     bindProvider<GetUserBeneficiariesService> {
         GetUserBeneficiariesServiceImpl(
-            repository = instance()
+            repository = instance(),
+            getUserByIdUseCase = instance()
         )
     }
 

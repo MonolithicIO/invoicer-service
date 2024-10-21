@@ -20,7 +20,7 @@ class CreateBeneficiaryServiceImplTest {
     private lateinit var service: CreateBeneficiaryServiceImpl
     private lateinit var beneficiaryRepository: FakeBeneficiaryRepository
     private lateinit var userRepository: FakeUserRepository
-    private lateinit var checkSwiftService: FakeCheckBeneficiarySwiftAvailableService
+    private lateinit var checkSwiftInUseService: FakeCheckBeneficiarySwiftAvailableService
     private lateinit var getUserByIdService: FakeGetUserByIdService
     private lateinit var swiftValidator: FakeSwiftValidator
     private lateinit var ibanValidator: FakeIbanValidator
@@ -31,13 +31,13 @@ class CreateBeneficiaryServiceImplTest {
         beneficiaryRepository = FakeBeneficiaryRepository()
         swiftValidator = FakeSwiftValidator()
         ibanValidator = FakeIbanValidator()
-        checkSwiftService = FakeCheckBeneficiarySwiftAvailableService()
+        checkSwiftInUseService = FakeCheckBeneficiarySwiftAvailableService()
         getUserByIdService = FakeGetUserByIdService()
 
         service = CreateBeneficiaryServiceImpl(
             getUserByIdService = getUserByIdService,
             repository = beneficiaryRepository,
-            checkSwiftService = checkSwiftService,
+            checkSwiftService = checkSwiftInUseService,
             swiftValidator = swiftValidator,
             ibanValidator = ibanValidator
         )
@@ -129,7 +129,7 @@ class CreateBeneficiaryServiceImplTest {
     @Test
     fun `should throw error when swift is already in use`() = runTest {
         val exception = assertFailsWith<HttpError> {
-            checkSwiftService.response = { false }
+            checkSwiftInUseService.response = { true }
 
             service.create(
                 model = INPUT,
@@ -145,6 +145,7 @@ class CreateBeneficiaryServiceImplTest {
 
     @Test
     fun `should return created beneficiary id`() = runTest {
+        checkSwiftInUseService.response = { false }
         beneficiaryRepository.createResponse = { "1234" }
 
         val response = service.create(

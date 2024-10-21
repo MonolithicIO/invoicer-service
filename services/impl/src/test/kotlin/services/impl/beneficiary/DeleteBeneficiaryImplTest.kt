@@ -7,6 +7,7 @@ import repository.test.repository.FakeBeneficiaryRepository
 import repository.test.repository.FakeInvoiceRepository
 import services.test.beneficiary.FakeGetBeneficiaryByIdService
 import services.test.user.FakeGetUserByIdService
+import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import java.util.*
 import kotlin.test.BeforeTest
@@ -53,7 +54,7 @@ class DeleteBeneficiaryImplTest {
 
     @Test
     fun `given invoices attached to beneficiary then should throw error`() = runTest {
-        assertFailsWith<HttpError> {
+        val error = assertFailsWith<HttpError> {
             invoiceRepository.getInvoicesByBeneficiaryIdResponse = {
                 listOf(
                     InvoiceListItemModel(
@@ -75,5 +76,10 @@ class DeleteBeneficiaryImplTest {
                 userId = "b0a7e0bc-044a-42d1-9cc9-f0b63f7f3f36"
             )
         }
+
+        assertEquals(
+            expected = HttpCode.Conflict,
+            actual = error.statusCode
+        )
     }
 }
