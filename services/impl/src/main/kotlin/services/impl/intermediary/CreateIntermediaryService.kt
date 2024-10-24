@@ -3,17 +3,12 @@ package services.impl.intermediary
 import foundation.validator.api.SwiftValidator
 import models.intermediary.CreateIntermediaryModel
 import repository.api.repository.IntermediaryRepository
+import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
+import services.api.services.intermediary.CreateIntermediaryService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.HttpCode
 import utils.exceptions.badRequestError
 import utils.exceptions.httpError
-
-interface CreateIntermediaryService {
-    suspend fun create(
-        model: CreateIntermediaryModel,
-        userId: String,
-    ): String
-}
 
 internal class CreateIntermediaryServiceImpl(
     private val getUserByIdUseCase: GetUserByIdService,

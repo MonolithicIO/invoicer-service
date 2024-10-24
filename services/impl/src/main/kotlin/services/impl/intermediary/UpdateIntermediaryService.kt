@@ -4,18 +4,13 @@ import foundation.validator.api.SwiftValidator
 import models.intermediary.IntermediaryModel
 import models.intermediary.UpdateIntermediaryModel
 import repository.api.repository.IntermediaryRepository
+import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
+import services.api.services.intermediary.GetIntermediaryByIdService
+import services.api.services.intermediary.UpdateIntermediaryService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.HttpCode
 import utils.exceptions.httpError
 import java.util.*
-
-interface UpdateIntermediaryService {
-    suspend fun execute(
-        model: UpdateIntermediaryModel,
-        userId: String,
-        intermediaryId: String
-    ): IntermediaryModel
-}
 
 internal class UpdateIntermediaryServiceImpl(
     private val getUserByIdUseCase: GetUserByIdService,

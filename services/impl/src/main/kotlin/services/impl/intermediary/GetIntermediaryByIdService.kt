@@ -2,13 +2,10 @@ package services.impl.intermediary
 
 import models.intermediary.IntermediaryModel
 import repository.api.repository.IntermediaryRepository
+import services.api.services.intermediary.GetIntermediaryByIdService
 import utils.exceptions.notFoundError
 import utils.exceptions.unauthorizedResourceError
 import java.util.*
-
-interface GetIntermediaryByIdService {
-    suspend fun get(intermediaryId: String, userId: String): IntermediaryModel
-}
 
 internal class GetIntermediaryByIdServiceImpl(
     private val repository: IntermediaryRepository
