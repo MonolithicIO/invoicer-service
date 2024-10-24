@@ -63,6 +63,10 @@ dependencies {
     // Entities
     implementation(projects.entities)
 
+    // Controller
+    implementation(projects.controller)
+    kover(projects.controller)
+
     testImplementation(libs.ktor.server.tests.jvm)
     testImplementation(libs.kotlin.test)
 }

@@ -1,11 +1,11 @@
-package io.github.alaksion.invoicer.server.view.controller
+package controller
 
 import controller.viewmodel.createinvoice.request.CreateInvoiceViewModel
 import controller.viewmodel.createinvoice.request.toModel
 import controller.viewmodel.getinvoices.request.GetInvoicesFilterViewModel
 import controller.viewmodel.getinvoices.request.receiveGetInvoicesFilterViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.response.toViewModel
-import controller.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSender
+import controller.viewmodel.getinvoices.response.toViewModel
+import controller.viewmodel.invoicedetails.response.toViewModel
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -20,23 +20,21 @@ import services.api.services.invoice.GetUserInvoicesService
 import utils.authentication.api.jwt.jwtProtected
 import utils.authentication.api.jwt.jwtUserId
 
-fun Routing.invoiceController() {
+internal fun Routing.invoiceController() {
     route("invoice") {
 
         jwtProtected {
             get("/{id}") {
                 val invoiceId = call.parameters["id"]
                 val findOneService by closestDI().instance<GetInvoiceByIdService>()
-                val sender by closestDI().instance<InvoiceDetailsViewModelSender>()
 
                 call.respond(
                     status = HttpStatusCode.OK,
-                    message = sender.send(
-                        findOneService.get(
-                            id = invoiceId!!,
-                            userId = jwtUserId()
-                        )
-                    )
+                    message =
+                    findOneService.get(
+                        id = invoiceId!!,
+                        userId = jwtUserId()
+                    ).toViewModel()
                 )
             }
 

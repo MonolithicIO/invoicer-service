@@ -1,12 +1,11 @@
-package io.github.alaksion.invoicer.server.view.viewmodel.createuser
+package controller.viewmodel.createuser
 
-import controller.viewmodel.createuser.CreateUserRequestViewModel
 import kotlinx.serialization.Serializable
 import models.user.CreateUserModel
 import utils.exceptions.badRequestError
 
 @Serializable
-data class CreateUserRequestViewModel(
+internal data class CreateUserRequestViewModel(
     val email: String? = null,
     val confirmEmail: String? = null,
     val password: String? = null,
@@ -25,7 +24,7 @@ internal fun CreateUserRequestViewModel.toDomainModel(): CreateUserModel {
 }
 
 @Serializable
-data class CreateUserResponseViewModel(
+internal data class CreateUserResponseViewModel(
     val userId: String
 )
 

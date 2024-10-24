@@ -1,5 +1,8 @@
 package io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response
 
+import controller.viewmodel.invoicedetails.response.InvoiceDetailsActivityViewModel
+import controller.viewmodel.invoicedetails.response.InvoiceDetailsCompanyViewModel
+import controller.viewmodel.invoicedetails.response.InvoiceDetailsTransactionAccountViewModel
 import kotlinx.serialization.Serializable
 
 @Serializable

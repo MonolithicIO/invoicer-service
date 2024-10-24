@@ -1,8 +1,8 @@
-package io.github.alaksion.invoicer.server.view.controller
+package controller
 
 import controller.viewmodel.createuser.CreateUserRequestViewModel
 import controller.viewmodel.createuser.CreateUserResponseViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.createuser.toDomainModel
+import controller.viewmodel.createuser.toDomainModel
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -15,7 +15,7 @@ import services.api.services.user.DeleteUserService
 import utils.authentication.api.jwt.jwtProtected
 import utils.authentication.api.jwt.jwtUserId
 
-fun Routing.userController() {
+internal fun Routing.userController() {
     route("user") {
         post {
             val body = call.receive<CreateUserRequestViewModel>()

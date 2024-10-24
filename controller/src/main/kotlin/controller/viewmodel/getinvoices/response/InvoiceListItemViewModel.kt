@@ -1,11 +1,10 @@
-package io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.response
+package controller.viewmodel.getinvoices.response
 
-import controller.viewmodel.getinvoices.response.InvoiceListItemViewModel
 import kotlinx.serialization.Serializable
 import models.getinvoices.InvoiceListItemModel
 
 @Serializable
-data class InvoiceListItemViewModel(
+internal data class InvoiceListItemViewModel(
     val id: String,
     val externalId: String,
     val senderCompany: String,

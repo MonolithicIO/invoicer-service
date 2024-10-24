@@ -1,12 +1,11 @@
-package io.github.alaksion.invoicer.server.view.viewmodel.login
+package controller.viewmodel.login
 
-import controller.viewmodel.login.LoginViewModel
 import kotlinx.serialization.Serializable
 import models.login.LoginModel
 import utils.exceptions.badRequestError
 
 @Serializable
-data class LoginViewModel(
+internal data class LoginViewModel(
     val email: String? = null,
     val password: String? = null
 )
@@ -18,6 +17,6 @@ internal fun LoginViewModel.toDomainModel(): LoginModel =
     )
 
 @Serializable
-data class LoginResponseViewModel(
+internal data class LoginResponseViewModel(
     val token: String
 )

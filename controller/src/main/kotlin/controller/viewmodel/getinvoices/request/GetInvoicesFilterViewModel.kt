@@ -1,13 +1,12 @@
-package io.github.alaksion.invoicer.server.view.viewmodel.getinvoices.request
+package controller.viewmodel.getinvoices.request
 
-import controller.viewmodel.getinvoices.request.GetInvoicesFilterViewModel
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import models.getinvoices.GetInvoicesFilterModel
 import utils.exceptions.badRequestError
 
 @Serializable
-data class GetInvoicesFilterViewModel(
+internal data class GetInvoicesFilterViewModel(
     val minIssueDate: String?,
     val maxIssueDate: String?,
     val minDueDate: String?,
@@ -17,7 +16,7 @@ data class GetInvoicesFilterViewModel(
 )
 
 
-fun receiveGetInvoicesFilterViewModel(
+internal fun receiveGetInvoicesFilterViewModel(
     model: GetInvoicesFilterViewModel,
 ): GetInvoicesFilterModel {
 

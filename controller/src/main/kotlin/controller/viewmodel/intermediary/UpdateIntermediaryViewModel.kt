@@ -1,6 +1,5 @@
-package io.github.alaksion.invoicer.server.view.viewmodel.intermediary
+package controller.viewmodel.intermediary
 
-import controller.viewmodel.intermediary.UpdateIntermediaryViewModel
 import kotlinx.serialization.Serializable
 import models.intermediary.UpdateIntermediaryModel
 import utils.exceptions.badRequestError

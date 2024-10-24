@@ -1,5 +1,8 @@
 package io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response
 
+import controller.viewmodel.invoicedetails.response.InvoiceDetailsActivityViewModel
+import controller.viewmodel.invoicedetails.response.InvoiceDetailsViewModel
+import controller.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSender
 import models.InvoiceModel
 import models.InvoiceModelActivityModel
 

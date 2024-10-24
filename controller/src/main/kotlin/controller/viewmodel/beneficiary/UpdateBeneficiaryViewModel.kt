@@ -1,12 +1,11 @@
-package io.github.alaksion.invoicer.server.view.viewmodel.intermediary
+package controller.viewmodel.beneficiary
 
-import controller.viewmodel.intermediary.UpdateIntermediaryViewModel
 import kotlinx.serialization.Serializable
-import models.intermediary.UpdateIntermediaryModel
+import models.beneficiary.UpdateBeneficiaryModel
 import utils.exceptions.badRequestError
 
 @Serializable
-internal data class UpdateIntermediaryViewModel(
+internal data class UpdateBeneficiaryViewModel(
     val name: String? = null,
     val iban: String? = null,
     val swift: String? = null,
@@ -14,8 +13,8 @@ internal data class UpdateIntermediaryViewModel(
     val bankAddress: String? = null,
 )
 
-internal fun UpdateIntermediaryViewModel.toModel(): UpdateIntermediaryModel {
-    return UpdateIntermediaryModel(
+internal fun UpdateBeneficiaryViewModel.toModel(): UpdateBeneficiaryModel {
+    return UpdateBeneficiaryModel(
         name = name?.trim() ?: badRequestError(message = "Missing field name"),
         iban = iban?.trim() ?: badRequestError(message = "Missing field iban"),
         swift = swift?.trim() ?: badRequestError(message = "Missing field swift"),

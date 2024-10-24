@@ -1,7 +1,5 @@
-package io.github.alaksion.invoicer.server.view.viewmodel.createinvoice.request
+package controller.viewmodel.createinvoice.request
 
-import controller.viewmodel.createinvoice.request.CreateInvoiceActivityViewModel
-import controller.viewmodel.createinvoice.request.CreateInvoiceViewModel
 import io.github.alaksion.invoicer.server.validation.requireFilledString
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable

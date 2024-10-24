@@ -1,5 +1,7 @@
 package io.github.alaksion.invoicer.server.view.controller
 
+import controller.viewmodel.beneficiary.CreateBeneficiaryViewModel
+import controller.viewmodel.beneficiary.UpdateBeneficiaryViewModel
 import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.*
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -58,7 +60,7 @@ fun Routing.beneficiaryController() {
 
                 call.respond(
                     status = HttpStatusCode.OK,
-                    message = UserBeneficiariesViewModel(
+                    message = controller.viewmodel.beneficiary.UserBeneficiariesViewModel(
                         beneficiaries = useCase.execute(
                             userId = jwtUserId(),
                             page = page,

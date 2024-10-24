@@ -1,6 +1,5 @@
-package io.github.alaksion.invoicer.server.view.viewmodel.beneficiary
+package controller.viewmodel.beneficiary
 
-import controller.viewmodel.beneficiary.UserBeneficiaryViewModel
 import kotlinx.serialization.Serializable
 import models.beneficiary.BeneficiaryModel
 
@@ -22,7 +21,7 @@ internal data class UserBeneficiariesViewModel(
 )
 
 internal fun BeneficiaryModel.toModel(): UserBeneficiaryViewModel {
-    return controller.viewmodel.beneficiary.UserBeneficiaryViewModel(
+    return UserBeneficiaryViewModel(
         name = name,
         iban = iban,
         swift = swift,

@@ -7,8 +7,8 @@ import io.github.alaksion.invoicer.server.files.filehandler.FileHandler
 import io.github.alaksion.invoicer.server.files.filehandler.TempFileHandler
 import io.github.alaksion.invoicer.server.files.pdfgenerator.OpenPdfGenerator
 import io.github.alaksion.invoicer.server.files.pdfgenerator.PdfGenerator
-import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSender
-import io.github.alaksion.invoicer.server.view.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSenderImpl
+import controller.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSender
+import controller.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSenderImpl
 import io.ktor.server.application.Application
 import org.kodein.di.bindProvider
 import org.kodein.di.instance

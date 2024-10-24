@@ -1,8 +1,8 @@
-package io.github.alaksion.invoicer.server.view.controller
+package controller
 
 import controller.viewmodel.login.LoginResponseViewModel
 import controller.viewmodel.login.LoginViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.login.toDomainModel
+import controller.viewmodel.login.toDomainModel
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -12,7 +12,7 @@ import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.login.LoginService
 
-fun Routing.authController() {
+internal fun Routing.authController() {
     route("auth") {
         post("/login") {
             val body = call.receive<LoginViewModel>()

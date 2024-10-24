@@ -1,9 +1,10 @@
-package io.github.alaksion.invoicer.server.view.controller
+package controller
 
+import controller.viewmodel.intermediary.*
+import controller.viewmodel.intermediary.CreateIntermediaryResponseViewModel
 import controller.viewmodel.intermediary.CreateIntermediaryViewModel
 import controller.viewmodel.intermediary.UpdateIntermediaryViewModel
-import controller.viewmodel.intermediary.UserIntermediariesViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.intermediary.*
+import controller.viewmodel.intermediary.toModel
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -18,7 +19,7 @@ import services.api.services.intermediary.UpdateIntermediaryService
 import utils.authentication.api.jwt.jwtProtected
 import utils.authentication.api.jwt.jwtUserId
 
-fun Routing.intermediaryController() {
+internal fun Routing.intermediaryController() {
     route("/intermediary") {
         jwtProtected {
             post {

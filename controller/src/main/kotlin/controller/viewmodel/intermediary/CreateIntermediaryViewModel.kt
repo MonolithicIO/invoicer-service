@@ -1,12 +1,11 @@
-package io.github.alaksion.invoicer.server.view.viewmodel.intermediary
+package controller.viewmodel.intermediary
 
-import controller.viewmodel.intermediary.CreateIntermediaryViewModel
 import kotlinx.serialization.Serializable
 import models.intermediary.CreateIntermediaryModel
 import utils.exceptions.badRequestError
 
 @Serializable
-data class CreateIntermediaryViewModel(
+internal data class CreateIntermediaryViewModel(
     val name: String? = null,
     val swift: String? = null,
     val iban: String? = null,
@@ -24,6 +23,6 @@ internal fun CreateIntermediaryViewModel.toModel(): CreateIntermediaryModel =
     )
 
 @Serializable
-data class CreateIntermediaryResponseViewModel(
+internal data class CreateIntermediaryResponseViewModel(
     val id: String
 )

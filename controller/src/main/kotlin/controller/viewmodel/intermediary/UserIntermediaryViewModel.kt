@@ -1,11 +1,10 @@
-package io.github.alaksion.invoicer.server.view.viewmodel.intermediary
+package controller.viewmodel.intermediary
 
-import controller.viewmodel.intermediary.UserIntermediaryViewModel
 import kotlinx.serialization.Serializable
 import models.intermediary.IntermediaryModel
 
 @Serializable
-data class UserIntermediaryViewModel(
+internal data class UserIntermediaryViewModel(
     val name: String,
     val iban: String,
     val swift: String,
@@ -28,6 +27,6 @@ internal fun IntermediaryModel.toViewModel() = UserIntermediaryViewModel(
 )
 
 @Serializable
-data class UserIntermediariesViewModel(
+internal data class UserIntermediariesViewModel(
     val intermediaries: List<UserIntermediaryViewModel>
 )
