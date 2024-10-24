@@ -1,4 +1,4 @@
-name: Require Detekt Lint rules
+name: Run Detekt Lint
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  kover-report:
+  detekt-lint:
     runs-on: ubuntu-latest
 
     steps:
