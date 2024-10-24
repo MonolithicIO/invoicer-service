@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.kover)
 }
 
 // Move to build plugin
@@ -9,14 +8,5 @@ version = "0.0.1"
 
 dependencies {
     implementation(libs.kotlin.datetime)
-    implementation(libs.kodein.server)
-
     implementation(projects.models)
-    implementation(projects.repository.api)
-
-    implementation(projects.foundation.validator.api)
-    implementation(projects.foundation.exceptions)
-    implementation(projects.foundation.date.api)
-    implementation(projects.foundation.authentication.api)
-    implementation(projects.foundation.password.api)
 }

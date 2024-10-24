@@ -1,20 +1,11 @@
 package io.github.alaksion.invoicer.server.view.controller
 
-import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.CreateBeneficiaryResponseViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.CreateBeneficiaryViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.UpdateBeneficiaryViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.UserBeneficiariesViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.toModel
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.call
-import io.ktor.server.request.receive
-import io.ktor.server.response.respond
-import io.ktor.server.routing.Routing
-import io.ktor.server.routing.delete
-import io.ktor.server.routing.get
-import io.ktor.server.routing.post
-import io.ktor.server.routing.put
-import io.ktor.server.routing.route
+import io.github.alaksion.invoicer.server.view.viewmodel.beneficiary.*
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.beneficiary.CreateBeneficiaryService

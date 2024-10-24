@@ -14,7 +14,7 @@ import org.kodein.di.bindProvider
 import org.kodein.di.instance
 import org.kodein.di.ktor.di
 import repository.api.di.repositoryModule
-import services.api.di.servicesModule
+import services.impl.di.servicesImplModule
 import utils.authentication.api.di.utilsAuthenticationModule
 import utils.date.api.di.utilsDateModule
 import utils.password.di.utilPasswordDi
@@ -26,7 +26,7 @@ fun Application.installDi() {
         import(utilsAuthenticationModule)
         import(validatorModule)
         import(secretsModule)
-        import(servicesModule)
+        import(servicesImplModule)
         import(repositoryModule)
 
         bindProvider<InvoiceDetailsViewModelSender> { InvoiceDetailsViewModelSenderImpl() }

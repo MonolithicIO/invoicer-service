@@ -1,4 +1,4 @@
-package services.api.services.invoice
+package services.impl.invoice
 
 import kotlinx.datetime.LocalDate
 import models.createinvoice.CreateInvoiceActivityModel
@@ -6,8 +6,8 @@ import models.createinvoice.CreateInvoiceModel
 import models.createinvoice.CreateInvoiceResponseModel
 import repository.api.repository.InvoiceRepository
 import services.api.services.beneficiary.GetBeneficiaryByIdService
-import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.user.GetUserByIdService
+import services.impl.intermediary.GetIntermediaryByIdService
 import utils.date.api.DateProvider
 import utils.exceptions.HttpCode
 import utils.exceptions.HttpError

@@ -1,51 +1,39 @@
-package services.api.di
+package services.impl.di
 
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
-import services.api.services.beneficiary.CheckBeneficiarySwiftAvailableService
-import services.api.services.beneficiary.CheckBeneficiarySwiftAvailableServiceImpl
-import services.api.services.beneficiary.CreateBeneficiaryService
-import services.api.services.beneficiary.CreateBeneficiaryServiceImpl
-import services.api.services.beneficiary.DeleteBeneficiaryService
-import services.api.services.beneficiary.DeleteBeneficiaryServiceImpl
-import services.api.services.beneficiary.GetBeneficiaryByIdService
-import services.api.services.beneficiary.GetBeneficiaryByIdServiceImpl
-import services.api.services.beneficiary.GetUserBeneficiariesService
-import services.api.services.beneficiary.GetUserBeneficiariesServiceImpl
-import services.api.services.beneficiary.UpdateBeneficiaryService
-import services.api.services.beneficiary.UpdateBeneficiaryServiceImpl
-import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
-import services.api.services.intermediary.CheckIntermediarySwiftAvailableServiceImpl
-import services.api.services.intermediary.CreateIntermediaryService
-import services.api.services.intermediary.CreateIntermediaryServiceImpl
-import services.api.services.intermediary.DeleteIntermediaryService
-import services.api.services.intermediary.DeleteIntermediaryServiceImpl
-import services.api.services.intermediary.GetIntermediaryByIdService
-import services.api.services.intermediary.GetIntermediaryByIdServiceImpl
-import services.api.services.intermediary.GetUserIntermediariesService
-import services.api.services.intermediary.GetUserIntermediariesServiceImpl
-import services.api.services.intermediary.UpdateIntermediaryService
-import services.api.services.intermediary.UpdateIntermediaryServiceImpl
-import services.api.services.invoice.CreateInvoiceService
-import services.api.services.invoice.CreateInvoiceServiceImpl
-import services.api.services.invoice.DeleteInvoiceService
-import services.api.services.invoice.DeleteInvoiceServiceImpl
-import services.api.services.invoice.GetInvoiceByIdService
-import services.api.services.invoice.GetInvoiceByIdServiceImpl
-import services.api.services.invoice.GetUserInvoicesService
-import services.api.services.invoice.GetUserInvoicesServiceImpl
-import services.api.services.login.LoginService
-import services.api.services.login.LoginServiceImpl
-import services.api.services.user.CreateUserService
-import services.api.services.user.CreateUserServiceImpl
-import services.api.services.user.DeleteUserService
-import services.api.services.user.DeleteUserServiceImpl
-import services.api.services.user.GetUserByEmailService
-import services.api.services.user.GetUserByEmailServiceImpl
-import services.api.services.user.GetUserByIdServiceImpl
+import services.api.services.beneficiary.*
+import services.impl.login.LoginService
+import services.impl.login.LoginServiceImpl
+import services.api.services.user.*
+import services.impl.beneficiary.*
+import services.impl.intermediary.CheckIntermediarySwiftAvailableService
+import services.impl.intermediary.CheckIntermediarySwiftAvailableServiceImpl
+import services.impl.intermediary.CreateIntermediaryService
+import services.impl.intermediary.CreateIntermediaryServiceImpl
+import services.impl.intermediary.DeleteIntermediaryService
+import services.impl.intermediary.DeleteIntermediaryServiceImpl
+import services.impl.intermediary.GetIntermediaryByIdService
+import services.impl.intermediary.GetIntermediaryByIdServiceImpl
+import services.impl.intermediary.GetUserIntermediariesService
+import services.impl.intermediary.GetUserIntermediariesServiceImpl
+import services.impl.intermediary.UpdateIntermediaryService
+import services.impl.intermediary.UpdateIntermediaryServiceImpl
+import services.impl.invoice.CreateInvoiceService
+import services.impl.invoice.CreateInvoiceServiceImpl
+import services.impl.invoice.DeleteInvoiceService
+import services.impl.invoice.DeleteInvoiceServiceImpl
+import services.impl.invoice.GetInvoiceByIdService
+import services.impl.invoice.GetInvoiceByIdServiceImpl
+import services.impl.invoice.GetUserInvoicesService
+import services.impl.invoice.GetUserInvoicesServiceImpl
+import services.impl.user.CreateUserServiceImpl
+import services.impl.user.DeleteUserServiceImpl
+import services.impl.user.GetUserByEmailServiceImpl
+import services.impl.user.GetUserByIdServiceImpl
 
-val servicesModule = DI.Module("invoicer-services") {
+val servicesImplModule = DI.Module("invoicer-services") {
     beneficiaryServices()
     intermediaryServices()
     invoiceServices()
@@ -64,7 +52,7 @@ private fun DI.Builder.beneficiaryServices() {
         CreateBeneficiaryServiceImpl(
             repository = instance(),
             getUserByIdService = instance(),
-            checkSwiftUseCase = instance(),
+            checkSwiftService = instance(),
             swiftValidator = instance(),
             ibanValidator = instance()
         )
@@ -74,7 +62,7 @@ private fun DI.Builder.beneficiaryServices() {
         DeleteBeneficiaryServiceImpl(
             getBeneficiaryByIdService = instance(),
             beneficiaryRepository = instance(),
-            getUserByIdUseCase = instance(),
+            getUserByIdService = instance(),
             invoiceRepository = instance()
         )
     }
@@ -87,7 +75,8 @@ private fun DI.Builder.beneficiaryServices() {
 
     bindProvider<GetUserBeneficiariesService> {
         GetUserBeneficiariesServiceImpl(
-            repository = instance()
+            repository = instance(),
+            getUserByIdUseCase = instance()
         )
     }
 
@@ -96,7 +85,7 @@ private fun DI.Builder.beneficiaryServices() {
             swiftValidator = instance(),
             getBeneficiaryByIdService = instance(),
             beneficiaryRepository = instance(),
-            getUserByIdUseCase = instance(),
+            getUserByIdService = instance(),
             checkBeneficiarySwiftAvailableService = instance(),
             ibanValidator = instance()
         )

@@ -9,4 +9,5 @@ version = "0.0.1"
 dependencies {
     implementation(projects.repository.api)
     implementation(projects.models)
+    implementation(libs.kotlin.datetime)
 }

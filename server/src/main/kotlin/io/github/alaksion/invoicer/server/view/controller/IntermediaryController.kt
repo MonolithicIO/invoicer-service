@@ -1,21 +1,11 @@
 package io.github.alaksion.invoicer.server.view.controller
 
-import io.github.alaksion.invoicer.server.view.viewmodel.intermediary.CreateIntermediaryResponseViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.intermediary.CreateIntermediaryViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.intermediary.UpdateIntermediaryViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.intermediary.UserIntermediariesViewModel
-import io.github.alaksion.invoicer.server.view.viewmodel.intermediary.toModel
-import io.github.alaksion.invoicer.server.view.viewmodel.intermediary.toViewModel
-import io.ktor.http.HttpStatusCode
-import io.ktor.server.application.call
-import io.ktor.server.request.receive
-import io.ktor.server.response.respond
-import io.ktor.server.routing.Routing
-import io.ktor.server.routing.delete
-import io.ktor.server.routing.get
-import io.ktor.server.routing.post
-import io.ktor.server.routing.put
-import io.ktor.server.routing.route
+import io.github.alaksion.invoicer.server.view.viewmodel.intermediary.*
+import io.ktor.http.*
+import io.ktor.server.application.*
+import io.ktor.server.request.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.intermediary.CreateIntermediaryService
@@ -24,7 +14,6 @@ import services.api.services.intermediary.GetUserIntermediariesService
 import services.api.services.intermediary.UpdateIntermediaryService
 import utils.authentication.api.jwt.jwtProtected
 import utils.authentication.api.jwt.jwtUserId
-import kotlin.getValue
 
 fun Routing.intermediaryController() {
     route("/intermediary") {

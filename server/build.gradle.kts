@@ -54,7 +54,8 @@ dependencies {
 
     // Services
     implementation(projects.services.api)
-    kover(projects.services.api)
+    implementation(projects.services.impl)
+    kover(projects.services.impl)
 
     // Models
     implementation(projects.models)
