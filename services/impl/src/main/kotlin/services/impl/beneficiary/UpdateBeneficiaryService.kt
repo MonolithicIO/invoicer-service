@@ -15,7 +15,7 @@ import utils.exceptions.httpError
 import java.util.*
 
 internal class UpdateBeneficiaryServiceImpl(
-    private val getUserByIdUseCase: GetUserByIdService,
+    private val getUserByIdService: GetUserByIdService,
     private val getBeneficiaryByIdService: GetBeneficiaryByIdService,
     private val checkBeneficiarySwiftAvailableService: CheckBeneficiarySwiftAvailableService,
     private val beneficiaryRepository: BeneficiaryRepository,
@@ -43,7 +43,7 @@ internal class UpdateBeneficiaryServiceImpl(
             fieldName = "Bank address"
         )
 
-        val user = getUserByIdUseCase.get(userId)
+        val user = getUserByIdService.get(userId)
 
         val beneficiary = getBeneficiaryByIdService.get(
             beneficiaryId = beneficiaryId,
