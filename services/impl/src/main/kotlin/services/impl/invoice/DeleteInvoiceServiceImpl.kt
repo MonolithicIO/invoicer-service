@@ -2,6 +2,7 @@ package services.impl.invoice
 
 import repository.api.repository.InvoiceRepository
 import services.api.services.invoice.DeleteInvoiceService
+import services.api.services.invoice.GetInvoiceByIdService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.unauthorizedResourceError
 import java.util.*

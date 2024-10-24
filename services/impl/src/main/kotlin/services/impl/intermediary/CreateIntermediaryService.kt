@@ -3,6 +3,7 @@ package services.impl.intermediary
 import foundation.validator.api.SwiftValidator
 import models.intermediary.CreateIntermediaryModel
 import repository.api.repository.IntermediaryRepository
+import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
 import services.api.services.intermediary.CreateIntermediaryService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.HttpCode
