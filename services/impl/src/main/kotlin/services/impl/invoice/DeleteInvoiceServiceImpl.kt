@@ -1,16 +1,10 @@
 package services.impl.invoice
 
 import repository.api.repository.InvoiceRepository
+import services.api.services.invoice.DeleteInvoiceService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.unauthorizedResourceError
 import java.util.*
-
-interface DeleteInvoiceService {
-    suspend fun delete(
-        invoiceId: String,
-        userId: String
-    )
-}
 
 internal class DeleteInvoiceServiceImpl(
     private val getInvoiceByIdService: GetInvoiceByIdService,

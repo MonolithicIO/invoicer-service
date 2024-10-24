@@ -7,9 +7,7 @@ import io.github.alaksion.invoicer.server.files.filehandler.FileHandler
 import io.github.alaksion.invoicer.server.files.filehandler.TempFileHandler
 import io.github.alaksion.invoicer.server.files.pdfgenerator.OpenPdfGenerator
 import io.github.alaksion.invoicer.server.files.pdfgenerator.PdfGenerator
-import controller.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSender
-import controller.viewmodel.invoicedetails.response.InvoiceDetailsViewModelSenderImpl
-import io.ktor.server.application.Application
+import io.ktor.server.application.*
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
 import org.kodein.di.ktor.di
@@ -28,8 +26,6 @@ fun Application.installDi() {
         import(secretsModule)
         import(servicesImplModule)
         import(repositoryModule)
-
-        bindProvider<InvoiceDetailsViewModelSender> { InvoiceDetailsViewModelSenderImpl() }
 
         bindProvider<PdfGenerator>(DITags.OPEN_PDF_GENERATOR) {
             OpenPdfGenerator(

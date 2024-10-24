@@ -4,17 +4,9 @@ import kotlinx.datetime.LocalDate
 import models.getinvoices.GetInvoicesFilterModel
 import models.getinvoices.InvoiceListItemModel
 import repository.api.repository.InvoiceRepository
+import services.api.services.invoice.GetUserInvoicesService
 import utils.exceptions.HttpCode
 import utils.exceptions.httpError
-
-interface GetUserInvoicesService {
-    suspend fun get(
-        filters: GetInvoicesFilterModel,
-        page: Long,
-        limit: Int,
-        userId: String,
-    ): List<InvoiceListItemModel>
-}
 
 internal class GetUserInvoicesServiceImpl(
     private val repository: InvoiceRepository

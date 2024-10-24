@@ -2,15 +2,12 @@ package services.impl.invoice
 
 import models.InvoiceModel
 import repository.api.repository.InvoiceRepository
+import services.api.services.invoice.GetInvoiceByIdService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import utils.exceptions.unauthorizedResourceError
 import java.util.*
-
-interface GetInvoiceByIdService {
-    suspend fun get(id: String, userId: String): InvoiceModel
-}
 
 internal class GetInvoiceByIdServiceImpl(
     private val repository: InvoiceRepository,

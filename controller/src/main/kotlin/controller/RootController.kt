@@ -1,9 +1,9 @@
 package controller
 
-import io.ktor.server.application.Application
-import io.ktor.server.routing.routing
+import io.ktor.server.application.*
+import io.ktor.server.routing.*
 
-internal fun Application.rootController() {
+fun Application.rootController() {
     routing {
         invoiceController()
         userController()
