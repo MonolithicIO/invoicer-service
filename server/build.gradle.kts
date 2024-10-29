@@ -53,7 +53,6 @@ dependencies {
     kover(projects.repository.api)
 
     // Services
-    implementation(projects.services.api)
     implementation(projects.services.impl)
     kover(projects.services.impl)
 
