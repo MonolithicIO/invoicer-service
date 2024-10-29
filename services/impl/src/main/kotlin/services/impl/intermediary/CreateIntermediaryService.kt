@@ -1,5 +1,6 @@
 package services.impl.intermediary
 
+import foundation.validator.api.IbanValidator
 import foundation.validator.api.SwiftValidator
 import models.intermediary.CreateIntermediaryModel
 import repository.api.repository.IntermediaryRepository
@@ -11,10 +12,11 @@ import utils.exceptions.badRequestError
 import utils.exceptions.httpError
 
 internal class CreateIntermediaryServiceImpl(
-    private val getUserByIdUseCase: GetUserByIdService,
+    private val getUserByIdService: GetUserByIdService,
     private val repository: IntermediaryRepository,
     private val checkIntermediarySwiftAlreadyUsedService: CheckIntermediarySwiftAvailableService,
-    private val swiftValidator: SwiftValidator
+    private val swiftValidator: SwiftValidator,
+    private val ibanValidator: IbanValidator
 ) : CreateIntermediaryService {
 
     override suspend fun create(model: CreateIntermediaryModel, userId: String): String {
@@ -22,7 +24,24 @@ internal class CreateIntermediaryServiceImpl(
             badRequestError("Invalid swift code: ${model.swift}")
         }
 
-        val user = getUserByIdUseCase.get(userId)
+        if (ibanValidator.validate(model.iban).not()) {
+            badRequestError("Invalid iban code: ${model.iban}")
+        }
+
+        validateString(
+            value = model.name,
+            fieldName = "Name"
+        )
+        validateString(
+            value = model.bankName,
+            fieldName = "Bank name"
+        )
+        validateString(
+            value = model.bankAddress,
+            fieldName = "Bank address"
+        )
+
+        val user = getUserByIdService.get(userId)
 
         if (checkIntermediarySwiftAlreadyUsedService.execute(model.swift, userId)) {
             httpError(
@@ -35,6 +54,15 @@ internal class CreateIntermediaryServiceImpl(
             userId = user.id,
             model = model
         )
+    }
+
+    private fun validateString(
+        value: String,
+        fieldName: String
+    ) {
+        if (value.trim().isBlank()) {
+            badRequestError("$fieldName cannot be blank")
+        }
     }
 
 }

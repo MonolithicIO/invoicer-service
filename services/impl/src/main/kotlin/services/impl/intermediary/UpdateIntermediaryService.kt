@@ -1,5 +1,6 @@
 package services.impl.intermediary
 
+import foundation.validator.api.IbanValidator
 import foundation.validator.api.SwiftValidator
 import models.intermediary.IntermediaryModel
 import models.intermediary.UpdateIntermediaryModel
@@ -9,15 +10,17 @@ import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.intermediary.UpdateIntermediaryService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.HttpCode
+import utils.exceptions.badRequestError
 import utils.exceptions.httpError
 import java.util.*
 
 internal class UpdateIntermediaryServiceImpl(
-    private val getUserByIdUseCase: GetUserByIdService,
+    private val getUserByIdService: GetUserByIdService,
     private val getIntermediaryByIdService: GetIntermediaryByIdService,
     private val checkIntermediarySwiftAlreadyUsedService: CheckIntermediarySwiftAvailableService,
     private val intermediaryRepository: IntermediaryRepository,
-    private val swiftValidator: SwiftValidator
+    private val swiftValidator: SwiftValidator,
+    private val ibanValidator: IbanValidator
 ) : UpdateIntermediaryService {
 
     override suspend fun execute(
@@ -25,11 +28,29 @@ internal class UpdateIntermediaryServiceImpl(
         userId: String,
         intermediaryId: String
     ): IntermediaryModel {
+
+        validateString(
+            value = model.name,
+            fieldName = "Name"
+        )
+        validateString(
+            value = model.bankName,
+            fieldName = "Bank name"
+        )
+        validateString(
+            value = model.bankAddress,
+            fieldName = "Bank address"
+        )
+
+        if (ibanValidator.validate(model.iban).not()) {
+            httpError("Invalid IBAN code: ${model.iban}", HttpCode.BadRequest)
+        }
+
         if (swiftValidator.validate(model.swift).not()) {
             httpError("Invalid swift code: ${model.swift}", HttpCode.BadRequest)
         }
 
-        getUserByIdUseCase.get(userId)
+        getUserByIdService.get(userId)
 
         getIntermediaryByIdService.get(
             intermediaryId = intermediaryId,
@@ -52,6 +73,15 @@ internal class UpdateIntermediaryServiceImpl(
             intermediaryId = UUID.fromString(intermediaryId),
             model = model
         )
+    }
+
+    private fun validateString(
+        value: String,
+        fieldName: String
+    ) {
+        if (value.trim().isBlank()) {
+            badRequestError("$fieldName cannot be blank")
+        }
     }
 
 }

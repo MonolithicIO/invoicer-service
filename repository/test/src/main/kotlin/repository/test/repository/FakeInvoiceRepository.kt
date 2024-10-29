@@ -10,6 +10,7 @@ import java.util.*
 class FakeInvoiceRepository : InvoiceRepository {
 
     var getInvoicesByBeneficiaryIdResponse: () -> List<InvoiceListItemModel> = { listOf() }
+    var getInvoicesByIntermediaryIdResponse: () -> List<InvoiceListItemModel> = { listOf() }
 
     override suspend fun createInvoice(data: CreateInvoiceModel, userId: UUID): String {
         TODO("Not yet implemented")
@@ -41,6 +42,6 @@ class FakeInvoiceRepository : InvoiceRepository {
     }
 
     override suspend fun getInvoicesByIntermediaryId(intermediaryId: UUID, userId: UUID): List<InvoiceListItemModel> {
-        TODO("Not yet implemented")
+        return getInvoicesByIntermediaryIdResponse()
     }
 }

@@ -95,8 +95,9 @@ private fun DI.Builder.intermediaryServices() {
         CreateIntermediaryServiceImpl(
             repository = instance(),
             swiftValidator = instance(),
-            getUserByIdUseCase = instance(),
-            checkIntermediarySwiftAlreadyUsedService = instance()
+            getUserByIdService = instance(),
+            checkIntermediarySwiftAlreadyUsedService = instance(),
+            ibanValidator = instance()
         )
     }
 
@@ -120,14 +121,16 @@ private fun DI.Builder.intermediaryServices() {
             swiftValidator = instance(),
             getIntermediaryByIdService = instance(),
             intermediaryRepository = instance(),
-            getUserByIdUseCase = instance(),
+            getUserByIdService = instance(),
             checkIntermediarySwiftAlreadyUsedService = instance(),
+            ibanValidator = instance()
         )
     }
 
     bindProvider<GetUserIntermediariesService> {
         GetUserIntermediariesServiceImpl(
-            repository = instance()
+            repository = instance(),
+            getUserByIdService = instance()
         )
     }
 }
