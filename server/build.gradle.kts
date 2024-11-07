@@ -1,3 +1,5 @@
+import buildlogic.plugins.AppConfig
+
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.ktor)
@@ -8,7 +10,7 @@ plugins {
 
 // Move to build plugin
 group = "io.github.alaksion.invoicer.server"
-version = "0.0.1"
+version = AppConfig.version
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
