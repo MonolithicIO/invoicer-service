@@ -7,7 +7,6 @@ interface SecretsProvider {
 }
 
 enum class SecretKeys {
-    DB_NAME,
     DB_PASSWORD,
     DB_USERNAME,
     DB_URL,
@@ -24,7 +23,6 @@ internal object SecretsProviderImpl : SecretsProvider {
         val env = dotenv()
 
         return when (key) {
-            SecretKeys.DB_NAME -> env["DB_NAME"]
             SecretKeys.DB_PASSWORD -> env["DB_PASSWORD"]
             SecretKeys.DB_USERNAME -> env["DB_USERNAME"]
             SecretKeys.JWT_AUDIENCE -> env["JWT_AUDIENCE"]
