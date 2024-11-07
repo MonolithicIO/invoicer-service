@@ -140,9 +140,9 @@ private fun DI.Builder.invoiceServices() {
         CreateInvoiceServiceImpl(
             invoiceRepository = instance(),
             dateProvider = instance(),
-            getUserByIdUseCase = instance(),
-            getBeneficiaryByIdUseCase = instance(),
-            getIntermediaryByIdUseCase = instance()
+            getUserByIdService = instance(),
+            getBeneficiaryByIdService = instance(),
+            getIntermediaryByIdService = instance()
         )
     }
 

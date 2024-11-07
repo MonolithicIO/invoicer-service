@@ -11,6 +11,7 @@ class FakeInvoiceRepository : InvoiceRepository {
 
     var getInvoicesByBeneficiaryIdResponse: () -> List<InvoiceListItemModel> = { listOf() }
     var getInvoicesByIntermediaryIdResponse: () -> List<InvoiceListItemModel> = { listOf() }
+    var getInvoiceByExternalIdResponse: () -> InvoiceModel? = { null }
 
     override suspend fun createInvoice(data: CreateInvoiceModel, userId: UUID): String {
         TODO("Not yet implemented")
@@ -21,7 +22,7 @@ class FakeInvoiceRepository : InvoiceRepository {
     }
 
     override suspend fun getInvoiceByExternalId(externalId: String): InvoiceModel? {
-        TODO("Not yet implemented")
+        return getInvoiceByExternalIdResponse()
     }
 
     override suspend fun getInvoices(
