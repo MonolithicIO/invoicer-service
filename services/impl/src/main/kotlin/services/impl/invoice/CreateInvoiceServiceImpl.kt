@@ -19,9 +19,9 @@ import java.util.*
 internal class CreateInvoiceServiceImpl(
     private val invoiceRepository: InvoiceRepository,
     private val dateProvider: DateProvider,
-    private val getUserByIdUseCase: GetUserByIdService,
-    private val getBeneficiaryByIdUseCase: GetBeneficiaryByIdService,
-    private val getIntermediaryByIdUseCase: GetIntermediaryByIdService
+    private val getUserByIdService: GetUserByIdService,
+    private val getBeneficiaryByIdService: GetBeneficiaryByIdService,
+    private val getIntermediaryByIdService: GetIntermediaryByIdService
 ) : CreateInvoiceService {
 
     override suspend fun createInvoice(
@@ -35,19 +35,19 @@ internal class CreateInvoiceServiceImpl(
             dueDate = model.dueDate
         )
 
-        getBeneficiaryByIdUseCase.get(
+        getBeneficiaryByIdService.get(
             beneficiaryId = model.beneficiaryId,
             userId = userId
         )
 
         model.intermediaryId?.let {
-            getIntermediaryByIdUseCase.get(
+            getIntermediaryByIdService.get(
                 intermediaryId = it,
                 userId = userId
             )
         }
 
-        getUserByIdUseCase.get(userId)
+        getUserByIdService.get(userId)
 
         if (invoiceRepository.getInvoiceByExternalId(externalId = model.externalId) != null) {
             throw HttpError(

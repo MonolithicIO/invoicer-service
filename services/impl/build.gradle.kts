@@ -27,4 +27,5 @@ dependencies {
     testImplementation(libs.kotlin.test)
     testImplementation(libs.kotlin.coroutines.test)
     testImplementation(projects.services.test)
+    testImplementation(projects.foundation.date.test)
 }
