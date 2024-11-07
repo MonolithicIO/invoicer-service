@@ -7,8 +7,8 @@ object DatabaseFactory {
         secretsProvider: SecretsProvider
     ) {
         Database.connect(
-            url = "jdbc:postgresql://localhost:5432/${secretsProvider.getSecret(SecretKeys.DB_NAME)}",
-            driver = "org.postgresql.Driver",
+            url = secretsProvider.getSecret(SecretKeys.DB_URL),
+            driver = secretsProvider.getSecret(SecretKeys.DB_DRIVER),
             user = secretsProvider.getSecret(SecretKeys.DB_USERNAME),
             password = secretsProvider.getSecret(SecretKeys.DB_PASSWORD),
         )
