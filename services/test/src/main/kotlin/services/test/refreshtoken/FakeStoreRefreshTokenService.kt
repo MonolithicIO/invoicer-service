@@ -1,4 +1,4 @@
-package services.impl.refreshtoken
+package services.test.refreshtoken
 
 import services.api.services.login.StoreRefreshTokenService
 

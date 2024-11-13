@@ -9,7 +9,12 @@ class FakeRefreshTokenRepository : RefreshTokenRepository {
 
     var userToken: suspend () -> RefreshTokenModel? = { null }
 
-    override suspend fun createRefreshToken(token: String, userId: String) = Unit
+    var storeCalls = 0
+        private set
+
+    override suspend fun createRefreshToken(token: String, userId: String) {
+        storeCalls++
+    }
 
     override suspend fun invalidateToken(userId: String, token: String) {
         invalidateCallStack.add(userId to token)

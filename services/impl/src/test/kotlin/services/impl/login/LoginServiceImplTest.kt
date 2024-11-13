@@ -4,7 +4,7 @@ import foundation.authentication.api.FakeAuthTokenManager
 import foundation.validator.test.FakeEmailValidator
 import kotlinx.coroutines.test.runTest
 import models.login.LoginModel
-import services.impl.refreshtoken.FakeStoreRefreshTokenService
+import services.test.refreshtoken.FakeStoreRefreshTokenService
 import services.test.user.FakeGetUserByEmailService
 import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
