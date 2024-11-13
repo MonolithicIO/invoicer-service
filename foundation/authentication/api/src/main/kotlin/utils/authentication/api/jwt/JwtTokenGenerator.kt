@@ -15,19 +15,38 @@ import utils.authentication.api.AuthTokenManager
 import utils.date.api.DateProvider
 import utils.exceptions.HttpCode
 import utils.exceptions.httpError
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 
 internal class JwtTokenGenerator(
     private val dateProvider: DateProvider,
-    private val secretsProvider: SecretsProvider
+    private val secretsProvider: SecretsProvider,
+    private val jwtVerifier: InvoicerJwtVerifier
 ) : AuthTokenGenerator {
 
-    override fun generateToken(userId: String): String {
+    override fun generateAccessToken(userId: String): String {
+        return createToken(
+            userId = userId,
+            expiration = 1.hours
+        )
+    }
+
+    override fun generateRefreshToken(userId: String): String {
+        return createToken(
+            userId = userId,
+            expiration = 24.hours
+        )
+    }
+
+    private fun createToken(
+        userId: String,
+        expiration: Duration
+    ): String {
         val token = JWT.create()
             .withAudience(secretsProvider.getSecret(SecretKeys.JWT_AUDIENCE))
             .withIssuer(secretsProvider.getSecret(SecretKeys.JWT_ISSUER))
             .withClaim(JWTConfig.USER_ID_CLAIM, userId)
-            .withExpiresAt(dateProvider.currentInstant().plus(24.hours).toJavaInstant())
+            .withExpiresAt(dateProvider.currentInstant().plus(expiration).toJavaInstant())
             .sign(Algorithm.HMAC256(secretsProvider.getSecret(SecretKeys.JWT_SECRET)))
 
         return token

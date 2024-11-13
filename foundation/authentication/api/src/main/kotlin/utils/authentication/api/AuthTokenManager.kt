@@ -2,6 +2,7 @@ package utils.authentication.api
 
 interface AuthTokenManager {
     fun generateToken(userId: String): String
+    fun generateRefreshToken(userId: String): String
 
     companion object {
         val NOT_AUTHENTICATED_MESSAGE = "Session is invalid or expired"
@@ -13,7 +14,11 @@ internal class AuthTokenManagerImpl(
 ) : AuthTokenManager {
 
     override fun generateToken(userId: String): String {
-        return tokenGenerator.generateToken(userId)
+        return tokenGenerator.generateAccessToken(userId)
+    }
+
+    override fun generateRefreshToken(userId: String): String {
+        return tokenGenerator.generateRefreshToken(userId)
     }
 
 }

@@ -1,8 +1,8 @@
 package controller
 
-import controller.viewmodel.login.LoginResponseViewModel
 import controller.viewmodel.login.LoginViewModel
 import controller.viewmodel.login.toDomainModel
+import controller.viewmodel.login.toViewModel
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -20,9 +20,7 @@ internal fun Routing.authController() {
             val loginUseCase by closestDI().instance<LoginService>()
 
             call.respond(
-                message = LoginResponseViewModel(
-                    token = loginUseCase.login(model)
-                ),
+                message = loginUseCase.login(model).toViewModel(),
                 status = HttpStatusCode.OK
             )
         }
