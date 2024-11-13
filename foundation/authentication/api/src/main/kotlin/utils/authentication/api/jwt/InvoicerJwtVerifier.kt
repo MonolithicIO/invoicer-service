@@ -6,7 +6,7 @@ import foundation.api.SecretKeys
 import foundation.api.SecretsProvider
 
 interface InvoicerJwtVerifier {
-    fun verify(token: String): Boolean
+    fun verify(token: String): String?
 }
 
 internal class InvoicerJwtVerifierImpl(
@@ -20,13 +20,12 @@ internal class InvoicerJwtVerifierImpl(
         .build()
 
 
-    override fun verify(token: String): Boolean {
+    override fun verify(token: String): String? {
         return kotlin.runCatching {
             verifier.verify(token)
         }.fold(
-            onSuccess = { true },
-            onFailure = { false }
+            onSuccess = { it.getClaim(JwtConfig.USER_ID_CLAIM).asString() },
+            onFailure = { null }
         )
     }
-
 }

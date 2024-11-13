@@ -36,7 +36,6 @@ internal fun Routing.authController() {
             call.respond(
                 message = refreshService.refreshLogin(
                     refreshToken = body.refreshToken ?: unauthorizedError(),
-                    userId = jwtUserId()
                 ).toViewModel(),
             )
         }

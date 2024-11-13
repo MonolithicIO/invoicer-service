@@ -13,10 +13,10 @@ internal class RefreshLoginServiceImpl(
     private val getUserByIdService: GetUserByIdService
 ) : RefreshLoginService {
 
-    override suspend fun refreshLogin(refreshToken: String, userId: String): AuthTokenModel {
-        val user = getUserByIdService.get(userId)
+    override suspend fun refreshLogin(refreshToken: String): AuthTokenModel {
+        val user = getUserByIdService.get(peekUserId(refreshToken))
 
-        if (invoicerJwtVerifier.verify(refreshToken).not()) {
+        if (invoicerJwtVerifier.verify(refreshToken) == null) {
             unauthorizedError()
         }
 
@@ -24,5 +24,9 @@ internal class RefreshLoginServiceImpl(
             accessToken = tokenManager.generateToken(user.id.toString()),
             refreshToken = tokenManager.generateRefreshToken(user.id.toString())
         )
+    }
+
+    private fun peekUserId(refreshToken: String): String {
+        return invoicerJwtVerifier.verify(refreshToken) ?: unauthorizedError()
     }
 }
