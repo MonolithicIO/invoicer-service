@@ -1,19 +1,12 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
 import foundation.api.di.secretsModule
+import foundation.authentication.api.di.utilsAuthenticationModule
 import foundation.validator.api.di.validatorModule
-import io.github.alaksion.invoicer.server.app.plugins.DITags.TEMP_FILE_HANDLER
-import io.github.alaksion.invoicer.server.files.filehandler.FileHandler
-import io.github.alaksion.invoicer.server.files.filehandler.TempFileHandler
-import io.github.alaksion.invoicer.server.files.pdfgenerator.OpenPdfGenerator
-import io.github.alaksion.invoicer.server.files.pdfgenerator.PdfGenerator
 import io.ktor.server.application.*
-import org.kodein.di.bindProvider
-import org.kodein.di.instance
 import org.kodein.di.ktor.di
 import repository.api.di.repositoryModule
 import services.impl.di.servicesImplModule
-import foundation.authentication.api.di.utilsAuthenticationModule
 import utils.date.api.di.utilsDateModule
 import utils.password.di.utilPasswordDi
 
@@ -26,18 +19,5 @@ fun Application.installDi() {
         import(secretsModule)
         import(servicesImplModule)
         import(repositoryModule)
-
-        bindProvider<PdfGenerator>(DITags.OPEN_PDF_GENERATOR) {
-            OpenPdfGenerator(
-                fileHandler = instance(TEMP_FILE_HANDLER)
-            )
-        }
-
-        bindProvider<FileHandler>(TEMP_FILE_HANDLER) { TempFileHandler }
     }
-}
-
-internal object DITags {
-    const val OPEN_PDF_GENERATOR = "open-pdf"
-    const val TEMP_FILE_HANDLER = "temp-file"
 }
