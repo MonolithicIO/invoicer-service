@@ -1,8 +1,8 @@
 package services.impl.login
 
 import foundation.validator.api.EmailValidator
+import models.login.AuthTokenModel
 import models.login.LoginModel
-import services.api.services.login.LoginPayload
 import services.api.services.login.LoginService
 import services.api.services.user.GetUserByEmailService
 import utils.authentication.api.AuthTokenManager
@@ -17,7 +17,7 @@ internal class LoginServiceImpl(
     private val emailValidator: EmailValidator
 ) : LoginService {
 
-    override suspend fun login(model: LoginModel): LoginPayload {
+    override suspend fun login(model: LoginModel): AuthTokenModel {
 
         if (emailValidator.validate(model.email).not()) badRequestError(message = "Invalid e-mail format")
 
@@ -37,7 +37,7 @@ internal class LoginServiceImpl(
         val accessToken = authTokenManager.generateToken(account.id.toString())
         val refreshToken = authTokenManager.generateRefreshToken(account.id.toString())
 
-        return LoginPayload(
+        return AuthTokenModel(
             accessToken = accessToken,
             refreshToken = refreshToken
         )

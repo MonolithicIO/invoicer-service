@@ -1,8 +1,8 @@
 package controller.viewmodel.login
 
 import kotlinx.serialization.Serializable
+import models.login.AuthTokenModel
 import models.login.LoginModel
-import services.api.services.login.LoginPayload
 import utils.exceptions.badRequestError
 
 @Serializable
@@ -23,7 +23,7 @@ internal data class LoginResponseViewModel(
     val refreshToken: String
 )
 
-internal fun LoginPayload.toViewModel(): LoginResponseViewModel =
+internal fun AuthTokenModel.toViewModel(): LoginResponseViewModel =
     LoginResponseViewModel(
         token = this.accessToken,
         refreshToken = this.refreshToken

@@ -5,7 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm
 import foundation.api.SecretKeys
 import foundation.api.SecretsProvider
 
-internal interface InvoicerJwtVerifier {
+interface InvoicerJwtVerifier {
     fun verify(token: String): Boolean
 }
 

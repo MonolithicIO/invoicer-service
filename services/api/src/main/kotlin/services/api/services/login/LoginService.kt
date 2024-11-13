@@ -1,12 +1,8 @@
 package services.api.services.login
 
+import models.login.AuthTokenModel
 import models.login.LoginModel
 
 interface LoginService {
-    suspend fun login(model: LoginModel): LoginPayload
+    suspend fun login(model: LoginModel): AuthTokenModel
 }
-
-data class LoginPayload(
-    val accessToken: String,
-    val refreshToken: String
-)

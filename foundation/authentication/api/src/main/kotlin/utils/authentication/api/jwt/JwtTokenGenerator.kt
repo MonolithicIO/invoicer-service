@@ -21,7 +21,6 @@ import kotlin.time.Duration.Companion.hours
 internal class JwtTokenGenerator(
     private val dateProvider: DateProvider,
     private val secretsProvider: SecretsProvider,
-    private val jwtVerifier: InvoicerJwtVerifier
 ) : AuthTokenGenerator {
 
     override fun generateAccessToken(userId: String): String {
