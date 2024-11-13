@@ -4,7 +4,7 @@ class FakeAuthTokenManager : AuthTokenManager {
 
     var token = "1234"
     var refreshToken = "9876"
-    var verify = "user-id"
+    var verify: String? = "user-id"
 
     override fun generateToken(userId: String): String {
         return token

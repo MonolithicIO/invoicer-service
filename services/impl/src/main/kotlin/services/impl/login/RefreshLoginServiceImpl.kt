@@ -30,10 +30,6 @@ internal class RefreshLoginServiceImpl(
             unauthorizedError(message = "Refresh token is disabled")
         }
 
-        if (tokenManager.verifyToken(refreshToken) == null) {
-            unauthorizedError()
-        }
-
         val authResponse = AuthTokenModel(
             accessToken = tokenManager.generateToken(user.id.toString()),
             refreshToken = tokenManager.generateRefreshToken(user.id.toString())
