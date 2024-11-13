@@ -13,7 +13,7 @@ import org.kodein.di.instance
 import org.kodein.di.ktor.di
 import repository.api.di.repositoryModule
 import services.impl.di.servicesImplModule
-import utils.authentication.api.di.utilsAuthenticationModule
+import foundation.authentication.api.di.utilsAuthenticationModule
 import utils.date.api.di.utilsDateModule
 import utils.password.di.utilPasswordDi
 

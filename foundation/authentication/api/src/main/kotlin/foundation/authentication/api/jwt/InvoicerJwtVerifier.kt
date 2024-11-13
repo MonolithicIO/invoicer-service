@@ -1,4 +1,4 @@
-package utils.authentication.api.jwt
+package foundation.authentication.api.jwt
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm

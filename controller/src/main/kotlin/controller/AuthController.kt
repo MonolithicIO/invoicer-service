@@ -13,7 +13,7 @@ import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
-import utils.authentication.api.jwt.jwtUserId
+import foundation.authentication.api.jwt.jwtUserId
 import utils.exceptions.unauthorizedError
 
 internal fun Routing.authController() {

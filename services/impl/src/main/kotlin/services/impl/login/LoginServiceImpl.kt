@@ -6,7 +6,7 @@ import models.login.LoginModel
 import services.api.services.login.LoginService
 import services.api.services.login.StoreRefreshTokenService
 import services.api.services.user.GetUserByEmailService
-import utils.authentication.api.AuthTokenManager
+import foundation.authentication.api.AuthTokenManager
 import utils.exceptions.badRequestError
 import utils.exceptions.notFoundError
 import utils.password.PasswordEncryption

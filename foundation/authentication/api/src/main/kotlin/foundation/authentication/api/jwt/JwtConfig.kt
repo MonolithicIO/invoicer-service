@@ -1,4 +1,4 @@
-package utils.authentication.api.jwt
+package foundation.authentication.api.jwt
 
 internal object JwtConfig {
     const val USER_ID_CLAIM = "userId"

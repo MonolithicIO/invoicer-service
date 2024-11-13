@@ -28,4 +28,6 @@ dependencies {
     testImplementation(libs.kotlin.coroutines.test)
     testImplementation(projects.services.test)
     testImplementation(projects.foundation.date.test)
+    testImplementation(projects.foundation.password.test)
+    implementation(projects.foundation.authentication.test)
 }

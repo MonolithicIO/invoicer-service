@@ -1,4 +1,4 @@
-package utils.authentication.api
+package foundation.authentication.api
 
 interface AuthTokenManager {
     fun generateToken(userId: String): String

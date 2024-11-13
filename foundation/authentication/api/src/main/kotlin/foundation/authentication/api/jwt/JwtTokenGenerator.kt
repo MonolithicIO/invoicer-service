@@ -1,4 +1,4 @@
-package utils.authentication.api.jwt
+package foundation.authentication.api.jwt
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
@@ -10,8 +10,8 @@ import io.ktor.server.auth.jwt.*
 import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
 import kotlinx.datetime.toJavaInstant
-import utils.authentication.api.AuthTokenGenerator
-import utils.authentication.api.AuthTokenManager
+import foundation.authentication.api.AuthTokenGenerator
+import foundation.authentication.api.AuthTokenManager
 import utils.date.api.DateProvider
 import utils.exceptions.HttpCode
 import utils.exceptions.httpError

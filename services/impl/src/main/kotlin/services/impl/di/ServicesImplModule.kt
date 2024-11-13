@@ -188,7 +188,8 @@ private fun DI.Builder.loginServices() {
             invoicerJwtVerifier = instance(),
             tokenManager = instance(),
             getUserByIdService = instance(),
-            refreshTokenRepository = instance()
+            refreshTokenRepository = instance(),
+            storeRefreshTokenService = instance()
         )
     }
 
