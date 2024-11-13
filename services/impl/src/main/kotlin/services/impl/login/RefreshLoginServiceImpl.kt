@@ -1,16 +1,14 @@
 package services.impl.login
 
+import foundation.authentication.api.AuthTokenManager
 import models.login.AuthTokenModel
 import repository.api.repository.RefreshTokenRepository
 import services.api.services.login.RefreshLoginService
 import services.api.services.login.StoreRefreshTokenService
 import services.api.services.user.GetUserByIdService
-import foundation.authentication.api.AuthTokenManager
-import foundation.authentication.api.jwt.InvoicerJwtVerifier
 import utils.exceptions.unauthorizedError
 
 internal class RefreshLoginServiceImpl(
-    private val invoicerJwtVerifier: InvoicerJwtVerifier,
     private val tokenManager: AuthTokenManager,
     private val getUserByIdService: GetUserByIdService,
     private val refreshTokenRepository: RefreshTokenRepository,
@@ -18,7 +16,11 @@ internal class RefreshLoginServiceImpl(
 ) : RefreshLoginService {
 
     override suspend fun refreshLogin(refreshToken: String): AuthTokenModel {
-        val user = getUserByIdService.get(peekUserId(refreshToken))
+        val extractedUserId = tokenManager.verifyToken(refreshToken) ?: unauthorizedError(
+            message = "Refresh token not valid"
+        )
+
+        val user = getUserByIdService.get(extractedUserId)
 
         val findToken = refreshTokenRepository.findUserToken(user.id.toString(), refreshToken) ?: unauthorizedError(
             message = "Refresh token not found"
@@ -28,7 +30,7 @@ internal class RefreshLoginServiceImpl(
             unauthorizedError(message = "Refresh token is disabled")
         }
 
-        if (invoicerJwtVerifier.verify(refreshToken) == null) {
+        if (tokenManager.verifyToken(refreshToken) == null) {
             unauthorizedError()
         }
 
@@ -49,9 +51,5 @@ internal class RefreshLoginServiceImpl(
         )
 
         return authResponse
-    }
-
-    private fun peekUserId(refreshToken: String): String {
-        return invoicerJwtVerifier.verify(refreshToken) ?: unauthorizedError()
     }
 }

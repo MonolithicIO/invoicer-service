@@ -185,7 +185,6 @@ private fun DI.Builder.loginServices() {
 
     bindProvider<RefreshLoginService> {
         RefreshLoginServiceImpl(
-            invoicerJwtVerifier = instance(),
             tokenManager = instance(),
             getUserByIdService = instance(),
             refreshTokenRepository = instance(),

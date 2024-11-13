@@ -4,14 +4,11 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import foundation.api.SecretKeys
 import foundation.api.SecretsProvider
-
-interface InvoicerJwtVerifier {
-    fun verify(token: String): String?
-}
+import foundation.authentication.api.AuthTokenVerifier
 
 internal class InvoicerJwtVerifierImpl(
     secretsProvider: SecretsProvider
-) : InvoicerJwtVerifier {
+) : AuthTokenVerifier {
 
     private val verifier = JWT
         .require(Algorithm.HMAC256(secretsProvider.getSecret(SecretKeys.JWT_SECRET)))
