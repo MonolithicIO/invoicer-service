@@ -3,6 +3,7 @@ package services.impl.login
 import models.login.AuthTokenModel
 import repository.api.repository.RefreshTokenRepository
 import services.api.services.login.RefreshLoginService
+import services.api.services.login.StoreRefreshTokenService
 import services.api.services.user.GetUserByIdService
 import utils.authentication.api.AuthTokenManager
 import utils.authentication.api.jwt.InvoicerJwtVerifier
@@ -12,7 +13,8 @@ internal class RefreshLoginServiceImpl(
     private val invoicerJwtVerifier: InvoicerJwtVerifier,
     private val tokenManager: AuthTokenManager,
     private val getUserByIdService: GetUserByIdService,
-    private val refreshTokenRepository: RefreshTokenRepository
+    private val refreshTokenRepository: RefreshTokenRepository,
+    private val storeRefreshTokenService: StoreRefreshTokenService
 ) : RefreshLoginService {
 
     override suspend fun refreshLogin(refreshToken: String): AuthTokenModel {
@@ -41,7 +43,7 @@ internal class RefreshLoginServiceImpl(
             token = refreshToken
         )
 
-        refreshTokenRepository.createRefreshToken(
+        storeRefreshTokenService.storeRefreshToken(
             token = authResponse.refreshToken,
             userId = user.id.toString()
         )
