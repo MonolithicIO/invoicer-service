@@ -1,4 +1,4 @@
-package utils.authentication.api.jwt
+package foundation.authentication.api.jwt
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
@@ -10,24 +10,42 @@ import io.ktor.server.auth.jwt.*
 import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
 import kotlinx.datetime.toJavaInstant
-import utils.authentication.api.AuthTokenGenerator
-import utils.authentication.api.AuthTokenManager
+import foundation.authentication.api.AuthTokenGenerator
+import foundation.authentication.api.AuthTokenManager
 import utils.date.api.DateProvider
 import utils.exceptions.HttpCode
 import utils.exceptions.httpError
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 
 internal class JwtTokenGenerator(
     private val dateProvider: DateProvider,
-    private val secretsProvider: SecretsProvider
+    private val secretsProvider: SecretsProvider,
 ) : AuthTokenGenerator {
 
-    override fun generateToken(userId: String): String {
+    override fun generateAccessToken(userId: String): String {
+        return createToken(
+            userId = userId,
+            expiration = 1.hours
+        )
+    }
+
+    override fun generateRefreshToken(userId: String): String {
+        return createToken(
+            userId = userId,
+            expiration = 24.hours
+        )
+    }
+
+    private fun createToken(
+        userId: String,
+        expiration: Duration
+    ): String {
         val token = JWT.create()
             .withAudience(secretsProvider.getSecret(SecretKeys.JWT_AUDIENCE))
             .withIssuer(secretsProvider.getSecret(SecretKeys.JWT_ISSUER))
-            .withClaim(JWTConfig.USER_ID_CLAIM, userId)
-            .withExpiresAt(dateProvider.currentInstant().plus(24.hours).toJavaInstant())
+            .withClaim(JwtConfig.USER_ID_CLAIM, userId)
+            .withExpiresAt(dateProvider.currentInstant().plus(expiration).toJavaInstant())
             .sign(Algorithm.HMAC256(secretsProvider.getSecret(SecretKeys.JWT_SECRET)))
 
         return token
@@ -53,7 +71,7 @@ fun AuthenticationConfig.appJwt(
                 .build()
         )
         validate { token ->
-            if (token.payload.getClaim(JWTConfig.USER_ID_CLAIM).asString().isNotBlank()) {
+            if (token.payload.getClaim(JwtConfig.USER_ID_CLAIM).asString().isNotBlank()) {
                 JWTPrincipal(token.payload)
             } else {
                 null
@@ -68,16 +86,11 @@ fun AuthenticationConfig.appJwt(
     }
 }
 
-private object JWTConfig {
-    const val USER_ID_CLAIM = "userId"
-    const val AUTH_NAME = "auth-jwt"
-}
-
 
 fun Route.jwtProtected(
     block: Route.() -> Unit
 ) {
-    authenticate(JWTConfig.AUTH_NAME) {
+    authenticate(JwtConfig.AUTH_NAME) {
         block()
     }
 }
@@ -85,7 +98,7 @@ fun Route.jwtProtected(
 fun PipelineContext<Unit, ApplicationCall>.jwtUserId(): String {
     val principal = call.principal<JWTPrincipal>()
 
-    val id = principal?.payload?.getClaim(JWTConfig.USER_ID_CLAIM)?.asString()
+    val id = principal?.payload?.getClaim(JwtConfig.USER_ID_CLAIM)?.asString()
         ?: httpError(message = AuthTokenManager.NOT_AUTHENTICATED_MESSAGE, code = HttpCode.UnAuthorized)
     return id
 }

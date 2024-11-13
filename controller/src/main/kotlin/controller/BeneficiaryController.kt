@@ -16,8 +16,8 @@ import services.api.services.beneficiary.CreateBeneficiaryService
 import services.api.services.beneficiary.DeleteBeneficiaryService
 import services.api.services.beneficiary.GetUserBeneficiariesService
 import services.api.services.beneficiary.UpdateBeneficiaryService
-import utils.authentication.api.jwt.jwtProtected
-import utils.authentication.api.jwt.jwtUserId
+import foundation.authentication.api.jwt.jwtProtected
+import foundation.authentication.api.jwt.jwtUserId
 
 internal fun Routing.beneficiaryController() {
     route("/beneficiary") {

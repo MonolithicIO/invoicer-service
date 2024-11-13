@@ -16,8 +16,8 @@ import services.api.services.intermediary.CreateIntermediaryService
 import services.api.services.intermediary.DeleteIntermediaryService
 import services.api.services.intermediary.GetUserIntermediariesService
 import services.api.services.intermediary.UpdateIntermediaryService
-import utils.authentication.api.jwt.jwtProtected
-import utils.authentication.api.jwt.jwtUserId
+import foundation.authentication.api.jwt.jwtProtected
+import foundation.authentication.api.jwt.jwtUserId
 
 internal fun Routing.intermediaryController() {
     route("/intermediary") {

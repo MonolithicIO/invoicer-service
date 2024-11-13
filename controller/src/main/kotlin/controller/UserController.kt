@@ -12,8 +12,8 @@ import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.user.CreateUserService
 import services.api.services.user.DeleteUserService
-import utils.authentication.api.jwt.jwtProtected
-import utils.authentication.api.jwt.jwtUserId
+import foundation.authentication.api.jwt.jwtProtected
+import foundation.authentication.api.jwt.jwtUserId
 
 internal fun Routing.userController() {
     route("user") {

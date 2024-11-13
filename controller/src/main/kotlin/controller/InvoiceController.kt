@@ -17,8 +17,8 @@ import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.DeleteInvoiceService
 import services.api.services.invoice.GetInvoiceByIdService
 import services.api.services.invoice.GetUserInvoicesService
-import utils.authentication.api.jwt.jwtProtected
-import utils.authentication.api.jwt.jwtUserId
+import foundation.authentication.api.jwt.jwtProtected
+import foundation.authentication.api.jwt.jwtUserId
 
 internal fun Routing.invoiceController() {
     route("invoice") {
