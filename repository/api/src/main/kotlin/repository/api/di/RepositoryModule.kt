@@ -30,4 +30,10 @@ val repositoryModule = DI.Module("invocer-repository") {
             dateProvider = instance()
         )
     }
+
+    bindProvider<RefreshTokenRepository> {
+        RefreshTokenRepositoryImpl(
+            dateProvider = instance()
+        )
+    }
 }
