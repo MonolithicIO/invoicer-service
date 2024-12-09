@@ -46,7 +46,7 @@ internal class RefreshLoginServiceImplTest {
         }
 
         assertEquals(
-            expected = HttpCode.UnAuthorized,
+            expected = HttpCode.Forbidden,
             actual = result.statusCode
         )
     }
@@ -61,7 +61,7 @@ internal class RefreshLoginServiceImplTest {
         }
 
         assertEquals(
-            expected = HttpCode.UnAuthorized,
+            expected = HttpCode.Forbidden,
             actual = result.statusCode
         )
     }
@@ -80,7 +80,7 @@ internal class RefreshLoginServiceImplTest {
         }
 
         assertEquals(
-            expected = HttpCode.UnAuthorized,
+            expected = HttpCode.Forbidden,
             actual = result.statusCode
         )
     }

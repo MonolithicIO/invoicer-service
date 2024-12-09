@@ -29,7 +29,8 @@ fun Application.installStatusPages() {
 
 private fun HttpCode.toKtorCode(): HttpStatusCode = when (this) {
     HttpCode.BadRequest -> HttpStatusCode.BadRequest
-    HttpCode.UnAuthorized -> HttpStatusCode.Unauthorized
+    HttpCode.Forbidden -> HttpStatusCode.Forbidden
     HttpCode.NotFound -> HttpStatusCode.NotFound
     HttpCode.Conflict -> HttpStatusCode.Conflict
+    HttpCode.UnAuthorized -> HttpStatusCode.Unauthorized
 }
