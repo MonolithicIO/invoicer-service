@@ -4,14 +4,14 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import foundation.api.SecretKeys
 import foundation.api.SecretsProvider
+import foundation.authentication.api.AuthTokenGenerator
+import foundation.authentication.api.AuthTokenManager
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
 import kotlinx.datetime.toJavaInstant
-import foundation.authentication.api.AuthTokenGenerator
-import foundation.authentication.api.AuthTokenManager
 import utils.date.api.DateProvider
 import utils.exceptions.HttpCode
 import utils.exceptions.httpError
@@ -80,7 +80,7 @@ fun AuthenticationConfig.appJwt(
         challenge { _, _ ->
             httpError(
                 message = AuthTokenManager.NOT_AUTHENTICATED_MESSAGE,
-                code = HttpCode.Forbidden
+                code = HttpCode.UnAuthorized
             )
         }
     }
@@ -99,6 +99,6 @@ fun PipelineContext<Unit, ApplicationCall>.jwtUserId(): String {
     val principal = call.principal<JWTPrincipal>()
 
     val id = principal?.payload?.getClaim(JwtConfig.USER_ID_CLAIM)?.asString()
-        ?: httpError(message = AuthTokenManager.NOT_AUTHENTICATED_MESSAGE, code = HttpCode.Forbidden)
+        ?: httpError(message = AuthTokenManager.NOT_AUTHENTICATED_MESSAGE, code = HttpCode.UnAuthorized)
     return id
 }
