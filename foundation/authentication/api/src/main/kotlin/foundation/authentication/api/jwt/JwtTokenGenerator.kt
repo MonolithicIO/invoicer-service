@@ -80,7 +80,7 @@ fun AuthenticationConfig.appJwt(
         challenge { _, _ ->
             httpError(
                 message = AuthTokenManager.NOT_AUTHENTICATED_MESSAGE,
-                code = HttpCode.UnAuthorized
+                code = HttpCode.Forbidden
             )
         }
     }
@@ -99,6 +99,6 @@ fun PipelineContext<Unit, ApplicationCall>.jwtUserId(): String {
     val principal = call.principal<JWTPrincipal>()
 
     val id = principal?.payload?.getClaim(JwtConfig.USER_ID_CLAIM)?.asString()
-        ?: httpError(message = AuthTokenManager.NOT_AUTHENTICATED_MESSAGE, code = HttpCode.UnAuthorized)
+        ?: httpError(message = AuthTokenManager.NOT_AUTHENTICATED_MESSAGE, code = HttpCode.Forbidden)
     return id
 }

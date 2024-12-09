@@ -15,6 +15,7 @@ import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
 import foundation.authentication.api.jwt.jwtUserId
 import utils.exceptions.unauthorizedError
+import utils.exceptions.unauthorizedResourceError
 
 internal fun Routing.authController() {
     route("auth") {
@@ -35,7 +36,7 @@ internal fun Routing.authController() {
 
             call.respond(
                 message = refreshService.refreshLogin(
-                    refreshToken = body.refreshToken ?: unauthorizedError(),
+                    refreshToken = body.refreshToken ?: unauthorizedResourceError(),
                 ).toViewModel(),
             )
         }

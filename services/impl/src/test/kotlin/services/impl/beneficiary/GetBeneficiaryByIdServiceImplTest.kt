@@ -55,7 +55,7 @@ class GetBeneficiaryByIdServiceImplTest {
         }
 
         assertEquals(
-            expected = HttpCode.UnAuthorized,
+            expected = HttpCode.Forbidden,
             actual = error.statusCode
         )
     }

@@ -2,7 +2,6 @@ package services.impl.intermediary
 
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.LocalDate
-import models.beneficiary.BeneficiaryModel
 import models.intermediary.IntermediaryModel
 import repository.test.repository.FakeIntermediaryRepository
 import services.test.user.FakeGetUserByIdService
@@ -56,7 +55,7 @@ class GetUserIntermediariesServiceImplTest {
         }
 
         assertEquals(
-            expected = HttpCode.UnAuthorized,
+            expected = HttpCode.Forbidden,
             actual = error.statusCode
         )
     }

@@ -7,6 +7,7 @@ import services.api.services.login.RefreshLoginService
 import services.api.services.login.StoreRefreshTokenService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.unauthorizedError
+import utils.exceptions.unauthorizedResourceError
 
 internal class RefreshLoginServiceImpl(
     private val tokenManager: AuthTokenManager,
@@ -16,18 +17,15 @@ internal class RefreshLoginServiceImpl(
 ) : RefreshLoginService {
 
     override suspend fun refreshLogin(refreshToken: String): AuthTokenModel {
-        val extractedUserId = tokenManager.verifyToken(refreshToken) ?: unauthorizedError(
-            message = "Refresh token not valid"
-        )
+        val extractedUserId = tokenManager.verifyToken(refreshToken) ?: unauthorizedResourceError()
 
         val user = getUserByIdService.get(extractedUserId)
 
-        val findToken = refreshTokenRepository.findUserToken(user.id.toString(), refreshToken) ?: unauthorizedError(
-            message = "Refresh token not found"
-        )
+        val findToken =
+            refreshTokenRepository.findUserToken(user.id.toString(), refreshToken) ?: unauthorizedResourceError()
 
         if (findToken.enabled.not()) {
-            unauthorizedError(message = "Refresh token is disabled")
+            unauthorizedResourceError()
         }
 
         val authResponse = AuthTokenModel(
