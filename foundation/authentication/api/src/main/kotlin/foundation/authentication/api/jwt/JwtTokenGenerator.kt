@@ -16,6 +16,7 @@ import utils.date.api.DateProvider
 import utils.exceptions.HttpCode
 import utils.exceptions.httpError
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 
 internal class JwtTokenGenerator(
@@ -33,7 +34,7 @@ internal class JwtTokenGenerator(
     override fun generateRefreshToken(userId: String): String {
         return createToken(
             userId = userId,
-            expiration = 24.hours
+            expiration = 999.daysk
         )
     }
 
