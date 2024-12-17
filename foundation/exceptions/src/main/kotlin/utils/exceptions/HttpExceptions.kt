@@ -14,3 +14,6 @@ fun notFoundError(message: String): Nothing = httpError(message = message, code 
 
 fun unauthorizedResourceError(): Nothing =
     httpError(message = "User has no access to this resource", code = HttpCode.Forbidden)
+
+fun unAuthorizedError(message: String): Nothing =
+    httpError(message = message, code = HttpCode.UnAuthorized)
