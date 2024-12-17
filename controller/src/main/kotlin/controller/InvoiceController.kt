@@ -2,10 +2,13 @@ package controller
 
 import controller.viewmodel.createinvoice.request.CreateInvoiceViewModel
 import controller.viewmodel.createinvoice.request.toModel
+import controller.viewmodel.createinvoice.response.CreateInvoiceResponseViewModel
 import controller.viewmodel.getinvoices.request.GetInvoicesFilterViewModel
 import controller.viewmodel.getinvoices.request.receiveGetInvoicesFilterViewModel
 import controller.viewmodel.getinvoices.response.toViewModel
 import controller.viewmodel.invoicedetails.response.toViewModel
+import foundation.authentication.api.jwt.jwtProtected
+import foundation.authentication.api.jwt.jwtUserId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -17,8 +20,6 @@ import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.DeleteInvoiceService
 import services.api.services.invoice.GetInvoiceByIdService
 import services.api.services.invoice.GetUserInvoicesService
-import foundation.authentication.api.jwt.jwtProtected
-import foundation.authentication.api.jwt.jwtUserId
 
 internal fun Routing.invoiceController() {
     route("invoice") {
@@ -31,10 +32,10 @@ internal fun Routing.invoiceController() {
                 call.respond(
                     status = HttpStatusCode.OK,
                     message =
-                    findOneService.get(
-                        id = invoiceId!!,
-                        userId = jwtUserId()
-                    ).toViewModel()
+                        findOneService.get(
+                            id = invoiceId!!,
+                            userId = jwtUserId()
+                        ).toViewModel()
                 )
             }
 
@@ -75,7 +76,10 @@ internal fun Routing.invoiceController() {
                     userId = jwtUserId()
                 )
                 call.respond(
-                    message = response,
+                    message = CreateInvoiceResponseViewModel(
+                        externalInvoiceId = response.externalInvoiceId,
+                        invoiceId = response.invoiceId
+                    ),
                     status = HttpStatusCode.Created
                 )
             }
