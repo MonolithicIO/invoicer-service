@@ -34,7 +34,7 @@ internal class JwtTokenGenerator(
     override fun generateRefreshToken(userId: String): String {
         return createToken(
             userId = userId,
-            expiration = 999.daysk
+            expiration = 999.days
         )
     }
 
