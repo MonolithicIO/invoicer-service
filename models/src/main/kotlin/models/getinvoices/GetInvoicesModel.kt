@@ -14,3 +14,9 @@ data class InvoiceListItemModel(
     val updatedAt: LocalDate,
     val totalAmount: Long,
 )
+
+data class InvoiceListModel(
+    val items: List<InvoiceListItemModel>,
+    val totalResults: Long,
+    val nextPage: Long?
+)

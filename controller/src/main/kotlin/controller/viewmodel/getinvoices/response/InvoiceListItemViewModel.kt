@@ -2,6 +2,14 @@ package controller.viewmodel.getinvoices.response
 
 import kotlinx.serialization.Serializable
 import models.getinvoices.InvoiceListItemModel
+import models.getinvoices.InvoiceListModel
+
+@Serializable
+internal data class InvoiceListViewModel(
+    val items: List<InvoiceListItemViewModel>,
+    val totalItemCount: Long,
+    val nextPage: Long?
+)
 
 @Serializable
 internal data class InvoiceListItemViewModel(
@@ -16,18 +24,22 @@ internal data class InvoiceListItemViewModel(
     val totalAmount: Long,
 )
 
-internal fun List<InvoiceListItemModel>.toViewModel(): List<InvoiceListItemViewModel> {
-    return map {
-        InvoiceListItemViewModel(
-            id = it.id.toString(),
-            externalId = it.externalId,
-            senderCompany = it.senderCompany,
-            recipientCompany = it.recipientCompany,
-            issueDate = it.issueDate.toString(),
-            dueDate = it.dueDate.toString(),
-            createdAt = it.createdAt.toString(),
-            updatedAt = it.updatedAt.toString(),
-            totalAmount = it.totalAmount,
-        )
-    }
+internal fun InvoiceListModel.toViewModel(): InvoiceListViewModel {
+    return InvoiceListViewModel(
+        items = items.map {
+            InvoiceListItemViewModel(
+                id = it.id.toString(),
+                externalId = it.externalId,
+                senderCompany = it.senderCompany,
+                recipientCompany = it.recipientCompany,
+                issueDate = it.issueDate.toString(),
+                dueDate = it.dueDate.toString(),
+                createdAt = it.createdAt.toString(),
+                updatedAt = it.updatedAt.toString(),
+                totalAmount = it.totalAmount,
+            )
+        },
+        totalItemCount = totalResults,
+        nextPage = nextPage
+    )
 }

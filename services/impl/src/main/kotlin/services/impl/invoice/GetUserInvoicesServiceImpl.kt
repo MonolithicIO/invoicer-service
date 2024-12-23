@@ -3,6 +3,7 @@ package services.impl.invoice
 import kotlinx.datetime.LocalDate
 import models.getinvoices.GetInvoicesFilterModel
 import models.getinvoices.InvoiceListItemModel
+import models.getinvoices.InvoiceListModel
 import repository.api.repository.InvoiceRepository
 import services.api.services.invoice.GetUserInvoicesService
 import utils.exceptions.HttpCode
@@ -17,7 +18,7 @@ internal class GetUserInvoicesServiceImpl(
         page: Long,
         limit: Int,
         userId: String,
-    ): List<InvoiceListItemModel> {
+    ): InvoiceListModel {
         validateDateFilter(
             min = filters.minIssueDate,
             max = filters.maxIssueDate

@@ -7,6 +7,7 @@ import models.InvoiceModel
 import models.createinvoice.CreateInvoiceModel
 import models.getinvoices.GetInvoicesFilterModel
 import models.getinvoices.InvoiceListItemModel
+import models.getinvoices.InvoiceListModel
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import repository.api.mapper.toListItemModel
@@ -33,7 +34,7 @@ interface InvoiceRepository {
         page: Long,
         limit: Int,
         userId: String,
-    ): List<InvoiceListItemModel>
+    ): InvoiceListModel
 
     suspend fun delete(
         id: UUID
@@ -112,7 +113,7 @@ internal class InvoiceRepositoryImpl(
         page: Long,
         limit: Int,
         userId: String,
-    ): List<InvoiceListItemModel> {
+    ): InvoiceListModel {
         return newSuspendedTransaction {
             val query = InvoiceTable
                 .selectAll()
@@ -141,9 +142,24 @@ internal class InvoiceRepositoryImpl(
                 InvoiceTable.issueDate.between(filters.minIssueDate, filters.maxIssueDate)
             }
 
-            InvoiceEntity.wrapRows(query.limit(n = limit, offset = page * limit))
+            val count = query.count()
+            val currentOffset = page * limit
+
+            val nextPage = if (count > currentOffset) {
+                (count - currentOffset) / limit
+            } else {
+                null
+            }
+
+            val result = InvoiceEntity.wrapRows(query.limit(n = limit, offset = currentOffset))
                 .toList()
                 .map { it.toListItemModel() }
+
+            InvoiceListModel(
+                items = result,
+                nextPage = nextPage,
+                totalResults = count
+            )
         }
     }
 
