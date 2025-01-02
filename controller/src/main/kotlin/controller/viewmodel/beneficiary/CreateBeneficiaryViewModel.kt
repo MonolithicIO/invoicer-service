@@ -13,7 +13,7 @@ internal data class CreateBeneficiaryViewModel(
     val bankAddress: String? = null
 )
 
-internal fun CreateBeneficiaryViewModel.toModel(): CreateBeneficiaryModel = CreateBeneficiaryModel(
+internal fun CreateBeneficiaryViewModel.toViewModel(): CreateBeneficiaryModel = CreateBeneficiaryModel(
     name = this.name ?: badRequestError("Missing name field"),
     swift = this.swift ?: badRequestError("Missing swift field"),
     bankName = this.bankName ?: badRequestError("Missing bank name field"),

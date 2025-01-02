@@ -13,7 +13,7 @@ internal data class UpdateBeneficiaryViewModel(
     val bankAddress: String? = null,
 )
 
-internal fun UpdateBeneficiaryViewModel.toModel(): UpdateBeneficiaryModel {
+internal fun UpdateBeneficiaryViewModel.toViewModel(): UpdateBeneficiaryModel {
     return UpdateBeneficiaryModel(
         name = name?.trim() ?: badRequestError(message = "Missing field name"),
         iban = iban?.trim() ?: badRequestError(message = "Missing field iban"),

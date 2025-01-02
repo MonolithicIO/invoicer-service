@@ -3,8 +3,9 @@ package controller
 import controller.viewmodel.beneficiary.CreateBeneficiaryResponseViewModel
 import controller.viewmodel.beneficiary.CreateBeneficiaryViewModel
 import controller.viewmodel.beneficiary.UpdateBeneficiaryViewModel
-import controller.viewmodel.beneficiary.UserBeneficiariesViewModel
-import controller.viewmodel.beneficiary.toModel
+import controller.viewmodel.beneficiary.toViewModel
+import foundation.authentication.api.jwt.jwtProtected
+import foundation.authentication.api.jwt.jwtUserId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -16,15 +17,13 @@ import services.api.services.beneficiary.CreateBeneficiaryService
 import services.api.services.beneficiary.DeleteBeneficiaryService
 import services.api.services.beneficiary.GetUserBeneficiariesService
 import services.api.services.beneficiary.UpdateBeneficiaryService
-import foundation.authentication.api.jwt.jwtProtected
-import foundation.authentication.api.jwt.jwtUserId
 
 internal fun Routing.beneficiaryController() {
     route("/beneficiary") {
         jwtProtected {
             post {
                 val body = call.receive<CreateBeneficiaryViewModel>()
-                val model = body.toModel()
+                val model = body.toViewModel()
                 val useCase by closestDI().instance<CreateBeneficiaryService>()
 
                 call.respond(
@@ -62,13 +61,11 @@ internal fun Routing.beneficiaryController() {
 
                 call.respond(
                     status = HttpStatusCode.OK,
-                    message = UserBeneficiariesViewModel(
-                        beneficiaries = useCase.execute(
-                            userId = jwtUserId(),
-                            page = page,
-                            limit = limit
-                        ).map { it.toModel() }
-                    )
+                    message = useCase.execute(
+                        userId = jwtUserId(),
+                        page = page,
+                        limit = limit
+                    ).toViewModel()
                 )
             }
         }
@@ -83,9 +80,9 @@ internal fun Routing.beneficiaryController() {
                     status = HttpStatusCode.OK,
                     message = useCase.execute(
                         beneficiaryId = beneficiaryId,
-                        model = body.toModel(),
+                        model = body.toViewModel(),
                         userId = userId
-                    ).toModel()
+                    ).toViewModel()
                 )
             }
         }

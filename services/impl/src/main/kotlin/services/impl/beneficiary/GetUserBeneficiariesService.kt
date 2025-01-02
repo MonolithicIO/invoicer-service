@@ -1,6 +1,7 @@
 package services.impl.beneficiary
 
 import models.beneficiary.BeneficiaryModel
+import models.beneficiary.UserBeneficiaries
 import repository.api.repository.BeneficiaryRepository
 import services.api.services.beneficiary.GetUserBeneficiariesService
 import services.api.services.user.GetUserByIdService
@@ -16,7 +17,7 @@ internal class GetUserBeneficiariesServiceImpl(
         userId: String,
         page: Long,
         limit: Int,
-    ): List<BeneficiaryModel> {
+    ): UserBeneficiaries {
         getUserByIdUseCase.get(userId)
 
         val beneficiaries = repository.getAll(
@@ -25,7 +26,7 @@ internal class GetUserBeneficiariesServiceImpl(
             limit = limit
         )
 
-        if (beneficiaries.any { beneficiary ->
+        if (beneficiaries.items.any { beneficiary ->
                 beneficiary.userId != userId
             }
         ) {

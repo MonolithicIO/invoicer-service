@@ -12,7 +12,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class GetUserIntermediariesServiceImplTest {
+class GetUserBeneficiariesServiceImplTest {
 
     private lateinit var service: GetUserIntermediariesServiceImpl
     private lateinit var intermediaryRepository: FakeIntermediaryRepository

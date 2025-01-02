@@ -5,6 +5,7 @@ import entities.BeneficiaryTable
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.CreateBeneficiaryModel
 import models.beneficiary.UpdateBeneficiaryModel
+import models.beneficiary.UserBeneficiaries
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import repository.api.mapper.toModel
@@ -35,7 +36,7 @@ interface BeneficiaryRepository {
         userId: UUID,
         page: Long,
         limit: Int,
-    ): List<BeneficiaryModel>
+    ): UserBeneficiaries
 
     suspend fun update(
         userId: UUID,
@@ -95,7 +96,7 @@ internal class BeneficiaryRepositoryImpl(
         userId: UUID,
         page: Long,
         limit: Int,
-    ): List<BeneficiaryModel> {
+    ): UserBeneficiaries {
         return newSuspendedTransaction {
             val query = BeneficiaryTable
                 .selectAll()
@@ -104,9 +105,24 @@ internal class BeneficiaryRepositoryImpl(
                 }
                 .limit(n = limit, offset = page * limit)
 
-            BeneficiaryEntity.wrapRows(query)
+            val count = query.count()
+            val currentOffset = page * limit
+
+            val nextPage = if (count > currentOffset) {
+                (count - currentOffset) / limit
+            } else {
+                null
+            }
+
+            val result = BeneficiaryEntity.wrapRows(query)
                 .toList()
                 .map { it.toModel() }
+
+            UserBeneficiaries(
+                items = result,
+                nextPage = nextPage,
+                itemCount = count
+            )
         }
     }
 
