@@ -2,13 +2,13 @@ package foundation.env
 
 import io.ktor.server.application.*
 
-interface Environment {
+interface InvoicerEnvironment {
     fun getVariable(key: String): String?
 }
 
-internal class EnvironmentImpl(
+internal class InvoicerEnvironmentImpl(
     private val application: Application
-) : Environment {
+) : InvoicerEnvironment {
 
     override fun getVariable(key: String): String? {
         return application.environment.config.propertyOrNull(key)?.getString()

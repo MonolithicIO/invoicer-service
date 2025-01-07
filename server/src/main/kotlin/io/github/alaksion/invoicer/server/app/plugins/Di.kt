@@ -2,7 +2,7 @@ package io.github.alaksion.invoicer.server.app.plugins
 
 import foundation.api.di.secretsModule
 import foundation.authentication.api.di.utilsAuthenticationModule
-import foundation.env.environmentDiModule
+import foundation.env.invoicerEnvironmentDiModule
 import foundation.validator.api.di.validatorModule
 import io.ktor.server.application.*
 import org.kodein.di.bindSingleton
@@ -24,6 +24,6 @@ fun Application.installDi() {
         import(secretsModule)
         import(servicesImplModule)
         import(repositoryModule)
-        import(environmentDiModule)
+        import(invoicerEnvironmentDiModule)
     }
 }

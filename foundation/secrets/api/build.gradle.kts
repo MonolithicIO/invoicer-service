@@ -10,4 +10,5 @@ version = "0.0.1"
 dependencies {
     implementation(libs.kodein.server)
     implementation(libs.dotenv)
+    implementation(projects.foundation.env.api)
 }
