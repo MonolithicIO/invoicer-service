@@ -14,9 +14,6 @@ import utils.password.di.utilPasswordDi
 
 fun Application.installDi() {
     di {
-        bindSingleton<Application> {
-            this@installDi
-        }
         import(utilPasswordDi)
         import(utilsDateModule)
         import(utilsAuthenticationModule)

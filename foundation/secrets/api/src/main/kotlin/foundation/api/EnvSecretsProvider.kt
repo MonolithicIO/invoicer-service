@@ -8,13 +8,13 @@ internal class EnvSecretsProvider(
 
     override fun getSecret(key: SecretKeys): String {
         val path = when (key) {
-            SecretKeys.DB_PASSWORD -> "invoicer.db.password"
-            SecretKeys.DB_USERNAME -> "invoicer.db.username"
-            SecretKeys.DB_URL -> "invoicer.db.url"
-            SecretKeys.JWT_AUDIENCE -> "invoicer.jwt.audience"
-            SecretKeys.JWT_ISSUER -> "invoicer.jwt.issuer"
-            SecretKeys.JWT_SECRET -> "invoicer.jwt.secret"
-            SecretKeys.JWT_REALM -> "invoicer.jwt.realm"
+            SecretKeys.DB_PASSWORD -> "database.password"
+            SecretKeys.DB_USERNAME -> "database.username"
+            SecretKeys.DB_URL -> "database.url"
+            SecretKeys.JWT_AUDIENCE -> "jwt.audience"
+            SecretKeys.JWT_ISSUER -> "jwt.issuer"
+            SecretKeys.JWT_SECRET -> "jwt.secret"
+            SecretKeys.JWT_REALM -> "jwt.realm"
         }
 
         return environment.getVariable(path).orEmpty()
