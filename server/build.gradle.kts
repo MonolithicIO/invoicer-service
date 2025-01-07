@@ -50,6 +50,9 @@ dependencies {
     implementation(projects.foundation.secrets.api)
     kover(projects.foundation.secrets.api)
 
+    implementation(projects.foundation.env.api)
+    kover(projects.foundation.env.api)
+
     // Repository
     implementation(projects.repository.api)
     kover(projects.repository.api)

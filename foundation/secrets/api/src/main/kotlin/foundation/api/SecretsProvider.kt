@@ -10,7 +10,6 @@ enum class SecretKeys {
     DB_PASSWORD,
     DB_USERNAME,
     DB_URL,
-    DB_DRIVER,
     JWT_AUDIENCE,
     JWT_ISSUER,
     JWT_SECRET,
@@ -30,7 +29,6 @@ internal object SecretsProviderImpl : SecretsProvider {
             SecretKeys.JWT_SECRET -> env["JWT_SECRET"]
             SecretKeys.JWT_REALM -> env["JWT_REALM"]
             SecretKeys.DB_URL -> env["DB_URL"]
-            SecretKeys.DB_DRIVER -> env["DB_DRIVER"]
         }
     }
 }
