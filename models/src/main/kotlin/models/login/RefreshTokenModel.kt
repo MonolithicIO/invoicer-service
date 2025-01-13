@@ -1,11 +1,11 @@
 package models.login
 
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Instant
 
 data class RefreshTokenModel(
     val userId: String,
     val token: String,
-    val createdAt: LocalDate,
-    val updatedAt: LocalDate,
+    val createdAt: Instant,
+    val updatedAt: Instant,
     val enabled: Boolean
 )

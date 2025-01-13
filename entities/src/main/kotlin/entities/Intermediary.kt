@@ -6,6 +6,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.kotlin.datetime.date
+import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import java.util.UUID
 
 object IntermediaryTable : UUIDTable("t_intermediary") {
@@ -15,8 +16,8 @@ object IntermediaryTable : UUIDTable("t_intermediary") {
     val bankName = varchar("bank_name", 1000)
     val bankAddress = varchar("bank_address", 1000)
     val isDeleted = bool("is_deleted").default(false)
-    val createdAt = date("created_at")
-    val updatedAt = date("updated_at")
+    val createdAt = timestamp("created_at")
+    val updatedAt = timestamp("updated_at")
     val user = reference("user_id", foreign = UserTable, onDelete = ReferenceOption.CASCADE)
 }
 

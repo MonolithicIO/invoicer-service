@@ -1,6 +1,6 @@
 package models.user
 
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Instant
 import java.util.*
 
 data class UserModel(
@@ -8,6 +8,6 @@ data class UserModel(
     val password: String,
     val verified: Boolean,
     val email: String,
-    val createdAt: LocalDate,
-    val updatedAt: LocalDate
+    val createdAt: Instant,
+    val updatedAt: Instant
 )

@@ -1,14 +1,12 @@
 package entities
 
-import kotlinx.datetime.LocalDate
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
-import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.ReferenceOption
-import org.jetbrains.exposed.sql.kotlin.datetime.date
-import java.util.UUID
+import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
+import java.util.*
 
 
 object InvoiceTable : UUIDTable("t_invoice") {
@@ -17,10 +15,10 @@ object InvoiceTable : UUIDTable("t_invoice") {
     val senderCompanyAddress = varchar("sender_company_address", 1000)
     val recipientCompanyName = varchar("recipient_company_name", 500)
     val recipientCompanyAddress = varchar("recipient_company_address", 1000)
-    val issueDate: Column<LocalDate> = date("issue_date")
-    val dueDate = date("due_date")
-    val createdAt = date("created_at")
-    val updatedAt = date("updated_at")
+    val issueDate = timestamp("issue_date")
+    val dueDate = timestamp("due_date")
+    val createdAt = timestamp("created_at")
+    val updatedAt = timestamp("updated_at")
     val isDeleted = bool("is_deleted").default(false)
     val user = reference(name = "user_id", foreign = UserTable, onDelete = ReferenceOption.CASCADE)
     val beneficiary = reference("beneficiary_id", foreign = BeneficiaryTable)

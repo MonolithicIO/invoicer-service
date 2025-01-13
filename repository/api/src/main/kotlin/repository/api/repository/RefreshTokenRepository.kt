@@ -43,8 +43,8 @@ internal class RefreshTokenRepositoryImpl(
                 it[refreshToken] = token
                 it[user] = UUID.fromString(userId)
                 it[enabled] = true
-                it[createdAt] = dateProvider.now()
-                it[updatedAt] = dateProvider.now()
+                it[createdAt] = dateProvider.currentInstant()
+                it[updatedAt] = dateProvider.currentInstant()
             }
         }
     }
@@ -61,7 +61,7 @@ internal class RefreshTokenRepositoryImpl(
                 }
             ) {
                 it[enabled] = false
-                it[updatedAt] = dateProvider.now()
+                it[updatedAt] = dateProvider.currentInstant()
             }
         }
     }
@@ -74,7 +74,7 @@ internal class RefreshTokenRepositoryImpl(
                 }
             ) {
                 it[enabled] = false
-                it[updatedAt] = dateProvider.now()
+                it[updatedAt] = dateProvider.currentInstant()
             }
         }
     }

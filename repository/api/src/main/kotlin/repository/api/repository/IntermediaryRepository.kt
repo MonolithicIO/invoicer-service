@@ -58,8 +58,8 @@ internal class IntermediaryRepositoryImpl(
                 table[bankName] = model.bankName
                 table[bankAddress] = model.bankAddress
                 table[user] = userId
-                table[createdAt] = dateProvider.now()
-                table[updatedAt] = dateProvider.now()
+                table[createdAt] = dateProvider.currentInstant()
+                table[updatedAt] = dateProvider.currentInstant()
             }.value.toString()
         }
     }
@@ -128,7 +128,7 @@ internal class IntermediaryRepositoryImpl(
                 it[swift] = model.swift
                 it[bankName] = model.bankName
                 it[bankAddress] = model.bankAddress
-                it[updatedAt] = dateProvider.now()
+                it[updatedAt] = dateProvider.currentInstant()
             }.map {
                 IntermediaryEntity.wrapRow(it)
             }.first().toModel()

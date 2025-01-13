@@ -1,6 +1,6 @@
 package models.intermediary
 
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Instant
 
 data class IntermediaryModel(
     val name: String,
@@ -10,6 +10,6 @@ data class IntermediaryModel(
     val bankAddress: String,
     val userId: String,
     val id: String,
-    val createdAt: LocalDate,
-    val updatedAt: LocalDate
+    val createdAt: Instant,
+    val updatedAt: Instant
 )

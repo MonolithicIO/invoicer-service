@@ -42,8 +42,8 @@ internal class UserRepositoryImpl(
                 it[verified] = true
                 it[email] = data.email
                 it[password] = data.password
-                it[updatedAt] = dateProvider.now()
-                it[createdAt] = dateProvider.now()
+                it[updatedAt] = dateProvider.currentInstant()
+                it[createdAt] = dateProvider.currentInstant()
             }.value.toString()
         }
     }

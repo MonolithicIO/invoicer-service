@@ -1,6 +1,7 @@
 package controller.viewmodel.createinvoice.request
 
 import io.github.alaksion.invoicer.server.validation.requireFilledString
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import models.createinvoice.CreateInvoiceActivityModel
@@ -14,8 +15,8 @@ data class CreateInvoiceViewModel(
     val senderCompanyAddress: String? = null,
     val recipientCompanyName: String? = null,
     val recipientCompanyAddress: String? = null,
-    val issueDate: LocalDate? = null,
-    val dueDate: LocalDate? = null,
+    val issueDate: Instant? = null,
+    val dueDate: Instant? = null,
     val beneficiaryId: String? = null,
     val intermediaryId: String? = null,
     val activities: List<CreateInvoiceActivityViewModel> = listOf()

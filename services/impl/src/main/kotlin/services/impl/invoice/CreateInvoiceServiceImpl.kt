@@ -1,6 +1,6 @@
 package services.impl.invoice
 
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Instant
 import models.createinvoice.CreateInvoiceActivityModel
 import models.createinvoice.CreateInvoiceModel
 import models.createinvoice.CreateInvoiceResponseModel
@@ -66,17 +66,17 @@ internal class CreateInvoiceServiceImpl(
     }
 
     private fun validateDateRange(
-        issueDate: LocalDate,
-        dueDate: LocalDate
+        issueDate: Instant,
+        dueDate: Instant
     ) {
-        if (dateProvider.now() > issueDate) {
+        if (dateProvider.currentInstant() > issueDate) {
             httpError(
                 message = "Issue date cannot be past date",
                 code = HttpCode.BadRequest
             )
         }
 
-        if (dateProvider.now() > dueDate) {
+        if (dateProvider.currentInstant() > dueDate) {
             httpError(
                 message = "Due date cannot be past date",
                 code = HttpCode.BadRequest

@@ -73,8 +73,8 @@ internal class InvoiceRepositoryImpl(
                 it[beneficiary] = UUID.fromString(data.beneficiaryId)
                 it[intermediary] =
                     data.intermediaryId?.let { intermediaryId -> UUID.fromString(intermediaryId) }
-                it[createdAt] = dateProvider.now()
-                it[updatedAt] = dateProvider.now()
+                it[createdAt] = dateProvider.currentInstant()
+                it[updatedAt] = dateProvider.currentInstant()
                 it[user] = userId
             }
             val createdInvoiceId = newInvoice.value
@@ -84,8 +84,8 @@ internal class InvoiceRepositoryImpl(
                 this[InvoiceActivityTable.quantity] = item.quantity
                 this[InvoiceActivityTable.unitPrice] = item.unitPrice
                 this[InvoiceActivityTable.description] = item.description
-                this[InvoiceActivityTable.createdAt] = dateProvider.now()
-                this[InvoiceActivityTable.updatedAt] = dateProvider.now()
+                this[InvoiceActivityTable.createdAt] = dateProvider.currentInstant()
+                this[InvoiceActivityTable.updatedAt] = dateProvider.currentInstant()
             }
 
             createdInvoiceId.toString()
@@ -173,7 +173,7 @@ internal class InvoiceRepositoryImpl(
                 }
             ) {
                 it[isDeleted] = true
-                it[updatedAt] = dateProvider.now()
+                it[updatedAt] = dateProvider.currentInstant()
             }
         }
     }
