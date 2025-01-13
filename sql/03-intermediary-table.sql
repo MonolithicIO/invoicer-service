@@ -7,8 +7,8 @@ create table if not exists t_intermediary(
     bank_address varchar not null,
     user_id uuid not null,
     is_deleted boolean default false,
-    created_at DATE DEFAULT CURRENT_DATE,
-    updated_at DATE DEFAULT CURRENT_DATE,
+    created_at TIMESTAMP DEFAULT CURRENT_DATE,
+    updated_at TIMESTAMP DEFAULT CURRENT_DATE,
     constraint fk_intermediary_to_user
             foreign key (user_id)
                 references t_user(id)

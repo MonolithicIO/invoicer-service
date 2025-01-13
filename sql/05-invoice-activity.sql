@@ -4,8 +4,8 @@ CREATE TABLE IF NOT EXISTS t_invoice_activity(
     quantity integer not null,
     unit_price bigint not null,
     invoice_id uuid not null,
-    created_at date default CURRENT_DATE,
-    updated_at date default CURRENT_DATE,
+    created_at TIMESTAMP default CURRENT_DATE,
+    updated_at TIMESTAMP default CURRENT_DATE,
     constraint fk_invoice
         foreign key (invoice_id)
             references t_invoice(id)
