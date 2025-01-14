@@ -3,7 +3,7 @@ ktor:
     modules:
       - io.github.alaksion.invoicer.server.app.ApplicationKt.module
   deployment:
-    port: 8080
+    port: $INVOICER_API_PORT
 database:
   name: $INVOICER_DB_NAME
   username: $INVOICER_DB_USERNAME

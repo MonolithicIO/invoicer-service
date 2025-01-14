@@ -2,6 +2,8 @@ services:
   invoicer-database:
     image: postgres:latest
     restart: always
+    networks:
+      - invoicer-network
     environment:
       POSTGRES_USER: ${INVOICER_DB_USERNAME}
       POSTGRES_PASSWORD: ${INVOICER_DB_PASSWORD}
@@ -16,16 +18,22 @@ services:
       - invoicer-database
     image: invoicer-api:latest
     restart: always
+    networks:
+      - invoicer-network
     environment:
       INVOICER_DB_USERNAME: $INVOICER_DB_USERNAME
       INVOICER_DB_PASSWORD: $INVOICER_DB_PASSWORD
       INVOICER_DB_NAME: $INVOICER_DB_NAME
-      INVOICER_DB_URL: $INVOICER_DB_URL
+      INVOICER_DB_URL: jdbc:postgresql://invoicer-database:5432/postgres
       INVOICER_JWT_AUDIENCE: $INVOICER_JWT_AUDIENCE
       INVOICER_JWT_ISSUER: $INVOICER_JWT_ISSUER
       INVOICER_JWT_SECRET: $INVOICER_JWT_SECRET
       INVOICER_JWT_REALM: $INVOICER_JWT_REALM
+      INVOICER_API_PORT: 8080
     ports:
       - "8080:8080"
 volumes:
   postgres-data:
+networks:
+  invoicer-network:
+    driver: bridge
