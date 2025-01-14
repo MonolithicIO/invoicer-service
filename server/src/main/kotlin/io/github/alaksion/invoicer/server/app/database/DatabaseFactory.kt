@@ -1,16 +1,17 @@
 import foundation.api.SecretKeys
 import foundation.api.SecretsProvider
+import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
+import org.kodein.di.instance
+import org.kodein.di.ktor.closestDI
 
-object DatabaseFactory {
-    fun connect(
-        secretsProvider: SecretsProvider
-    ) {
-        Database.connect(
-            url = secretsProvider.getSecret(SecretKeys.DB_URL),
-            driver = "org.postgresql.Driver",
-            user = secretsProvider.getSecret(SecretKeys.DB_USERNAME),
-            password = secretsProvider.getSecret(SecretKeys.DB_PASSWORD),
-        )
-    }
+fun Application.connectDatabase() {
+    val secrets by closestDI().instance<SecretsProvider>()
+
+    Database.connect(
+        url = secrets.getSecret(SecretKeys.DB_URL),
+        driver = "org.postgresql.Driver",
+        user = secrets.getSecret(SecretKeys.DB_USERNAME),
+        password = secrets.getSecret(SecretKeys.DB_PASSWORD),
+    )
 }
