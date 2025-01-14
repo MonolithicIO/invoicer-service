@@ -1,17 +1,31 @@
-version: '3.1'
-
 services:
-  db:
+  invoicer-database:
     image: postgres:latest
     restart: always
     environment:
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${INVOICER_DB_USERNAME}
+      POSTGRES_PASSWORD: ${INVOICER_DB_PASSWORD}
+      POSTGRES_DB: ${INVOICER_DB_NAME}
     ports:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./sql:/docker-entrypoint-initdb.d
+  invoicer-api:
+    depends_on:
+      - invoicer-database
+    image: invoicer-api:latest
+    restart: always
+    environment:
+      INVOICER_DB_USERNAME: $INVOICER_DB_USERNAME
+      INVOICER_DB_PASSWORD: $INVOICER_DB_PASSWORD
+      INVOICER_DB_NAME: $INVOICER_DB_NAME
+      INVOICER_DB_URL: $INVOICER_DB_URL
+      INVOICER_JWT_AUDIENCE: $INVOICER_JWT_AUDIENCE
+      INVOICER_JWT_ISSUER: $INVOICER_JWT_ISSUER
+      INVOICER_JWT_SECRET: $INVOICER_JWT_SECRET
+      INVOICER_JWT_REALM: $INVOICER_JWT_REALM
+    ports:
+      - "8080:8080"
 volumes:
   postgres-data:

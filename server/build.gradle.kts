@@ -90,3 +90,11 @@ kover {
         }
     }
 }
+
+ktor {
+    docker {
+        jreVersion.set(JavaVersion.VERSION_17)
+        localImageName.set("invoicer-api")
+        imageTag.set(AppConfig.version)
+    }
+}
