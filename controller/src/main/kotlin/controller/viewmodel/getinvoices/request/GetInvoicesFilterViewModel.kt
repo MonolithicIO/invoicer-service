@@ -1,5 +1,6 @@
 package controller.viewmodel.getinvoices.request
 
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import models.getinvoices.GetInvoicesFilterModel
@@ -30,10 +31,10 @@ internal fun receiveGetInvoicesFilterViewModel(
     )
 }
 
-private fun parseDate(rawString: String?, errorMessage: String): LocalDate? {
+private fun parseDate(rawString: String?, errorMessage: String): Instant? {
     return rawString?.let {
         runCatching {
-            LocalDate.parse(rawString)
+            Instant.parse(rawString)
         }.fold(
             onSuccess = {
                 it

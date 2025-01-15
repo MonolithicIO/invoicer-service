@@ -1,5 +1,6 @@
 package services.impl.invoice
 
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import models.getinvoices.GetInvoicesFilterModel
 import models.getinvoices.InvoiceListItemModel
@@ -37,8 +38,8 @@ internal class GetUserInvoicesServiceImpl(
     }
 
     private fun validateDateFilter(
-        min: LocalDate?,
-        max: LocalDate?
+        min: Instant?,
+        max: Instant?
     ) {
         if ((min == null && max != null) || (min != null && max == null)) {
             httpError(
