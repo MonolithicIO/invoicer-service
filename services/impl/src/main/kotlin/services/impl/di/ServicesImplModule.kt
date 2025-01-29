@@ -2,6 +2,7 @@ package services.impl.di
 
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
+import org.kodein.di.bindProviderOf
 import org.kodein.di.instance
 import services.api.services.beneficiary.*
 import services.api.services.intermediary.*
@@ -84,6 +85,13 @@ private fun DI.Builder.beneficiaryServices() {
             getUserByIdService = instance(),
             checkBeneficiarySwiftAvailableService = instance(),
             ibanValidator = instance()
+        )
+    }
+
+    bindProvider<GetBeneficiaryDetailsService> {
+        GetBeneficiaryDetailsServiceServiceImpl(
+            repository = instance(),
+            getUserService = instance()
         )
     }
 }

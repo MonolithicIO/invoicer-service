@@ -13,10 +13,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.beneficiary.CreateBeneficiaryService
-import services.api.services.beneficiary.DeleteBeneficiaryService
-import services.api.services.beneficiary.GetUserBeneficiariesService
-import services.api.services.beneficiary.UpdateBeneficiaryService
+import services.api.services.beneficiary.*
 
 internal fun Routing.beneficiaryController() {
     route("/v1/beneficiary") {
@@ -28,12 +25,12 @@ internal fun Routing.beneficiaryController() {
 
                 call.respond(
                     message =
-                    CreateBeneficiaryResponseViewModel(
-                        id = useCase.create(
-                            model = model,
-                            userId = jwtUserId()
-                        )
-                    ),
+                        CreateBeneficiaryResponseViewModel(
+                            id = useCase.create(
+                                model = model,
+                                userId = jwtUserId()
+                            )
+                        ),
                     status = HttpStatusCode.Created
                 )
             }
@@ -82,6 +79,21 @@ internal fun Routing.beneficiaryController() {
                         beneficiaryId = beneficiaryId,
                         model = body.toViewModel(),
                         userId = userId
+                    ).toViewModel()
+                )
+            }
+        }
+
+        jwtProtected {
+            get("/{id}") {
+                val beneficiaryId = call.parameters["id"]!!
+                val useCase by closestDI().instance<GetBeneficiaryDetailsService>()
+                val userId = jwtUserId()
+                call.respond(
+                    status = HttpStatusCode.OK,
+                    message = useCase.getBeneficiaryDetails(
+                        userId = userId,
+                        beneficiaryId = beneficiaryId
                     ).toViewModel()
                 )
             }
