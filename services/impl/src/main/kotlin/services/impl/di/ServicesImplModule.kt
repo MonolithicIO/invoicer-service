@@ -2,7 +2,6 @@ package services.impl.di
 
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
-import org.kodein.di.bindProviderOf
 import org.kodein.di.instance
 import services.api.services.beneficiary.*
 import services.api.services.intermediary.*
@@ -142,6 +141,13 @@ private fun DI.Builder.intermediaryServices() {
     bindProvider<GetUserIntermediariesService> {
         GetUserIntermediariesServiceImpl(
             repository = instance(),
+            getUserByIdService = instance()
+        )
+    }
+
+    bindProvider<GetIntermediaryDetailsService> {
+        GetIntermediaryDetailsServiceImpl(
+            intermediaryRepository = instance(),
             getUserByIdService = instance()
         )
     }

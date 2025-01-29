@@ -1,10 +1,8 @@
 package controller
 
 import controller.viewmodel.intermediary.*
-import controller.viewmodel.intermediary.CreateIntermediaryResponseViewModel
-import controller.viewmodel.intermediary.CreateIntermediaryViewModel
-import controller.viewmodel.intermediary.UpdateIntermediaryViewModel
-import controller.viewmodel.intermediary.toModel
+import foundation.authentication.api.jwt.jwtProtected
+import foundation.authentication.api.jwt.jwtUserId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -12,12 +10,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.intermediary.CreateIntermediaryService
-import services.api.services.intermediary.DeleteIntermediaryService
-import services.api.services.intermediary.GetUserIntermediariesService
-import services.api.services.intermediary.UpdateIntermediaryService
-import foundation.authentication.api.jwt.jwtProtected
-import foundation.authentication.api.jwt.jwtUserId
+import services.api.services.intermediary.*
 
 internal fun Routing.intermediaryController() {
     route("/v1/intermediary") {
@@ -29,12 +22,12 @@ internal fun Routing.intermediaryController() {
 
                 call.respond(
                     message =
-                    CreateIntermediaryResponseViewModel(
-                        id = useCase.create(
-                            model = model,
-                            userId = jwtUserId()
-                        )
-                    ),
+                        CreateIntermediaryResponseViewModel(
+                            id = useCase.create(
+                                model = model,
+                                userId = jwtUserId()
+                            )
+                        ),
                     status = HttpStatusCode.Created
                 )
             }
@@ -84,6 +77,21 @@ internal fun Routing.intermediaryController() {
                         intermediaryId = intermediaryId,
                         model = body.toModel(),
                         userId = userId
+                    ).toViewModel()
+                )
+            }
+        }
+
+        jwtProtected {
+            get("/{id}") {
+                val intermediaryId = call.parameters["id"]!!
+                val useCase by closestDI().instance<GetIntermediaryDetailsService>()
+                val userId = jwtUserId()
+                call.respond(
+                    status = HttpStatusCode.OK,
+                    message = useCase.getIntermediaryDetails(
+                        userId = userId,
+                        intermediaryId = intermediaryId
                     ).toViewModel()
                 )
             }
