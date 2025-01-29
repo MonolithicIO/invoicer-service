@@ -20,7 +20,7 @@ import foundation.authentication.api.jwt.jwtProtected
 import foundation.authentication.api.jwt.jwtUserId
 
 internal fun Routing.intermediaryController() {
-    route("/intermediary") {
+    route("/v1/intermediary") {
         jwtProtected {
             post {
                 val body = call.receive<CreateIntermediaryViewModel>()

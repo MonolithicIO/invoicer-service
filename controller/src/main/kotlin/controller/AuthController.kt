@@ -16,7 +16,7 @@ import services.api.services.login.RefreshLoginService
 import utils.exceptions.unauthorizedResourceError
 
 internal fun Routing.authController() {
-    route("auth") {
+    route("/v1/auth") {
         post("/login") {
             val body = call.receive<LoginViewModel>()
             val model = body.toDomainModel()

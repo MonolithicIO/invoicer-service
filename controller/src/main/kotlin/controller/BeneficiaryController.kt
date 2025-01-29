@@ -19,7 +19,7 @@ import services.api.services.beneficiary.GetUserBeneficiariesService
 import services.api.services.beneficiary.UpdateBeneficiaryService
 
 internal fun Routing.beneficiaryController() {
-    route("/beneficiary") {
+    route("/v1/beneficiary") {
         jwtProtected {
             post {
                 val body = call.receive<CreateBeneficiaryViewModel>()

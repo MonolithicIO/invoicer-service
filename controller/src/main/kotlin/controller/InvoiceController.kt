@@ -22,7 +22,7 @@ import services.api.services.invoice.GetInvoiceByIdService
 import services.api.services.invoice.GetUserInvoicesService
 
 internal fun Routing.invoiceController() {
-    route("invoice") {
+    route("/v1/invoice") {
 
         jwtProtected {
             get("/{id}") {

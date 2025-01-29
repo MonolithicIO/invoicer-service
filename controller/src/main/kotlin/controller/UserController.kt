@@ -16,7 +16,7 @@ import foundation.authentication.api.jwt.jwtProtected
 import foundation.authentication.api.jwt.jwtUserId
 
 internal fun Routing.userController() {
-    route("user") {
+    route("/v1/user") {
         post {
             val body = call.receive<CreateUserRequestViewModel>()
             val parsed = body.toDomainModel()
