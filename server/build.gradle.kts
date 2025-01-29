@@ -1,4 +1,5 @@
 import buildlogic.plugins.AppConfig
+import io.ktor.plugin.features.*
 
 plugins {
     alias(libs.plugins.kotlin)
@@ -94,7 +95,15 @@ kover {
 ktor {
     docker {
         jreVersion.set(JavaVersion.VERSION_17)
-        localImageName.set("invoicer-api")
+        localImageName.set("alaksion/invoicer-api")
         imageTag.set(AppConfig.version)
+
+        externalRegistry.set(
+            DockerImageRegistry.dockerHub(
+                appName = provider { "invoicer-api" },
+                username = providers.environmentVariable("DOCKER_USERNAME"),
+                password = providers.environmentVariable("DOCKER_PASSWORD")
+            )
+        )
     }
 }

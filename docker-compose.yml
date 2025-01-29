@@ -16,7 +16,7 @@ services:
   invoicer-api:
     depends_on:
       - invoicer-database
-    image: invoicer-api:latest
+    image: alaksion/invoicer-api:latest
     restart: always
     networks:
       - invoicer-network
