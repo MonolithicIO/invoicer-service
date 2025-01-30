@@ -9,7 +9,7 @@ import models.intermediary.UpdateIntermediaryModel
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import repository.api.mapper.toModel
-import utils.date.api.DateProvider
+import utils.date.impl.DateProvider
 import java.util.*
 
 interface IntermediaryRepository {

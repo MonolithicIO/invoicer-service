@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.update
-import utils.date.api.DateProvider
+import utils.date.impl.DateProvider
 import java.util.*
 
 interface RefreshTokenRepository {

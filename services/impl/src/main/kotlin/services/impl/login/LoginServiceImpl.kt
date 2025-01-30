@@ -1,15 +1,15 @@
 package services.impl.login
 
-import foundation.validator.api.EmailValidator
+import foundation.validator.impl.EmailValidator
 import models.login.AuthTokenModel
 import models.login.LoginModel
 import services.api.services.login.LoginService
 import services.api.services.login.StoreRefreshTokenService
 import services.api.services.user.GetUserByEmailService
-import foundation.authentication.api.AuthTokenManager
+import foundation.authentication.impl.AuthTokenManager
 import utils.exceptions.badRequestError
 import utils.exceptions.notFoundError
-import utils.password.PasswordEncryption
+import utils.password.impl.PasswordEncryption
 
 internal class LoginServiceImpl(
     private val getUserByEmailService: GetUserByEmailService,

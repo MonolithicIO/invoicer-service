@@ -1,5 +1,5 @@
-import foundation.api.SecretKeys
-import foundation.api.SecretsProvider
+import foundation.impl.SecretKeys
+import foundation.impl.SecretsProvider
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
 import org.kodein.di.instance

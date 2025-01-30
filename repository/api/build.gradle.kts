@@ -10,7 +10,7 @@ version = "0.0.1"
 
 dependencies {
     implementation(projects.entities)
-    implementation(projects.foundation.date.api)
+    implementation(projects.foundation.date.impl)
     implementation(projects.models)
 
     implementation(libs.kodein.server)

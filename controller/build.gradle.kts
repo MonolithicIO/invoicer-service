@@ -14,7 +14,7 @@ dependencies {
     implementation(libs.bundles.ktor)
     implementation(projects.services.api)
     implementation(libs.kodein.server)
-    implementation(projects.foundation.authentication.api)
+    implementation(projects.foundation.authentication.impl)
     implementation(projects.models)
     implementation(projects.foundation.exceptions)
 }

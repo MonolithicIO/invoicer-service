@@ -1,6 +1,6 @@
 package foundation.validator.test
 
-import foundation.validator.api.EmailValidator
+import foundation.validator.impl.EmailValidator
 
 class FakeEmailValidator : EmailValidator {
 

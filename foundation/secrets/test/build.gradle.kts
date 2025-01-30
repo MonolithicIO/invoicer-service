@@ -7,5 +7,5 @@ group = "io.github.alaksion.invoicer.foundation.secrets.test"
 version = "0.0.1"
 
 dependencies {
-    implementation(projects.foundation.secrets.api)
+    implementation(projects.foundation.secrets.impl)
 }

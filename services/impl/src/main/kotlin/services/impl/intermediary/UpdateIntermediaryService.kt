@@ -1,7 +1,7 @@
 package services.impl.intermediary
 
-import foundation.validator.api.IbanValidator
-import foundation.validator.api.SwiftValidator
+import foundation.validator.impl.IbanValidator
+import foundation.validator.impl.SwiftValidator
 import models.intermediary.IntermediaryModel
 import models.intermediary.UpdateIntermediaryModel
 import repository.api.repository.IntermediaryRepository

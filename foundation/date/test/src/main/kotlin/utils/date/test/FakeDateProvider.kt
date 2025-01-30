@@ -3,7 +3,7 @@ package utils.date.test
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import utils.date.api.DateProvider
+import utils.date.impl.DateProvider
 
 class FakeDateProvider : DateProvider {
 

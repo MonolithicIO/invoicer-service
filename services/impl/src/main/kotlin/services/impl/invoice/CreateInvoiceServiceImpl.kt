@@ -9,7 +9,7 @@ import services.api.services.beneficiary.GetBeneficiaryByIdService
 import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.invoice.CreateInvoiceService
 import services.api.services.user.GetUserByIdService
-import utils.date.api.DateProvider
+import utils.date.impl.DateProvider
 import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import utils.exceptions.httpError

@@ -1,5 +1,7 @@
 package utils.password
 
+import utils.password.impl.PasswordEncryption
+
 
 class FakePasswordEncryption : PasswordEncryption {
     var encryptResponse: () -> String = { "" }

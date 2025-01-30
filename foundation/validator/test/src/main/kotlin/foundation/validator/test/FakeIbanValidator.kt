@@ -1,6 +1,6 @@
 package foundation.validator.test
 
-import foundation.validator.api.IbanValidator
+import foundation.validator.impl.IbanValidator
 
 class FakeIbanValidator : IbanValidator {
 

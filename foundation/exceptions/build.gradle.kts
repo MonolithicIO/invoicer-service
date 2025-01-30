@@ -15,7 +15,7 @@ dependencies {
     implementation(libs.kotlin.serialization)
 
     // Project
-    implementation(projects.foundation.date.api)
+    implementation(projects.foundation.date.impl)
 
     // Test
     testImplementation(libs.kotlin.test)

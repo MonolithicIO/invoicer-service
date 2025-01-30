@@ -7,8 +7,8 @@ import controller.viewmodel.getinvoices.request.GetInvoicesFilterViewModel
 import controller.viewmodel.getinvoices.request.receiveGetInvoicesFilterViewModel
 import controller.viewmodel.getinvoices.response.toViewModel
 import controller.viewmodel.invoicedetails.response.toViewModel
-import foundation.authentication.api.jwt.jwtProtected
-import foundation.authentication.api.jwt.jwtUserId
+import foundation.authentication.impl.jwt.jwtProtected
+import foundation.authentication.impl.jwt.jwtUserId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*

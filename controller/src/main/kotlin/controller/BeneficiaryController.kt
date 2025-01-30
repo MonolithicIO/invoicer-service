@@ -4,8 +4,8 @@ import controller.viewmodel.beneficiary.CreateBeneficiaryResponseViewModel
 import controller.viewmodel.beneficiary.CreateBeneficiaryViewModel
 import controller.viewmodel.beneficiary.UpdateBeneficiaryViewModel
 import controller.viewmodel.beneficiary.toViewModel
-import foundation.authentication.api.jwt.jwtProtected
-import foundation.authentication.api.jwt.jwtUserId
+import foundation.authentication.impl.jwt.jwtProtected
+import foundation.authentication.impl.jwt.jwtUserId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*

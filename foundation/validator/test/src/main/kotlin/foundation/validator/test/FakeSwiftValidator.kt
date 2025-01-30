@@ -1,6 +1,6 @@
 package foundation.validator.test
 
-import foundation.validator.api.SwiftValidator
+import foundation.validator.impl.SwiftValidator
 
 class FakeSwiftValidator : SwiftValidator {
 

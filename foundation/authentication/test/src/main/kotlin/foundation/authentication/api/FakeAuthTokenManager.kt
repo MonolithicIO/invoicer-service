@@ -1,5 +1,7 @@
 package foundation.authentication.api
 
+import foundation.authentication.impl.AuthTokenManager
+
 class FakeAuthTokenManager : AuthTokenManager {
 
     var token = "1234"

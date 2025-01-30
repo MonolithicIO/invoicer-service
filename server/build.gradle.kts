@@ -33,34 +33,20 @@ dependencies {
     implementation(libs.swagger)
 
     // Foundation
-    implementation(projects.foundation.password.api)
-    kover(projects.foundation.password.api)
-
-    implementation(projects.foundation.date.api)
-    kover(projects.foundation.date.api)
-
-    implementation(projects.foundation.authentication.api)
-    kover(projects.foundation.authentication.api)
-
+    implementation(projects.foundation.password.impl)
+    implementation(projects.foundation.date.impl)
+    implementation(projects.foundation.authentication.impl)
     implementation(projects.foundation.exceptions)
-    kover(projects.foundation.exceptions)
+    implementation(projects.foundation.validator.impl)
+    implementation(projects.foundation.secrets.impl)
+    implementation(projects.foundation.env.impl)
 
-    implementation(projects.foundation.validator.api)
-    kover(projects.foundation.validator.api)
-
-    implementation(projects.foundation.secrets.api)
-    kover(projects.foundation.secrets.api)
-
-    implementation(projects.foundation.env.api)
-    kover(projects.foundation.env.api)
 
     // Repository
     implementation(projects.repository.api)
-    kover(projects.repository.api)
 
     // Services
     implementation(projects.services.impl)
-    kover(projects.services.impl)
 
     // Models
     implementation(projects.models)
@@ -70,7 +56,6 @@ dependencies {
 
     // Controller
     implementation(projects.controller)
-    kover(projects.controller)
 
     testImplementation(libs.ktor.server.tests.jvm)
     testImplementation(libs.kotlin.test)

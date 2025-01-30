@@ -1,7 +1,7 @@
 package services.impl.beneficiary
 
-import foundation.validator.api.IbanValidator
-import foundation.validator.api.SwiftValidator
+import foundation.validator.impl.IbanValidator
+import foundation.validator.impl.SwiftValidator
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.UpdateBeneficiaryModel
 import repository.api.repository.BeneficiaryRepository

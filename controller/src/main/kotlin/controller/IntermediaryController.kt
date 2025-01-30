@@ -1,8 +1,8 @@
 package controller
 
 import controller.viewmodel.intermediary.*
-import foundation.authentication.api.jwt.jwtProtected
-import foundation.authentication.api.jwt.jwtUserId
+import foundation.authentication.impl.jwt.jwtProtected
+import foundation.authentication.impl.jwt.jwtUserId
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*

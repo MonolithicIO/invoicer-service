@@ -1,6 +1,6 @@
 package services.impl.user
 
-import foundation.validator.api.EmailValidator
+import foundation.validator.impl.EmailValidator
 import models.user.CreateUserModel
 import repository.api.repository.UserRepository
 import services.api.services.user.CreateUserService
@@ -8,9 +8,9 @@ import services.api.services.user.GetUserByEmailService
 import utils.exceptions.HttpCode
 import utils.exceptions.badRequestError
 import utils.exceptions.httpError
-import utils.password.PasswordEncryption
-import utils.password.PasswordStrength
-import utils.password.PasswordValidator
+import utils.password.impl.PasswordEncryption
+import utils.password.impl.PasswordStrength
+import utils.password.impl.PasswordValidator
 
 internal class CreateUserServiceImpl(
     private val getUserByEmailService: GetUserByEmailService,

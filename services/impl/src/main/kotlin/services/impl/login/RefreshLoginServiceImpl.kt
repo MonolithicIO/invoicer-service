@@ -1,6 +1,6 @@
 package services.impl.login
 
-import foundation.authentication.api.AuthTokenManager
+import foundation.authentication.impl.AuthTokenManager
 import models.login.AuthTokenModel
 import repository.api.repository.RefreshTokenRepository
 import services.api.services.login.RefreshLoginService

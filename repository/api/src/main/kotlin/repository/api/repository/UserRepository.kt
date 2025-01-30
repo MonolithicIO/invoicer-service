@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import repository.api.mapper.toModel
-import utils.date.api.DateProvider
+import utils.date.impl.DateProvider
 import java.util.*
 
 interface UserRepository {
