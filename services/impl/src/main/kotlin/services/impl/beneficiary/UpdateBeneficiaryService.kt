@@ -99,7 +99,7 @@ internal class UpdateBeneficiaryServiceImpl(
         newValue: String,
         originalValue: String
     ): String? {
-        return if (newValue != originalValue) {
+        return if (newValue == originalValue) {
             null
         } else {
             newValue
@@ -112,24 +112,24 @@ internal class UpdateBeneficiaryServiceImpl(
     ): PartialUpdateBeneficiaryModel {
         return PartialUpdateBeneficiaryModel(
             name = takeIfChanged(
-                newValue = originalModel.name,
-                originalValue = newModel.name
+                newValue = newModel.name,
+                originalValue = originalModel.name
             ),
             iban = takeIfChanged(
-                newValue = originalModel.iban,
-                originalValue = newModel.iban
+                newValue = newModel.iban,
+                originalValue = originalModel.iban
             ),
             swift = takeIfChanged(
-                newValue = originalModel.swift,
-                originalValue = newModel.swift
+                newValue = newModel.swift,
+                originalValue = originalModel.swift
             ),
             bankName = takeIfChanged(
-                newValue = originalModel.bankName,
-                originalValue = newModel.bankName
+                newValue = newModel.bankName,
+                originalValue = originalModel.bankName
             ),
             bankAddress = takeIfChanged(
-                newValue = originalModel.bankAddress,
-                originalValue = newModel.bankAddress
+                newValue = newModel.bankAddress,
+                originalValue = originalModel.bankAddress
             )
         )
     }
