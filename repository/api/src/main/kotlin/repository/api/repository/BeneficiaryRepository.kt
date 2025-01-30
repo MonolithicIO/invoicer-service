@@ -4,7 +4,7 @@ import entities.BeneficiaryEntity
 import entities.BeneficiaryTable
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.CreateBeneficiaryModel
-import models.beneficiary.UpdateBeneficiaryModel
+import models.beneficiary.PartialUpdateBeneficiaryModel
 import models.beneficiary.UserBeneficiaries
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -41,7 +41,7 @@ interface BeneficiaryRepository {
     suspend fun update(
         userId: UUID,
         beneficiaryId: UUID,
-        model: UpdateBeneficiaryModel
+        model: PartialUpdateBeneficiaryModel
     ): BeneficiaryModel
 }
 
@@ -129,7 +129,7 @@ internal class BeneficiaryRepositoryImpl(
     override suspend fun update(
         userId: UUID,
         beneficiaryId: UUID,
-        model: UpdateBeneficiaryModel
+        model: PartialUpdateBeneficiaryModel
     ): BeneficiaryModel {
         return newSuspendedTransaction {
             BeneficiaryTable.updateReturning(
@@ -137,13 +137,13 @@ internal class BeneficiaryRepositoryImpl(
                     BeneficiaryTable.user eq userId
                     BeneficiaryTable.id eq beneficiaryId
                 }
-            ) {
-                it[name] = model.name
-                it[iban] = model.iban
-                it[swift] = model.swift
-                it[bankName] = model.bankName
-                it[bankAddress] = model.bankAddress
-                it[updatedAt] = dateProvider.currentInstant()
+            ) { table ->
+                model.name?.let { table[name] = it }
+                model.iban?.let { table[iban] = it }
+                model.swift?.let { table[swift] = it }
+                model.bankName?.let { table[bankName] = it }
+                model.bankAddress?.let { table[bankAddress] = it }
+                table[updatedAt] = dateProvider.currentInstant()
             }.map {
                 BeneficiaryEntity.wrapRow(it)
             }.first().toModel()

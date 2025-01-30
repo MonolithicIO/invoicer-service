@@ -204,6 +204,30 @@ class UpdateBeneficiaryServiceImplTest {
         )
     }
 
+    @Test
+    fun `should ignore swift check if it did not change`() = runTest {
+        mockIdCodes(
+            ibanValid = true,
+            swiftValid = true
+        )
+
+        beneficiaryRepository.updateBeneficiaryResponse = {
+            BeneficiaryTestData.beneficiary
+        }
+
+        getBeneficiaryByIdService.response = {
+            BeneficiaryTestData.beneficiary.copy(swift = "1234")
+        }
+
+        serviceImpl.execute(
+            model = UPDATED_REQUEST.copy(swift = "1234"),
+            beneficiaryId = BENEFICIARY_ID,
+            userId = USER_ID
+        )
+
+        assertEquals(expected = 0, actual = swiftInUseService.calls)
+    }
+
     private fun mockIdCodes(
         ibanValid: Boolean,
         swiftValid: Boolean

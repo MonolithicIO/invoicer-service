@@ -3,6 +3,7 @@ package services.impl.beneficiary
 import foundation.validator.impl.IbanValidator
 import foundation.validator.impl.SwiftValidator
 import models.beneficiary.BeneficiaryModel
+import models.beneficiary.PartialUpdateBeneficiaryModel
 import models.beneficiary.UpdateBeneficiaryModel
 import repository.api.repository.BeneficiaryRepository
 import services.api.services.beneficiary.CheckBeneficiarySwiftAvailableService
@@ -50,21 +51,26 @@ internal class UpdateBeneficiaryServiceImpl(
             userId = user.id.toString()
         )
 
-        if (checkBeneficiarySwiftAvailableService.execute(
-                swift = model.swift,
-                userId = user.id.toString(),
-            )
-        ) {
-            httpError(
-                message = "Swift code: ${model.swift} is already in use by another beneficiary",
-                code = HttpCode.Conflict
-            )
+        if (beneficiary.swift != model.swift) {
+            if (checkBeneficiarySwiftAvailableService.execute(
+                    swift = model.swift,
+                    userId = user.id.toString(),
+                )
+            ) {
+                httpError(
+                    message = "Swift code: ${model.swift} is already in use by another beneficiary",
+                    code = HttpCode.Conflict
+                )
+            }
         }
 
         return beneficiaryRepository.update(
             userId = UUID.fromString(userId),
             beneficiaryId = UUID.fromString(beneficiary.id),
-            model = model
+            model = buildUpdateModel(
+                originalModel = beneficiary,
+                newModel = model
+            )
         )
     }
 
@@ -87,5 +93,44 @@ internal class UpdateBeneficiaryServiceImpl(
         if (ibanValidator.validate(iban).not()) {
             badRequestError("Invalid iban code: $iban")
         }
+    }
+
+    private fun takeIfChanged(
+        newValue: String,
+        originalValue: String
+    ): String? {
+        return if (newValue != originalValue) {
+            null
+        } else {
+            newValue
+        }
+    }
+
+    private fun buildUpdateModel(
+        originalModel: BeneficiaryModel,
+        newModel: UpdateBeneficiaryModel
+    ): PartialUpdateBeneficiaryModel {
+        return PartialUpdateBeneficiaryModel(
+            name = takeIfChanged(
+                newValue = originalModel.name,
+                originalValue = newModel.name
+            ),
+            iban = takeIfChanged(
+                newValue = originalModel.iban,
+                originalValue = newModel.iban
+            ),
+            swift = takeIfChanged(
+                newValue = originalModel.swift,
+                originalValue = newModel.swift
+            ),
+            bankName = takeIfChanged(
+                newValue = originalModel.bankName,
+                originalValue = newModel.bankName
+            ),
+            bankAddress = takeIfChanged(
+                newValue = originalModel.bankAddress,
+                originalValue = newModel.bankAddress
+            )
+        )
     }
 }

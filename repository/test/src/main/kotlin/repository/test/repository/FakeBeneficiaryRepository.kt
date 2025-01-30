@@ -3,7 +3,7 @@ package repository.test.repository
 import kotlinx.datetime.Instant
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.CreateBeneficiaryModel
-import models.beneficiary.UpdateBeneficiaryModel
+import models.beneficiary.PartialUpdateBeneficiaryModel
 import models.beneficiary.UserBeneficiaries
 import repository.api.repository.BeneficiaryRepository
 import java.util.*
@@ -40,7 +40,11 @@ class FakeBeneficiaryRepository : BeneficiaryRepository {
         return getAllResponse()
     }
 
-    override suspend fun update(userId: UUID, beneficiaryId: UUID, model: UpdateBeneficiaryModel): BeneficiaryModel {
+    override suspend fun update(
+        userId: UUID,
+        beneficiaryId: UUID,
+        model: PartialUpdateBeneficiaryModel
+    ): BeneficiaryModel {
         return updateBeneficiaryResponse()
     }
 

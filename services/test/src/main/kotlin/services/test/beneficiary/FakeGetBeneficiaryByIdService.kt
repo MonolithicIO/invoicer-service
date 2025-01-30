@@ -9,7 +9,7 @@ class FakeGetBeneficiaryByIdService : GetBeneficiaryByIdService {
     var response: suspend () -> BeneficiaryModel = { DEFAULT_RESPONSE }
 
     override suspend fun get(beneficiaryId: String, userId: String): BeneficiaryModel {
-        return DEFAULT_RESPONSE
+        return response()
     }
 
     companion object {
