@@ -1,6 +1,6 @@
 package services.test.beneficiary
 
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Instant
 import models.beneficiary.BeneficiaryModel
 import services.api.services.beneficiary.GetBeneficiaryByIdService
 
@@ -21,8 +21,8 @@ class FakeGetBeneficiaryByIdService : GetBeneficiaryByIdService {
             bankName = "Bank of America",
             userId = "36433933-ebaf-42df-83e2-4c684119ccae",
             id = "702c32cd-fc9f-4abb-a022-414104646923",
-            createdAt = LocalDate(2000, 6, 19),
-            updatedAt = LocalDate(2000, 6, 19)
+            createdAt = Instant.parse("2000-06-19T00:00:00Z"),
+            updatedAt = Instant.parse("2000-06-19T00:00:00Z")
         )
     }
 }

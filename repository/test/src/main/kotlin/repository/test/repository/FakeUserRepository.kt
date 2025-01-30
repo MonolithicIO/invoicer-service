@@ -1,6 +1,6 @@
 package repository.test.repository
 
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Instant
 import models.user.CreateUserModel
 import models.user.UserModel
 import repository.api.repository.UserRepository
@@ -32,8 +32,8 @@ class FakeUserRepository : UserRepository {
             password = "1234",
             verified = true,
             email = "luccab.souza@gmail.com",
-            createdAt = LocalDate(2000, 6, 19),
-            updatedAt = LocalDate(2000, 6, 19)
+            createdAt = Instant.parse("2000-06-19T00:00:00Z"),
+            updatedAt = Instant.parse("2000-06-19T00:00:00Z")
         )
     }
 }

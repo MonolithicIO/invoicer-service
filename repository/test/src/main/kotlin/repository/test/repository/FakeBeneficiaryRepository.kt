@@ -1,16 +1,18 @@
 package repository.test.repository
 
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Instant
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.CreateBeneficiaryModel
 import models.beneficiary.UpdateBeneficiaryModel
+import models.beneficiary.UserBeneficiaries
 import repository.api.repository.BeneficiaryRepository
 import java.util.*
 
 class FakeBeneficiaryRepository : BeneficiaryRepository {
 
     var createResponse: suspend () -> String = { DEFAULT_CREATE_RESPONSE }
-    var getAllResponse: suspend () -> List<BeneficiaryModel> = { listOf() }
+    var getAllResponse: suspend () -> UserBeneficiaries =
+        { UserBeneficiaries(items = listOf(), itemCount = 0, nextPage = null) }
     var getByIdResponse: suspend () -> BeneficiaryModel? = { DEFAULT_BENEFICIARY }
     var getBySwiftResponse: suspend () -> BeneficiaryModel? = { null }
     lateinit var updateBeneficiaryResponse: suspend () -> BeneficiaryModel
@@ -34,7 +36,7 @@ class FakeBeneficiaryRepository : BeneficiaryRepository {
         return getBySwiftResponse()
     }
 
-    override suspend fun getAll(userId: UUID, page: Long, limit: Int): List<BeneficiaryModel> {
+    override suspend fun getAll(userId: UUID, page: Long, limit: Int): UserBeneficiaries {
         return getAllResponse()
     }
 
@@ -53,8 +55,8 @@ class FakeBeneficiaryRepository : BeneficiaryRepository {
             bankAddress = "bank address",
             userId = "6da1cca3-6784-4f75-8af8-36390b67a5e0",
             id = "d593ba02-c2bb-4be8-bd97-e71c02d229d3",
-            createdAt = LocalDate(2000, 6, 19),
-            updatedAt = LocalDate(2000, 6, 19)
+            createdAt = Instant.parse("2000-06-19T00:00:00Z"),
+            updatedAt = Instant.parse("2000-06-19T00:00:00Z")
         )
     }
 }

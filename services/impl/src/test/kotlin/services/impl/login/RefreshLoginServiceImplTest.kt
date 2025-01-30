@@ -2,7 +2,7 @@ package services.impl.login
 
 import foundation.authentication.api.FakeAuthTokenManager
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.LocalDate
+import kotlinx.datetime.Instant
 import models.login.RefreshTokenModel
 import repository.test.repository.FakeRefreshTokenRepository
 import services.test.refreshtoken.FakeStoreRefreshTokenService
@@ -46,7 +46,7 @@ internal class RefreshLoginServiceImplTest {
         }
 
         assertEquals(
-            expected = HttpCode.Forbidden,
+            expected = HttpCode.UnAuthorized,
             actual = result.statusCode
         )
     }
@@ -61,7 +61,7 @@ internal class RefreshLoginServiceImplTest {
         }
 
         assertEquals(
-            expected = HttpCode.Forbidden,
+            expected = HttpCode.UnAuthorized,
             actual = result.statusCode
         )
     }
@@ -150,8 +150,8 @@ internal class RefreshLoginServiceImplTest {
         val refreshTokenModel = RefreshTokenModel(
             userId = "123e4567-e89b-12d3-a456-426614174000",
             token = "sampleToken",
-            createdAt = LocalDate.parse("2023-01-01"),
-            updatedAt = LocalDate.parse("2023-01-02"),
+            createdAt = Instant.parse("2023-10-05T00:00:00Z"),
+            updatedAt = Instant.parse("2023-10-06T00:00:00Z"),
             enabled = true
         )
     }

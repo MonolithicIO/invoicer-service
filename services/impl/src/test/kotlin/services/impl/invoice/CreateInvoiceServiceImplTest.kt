@@ -1,10 +1,7 @@
 package services.impl.invoice
 
 import kotlinx.coroutines.test.runTest
-import kotlinx.datetime.DatePeriod
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.minus
-import kotlinx.datetime.plus
+import kotlinx.datetime.Instant
 import models.InvoiceModel
 import models.InvoiceModelActivityModel
 import models.beneficiary.BeneficiaryModel
@@ -23,6 +20,7 @@ import utils.exceptions.HttpError
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.time.Duration.Companion.days
 
 class CreateInvoiceServiceImplTest {
 
@@ -53,14 +51,14 @@ class CreateInvoiceServiceImplTest {
 
     @Test
     fun `should throw error when issue date is past`() = runTest {
-        val today = LocalDate(2000, 6, 19)
+        val today = Instant.parse("2000-06-19T00:00:00Z")
 
-        dateProvider.nowResponse = { today }
+        dateProvider.nowInstant = today
 
         val error = assertFailsWith<HttpError> {
             service.createInvoice(
                 BASE_INPUT.copy(
-                    issueDate = today.minus(DatePeriod(days = 1))
+                    issueDate = today.minus(1.days)
                 ),
                 userId = "fed3e1ac-c755-4048-9315-356054c4da11"
             )
@@ -74,14 +72,14 @@ class CreateInvoiceServiceImplTest {
 
     @Test
     fun `should throw error when due date is past`() = runTest {
-        val today = LocalDate(2000, 6, 19)
+        val today = Instant.parse("2000-06-19T00:00:00Z")
 
-        dateProvider.nowResponse = { today }
+        dateProvider.nowInstant = today
 
         val error = assertFailsWith<HttpError> {
             service.createInvoice(
                 BASE_INPUT.copy(
-                    dueDate = today.minus(DatePeriod(days = 1))
+                    dueDate = today.minus(1.days)
                 ),
                 userId = "fed3e1ac-c755-4048-9315-356054c4da11"
             )
@@ -95,13 +93,13 @@ class CreateInvoiceServiceImplTest {
 
     @Test
     fun `should throw error when issue date is after due date`() = runTest {
-        val today = LocalDate(2000, 6, 19)
+        val today = Instant.parse("2000-06-19T00:00:00Z")
 
         val error = assertFailsWith<HttpError> {
             service.createInvoice(
                 BASE_INPUT.copy(
                     dueDate = today,
-                    issueDate = today.plus(DatePeriod(days = 1))
+                    issueDate = today.plus(1.days)
                 ),
                 userId = "fed3e1ac-c755-4048-9315-356054c4da11"
             )
@@ -125,8 +123,8 @@ class CreateInvoiceServiceImplTest {
             senderCompanyName = "Sender Company name",
             recipientCompanyName = "Recipient Company name",
             recipientCompanyAddress = "Recipient Company Address",
-            issueDate = LocalDate(2000, 6, 19),
-            dueDate = LocalDate(2000, 6, 19),
+            issueDate = Instant.parse("2000-06-19T00:00:00Z"),
+            dueDate = Instant.parse("2000-06-19T00:00:00Z"),
             beneficiaryId = "b2db44e1-af93-48cf-94fe-7484fd8045ef",
             intermediaryId = "02cac010-bc14-4192-872f-103f27afa1ed",
             activities = listOf(
@@ -145,8 +143,8 @@ class CreateInvoiceServiceImplTest {
             senderCompanyName = "Sender Company name",
             recipientCompanyName = "Recipient Company name",
             recipientCompanyAddress = "Recipient Company Address",
-            issueDate = LocalDate(2000, 6, 19),
-            dueDate = LocalDate(2000, 6, 19),
+            createdAt = Instant.parse("2000-06-19T00:00:00Z"),
+            updatedAt = Instant.parse("2000-06-19T00:00:00Z"),
             beneficiary = BeneficiaryModel(
                 name = "Beneficiary",
                 iban = "iban",
@@ -155,12 +153,12 @@ class CreateInvoiceServiceImplTest {
                 bankAddress = "bank address",
                 userId = "fed3e1ac-c755-4048-9315-356054c4da11",
                 id = "b2db44e1-af93-48cf-94fe-7484fd8045ef",
-                createdAt = LocalDate(2000, 6, 19),
-                updatedAt = LocalDate(2000, 6, 19)
+                createdAt = Instant.parse("2000-06-19T00:00:00Z"),
+                updatedAt = Instant.parse("2000-06-19T00:00:00Z"),
             ),
             intermediary = null,
-            createdAt = LocalDate(2000, 6, 19),
-            updatedAt = LocalDate(2000, 6, 19),
+            issueDate = Instant.parse("2000-06-19T00:00:00Z"),
+            dueDate = Instant.parse("2000-06-19T00:00:00Z"),
             activities = listOf(
                 InvoiceModelActivityModel(
                     name = "Description",
@@ -173,8 +171,8 @@ class CreateInvoiceServiceImplTest {
                 id = UUID.fromString("fed3e1ac-c755-4048-9315-356054c4da11"),
                 email = "email",
                 password = "password",
-                createdAt = LocalDate(2000, 6, 19),
-                updatedAt = LocalDate(2000, 6, 19),
+                createdAt = Instant.parse("2000-06-19T00:00:00Z"),
+                updatedAt = Instant.parse("2000-06-19T00:00:00Z"),
                 verified = true,
             )
         )

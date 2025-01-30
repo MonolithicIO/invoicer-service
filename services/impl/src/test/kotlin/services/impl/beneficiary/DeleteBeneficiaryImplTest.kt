@@ -1,6 +1,7 @@
 package services.impl.beneficiary
 
 import kotlinx.coroutines.test.runTest
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import models.getinvoices.InvoiceListItemModel
 import repository.test.repository.FakeBeneficiaryRepository
@@ -62,10 +63,10 @@ class DeleteBeneficiaryImplTest {
                         externalId = "123",
                         senderCompany = "Sender company",
                         recipientCompany = "Recipient company",
-                        issueDate = LocalDate(2000, 6, 19),
-                        dueDate = LocalDate(2000, 6, 20),
-                        createdAt = LocalDate(2000, 6, 19),
-                        updatedAt = LocalDate(2000, 6, 19),
+                        issueDate = Instant.parse("2000-06-19T00:00:00Z"),
+                        dueDate = Instant.parse("2000-06-20T00:00:00Z"),
+                        createdAt = Instant.parse("2000-06-19T00:00:00Z"),
+                        updatedAt = Instant.parse("2000-06-19T00:00:00Z"),
                         totalAmount = 10
                     )
                 )

@@ -18,14 +18,13 @@ class FakeDateProvider : DateProvider {
             second = 0
         )
     }
+    var nowInstant = Instant.parse("2000-06-19T00:00:00Z")
 
 
     override fun now(): LocalDate {
         return nowResponse()
     }
 
-    override fun currentInstant(): Instant {
-        TODO("Not yet implemented")
-    }
+    override fun currentInstant(): Instant = nowInstant
 
 }

@@ -1,5 +1,6 @@
 package services.test.user
 
+import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import models.user.UserModel
 import services.api.services.user.GetUserByIdService
@@ -19,8 +20,8 @@ class FakeGetUserByIdService : GetUserByIdService {
             password = "1234",
             verified = true,
             email = "luccab.souza@gmail.com",
-            createdAt = LocalDate(2000, 6, 19),
-            updatedAt = LocalDate(2000, 6, 19)
+            createdAt = Instant.parse("2000-06-19T00:00:00Z"),
+            updatedAt = Instant.parse("2000-06-19T00:00:00Z")
         )
     }
 }

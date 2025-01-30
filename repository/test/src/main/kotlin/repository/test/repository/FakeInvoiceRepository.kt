@@ -4,6 +4,7 @@ import models.InvoiceModel
 import models.createinvoice.CreateInvoiceModel
 import models.getinvoices.GetInvoicesFilterModel
 import models.getinvoices.InvoiceListItemModel
+import models.getinvoices.InvoiceListModel
 import repository.api.repository.InvoiceRepository
 import java.util.*
 
@@ -30,7 +31,7 @@ class FakeInvoiceRepository : InvoiceRepository {
         page: Long,
         limit: Int,
         userId: String
-    ): List<InvoiceListItemModel> {
+    ): InvoiceListModel {
         TODO("Not yet implemented")
     }
 
