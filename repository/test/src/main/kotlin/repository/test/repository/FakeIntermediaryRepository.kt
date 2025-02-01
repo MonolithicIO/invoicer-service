@@ -1,10 +1,9 @@
 package repository.test.repository
 
 import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDate
 import models.intermediary.CreateIntermediaryModel
 import models.intermediary.IntermediaryModel
-import models.intermediary.UpdateIntermediaryModel
+import models.intermediary.PartialUpdateIntermediaryModel
 import repository.api.repository.IntermediaryRepository
 import java.util.*
 
@@ -39,7 +38,11 @@ class FakeIntermediaryRepository : IntermediaryRepository {
         return getAllResponse()
     }
 
-    override suspend fun update(userId: UUID, intermediaryId: UUID, model: UpdateIntermediaryModel): IntermediaryModel {
+    override suspend fun update(
+        userId: UUID,
+        intermediaryId: UUID,
+        model: PartialUpdateIntermediaryModel
+    ): IntermediaryModel {
         return updateResponse()
     }
 

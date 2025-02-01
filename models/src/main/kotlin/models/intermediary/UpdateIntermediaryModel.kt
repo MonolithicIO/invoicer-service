@@ -7,3 +7,12 @@ data class UpdateIntermediaryModel(
     val bankName: String,
     val bankAddress: String,
 )
+
+data class PartialUpdateIntermediaryModel(
+    val name: String?,
+    val iban: String?,
+    val swift: String?,
+    val bankName: String?,
+    val bankAddress: String?,
+)
+

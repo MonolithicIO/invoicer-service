@@ -5,7 +5,7 @@ import entities.IntermediaryTable
 import entities.IntermediaryTable.user
 import models.intermediary.CreateIntermediaryModel
 import models.intermediary.IntermediaryModel
-import models.intermediary.UpdateIntermediaryModel
+import models.intermediary.PartialUpdateIntermediaryModel
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import repository.api.mapper.toModel
@@ -41,7 +41,7 @@ interface IntermediaryRepository {
     suspend fun update(
         userId: UUID,
         intermediaryId: UUID,
-        model: UpdateIntermediaryModel
+        model: PartialUpdateIntermediaryModel
     ): IntermediaryModel
 }
 
@@ -114,7 +114,7 @@ internal class IntermediaryRepositoryImpl(
     override suspend fun update(
         userId: UUID,
         intermediaryId: UUID,
-        model: UpdateIntermediaryModel
+        model: PartialUpdateIntermediaryModel
     ): IntermediaryModel {
         return newSuspendedTransaction {
             IntermediaryTable.updateReturning(
@@ -122,13 +122,13 @@ internal class IntermediaryRepositoryImpl(
                     user eq userId
                     IntermediaryTable.id eq intermediaryId
                 }
-            ) {
-                it[name] = model.name
-                it[iban] = model.iban
-                it[swift] = model.swift
-                it[bankName] = model.bankName
-                it[bankAddress] = model.bankAddress
-                it[updatedAt] = dateProvider.currentInstant()
+            ) { table ->
+                model.name?.let { table[name] = it }
+                model.iban?.let { table[iban] = it }
+                model.swift?.let { table[swift] = it }
+                model.bankName?.let { table[bankName] = it }
+                model.bankAddress?.let { table[bankAddress] = it }
+                table[updatedAt] = dateProvider.currentInstant()
             }.map {
                 IntermediaryEntity.wrapRow(it)
             }.first().toModel()
