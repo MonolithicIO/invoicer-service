@@ -1,11 +1,18 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
-import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.metrics.micrometer.*
 import io.ktor.server.plugins.callid.*
 import io.ktor.server.plugins.callloging.*
 import io.ktor.server.request.*
-import org.slf4j.event.*
+import io.ktor.server.response.*
+import io.ktor.server.routing.*
+import io.micrometer.core.instrument.binder.jvm.JvmGcMetrics
+import io.micrometer.core.instrument.binder.jvm.JvmMemoryMetrics
+import io.micrometer.core.instrument.binder.system.ProcessorMetrics
+import io.micrometer.prometheusmetrics.PrometheusConfig
+import io.micrometer.prometheusmetrics.PrometheusMeterRegistry
+import org.slf4j.event.Level
 
 fun Application.configureMonitoring() {
     install(CallLogging) {
@@ -13,10 +20,26 @@ fun Application.configureMonitoring() {
         filter { call -> call.request.path().startsWith("/") }
         callIdMdc("call-id")
     }
-    install(CallId) {
-        header(HttpHeaders.XRequestId)
-        verify { callId: String ->
-            callId.isNotEmpty()
+
+    installPrometheus()
+}
+
+private fun Application.installPrometheus() {
+    val prometheusRegistry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
+
+    install(MicrometerMetrics) {
+        registry = prometheusRegistry
+
+        meterBinders = listOf(
+            JvmMemoryMetrics(),
+            JvmGcMetrics(),
+            ProcessorMetrics()
+        )
+    }
+
+    routing {
+        get("/metrics") {
+            call.respond(prometheusRegistry.scrape())
         }
     }
 }

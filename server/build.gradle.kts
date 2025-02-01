@@ -32,6 +32,9 @@ dependencies {
     implementation("org.webjars:jquery:3.2.1")
     implementation(libs.swagger)
 
+    // Micrometer
+    implementation(libs.micrometer.prometheus)
+
     // Foundation
     implementation(projects.foundation.password.impl)
     implementation(projects.foundation.date.impl)

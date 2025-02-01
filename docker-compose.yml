@@ -16,7 +16,7 @@ services:
   invoicer-api:
     depends_on:
       - invoicer-database
-    image: alaksion/invoicer-api:0.0.4
+    image: alaksion/invoicer-api:0.0.5
     restart: always
     networks:
       - invoicer-network
@@ -32,6 +32,17 @@ services:
       INVOICER_API_PORT: 8080
     ports:
       - "8080:8080"
+  invoicer-prometheus:
+    image: prom/prometheus:v3.1.0
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - invoicer-network
 volumes:
   postgres-data:
 networks:

@@ -17,6 +17,7 @@ kover-plugin = "0.9.0-RC"
 kover-gradle = "0.6.1"
 detekt-gradle = "1.23.7"
 coroutines = "1.8.1"
+prometheus-micrometer = "1.14.3"
 
 [libraries]
 kodein-server = { module = "org.kodein.di:kodein-di-framework-ktor-server-jvm", version.ref = "kodein" }
@@ -61,6 +62,10 @@ ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml" }
 ktor-server-tests-jvm = { module = "io.ktor:ktor-server-tests-jvm" }
 ktor-server-auth-core = { module = "io.ktor:ktor-server-auth" }
 ktor-server-auth-jwt = { module = 'io.ktor:ktor-server-auth-jwt' }
+ktor-server-metrics-micrometer = { module = "io.ktor:ktor-server-metrics-micrometer" }
+
+# Micrometer
+micrometer-prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "prometheus-micrometer" }
 
 # Kover
 kover-gradle = { module = "org.jetbrains.kotlinx:kover", version.ref = "kover-gradle" }
@@ -93,5 +98,6 @@ ktor = [
     "ktor-server-netty-jvm",
     "ktor-server-config-yaml",
     "ktor-server-auth-core",
-    "ktor-server-auth-jwt"
+    "ktor-server-auth-jwt",
+    "ktor-server-metrics-micrometer"
 ]
