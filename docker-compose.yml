@@ -43,6 +43,14 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yml'
     networks:
       - invoicer-network
+  invoicer-grafana:
+    image: grafana/grafana:11.5.0
+    ports:
+      - "3000:3000"
+    depends_on:
+      - invoicer-prometheus
+    networks:
+      - invoicer-network
 volumes:
   postgres-data:
 networks:

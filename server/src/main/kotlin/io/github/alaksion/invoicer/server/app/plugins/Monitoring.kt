@@ -33,7 +33,7 @@ private fun Application.installPrometheus() {
         meterBinders = listOf(
             JvmMemoryMetrics(),
             JvmGcMetrics(),
-            ProcessorMetrics()
+            ProcessorMetrics(),
         )
     }
 
