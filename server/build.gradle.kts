@@ -43,7 +43,7 @@ dependencies {
     implementation(projects.foundation.validator.impl)
     implementation(projects.foundation.secrets.impl)
     implementation(projects.foundation.env.impl)
-
+    implementation(projects.foundation.cache.impl)
 
     // Repository
     implementation(projects.repository.api)

@@ -11,6 +11,7 @@ enum class SecretKeys {
     JWT_AUDIENCE,
     JWT_ISSUER,
     JWT_SECRET,
-    JWT_REALM
+    JWT_REALM,
+    REDIS_URL
 }
 

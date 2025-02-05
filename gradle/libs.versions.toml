@@ -18,6 +18,7 @@ kover-gradle = "0.6.1"
 detekt-gradle = "1.23.7"
 coroutines = "1.8.1"
 prometheus-micrometer = "1.14.3"
+lettuce = "6.6.0.BETA2"
 
 [libraries]
 kodein-server = { module = "org.kodein.di:kodein-di-framework-ktor-server-jvm", version.ref = "kodein" }
@@ -34,7 +35,7 @@ exposed-date = { module = "org.jetbrains.exposed:exposed-kotlin-datetime", versi
 postgres = { module = "org.postgresql:postgresql", version.ref = "postgres" }
 h2 = { module = "com.h2database:h2", version.ref = "h2" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
-
+lettuce = { module = "io.lettuce:lettuce-core", version.ref = "lettuce" }
 
 # Kotlin
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime-jvm", version.ref = "datetime" }
