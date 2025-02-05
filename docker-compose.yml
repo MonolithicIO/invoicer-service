@@ -43,6 +43,8 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yml'
     networks:
       - invoicer-network
+    depends_on:
+      - invoicer-nginx
   invoicer-grafana:
     restart: always
     image: grafana/grafana:11.5.0
@@ -52,6 +54,15 @@ services:
       - invoicer-prometheus
     networks:
       - invoicer-network
+  invoicer-nginx:
+    image: nginx:1.27-perl
+    restart: always
+    ports:
+      - "80:80"
+    networks:
+      - invoicer-network
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
 volumes:
   postgres-data:
 networks:

@@ -4,6 +4,8 @@ scrape_configs:
   - job_name: 'prometheus'
     static_configs:
       - targets: [ 'localhost:9090' ]
-  - job_name: 'invoicer-api'
+  - job_name: 'invoicer-nginx'
+    scheme: http
+    bearer_token: 'sample'
     static_configs:
-      - targets: [ 'invoicer-api:8080' ]
+      - targets: [ 'invoicer-nginx:80' ]
