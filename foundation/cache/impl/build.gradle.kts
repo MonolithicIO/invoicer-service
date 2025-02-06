@@ -11,7 +11,6 @@ version = "0.0.1"
 dependencies {
     implementation(libs.kotlin.datetime)
     implementation(libs.kodein.server)
-    implementation(libs.lettuce)
     implementation(libs.kotlin.serialization)
 
     // Project

@@ -14,3 +14,5 @@ jwt:
   issuer: $INVOICER_JWT_ISSUER
   secret: $INVOICER_JWT_SECRET
   realm: $INVOICER_JWT_REALM
+redis:
+  url: $INVOICER_REDIS_URL

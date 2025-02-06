@@ -73,6 +73,8 @@ services:
       - redis_data:/data
     networks:
       - invoicer-network
+    environment:
+      REDIS_PASSWORD: 1234
 volumes:
   postgres-data:
   redis_data:
