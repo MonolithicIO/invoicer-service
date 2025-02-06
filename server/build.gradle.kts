@@ -44,6 +44,7 @@ dependencies {
     implementation(projects.foundation.secrets.impl)
     implementation(projects.foundation.env.impl)
     implementation(projects.foundation.cache.impl)
+    implementation(projects.foundation.redis.impl)
 
     // Repository
     implementation(projects.repository.api)

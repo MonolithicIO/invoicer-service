@@ -15,4 +15,5 @@ jwt:
   secret: $INVOICER_JWT_SECRET
   realm: $INVOICER_JWT_REALM
 redis:
-  url: $INVOICER_REDIS_URL
+  port: $INVOICER_REDIS_PORT
+  host: $INVOICER_REDIS_HOST

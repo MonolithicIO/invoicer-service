@@ -4,6 +4,7 @@ import foundation.authentication.impl.di.utilsAuthenticationModule
 import foundation.cache.impl.di.cacheDiModule
 import foundation.env.impl.invoicerEnvironmentDiModule
 import foundation.impl.di.secretsModule
+import foundation.redis.impl.di.redisDiModule
 import foundation.validator.impl.di.validatorModule
 import io.ktor.server.application.*
 import org.kodein.di.ktor.di
@@ -23,5 +24,6 @@ fun Application.installDi() {
         import(repositoryModule)
         import(invoicerEnvironmentDiModule)
         import(cacheDiModule)
+        import(redisDiModule)
     }
 }
