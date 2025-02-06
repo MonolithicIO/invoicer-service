@@ -9,3 +9,9 @@ scrape_configs:
     bearer_token: 'sample'
     static_configs:
       - targets: [ 'invoicer-nginx:80' ]
+  - job_name: 'invoicer-grafana'
+    static_configs:
+      - targets: [ 'invoicer-grafana:3000' ]
+  - job_name: 'invoicer-redis'
+    static_configs:
+      - targets: [ 'invoicer-redis:6379' ]

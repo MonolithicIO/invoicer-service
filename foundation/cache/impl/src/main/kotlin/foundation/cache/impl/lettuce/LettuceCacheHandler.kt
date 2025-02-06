@@ -16,7 +16,7 @@ internal class LettuceCacheHandlerImpl(
     private val redis by lazy {
         RedisClient.create(
             secretsProvider.getSecret(SecretKeys.REDIS_URL)
-        ).connect()
+        )
     }
 
     override suspend fun <T> set(
@@ -25,6 +25,8 @@ internal class LettuceCacheHandlerImpl(
         serializer: KSerializer<T>
     ) {
         suspendCoroutine { continuation ->
+            val redisConnection = redis.connect()
+
             val parsed = parseToString(value, serializer)
 
             if (parsed == null) {
@@ -32,7 +34,7 @@ internal class LettuceCacheHandlerImpl(
                 return@suspendCoroutine
             }
 
-            val future = redis.async().set(key, parsed)
+            val future = redisConnection.async().set(key, parsed)
 
             future.handle { _, error ->
                 if (error != null) {
@@ -41,6 +43,7 @@ internal class LettuceCacheHandlerImpl(
                 }
                 continuation.resume(Unit)
             }
+            redisConnection.close()
         }
     }
 
@@ -49,7 +52,9 @@ internal class LettuceCacheHandlerImpl(
         serializer: KSerializer<T>
     ): T? {
         return suspendCoroutine { continuation ->
-            val future = redis.async().get(key)
+            val redisConnection = redis.connect()
+
+            val future = redisConnection.async().get(key)
 
             future.handle { cachedString, error ->
                 if (error != null) {
@@ -65,6 +70,8 @@ internal class LettuceCacheHandlerImpl(
                     }
                 }
             }
+
+            redisConnection.close()
         }
     }
 
