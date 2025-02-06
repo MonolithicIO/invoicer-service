@@ -17,7 +17,7 @@ dependencies {
     implementation(projects.foundation.date.impl)
     implementation(projects.foundation.exceptions)
     implementation(projects.foundation.secrets.impl)
-    implementation(projects.foundation.secrets.impl)
+    implementation(projects.foundation.redis.impl)
 
     // Test
     testImplementation(libs.kotlin.test)
