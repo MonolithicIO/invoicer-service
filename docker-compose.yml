@@ -61,7 +61,7 @@ services:
     image: nginx:1.27-perl
     restart: always
     ports:
-      - "80:80"
+      - "4000:4000"
     networks:
       - invoicer-network
     volumes:

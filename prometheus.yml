@@ -8,4 +8,4 @@ scrape_configs:
     scheme: http
     bearer_token: 'sample'
     static_configs:
-      - targets: [ 'invoicer-nginx:80' ]
+      - targets: [ 'invoicer-nginx:4000' ]
