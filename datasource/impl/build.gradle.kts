@@ -1,18 +1,16 @@
 plugins {
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.ktor)
     alias(libs.plugins.kover)
 }
 
 // Move to build plugin
-group = "io.github.alaksion.invoicer.repository.api"
-version = "0.0.1"
+group = "datasource.impl"
 
 dependencies {
     implementation(projects.datasource.api)
+
     implementation(projects.entities)
     implementation(projects.foundation.date.impl)
-    implementation(projects.models)
 
     implementation(libs.kodein.server)
     implementation(libs.kotlin.datetime)

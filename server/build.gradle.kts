@@ -46,6 +46,9 @@ dependencies {
     implementation(projects.foundation.cache.impl)
     implementation(projects.foundation.redis.impl)
 
+    // Datasource
+    implementation(projects.datasource.impl)
+
     // Repository
     implementation(projects.repository.api)
 

@@ -1,0 +1,67 @@
+package datasource.impl.database
+
+import datasource.api.database.RefreshTokenDatabaseSource
+import entities.RefreshTokenEntity
+import entities.RefreshTokensTable
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.update
+import utils.date.impl.DateProvider
+import java.util.*
+
+internal class RefreshTokenDatabaseSourceImpl(
+    private val dateProvider: DateProvider
+) : RefreshTokenDatabaseSource {
+
+    override suspend fun createRefreshToken(token: String, userId: String) {
+        return newSuspendedTransaction {
+            RefreshTokensTable.insert {
+                it[refreshToken] = token
+                it[user] = UUID.fromString(userId)
+                it[enabled] = true
+                it[createdAt] = dateProvider.currentInstant()
+                it[updatedAt] = dateProvider.currentInstant()
+            }
+        }
+    }
+
+    override suspend fun invalidateToken(
+        userId: String,
+        token: String,
+    ) {
+        return newSuspendedTransaction {
+            RefreshTokensTable.update(
+                where = {
+                    (RefreshTokensTable.refreshToken eq token) and
+                            (RefreshTokensTable.user eq UUID.fromString(userId))
+                }
+            ) {
+                it[enabled] = false
+                it[updatedAt] = dateProvider.currentInstant()
+            }
+        }
+    }
+
+    override suspend fun invalidateAllUserTokens(userId: String) {
+        return newSuspendedTransaction {
+            RefreshTokensTable.update(
+                where = {
+                    (RefreshTokensTable.user eq UUID.fromString(userId))
+                }
+            ) {
+                it[enabled] = false
+                it[updatedAt] = dateProvider.currentInstant()
+            }
+        }
+    }
+
+    override suspend fun findUserToken(userId: String, token: String): RefreshTokenEntity? {
+        return newSuspendedTransaction {
+            RefreshTokenEntity.find {
+                (RefreshTokensTable.refreshToken eq token) and
+                        (RefreshTokensTable.user eq UUID.fromString(userId))
+            }.firstOrNull()
+        }
+    }
+}
