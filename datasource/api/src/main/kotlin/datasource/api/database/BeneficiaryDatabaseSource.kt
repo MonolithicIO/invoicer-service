@@ -1,7 +1,7 @@
 package datasource.api.database
 
 import datasource.api.model.beneficiary.CreateBeneficiaryData
-import datasource.api.model.beneficiary.UpdateIntermediaryData
+import datasource.api.model.beneficiary.UpdateBeneficiaryData
 import entities.BeneficiaryEntity
 import entities.UserBeneficiariesEntity
 import java.util.*
@@ -35,7 +35,7 @@ interface BeneficiaryDatabaseSource {
     suspend fun update(
         userId: UUID,
         beneficiaryId: UUID,
-        model: UpdateIntermediaryData
+        model: UpdateBeneficiaryData
     ): BeneficiaryEntity
 }
 

@@ -2,7 +2,7 @@ package datasource.impl.database
 
 import datasource.api.database.BeneficiaryDatabaseSource
 import datasource.api.model.beneficiary.CreateBeneficiaryData
-import datasource.api.model.beneficiary.UpdateIntermediaryData
+import datasource.api.model.beneficiary.UpdateBeneficiaryData
 import entities.BeneficiaryEntity
 import entities.BeneficiaryTable
 import entities.UserBeneficiariesEntity
@@ -94,7 +94,7 @@ internal class BeneficiaryDatabaseSourceImpl(
     override suspend fun update(
         userId: UUID,
         beneficiaryId: UUID,
-        model: UpdateIntermediaryData
+        model: UpdateBeneficiaryData
     ): BeneficiaryEntity {
         return newSuspendedTransaction {
             BeneficiaryTable.updateReturning(

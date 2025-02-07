@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.ktor)
     alias(libs.plugins.kover)
 }
 
@@ -9,13 +8,11 @@ group = "io.github.alaksion.invoicer.repository.api"
 version = "0.0.1"
 
 dependencies {
-    implementation(projects.datasource.api)
     implementation(projects.entities)
-    implementation(projects.foundation.date.impl)
     implementation(projects.models)
+    implementation(projects.datasource.api)
 
+    implementation(libs.exposed.dao)
     implementation(libs.kodein.server)
     implementation(libs.kotlin.datetime)
-    implementation(libs.exposed.core)
-    implementation(libs.exposed.dao)
 }

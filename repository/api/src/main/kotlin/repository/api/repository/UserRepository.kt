@@ -1,15 +1,10 @@
 package repository.api.repository
 
-import entities.UserEntity
-import entities.UserTable
+import datasource.api.database.UserDatabaseSource
+import datasource.api.model.user.CreateUserData
 import models.user.CreateUserModel
 import models.user.UserModel
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insertAndGetId
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import repository.api.mapper.toModel
-import utils.date.impl.DateProvider
 import java.util.*
 
 interface UserRepository {
@@ -19,41 +14,33 @@ interface UserRepository {
     suspend fun deleteUser(id: UUID)
 }
 
-
 internal class UserRepositoryImpl(
-    private val dateProvider: DateProvider
+    private val databaseSource: UserDatabaseSource
 ) : UserRepository {
 
     override suspend fun getUserByEmail(email: String): UserModel? {
-        return newSuspendedTransaction {
-            UserEntity.find { UserTable.email eq email }.firstOrNull()?.toModel()
-        }
+        return databaseSource.getUserByEmail(email = email)?.toModel()
     }
 
     override suspend fun getUserById(id: UUID): UserModel? {
-        return newSuspendedTransaction {
-            UserEntity.findById(id)?.toModel()
-        }
+        return databaseSource.getUserById(
+            id = id
+        )?.toModel()
     }
 
     override suspend fun createUser(data: CreateUserModel): String {
-        return newSuspendedTransaction {
-            UserTable.insertAndGetId {
-                it[verified] = true
-                it[email] = data.email
-                it[password] = data.password
-                it[updatedAt] = dateProvider.currentInstant()
-                it[createdAt] = dateProvider.currentInstant()
-            }.value.toString()
-        }
+        return databaseSource.createUser(
+            data = CreateUserData(
+                email = data.email,
+                password = data.password,
+                confirmEmail = data.confirmEmail
+            )
+        )
     }
 
     override suspend fun deleteUser(id: UUID) {
-        return newSuspendedTransaction {
-            UserTable.deleteWhere { op ->
-                UserTable.id.eq(id)
-            }
-        }
+        return databaseSource.deleteUser(
+            id = id
+        )
     }
-
 }

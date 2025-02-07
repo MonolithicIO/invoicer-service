@@ -9,31 +9,31 @@ val repositoryModule = DI.Module("invocer-repository") {
 
     bindProvider<BeneficiaryRepository> {
         BeneficiaryRepositoryImpl(
-            dateProvider = instance()
+            databaseSource = instance()
         )
     }
 
     bindProvider<IntermediaryRepository> {
         IntermediaryRepositoryImpl(
-            dateProvider = instance()
+            databaseSource = instance()
         )
     }
 
     bindProvider<InvoiceRepository> {
         InvoiceRepositoryImpl(
-            dateProvider = instance()
+            databaseSource = instance()
         )
     }
 
     bindProvider<UserRepository> {
         UserRepositoryImpl(
-            dateProvider = instance()
+            databaseSource = instance()
         )
     }
 
     bindProvider<RefreshTokenRepository> {
         RefreshTokenRepositoryImpl(
-            dateProvider = instance()
+            databaseSource = instance()
         )
     }
 }

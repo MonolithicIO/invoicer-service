@@ -1,15 +1,13 @@
 package repository.api.repository
 
-import entities.BeneficiaryEntity
-import entities.BeneficiaryTable
+import datasource.api.database.BeneficiaryDatabaseSource
+import datasource.api.model.beneficiary.CreateBeneficiaryData
+import datasource.api.model.beneficiary.UpdateBeneficiaryData
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.CreateBeneficiaryModel
 import models.beneficiary.PartialUpdateBeneficiaryModel
 import models.beneficiary.UserBeneficiaries
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import repository.api.mapper.toModel
-import utils.date.impl.DateProvider
 import java.util.*
 
 interface BeneficiaryRepository {
@@ -46,50 +44,40 @@ interface BeneficiaryRepository {
 }
 
 internal class BeneficiaryRepositoryImpl(
-    private val dateProvider: DateProvider
+    private val databaseSource: BeneficiaryDatabaseSource
 ) : BeneficiaryRepository {
 
     override suspend fun create(userId: UUID, model: CreateBeneficiaryModel): String {
-        return newSuspendedTransaction {
-            BeneficiaryTable.insertAndGetId { table ->
-                table[name] = model.name
-                table[iban] = model.iban
-                table[swift] = model.swift
-                table[bankName] = model.bankName
-                table[bankAddress] = model.bankAddress
-                table[user] = userId
-                table[createdAt] = dateProvider.currentInstant()
-                table[updatedAt] = dateProvider.currentInstant()
-            }.value.toString()
-        }
+        return databaseSource.create(
+            userId = userId,
+            model = CreateBeneficiaryData(
+                name = model.name,
+                iban = model.iban,
+                swift = model.swift,
+                bankName = model.bankName,
+                bankAddress = model.bankAddress
+            )
+        )
     }
 
     override suspend fun delete(userId: UUID, beneficiaryId: UUID) {
-        return newSuspendedTransaction {
-            BeneficiaryTable.update(
-                where = {
-                    BeneficiaryTable.user.eq(userId).and(BeneficiaryTable.id eq beneficiaryId)
-                }
-            ) {
-                it[isDeleted] = true
-            }
-        }
+        return databaseSource.delete(
+            userId = userId,
+            beneficiaryId = beneficiaryId
+        )
     }
 
     override suspend fun getById(beneficiaryId: UUID): BeneficiaryModel? {
-        return newSuspendedTransaction {
-            BeneficiaryEntity.find {
-                (BeneficiaryTable.id eq beneficiaryId) and (BeneficiaryTable.isDeleted eq false)
-            }.firstOrNull()?.toModel()
-        }
+        return databaseSource.getById(
+            beneficiaryId = beneficiaryId
+        )?.toModel()
     }
 
     override suspend fun getBySwift(userId: UUID, swift: String): BeneficiaryModel? {
-        return newSuspendedTransaction {
-            BeneficiaryEntity.find {
-                (BeneficiaryTable.user eq userId).and(BeneficiaryTable.swift eq swift) and (BeneficiaryTable.isDeleted eq false)
-            }.firstOrNull()?.toModel()
-        }
+        return databaseSource.getBySwift(
+            userId = userId,
+            swift = swift
+        )?.toModel()
     }
 
     override suspend fun getAll(
@@ -97,33 +85,17 @@ internal class BeneficiaryRepositoryImpl(
         page: Long,
         limit: Int,
     ): UserBeneficiaries {
-        return newSuspendedTransaction {
-            val query = BeneficiaryTable
-                .selectAll()
-                .where {
-                    BeneficiaryTable.user eq userId and (BeneficiaryTable.isDeleted eq false)
-                }
-                .limit(n = limit, offset = page * limit)
+        val response = databaseSource.getAll(
+            userId = userId,
+            page = page,
+            limit = limit
+        )
 
-            val count = query.count()
-            val currentOffset = page * limit
-
-            val nextPage = if (count > currentOffset) {
-                (count - currentOffset) / limit
-            } else {
-                null
-            }
-
-            val result = BeneficiaryEntity.wrapRows(query)
-                .toList()
-                .map { it.toModel() }
-
-            UserBeneficiaries(
-                items = result,
-                nextPage = nextPage,
-                itemCount = count
-            )
-        }
+        return UserBeneficiaries(
+            items = response.items.map { it.toModel() },
+            nextPage = response.nextPage,
+            itemCount = response.itemCount
+        )
     }
 
     override suspend fun update(
@@ -131,22 +103,16 @@ internal class BeneficiaryRepositoryImpl(
         beneficiaryId: UUID,
         model: PartialUpdateBeneficiaryModel
     ): BeneficiaryModel {
-        return newSuspendedTransaction {
-            BeneficiaryTable.updateReturning(
-                where = {
-                    BeneficiaryTable.user eq userId
-                    BeneficiaryTable.id eq beneficiaryId
-                }
-            ) { table ->
-                model.name?.let { table[name] = it }
-                model.iban?.let { table[iban] = it }
-                model.swift?.let { table[swift] = it }
-                model.bankName?.let { table[bankName] = it }
-                model.bankAddress?.let { table[bankAddress] = it }
-                table[updatedAt] = dateProvider.currentInstant()
-            }.map {
-                BeneficiaryEntity.wrapRow(it)
-            }.first().toModel()
-        }
+        return databaseSource.update(
+            userId = userId,
+            beneficiaryId = beneficiaryId,
+            model = UpdateBeneficiaryData(
+                name = model.name,
+                iban = model.iban,
+                swift = model.swift,
+                bankName = model.bankName,
+                bankAddress = model.bankAddress
+            )
+        ).toModel()
     }
 }

@@ -1,6 +1,6 @@
 package datasource.api.model.beneficiary
 
-data class UpdateIntermediaryData(
+data class UpdateBeneficiaryData(
     val name: String?,
     val iban: String?,
     val swift: String?,
