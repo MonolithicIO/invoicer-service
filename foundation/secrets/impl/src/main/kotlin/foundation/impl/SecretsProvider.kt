@@ -13,6 +13,7 @@ enum class SecretKeys {
     JWT_SECRET,
     JWT_REALM,
     REDIS_HOST,
-    REDIS_PORT
+    REDIS_PORT,
+    REDIS_TTL
 }
 

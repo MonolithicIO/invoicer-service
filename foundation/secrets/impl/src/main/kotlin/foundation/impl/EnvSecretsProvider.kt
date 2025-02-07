@@ -17,6 +17,7 @@ internal class EnvSecretsProvider(
             SecretKeys.JWT_REALM -> "jwt.realm"
             SecretKeys.REDIS_HOST -> "redis.host"
             SecretKeys.REDIS_PORT -> "redis.port"
+            SecretKeys.REDIS_TTL -> "redis.ttl"
         }
 
         return environment.getVariable(path).orEmpty()

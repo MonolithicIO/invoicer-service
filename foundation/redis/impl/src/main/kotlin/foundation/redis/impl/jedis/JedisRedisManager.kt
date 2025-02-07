@@ -4,6 +4,7 @@ import foundation.impl.SecretKeys
 import foundation.impl.SecretsProvider
 import foundation.redis.impl.RedisInstance
 import redis.clients.jedis.JedisPool
+import redis.clients.jedis.params.SetParams
 
 internal class JedisRedisManager(
     private val secrets: SecretsProvider
@@ -18,7 +19,11 @@ internal class JedisRedisManager(
 
     override fun setKey(key: String, value: String) {
         val resource = redisPool.resource
-        resource.set(key, value)
+        resource.set(
+            key,
+            value,
+            SetParams().ex(secrets.getSecret(SecretKeys.REDIS_TTL).toLong())
+        )
     }
 
     override fun getKey(key: String): String? {

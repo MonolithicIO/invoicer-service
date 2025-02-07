@@ -17,3 +17,4 @@ jwt:
 redis:
   port: $INVOICER_REDIS_PORT
   host: $INVOICER_REDIS_HOST
+  ttl: $INVOICER_REDIS_TTL
