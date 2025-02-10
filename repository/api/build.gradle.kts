@@ -15,7 +15,6 @@ dependencies {
     implementation(projects.foundation.cache.impl)
     implementation(libs.kotlin.serialization)
 
-    implementation(libs.exposed.dao)
     implementation(libs.kodein.server)
     implementation(libs.kotlin.datetime)
 }

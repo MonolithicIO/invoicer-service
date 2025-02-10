@@ -4,7 +4,6 @@ import datasource.api.database.UserDatabaseSource
 import datasource.api.model.user.CreateUserData
 import models.user.CreateUserModel
 import models.user.UserModel
-import repository.api.mapper.toModel
 import java.util.*
 
 interface UserRepository {
@@ -19,13 +18,13 @@ internal class UserRepositoryImpl(
 ) : UserRepository {
 
     override suspend fun getUserByEmail(email: String): UserModel? {
-        return databaseSource.getUserByEmail(email = email)?.toModel()
+        return databaseSource.getUserByEmail(email = email)
     }
 
     override suspend fun getUserById(id: UUID): UserModel? {
         return databaseSource.getUserById(
             id = id
-        )?.toModel()
+        )
     }
 
     override suspend fun createUser(data: CreateUserModel): String {

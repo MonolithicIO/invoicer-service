@@ -10,6 +10,7 @@ dependencies {
     implementation(projects.datasource.api)
 
     implementation(projects.entities)
+    implementation(projects.models)
     implementation(projects.foundation.date.impl)
 
     implementation(libs.kodein.server)

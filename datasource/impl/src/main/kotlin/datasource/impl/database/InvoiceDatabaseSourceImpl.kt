@@ -3,10 +3,14 @@ package datasource.impl.database
 import datasource.api.database.InvoiceDatabaseSource
 import datasource.api.model.invoice.CreateInvoiceData
 import datasource.api.model.invoice.GetInvoicesFilterData
+import datasource.impl.mapper.toListItemModel
+import datasource.impl.mapper.toModel
 import entities.InvoiceActivityTable
 import entities.InvoiceEntity
-import entities.InvoiceListEntity
 import entities.InvoiceTable
+import models.InvoiceModel
+import models.getinvoices.InvoiceListItemModel
+import models.getinvoices.InvoiceListModel
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import utils.date.impl.DateProvider
@@ -52,19 +56,19 @@ internal class InvoiceDatabaseSourceImpl(
         }
     }
 
-    override suspend fun getInvoiceByUUID(id: UUID): InvoiceEntity? {
+    override suspend fun getInvoiceByUUID(id: UUID): InvoiceModel? {
         return newSuspendedTransaction {
             InvoiceEntity.find {
                 (InvoiceTable.id eq id) and (InvoiceTable.isDeleted eq false)
-            }.firstOrNull()
+            }.firstOrNull()?.toModel()
         }
     }
 
-    override suspend fun getInvoiceByExternalId(externalId: String): InvoiceEntity? {
+    override suspend fun getInvoiceByExternalId(externalId: String): InvoiceModel? {
         return newSuspendedTransaction {
             InvoiceEntity.find {
                 (InvoiceTable.externalId eq externalId) and (InvoiceTable.isDeleted eq false)
-            }.firstOrNull()
+            }.firstOrNull()?.toModel()
         }
     }
 
@@ -73,7 +77,7 @@ internal class InvoiceDatabaseSourceImpl(
         page: Long,
         limit: Int,
         userId: String,
-    ): InvoiceListEntity {
+    ): InvoiceListModel {
         return newSuspendedTransaction {
             val query = InvoiceTable
                 .selectAll()
@@ -112,9 +116,9 @@ internal class InvoiceDatabaseSourceImpl(
             }
 
             val result = InvoiceEntity.wrapRows(query.limit(n = limit, offset = currentOffset))
-                .toList()
+                .toList().map { it.toListItemModel() }
 
-            InvoiceListEntity(
+            InvoiceListModel(
                 items = result,
                 nextPage = nextPage,
                 totalResults = count
@@ -140,22 +144,22 @@ internal class InvoiceDatabaseSourceImpl(
     override suspend fun getInvoicesByBeneficiaryId(
         beneficiaryId: UUID,
         userId: UUID
-    ): List<InvoiceEntity> {
+    ): List<InvoiceListItemModel> {
         return newSuspendedTransaction {
             InvoiceEntity.find {
                 (InvoiceTable.beneficiary eq beneficiaryId) and (InvoiceTable.user eq userId) and (InvoiceTable.isDeleted eq false)
-            }.toList()
+            }.toList().map { it.toListItemModel() }
         }
     }
 
     override suspend fun getInvoicesByIntermediaryId(
         intermediaryId: UUID,
         userId: UUID
-    ): List<InvoiceEntity> {
+    ): List<InvoiceListItemModel> {
         return newSuspendedTransaction {
             InvoiceEntity.find {
                 (InvoiceTable.intermediary eq intermediaryId) and (InvoiceTable.user eq userId) and (InvoiceTable.isDeleted eq false)
-            }.toList()
+            }.toList().map { it.toListItemModel() }
         }
     }
 

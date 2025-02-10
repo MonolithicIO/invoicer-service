@@ -2,8 +2,8 @@ package datasource.api.database
 
 import datasource.api.model.beneficiary.CreateBeneficiaryData
 import datasource.api.model.beneficiary.UpdateBeneficiaryData
-import entities.BeneficiaryEntity
-import entities.UserBeneficiariesEntity
+import models.beneficiary.BeneficiaryModel
+import models.beneficiary.UserBeneficiaries
 import java.util.*
 
 interface BeneficiaryDatabaseSource {
@@ -19,23 +19,23 @@ interface BeneficiaryDatabaseSource {
 
     suspend fun getById(
         beneficiaryId: UUID
-    ): BeneficiaryEntity?
+    ): BeneficiaryModel?
 
     suspend fun getBySwift(
         userId: UUID,
         swift: String
-    ): BeneficiaryEntity?
+    ): BeneficiaryModel?
 
     suspend fun getAll(
         userId: UUID,
         page: Long,
         limit: Int,
-    ): UserBeneficiariesEntity
+    ): UserBeneficiaries
 
     suspend fun update(
         userId: UUID,
         beneficiaryId: UUID,
         model: UpdateBeneficiaryData
-    ): BeneficiaryEntity
+    ): BeneficiaryModel
 }
 

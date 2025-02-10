@@ -58,14 +58,6 @@ internal class RefreshTokenRepositoryImpl(
             token = token
         )
 
-        return response?.let {
-            RefreshTokenModel(
-                userId = it.user.id.value.toString(),
-                token = it.refreshToken,
-                createdAt = it.createdAt,
-                updatedAt = it.updatedAt,
-                enabled = it.enabled
-            )
-        }
+        return response
     }
 }

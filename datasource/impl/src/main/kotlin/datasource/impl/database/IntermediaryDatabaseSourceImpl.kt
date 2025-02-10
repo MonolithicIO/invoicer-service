@@ -3,9 +3,11 @@ package datasource.impl.database
 import datasource.api.database.IntermediaryDatabaseSource
 import datasource.api.model.intermediary.CreateIntermediaryData
 import datasource.api.model.intermediary.UpdateIntermediaryData
+import datasource.impl.mapper.toModel
 import entities.BeneficiaryTable.user
 import entities.IntermediaryEntity
 import entities.IntermediaryTable
+import models.intermediary.IntermediaryModel
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import utils.date.impl.DateProvider
@@ -42,19 +44,19 @@ internal class IntermediaryDatabaseSourceImpl(
         }
     }
 
-    override suspend fun getById(intermediaryId: UUID): IntermediaryEntity? {
+    override suspend fun getById(intermediaryId: UUID): IntermediaryModel? {
         return newSuspendedTransaction {
             IntermediaryEntity.find {
                 (IntermediaryTable.id eq intermediaryId) and (IntermediaryTable.isDeleted eq false)
-            }.firstOrNull()
+            }.firstOrNull()?.toModel()
         }
     }
 
-    override suspend fun getBySwift(userId: UUID, swift: String): IntermediaryEntity? {
+    override suspend fun getBySwift(userId: UUID, swift: String): IntermediaryModel? {
         return newSuspendedTransaction {
             IntermediaryEntity.find {
                 (user eq userId).and(IntermediaryTable.swift eq swift) and (IntermediaryTable.isDeleted eq false)
-            }.firstOrNull()
+            }.firstOrNull()?.toModel()
         }
     }
 
@@ -62,7 +64,7 @@ internal class IntermediaryDatabaseSourceImpl(
         userId: UUID,
         page: Long,
         limit: Int
-    ): List<IntermediaryEntity> {
+    ): List<IntermediaryModel> {
         return newSuspendedTransaction {
             val query = IntermediaryTable
                 .selectAll()
@@ -73,6 +75,7 @@ internal class IntermediaryDatabaseSourceImpl(
 
             IntermediaryEntity.wrapRows(query)
                 .toList()
+                .map { it.toModel() }
         }
     }
 
@@ -80,7 +83,7 @@ internal class IntermediaryDatabaseSourceImpl(
         userId: UUID,
         intermediaryId: UUID,
         model: UpdateIntermediaryData
-    ): IntermediaryEntity {
+    ): IntermediaryModel {
         return newSuspendedTransaction {
             IntermediaryTable.updateReturning(
                 where = {
@@ -95,7 +98,7 @@ internal class IntermediaryDatabaseSourceImpl(
                 model.bankAddress?.let { table[bankAddress] = it }
                 table[updatedAt] = dateProvider.currentInstant()
             }.map {
-                IntermediaryEntity.wrapRow(it)
+                IntermediaryEntity.wrapRow(it).toModel()
             }.first()
         }
     }

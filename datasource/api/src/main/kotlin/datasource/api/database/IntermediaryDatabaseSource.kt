@@ -2,7 +2,7 @@ package datasource.api.database
 
 import datasource.api.model.intermediary.CreateIntermediaryData
 import datasource.api.model.intermediary.UpdateIntermediaryData
-import entities.IntermediaryEntity
+import models.intermediary.IntermediaryModel
 import java.util.*
 
 interface IntermediaryDatabaseSource {
@@ -18,22 +18,22 @@ interface IntermediaryDatabaseSource {
 
     suspend fun getById(
         intermediaryId: UUID
-    ): IntermediaryEntity?
+    ): IntermediaryModel?
 
     suspend fun getBySwift(
         userId: UUID,
         swift: String
-    ): IntermediaryEntity?
+    ): IntermediaryModel?
 
     suspend fun getAll(
         userId: UUID,
         page: Long,
         limit: Int,
-    ): List<IntermediaryEntity>
+    ): List<IntermediaryModel>
 
     suspend fun update(
         userId: UUID,
         intermediaryId: UUID,
         model: UpdateIntermediaryData
-    ): IntermediaryEntity
+    ): IntermediaryModel
 }

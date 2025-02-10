@@ -5,9 +5,11 @@ import datasource.api.model.beneficiary.CreateBeneficiaryData
 import datasource.api.model.beneficiary.UpdateBeneficiaryData
 import entities.BeneficiaryEntity
 import entities.BeneficiaryTable
-import entities.UserBeneficiariesEntity
+import models.beneficiary.BeneficiaryModel
+import models.beneficiary.UserBeneficiaries
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import datasource.impl.mapper.toModel
 import utils.date.impl.DateProvider
 import java.util.*
 
@@ -42,19 +44,19 @@ internal class BeneficiaryDatabaseSourceImpl(
         }
     }
 
-    override suspend fun getById(beneficiaryId: UUID): BeneficiaryEntity? {
+    override suspend fun getById(beneficiaryId: UUID): BeneficiaryModel? {
         return newSuspendedTransaction {
             BeneficiaryEntity.find {
                 (BeneficiaryTable.id eq beneficiaryId) and (BeneficiaryTable.isDeleted eq false)
-            }.firstOrNull()
+            }.firstOrNull()?.toModel()
         }
     }
 
-    override suspend fun getBySwift(userId: UUID, swift: String): BeneficiaryEntity? {
+    override suspend fun getBySwift(userId: UUID, swift: String): BeneficiaryModel? {
         return newSuspendedTransaction {
             BeneficiaryEntity.find {
                 (BeneficiaryTable.user eq userId).and(BeneficiaryTable.swift eq swift) and (BeneficiaryTable.isDeleted eq false)
-            }.firstOrNull()
+            }.firstOrNull()?.toModel()
         }
     }
 
@@ -62,7 +64,7 @@ internal class BeneficiaryDatabaseSourceImpl(
         userId: UUID,
         page: Long,
         limit: Int,
-    ): UserBeneficiariesEntity {
+    ): UserBeneficiaries {
         return newSuspendedTransaction {
             val query = BeneficiaryTable
                 .selectAll()
@@ -82,8 +84,9 @@ internal class BeneficiaryDatabaseSourceImpl(
 
             val result = BeneficiaryEntity.wrapRows(query)
                 .toList()
+                .map { it.toModel() }
 
-            UserBeneficiariesEntity(
+            UserBeneficiaries(
                 items = result,
                 nextPage = nextPage,
                 itemCount = count
@@ -95,7 +98,7 @@ internal class BeneficiaryDatabaseSourceImpl(
         userId: UUID,
         beneficiaryId: UUID,
         model: UpdateBeneficiaryData
-    ): BeneficiaryEntity {
+    ): BeneficiaryModel {
         return newSuspendedTransaction {
             BeneficiaryTable.updateReturning(
                 where = {
@@ -110,7 +113,7 @@ internal class BeneficiaryDatabaseSourceImpl(
                 model.bankAddress?.let { table[bankAddress] = it }
                 table[updatedAt] = dateProvider.currentInstant()
             }.map {
-                BeneficiaryEntity.wrapRow(it)
+                BeneficiaryEntity.wrapRow(it).toModel()
             }.first()
         }
     }

@@ -8,7 +8,6 @@ import models.beneficiary.BeneficiaryModel
 import models.beneficiary.CreateBeneficiaryModel
 import models.beneficiary.PartialUpdateBeneficiaryModel
 import models.beneficiary.UserBeneficiaries
-import repository.api.mapper.toModel
 import java.util.*
 
 interface BeneficiaryRepository {
@@ -81,7 +80,7 @@ internal class BeneficiaryRepositoryImpl(
 
         val data = databaseSource.getById(
             beneficiaryId = beneficiaryId
-        )?.toModel()
+        )
 
         return data?.let {
             cacheHandler.set(
@@ -97,7 +96,7 @@ internal class BeneficiaryRepositoryImpl(
         return databaseSource.getBySwift(
             userId = userId,
             swift = swift
-        )?.toModel()
+        )
     }
 
     override suspend fun getAll(
@@ -112,7 +111,7 @@ internal class BeneficiaryRepositoryImpl(
         )
 
         return UserBeneficiaries(
-            items = response.items.map { it.toModel() },
+            items = response.items,
             nextPage = response.nextPage,
             itemCount = response.itemCount
         )
@@ -133,6 +132,6 @@ internal class BeneficiaryRepositoryImpl(
                 bankName = model.bankName,
                 bankAddress = model.bankAddress
             )
-        ).toModel()
+        )
     }
 }

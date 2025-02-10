@@ -1,10 +1,9 @@
-package repository.api.mapper
+package datasource.impl.mapper
 
-import entities.IntermediaryEntity
-import models.intermediary.IntermediaryModel
+import entities.BeneficiaryEntity
+import models.beneficiary.BeneficiaryModel
 
-
-internal fun IntermediaryEntity.toModel(): IntermediaryModel = IntermediaryModel(
+internal fun BeneficiaryEntity.toModel(): BeneficiaryModel = BeneficiaryModel(
     name = this.name,
     iban = this.iban,
     swift = this.swift,

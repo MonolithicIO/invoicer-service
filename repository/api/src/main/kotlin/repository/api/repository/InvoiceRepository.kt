@@ -9,8 +9,6 @@ import models.createinvoice.CreateInvoiceModel
 import models.getinvoices.GetInvoicesFilterModel
 import models.getinvoices.InvoiceListItemModel
 import models.getinvoices.InvoiceListModel
-import repository.api.mapper.toListItemModel
-import repository.api.mapper.toModel
 import java.util.*
 
 interface InvoiceRepository {
@@ -82,13 +80,13 @@ internal class InvoiceRepositoryImpl(
     }
 
     override suspend fun getInvoiceByUUID(id: UUID): InvoiceModel? {
-        return databaseSource.getInvoiceByUUID(id = id)?.toModel()
+        return databaseSource.getInvoiceByUUID(id = id)
     }
 
     override suspend fun getInvoiceByExternalId(externalId: String): InvoiceModel? {
         return databaseSource.getInvoiceByExternalId(
             externalId = externalId
-        )?.toModel()
+        )
     }
 
     override suspend fun getInvoices(
@@ -112,7 +110,7 @@ internal class InvoiceRepositoryImpl(
         )
 
         return InvoiceListModel(
-            items = response.items.map { it.toListItemModel() },
+            items = response.items,
             nextPage = response.nextPage,
             totalResults = response.totalResults
         )
@@ -133,7 +131,7 @@ internal class InvoiceRepositoryImpl(
         return databaseSource.getInvoicesByBeneficiaryId(
             beneficiaryId = beneficiaryId,
             userId = userId
-        ).map { it.toListItemModel() }
+        )
     }
 
     override suspend fun getInvoicesByIntermediaryId(
@@ -143,6 +141,6 @@ internal class InvoiceRepositoryImpl(
         return databaseSource.getInvoicesByIntermediaryId(
             intermediaryId = intermediaryId,
             userId = userId
-        ).map { it.toListItemModel() }
+        )
     }
 }

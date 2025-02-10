@@ -6,7 +6,6 @@ import datasource.api.model.intermediary.UpdateIntermediaryData
 import models.intermediary.CreateIntermediaryModel
 import models.intermediary.IntermediaryModel
 import models.intermediary.PartialUpdateIntermediaryModel
-import repository.api.mapper.toModel
 import java.util.*
 
 interface IntermediaryRepository {
@@ -67,14 +66,14 @@ internal class IntermediaryRepositoryImpl(
     }
 
     override suspend fun getById(intermediaryId: UUID): IntermediaryModel? {
-        return databaseSource.getById(intermediaryId)?.toModel()
+        return databaseSource.getById(intermediaryId)
     }
 
     override suspend fun getBySwift(userId: UUID, swift: String): IntermediaryModel? {
         return databaseSource.getBySwift(
             userId = userId,
             swift = swift
-        )?.toModel()
+        )
     }
 
     override suspend fun getAll(
@@ -86,7 +85,7 @@ internal class IntermediaryRepositoryImpl(
             userId = userId,
             page = page,
             limit = limit
-        ).map { entity -> entity.toModel() }
+        )
     }
 
     override suspend fun update(
@@ -104,6 +103,6 @@ internal class IntermediaryRepositoryImpl(
                 bankName = model.bankName,
                 bankAddress = model.bankAddress
             )
-        ).toModel()
+        )
     }
 }

@@ -2,8 +2,9 @@ package datasource.api.database
 
 import datasource.api.model.invoice.CreateInvoiceData
 import datasource.api.model.invoice.GetInvoicesFilterData
-import entities.InvoiceEntity
-import entities.InvoiceListEntity
+import models.InvoiceModel
+import models.getinvoices.InvoiceListItemModel
+import models.getinvoices.InvoiceListModel
 import java.util.*
 
 interface InvoiceDatabaseSource {
@@ -14,18 +15,18 @@ interface InvoiceDatabaseSource {
 
     suspend fun getInvoiceByUUID(
         id: UUID
-    ): InvoiceEntity?
+    ): InvoiceModel?
 
     suspend fun getInvoiceByExternalId(
         externalId: String
-    ): InvoiceEntity?
+    ): InvoiceModel?
 
     suspend fun getInvoices(
         filters: GetInvoicesFilterData,
         page: Long,
         limit: Int,
         userId: String,
-    ): InvoiceListEntity
+    ): InvoiceListModel
 
     suspend fun delete(
         id: UUID
@@ -34,10 +35,10 @@ interface InvoiceDatabaseSource {
     suspend fun getInvoicesByBeneficiaryId(
         beneficiaryId: UUID,
         userId: UUID,
-    ): List<InvoiceEntity>
+    ): List<InvoiceListItemModel>
 
     suspend fun getInvoicesByIntermediaryId(
         intermediaryId: UUID,
         userId: UUID,
-    ): List<InvoiceEntity>
+    ): List<InvoiceListItemModel>
 }

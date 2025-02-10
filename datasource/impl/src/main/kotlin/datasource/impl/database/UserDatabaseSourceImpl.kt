@@ -2,8 +2,10 @@ package datasource.impl.database
 
 import datasource.api.database.UserDatabaseSource
 import datasource.api.model.user.CreateUserData
+import datasource.impl.mapper.toModel
 import entities.UserEntity
 import entities.UserTable
+import models.user.UserModel
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insertAndGetId
@@ -15,15 +17,15 @@ internal class UserDatabaseSourceImpl(
     private val dateProvider: DateProvider
 ) : UserDatabaseSource {
 
-    override suspend fun getUserByEmail(email: String): UserEntity? {
+    override suspend fun getUserByEmail(email: String): UserModel? {
         return newSuspendedTransaction {
-            UserEntity.find { UserTable.email eq email }.firstOrNull()
+            UserEntity.find { UserTable.email eq email }.firstOrNull()?.toModel()
         }
     }
 
-    override suspend fun getUserById(id: UUID): UserEntity? {
+    override suspend fun getUserById(id: UUID): UserModel? {
         return newSuspendedTransaction {
-            UserEntity.findById(id)
+            UserEntity.findById(id)?.toModel()
         }
     }
 

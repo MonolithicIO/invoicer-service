@@ -1,6 +1,6 @@
 package datasource.api.database
 
-import entities.RefreshTokenEntity
+import models.login.RefreshTokenModel
 
 interface RefreshTokenDatabaseSource {
 
@@ -21,6 +21,6 @@ interface RefreshTokenDatabaseSource {
     suspend fun findUserToken(
         userId: String,
         token: String
-    ): RefreshTokenEntity?
+    ): RefreshTokenModel?
 
 }
