@@ -24,10 +24,13 @@ internal class JedisRedisManager(
             value,
             SetParams().ex(secrets.getSecret(SecretKeys.REDIS_TTL).toLong())
         )
+        redisPool.returnResource(resource)
     }
 
     override fun getKey(key: String): String? {
         val resource = redisPool.resource
-        return resource.get(key)
+        return resource.get(key).apply {
+            redisPool.returnResource(resource)
+        }
     }
 }
