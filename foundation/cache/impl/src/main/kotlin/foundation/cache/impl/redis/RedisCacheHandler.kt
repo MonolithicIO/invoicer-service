@@ -14,15 +14,19 @@ internal class RedisCacheHandler(
         value: T,
         serializer: KSerializer<T>
     ) {
-        val encoded = Json.encodeToString(
-            serializer = serializer,
-            value = value
-        )
+        runCatching {
+            val encoded = Json.encodeToString(
+                serializer = serializer,
+                value = value
+            )
 
-        redisInstance.setKey(
-            key = key,
-            value = encoded
-        )
+            redisInstance.setKey(
+                key = key,
+                value = encoded
+            )
+        }.onFailure {
+            // Log error
+        }
     }
 
     override suspend fun <T> get(
@@ -30,9 +34,17 @@ internal class RedisCacheHandler(
         serializer: KSerializer<T>
     ): T? {
         return redisInstance.getKey(key)?.let { cachedItem ->
-            Json.decodeFromString(
-                deserializer = serializer,
-                string = cachedItem
+            runCatching {
+                Json.decodeFromString(
+                    deserializer = serializer,
+                    string = cachedItem
+                )
+            }.fold(
+                onSuccess = { it },
+                onFailure = {
+                    // Log error
+                    null
+                }
             )
         }
     }
