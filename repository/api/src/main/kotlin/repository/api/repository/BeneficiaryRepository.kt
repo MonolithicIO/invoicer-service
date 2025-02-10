@@ -3,6 +3,7 @@ package repository.api.repository
 import datasource.api.database.BeneficiaryDatabaseSource
 import datasource.api.model.beneficiary.CreateBeneficiaryData
 import datasource.api.model.beneficiary.UpdateBeneficiaryData
+import foundation.cache.impl.CacheHandler
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.CreateBeneficiaryModel
 import models.beneficiary.PartialUpdateBeneficiaryModel
@@ -44,7 +45,8 @@ interface BeneficiaryRepository {
 }
 
 internal class BeneficiaryRepositoryImpl(
-    private val databaseSource: BeneficiaryDatabaseSource
+    private val databaseSource: BeneficiaryDatabaseSource,
+    private val cacheHandler: CacheHandler
 ) : BeneficiaryRepository {
 
     override suspend fun create(userId: UUID, model: CreateBeneficiaryModel): String {
@@ -68,9 +70,27 @@ internal class BeneficiaryRepositoryImpl(
     }
 
     override suspend fun getById(beneficiaryId: UUID): BeneficiaryModel? {
-        return databaseSource.getById(
+        val cached = cacheHandler.get(
+            key = beneficiaryId.toString(),
+            serializer = BeneficiaryModel.serializer()
+        )
+
+        if (cached != null) {
+            return cached
+        }
+
+        val data = databaseSource.getById(
             beneficiaryId = beneficiaryId
         )?.toModel()
+
+        return data?.let {
+            cacheHandler.set(
+                key = it.id,
+                value = it,
+                serializer = BeneficiaryModel.serializer()
+            )
+            it
+        }
     }
 
     override suspend fun getBySwift(userId: UUID, swift: String): BeneficiaryModel? {

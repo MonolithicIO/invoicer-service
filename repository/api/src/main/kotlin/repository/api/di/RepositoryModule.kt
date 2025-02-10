@@ -9,7 +9,8 @@ val repositoryModule = DI.Module("invocer-repository") {
 
     bindProvider<BeneficiaryRepository> {
         BeneficiaryRepositoryImpl(
-            databaseSource = instance()
+            databaseSource = instance(),
+            cacheHandler = instance()
         )
     }
 

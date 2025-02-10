@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kover)
+    alias(libs.plugins.serialization)
 }
 
 // Move to build plugin
@@ -11,6 +12,8 @@ dependencies {
     implementation(projects.entities)
     implementation(projects.models)
     implementation(projects.datasource.api)
+    implementation(projects.foundation.cache.impl)
+    implementation(libs.kotlin.serialization)
 
     implementation(libs.exposed.dao)
     implementation(libs.kodein.server)
