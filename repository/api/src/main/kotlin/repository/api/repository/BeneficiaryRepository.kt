@@ -122,7 +122,8 @@ internal class BeneficiaryRepositoryImpl(
         beneficiaryId: UUID,
         model: PartialUpdateBeneficiaryModel
     ): BeneficiaryModel {
-        return databaseSource.update(
+
+        val result = databaseSource.update(
             userId = userId,
             beneficiaryId = beneficiaryId,
             model = UpdateBeneficiaryData(
@@ -133,5 +134,9 @@ internal class BeneficiaryRepositoryImpl(
                 bankAddress = model.bankAddress
             )
         )
+
+        cacheHandler.delete(beneficiaryId.toString())
+
+        return result
     }
 }

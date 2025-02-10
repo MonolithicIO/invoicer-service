@@ -48,4 +48,6 @@ internal class RedisCacheHandler(
             )
         }
     }
+
+    override suspend fun delete(key: String) = redisInstance.clearKey(key)
 }

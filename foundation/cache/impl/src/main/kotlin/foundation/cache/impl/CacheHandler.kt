@@ -13,4 +13,6 @@ interface CacheHandler {
         key: String,
         serializer: KSerializer<T>
     ): T?
+
+    suspend fun delete(key: String)
 }

@@ -33,4 +33,10 @@ internal class JedisRedisManager(
             redisPool.returnResource(resource)
         }
     }
+
+    override fun clearKey(key: String) {
+        val resource = redisPool.resource
+        resource.del(key)
+        redisPool.returnResource(resource)
+    }
 }
