@@ -1,4 +1,34 @@
 services:
+  invoicer_base: &invoicer_base
+    image: alaksion/invoicer-api:0.0.8
+    environment:
+      INVOICER_DB_USERNAME: $INVOICER_DB_USERNAME
+      INVOICER_DB_PASSWORD: $INVOICER_DB_PASSWORD
+      INVOICER_DB_NAME: $INVOICER_DB_NAME
+      INVOICER_DB_URL: jdbc:postgresql://invoicer-database:5432/postgres
+      INVOICER_JWT_AUDIENCE: $INVOICER_JWT_AUDIENCE
+      INVOICER_JWT_ISSUER: $INVOICER_JWT_ISSUER
+      INVOICER_JWT_SECRET: $INVOICER_JWT_SECRET
+      INVOICER_JWT_REALM: $INVOICER_JWT_REALM
+      INVOICER_API_PORT: $INVOICER_API_PORT
+      INVOICER_REDIS_PORT: $INVOICER_REDIS_PORT
+      INVOICER_REDIS_HOST: $INVOICER_REDIS_HOST
+      INVOICER_REDIS_TTL: $INVOICER_REDIS_TTL
+    restart: always
+    networks:
+      - invoicer-network
+    depends_on:
+      - invoicer-database
+  invoicer-main:
+    <<: *invoicer_base
+    container_name: invoicer-api-main
+    ports:
+      - "8080:8080"
+  invoicer-fallback:
+    <<: *invoicer_base
+    ports:
+      - "8081:8080"
+    container_name: invoicer-api-fallback
   invoicer-database:
     image: postgres:latest
     restart: always
@@ -13,28 +43,6 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./sql:/docker-entrypoint-initdb.d
-  invoicer-api:
-    depends_on:
-      - invoicer-database
-    image: alaksion/invoicer-api:0.0.8
-    restart: always
-    networks:
-      - invoicer-network
-    environment:
-      INVOICER_DB_USERNAME: $INVOICER_DB_USERNAME
-      INVOICER_DB_PASSWORD: $INVOICER_DB_PASSWORD
-      INVOICER_DB_NAME: $INVOICER_DB_NAME
-      INVOICER_DB_URL: jdbc:postgresql://invoicer-database:5432/postgres
-      INVOICER_JWT_AUDIENCE: $INVOICER_JWT_AUDIENCE
-      INVOICER_JWT_ISSUER: $INVOICER_JWT_ISSUER
-      INVOICER_JWT_SECRET: $INVOICER_JWT_SECRET
-      INVOICER_JWT_REALM: $INVOICER_JWT_REALM
-      INVOICER_API_PORT: 8080
-      INVOICER_REDIS_PORT: $INVOICER_REDIS_PORT
-      INVOICER_REDIS_HOST: $INVOICER_REDIS_HOST
-      INVOICER_REDIS_TTL: $INVOICER_REDIS_TTL
-    ports:
-      - "8080:8080"
   invoicer-prometheus:
     image: prom/prometheus:v3.1.0
     restart: always
@@ -75,8 +83,6 @@ services:
       - redis_data:/data
     networks:
       - invoicer-network
-    environment:
-      REDIS_PASSWORD: 1234
 volumes:
   postgres-data:
   redis_data:

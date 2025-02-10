@@ -4,8 +4,13 @@ scrape_configs:
   - job_name: 'prometheus'
     static_configs:
       - targets: [ 'localhost:9090' ]
-  - job_name: 'invoicer-nginx'
+  - job_name: 'invoicer-main'
     scheme: http
     bearer_token: 'sample'
     static_configs:
-      - targets: [ 'invoicer-nginx:4000' ]
+      - targets: [ 'invoicer-main:8080' ]
+  - job_name: 'invoicer-fallback'
+    scheme: http
+    bearer_token: 'sample'
+    static_configs:
+      - targets: [ 'invoicer-fallback:8080' ]
