@@ -4,6 +4,7 @@ import datasource.api.database.InvoiceDatabaseSource
 import datasource.api.model.invoice.CreateInvoiceActivityData
 import datasource.api.model.invoice.CreateInvoiceData
 import datasource.api.model.invoice.GetInvoicesFilterData
+import foundation.cache.impl.CacheHandler
 import models.InvoiceModel
 import models.createinvoice.CreateInvoiceModel
 import models.getinvoices.GetInvoicesFilterModel
@@ -49,7 +50,8 @@ interface InvoiceRepository {
 
 
 internal class InvoiceRepositoryImpl(
-    private val databaseSource: InvoiceDatabaseSource
+    private val databaseSource: InvoiceDatabaseSource,
+    private val cacheHandler: CacheHandler
 ) : InvoiceRepository {
 
     override suspend fun createInvoice(
@@ -80,7 +82,20 @@ internal class InvoiceRepositoryImpl(
     }
 
     override suspend fun getInvoiceByUUID(id: UUID): InvoiceModel? {
-        return databaseSource.getInvoiceByUUID(id = id)
+        val cached = cacheHandler.get(
+            key = id.toString(),
+            serializer = InvoiceModel.serializer()
+        )
+
+        if (cached != null) return cached
+
+        return databaseSource.getInvoiceByUUID(id = id)?.also {
+            cacheHandler.set(
+                key = it.id.toString(),
+                serializer = InvoiceModel.serializer(),
+                value = it
+            )
+        }
     }
 
     override suspend fun getInvoiceByExternalId(externalId: String): InvoiceModel? {
@@ -121,7 +136,11 @@ internal class InvoiceRepositoryImpl(
     ) {
         return databaseSource.delete(
             id = id
-        )
+        ).also {
+            cacheHandler.delete(
+                key = id.toString(),
+            )
+        }
     }
 
     override suspend fun getInvoicesByBeneficiaryId(

@@ -16,13 +16,15 @@ val repositoryModule = DI.Module("invocer-repository") {
 
     bindProvider<IntermediaryRepository> {
         IntermediaryRepositoryImpl(
-            databaseSource = instance()
+            databaseSource = instance(),
+            cacheHandler = instance()
         )
     }
 
     bindProvider<InvoiceRepository> {
         InvoiceRepositoryImpl(
-            databaseSource = instance()
+            databaseSource = instance(),
+            cacheHandler = instance()
         )
     }
 

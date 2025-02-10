@@ -3,6 +3,7 @@ package repository.api.repository
 import datasource.api.database.IntermediaryDatabaseSource
 import datasource.api.model.intermediary.CreateIntermediaryData
 import datasource.api.model.intermediary.UpdateIntermediaryData
+import foundation.cache.impl.CacheHandler
 import models.intermediary.CreateIntermediaryModel
 import models.intermediary.IntermediaryModel
 import models.intermediary.PartialUpdateIntermediaryModel
@@ -42,7 +43,8 @@ interface IntermediaryRepository {
 }
 
 internal class IntermediaryRepositoryImpl(
-    private val databaseSource: IntermediaryDatabaseSource
+    private val databaseSource: IntermediaryDatabaseSource,
+    private val cacheHandler: CacheHandler
 ) : IntermediaryRepository {
 
     override suspend fun create(userId: UUID, model: CreateIntermediaryModel): String {
@@ -62,11 +64,28 @@ internal class IntermediaryRepositoryImpl(
         return databaseSource.delete(
             userId = userId,
             intermediaryId = intermediaryId
-        )
+        ).also {
+            cacheHandler.delete(intermediaryId.toString())
+        }
     }
 
     override suspend fun getById(intermediaryId: UUID): IntermediaryModel? {
-        return databaseSource.getById(intermediaryId)
+        val cached = cacheHandler.get(
+            key = intermediaryId.toString(),
+            serializer = IntermediaryModel.serializer()
+        )
+
+        if (cached != null) return cached
+
+        val databaseResult = databaseSource.getById(intermediaryId)
+
+        return databaseResult?.also {
+            cacheHandler.set(
+                key = intermediaryId.toString(),
+                value = it,
+                serializer = IntermediaryModel.serializer()
+            )
+        }
     }
 
     override suspend fun getBySwift(userId: UUID, swift: String): IntermediaryModel? {
@@ -103,6 +122,8 @@ internal class IntermediaryRepositoryImpl(
                 bankName = model.bankName,
                 bankAddress = model.bankAddress
             )
-        )
+        ).also {
+            cacheHandler.delete(intermediaryId.toString())
+        }
     }
 }

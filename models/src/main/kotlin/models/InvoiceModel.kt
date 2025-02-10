@@ -1,13 +1,16 @@
 package models
 
+import foundation.serialization.JavaUUIDSerializer
 import kotlinx.datetime.Instant
+import kotlinx.serialization.Serializable
 import models.beneficiary.BeneficiaryModel
 import models.intermediary.IntermediaryModel
 import models.user.UserModel
 import java.util.*
 
+@Serializable
 data class InvoiceModel(
-    val id: UUID,
+    @Serializable(with = JavaUUIDSerializer::class) val id: UUID,
     val externalId: String,
     val senderCompanyName: String,
     val senderCompanyAddress: String,
@@ -23,8 +26,9 @@ data class InvoiceModel(
     val intermediary: IntermediaryModel?
 )
 
+@Serializable
 data class InvoiceModelActivityModel(
-    val id: UUID,
+    @Serializable(with = JavaUUIDSerializer::class) val id: UUID,
     val name: String,
     val unitPrice: Long,
     val quantity: Int

@@ -65,7 +65,9 @@ internal class BeneficiaryRepositoryImpl(
         return databaseSource.delete(
             userId = userId,
             beneficiaryId = beneficiaryId
-        )
+        ).also {
+            cacheHandler.delete(beneficiaryId.toString())
+        }
     }
 
     override suspend fun getById(beneficiaryId: UUID): BeneficiaryModel? {
@@ -74,21 +76,16 @@ internal class BeneficiaryRepositoryImpl(
             serializer = BeneficiaryModel.serializer()
         )
 
-        if (cached != null) {
-            return cached
-        }
+        if (cached != null) return cached
 
-        val data = databaseSource.getById(
+        return databaseSource.getById(
             beneficiaryId = beneficiaryId
-        )
-
-        return data?.let {
+        )?.also {
             cacheHandler.set(
                 key = it.id,
                 value = it,
                 serializer = BeneficiaryModel.serializer()
             )
-            it
         }
     }
 
@@ -122,8 +119,7 @@ internal class BeneficiaryRepositoryImpl(
         beneficiaryId: UUID,
         model: PartialUpdateBeneficiaryModel
     ): BeneficiaryModel {
-
-        val result = databaseSource.update(
+        return databaseSource.update(
             userId = userId,
             beneficiaryId = beneficiaryId,
             model = UpdateBeneficiaryData(
@@ -133,10 +129,6 @@ internal class BeneficiaryRepositoryImpl(
                 bankName = model.bankName,
                 bankAddress = model.bankAddress
             )
-        )
-
-        cacheHandler.delete(beneficiaryId.toString())
-
-        return result
+        ).also { cacheHandler.delete(beneficiaryId.toString()) }
     }
 }

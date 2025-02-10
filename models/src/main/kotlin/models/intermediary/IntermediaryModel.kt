@@ -1,7 +1,9 @@
 package models.intermediary
 
 import kotlinx.datetime.Instant
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class IntermediaryModel(
     val name: String,
     val iban: String,
