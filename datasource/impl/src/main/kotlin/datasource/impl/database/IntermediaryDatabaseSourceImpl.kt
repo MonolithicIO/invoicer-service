@@ -4,9 +4,9 @@ import datasource.api.database.IntermediaryDatabaseSource
 import datasource.api.model.intermediary.CreateIntermediaryData
 import datasource.api.model.intermediary.UpdateIntermediaryData
 import datasource.impl.mapper.toModel
-import entities.BeneficiaryTable.user
 import entities.IntermediaryEntity
 import entities.IntermediaryTable
+import entities.IntermediaryTable.user
 import models.intermediary.IntermediaryModel
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
