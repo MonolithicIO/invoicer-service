@@ -1,5 +1,6 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.metrics.micrometer.*
 import io.ktor.server.plugins.callid.*
@@ -17,12 +18,20 @@ import io.micrometer.core.instrument.binder.system.UptimeMetrics
 import io.micrometer.prometheusmetrics.PrometheusConfig
 import io.micrometer.prometheusmetrics.PrometheusMeterRegistry
 import org.slf4j.event.Level
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
+@OptIn(ExperimentalUuidApi::class)
 fun Application.configureMonitoring() {
     install(CallLogging) {
         level = Level.DEBUG
         filter { call -> call.request.path().startsWith("/") }
         callIdMdc("call-id")
+    }
+
+    install(CallId) {
+        generate { Uuid.random().toString() }
+        replyToHeader(HttpHeaders.XRequestId)
     }
 
     installPrometheus()
