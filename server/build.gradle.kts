@@ -27,7 +27,7 @@ dependencies {
     implementation(libs.openpdf)
     implementation(libs.postgres)
     implementation(libs.h2)
-    implementation(libs.logback)
+    implementation(libs.bundles.logback)
     implementation(libs.bundles.ktor)
     implementation("org.webjars:jquery:3.2.1")
     implementation(libs.swagger)

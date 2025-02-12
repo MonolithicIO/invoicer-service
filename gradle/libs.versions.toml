@@ -7,7 +7,8 @@ datetime = "0.6.0"
 detekt-plugin = "1.23.3"
 ktor = "2.3.11"
 kotlin = "2.1.10"
-logback = "1.4.14"
+logback-classic = "1.4.14"
+logback-encoder = "7.2"
 postgres = "42.5.1"
 h2 = "2.1.214"
 swagger = "2.9.0"
@@ -37,7 +38,11 @@ jedis = { module = "redis.clients:jedis", version.ref = "jedis" }
 # DB
 postgres = { module = "org.postgresql:postgresql", version.ref = "postgres" }
 h2 = { module = "com.h2database:h2", version.ref = "h2" }
-logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+
+# Logback
+
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-classic" }
+logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logback-encoder" }
 
 # Kotlin
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime-jvm", version.ref = "datetime" }
@@ -87,6 +92,7 @@ serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref 
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover-plugin" }
 
 [bundles]
+logback = ["logback-classic", "logback-encoder"]
 exposed = ["exposed-dao", "exposed-core", "exposed-jbdc", "exposed-date"]
 ktor = [
     "ktor-server-core-jvm",
