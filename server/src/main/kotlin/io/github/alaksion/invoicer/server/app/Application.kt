@@ -14,6 +14,7 @@ fun Application.module() {
     installDi()
     installAuth()
     connectDatabase()
+    configureSecurity()
     configureSerialization()
     installStatusPages()
     configureMonitoring()
