@@ -20,6 +20,7 @@ detekt-gradle = "1.23.7"
 coroutines = "1.8.1"
 prometheus-micrometer = "1.14.3"
 jedis = "5.2.0"
+zxing = "3.5.3"
 
 [libraries]
 kodein-server = { module = "org.kodein.di:kodein-di-framework-ktor-server-jvm", version.ref = "kodein" }
@@ -40,7 +41,6 @@ postgres = { module = "org.postgresql:postgresql", version.ref = "postgres" }
 h2 = { module = "com.h2database:h2", version.ref = "h2" }
 
 # Logback
-
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-classic" }
 logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logback-encoder" }
 
@@ -84,6 +84,9 @@ swagger = { module = "io.github.smiley4:ktor-swagger-ui", version.ref = "swagger
 
 # Bcrypt
 bcrypt = { module = "org.mindrot:jbcrypt", version.ref = "bcrypt" }
+
+# Zxing
+zxing-javase = { module = "com.google.zxing:javase", version.ref = "zxing" }
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt-plugin" }

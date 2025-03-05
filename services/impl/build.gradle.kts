@@ -20,6 +20,7 @@ dependencies {
     implementation(projects.foundation.date.impl)
     implementation(projects.foundation.authentication.impl)
     implementation(projects.foundation.password.impl)
+    implementation(projects.foundation.qrcode)
     implementation(libs.kotlin.coroutines.core)
 
     testImplementation(projects.repository.test)
@@ -29,5 +30,5 @@ dependencies {
     testImplementation(projects.services.test)
     testImplementation(projects.foundation.date.test)
     testImplementation(projects.foundation.password.test)
-    implementation(projects.foundation.authentication.test)
+    testImplementation(projects.foundation.authentication.test)
 }

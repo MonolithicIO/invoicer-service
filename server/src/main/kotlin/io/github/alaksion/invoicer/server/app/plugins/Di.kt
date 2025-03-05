@@ -5,6 +5,7 @@ import foundation.authentication.impl.di.utilsAuthenticationModule
 import foundation.cache.impl.di.cacheDiModule
 import foundation.env.impl.invoicerEnvironmentDiModule
 import foundation.impl.di.secretsModule
+import foundation.qrcode.di.qrCodeModule
 import foundation.redis.impl.di.redisDiModule
 import foundation.validator.impl.di.validatorModule
 import io.ktor.server.application.*
@@ -27,5 +28,6 @@ fun Application.installDi() {
         import(cacheDiModule)
         import(redisDiModule)
         import(datasourceModule)
+        import(qrCodeModule)
     }
 }
