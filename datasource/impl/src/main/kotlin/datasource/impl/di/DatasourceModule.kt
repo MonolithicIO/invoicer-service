@@ -38,4 +38,10 @@ val datasourceModule = DI.Module("datasourceModule") {
         )
     }
 
+    bindProvider<QrCodeTokenDatabaseSource> {
+        QrCodeDatabaseSourceImpl(
+            dateProvider = instance()
+        )
+    }
+
 }

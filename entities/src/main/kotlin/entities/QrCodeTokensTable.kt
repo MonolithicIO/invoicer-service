@@ -17,8 +17,8 @@ object QrCodeTokensTable : UUIDTable("") {
     val expiresAt = timestamp("expires_at")
 }
 
-class QrCodeEntity(id: EntityID<UUID>) : UUIDEntity(id) {
-    companion object : UUIDEntityClass<QrCodeEntity>(QrCodeTokensTable)
+class QrCodeTokenEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+    companion object : UUIDEntityClass<QrCodeTokenEntity>(QrCodeTokensTable)
 
     var ipAddress by QrCodeTokensTable.ipAddress
     var agent by QrCodeTokensTable.agent
