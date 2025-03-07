@@ -5,7 +5,7 @@ import datasource.impl.mapper.toModel
 import entities.QrCodeTokenEntity
 import entities.QrCodeTokensTable
 import models.qrcodetoken.QrCodeTokenModel
-import org.jetbrains.exposed.sql.insertAndGetId
+import org.jetbrains.exposed.sql.insertReturning
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.updateReturning
 import utils.date.impl.DateProvider
@@ -27,19 +27,31 @@ internal class QrCodeDatabaseSourceImpl(
     override suspend fun createQrCodeToken(
         ipAddress: String,
         agent: String,
-        base64Content: String
-    ): String {
+        base64Content: String,
+        content: String,
+    ): QrCodeTokenModel {
         return newSuspendedTransaction {
-            QrCodeTokensTable.insertAndGetId {
+            QrCodeTokensTable.insertReturning {
                 it[QrCodeTokensTable.ipAddress] = ipAddress
                 it[QrCodeTokensTable.agent] = agent
                 it[QrCodeTokensTable.base64Content] = base64Content
+                it[QrCodeTokensTable.content] = content
                 it[status] = QrCodeTokenStatus.GENERATED.value
                 it[createdAt] = dateProvider.currentInstant()
                 it[updatedAt] = dateProvider.currentInstant()
                 it[expiresAt] = dateProvider.currentInstant().plus(60.seconds)
             }
-        }.value.toString()
+        }.map {
+            QrCodeTokenEntity.wrapRow(it)
+        }.first().toModel()
+    }
+
+    override suspend fun getQrCodeTokenByContentId(contentId: String): QrCodeTokenModel? {
+        return newSuspendedTransaction {
+            QrCodeTokenEntity.find { QrCodeTokensTable.content eq contentId }
+                .firstOrNull()
+                ?.toModel()
+        }
     }
 
     override suspend fun getQrCodeTokenByUUID(id: String): QrCodeTokenModel? {

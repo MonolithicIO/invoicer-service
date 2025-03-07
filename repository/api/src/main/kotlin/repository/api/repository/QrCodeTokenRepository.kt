@@ -8,7 +8,8 @@ interface QrCodeTokenRepository {
         ipAddress: String,
         agent: String,
         base64Content: String,
-    ): String
+        content: String,
+    ): QrCodeTokenModel
 
     suspend fun getQrCodeTokenByUUID(
         id: String
@@ -21,17 +22,27 @@ interface QrCodeTokenRepository {
     suspend fun expireQrCodeToken(
         id: String
     )
+
+    suspend fun getQrCodeByTokenId(
+        contentId: String,
+    ): QrCodeTokenModel?
 }
 
 internal class QrCodeTokenRepositoryImpl(
     private val databaseSource: QrCodeTokenDatabaseSource
 ) : QrCodeTokenRepository {
 
-    override suspend fun createQrCodeToken(ipAddress: String, agent: String, base64Content: String): String {
+    override suspend fun createQrCodeToken(
+        ipAddress: String,
+        agent: String,
+        base64Content: String,
+        content: String,
+    ): QrCodeTokenModel {
         return databaseSource.createQrCodeToken(
             ipAddress = ipAddress,
             agent = agent,
-            base64Content = base64Content
+            base64Content = base64Content,
+            content = content
         )
     }
 
@@ -45,5 +56,9 @@ internal class QrCodeTokenRepositoryImpl(
 
     override suspend fun expireQrCodeToken(id: String) {
         databaseSource.expireQrCodeToken(id = id)
+    }
+
+    override suspend fun getQrCodeByTokenId(contentId: String): QrCodeTokenModel? {
+        return databaseSource.getQrCodeTokenByContentId(contentId = contentId)
     }
 }

@@ -7,7 +7,12 @@ interface QrCodeTokenDatabaseSource {
         ipAddress: String,
         agent: String,
         base64Content: String,
-    ): String
+        content: String,
+    ): QrCodeTokenModel
+
+    suspend fun getQrCodeTokenByContentId(
+        contentId: String
+    ): QrCodeTokenModel?
 
     suspend fun getQrCodeTokenByUUID(
         id: String

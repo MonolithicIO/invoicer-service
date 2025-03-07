@@ -11,8 +11,8 @@ import services.api.services.invoice.GetInvoiceByIdService
 import services.api.services.invoice.GetUserInvoicesService
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
-import services.api.services.login.RequestLoginCodeService
 import services.api.services.login.StoreRefreshTokenService
+import services.api.services.qrcodetoken.RequestQrCodeTokenService
 import services.api.services.user.CreateUserService
 import services.api.services.user.DeleteUserService
 import services.api.services.user.GetUserByEmailService
@@ -24,8 +24,8 @@ import services.impl.invoice.GetInvoiceByIdServiceImpl
 import services.impl.invoice.GetUserInvoicesServiceImpl
 import services.impl.login.LoginServiceImpl
 import services.impl.login.RefreshLoginServiceImpl
-import services.impl.login.RequestLoginCodeServiceImpl
 import services.impl.login.StoreRefreshTokenServiceImpl
+import services.impl.qrcodetoken.RequestQrCodeTokenServiceImpl
 import services.impl.user.CreateUserServiceImpl
 import services.impl.user.DeleteUserServiceImpl
 import services.impl.user.GetUserByEmailServiceImpl
@@ -214,9 +214,10 @@ private fun DI.Builder.loginServices() {
         )
     }
 
-    bindProvider<RequestLoginCodeService> {
-        RequestLoginCodeServiceImpl(
-            qrCodeGenerator = instance()
+    bindProvider<RequestQrCodeTokenService> {
+        RequestQrCodeTokenServiceImpl(
+            qrCodeGenerator = instance(),
+            qrCodeTokenRepository = instance()
         )
     }
 }
