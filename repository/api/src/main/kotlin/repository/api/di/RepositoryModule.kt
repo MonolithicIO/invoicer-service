@@ -39,4 +39,10 @@ val repositoryModule = DI.Module("invocer-repository") {
             databaseSource = instance()
         )
     }
+
+    bindProvider<QrCodeTokenRepository> {
+        QrCodeTokenRepositoryImpl(
+            databaseSource = instance()
+        )
+    }
 }
