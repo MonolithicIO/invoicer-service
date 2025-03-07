@@ -40,10 +40,10 @@ internal class QrCodeDatabaseSourceImpl(
                 it[createdAt] = dateProvider.currentInstant()
                 it[updatedAt] = dateProvider.currentInstant()
                 it[expiresAt] = dateProvider.currentInstant().plus(60.seconds)
-            }
-        }.map {
-            QrCodeTokenEntity.wrapRow(it)
-        }.first().toModel()
+            }.map {
+                QrCodeTokenEntity.wrapRow(it)
+            }.first().toModel()
+        }
     }
 
     override suspend fun getQrCodeTokenByContentId(contentId: String): QrCodeTokenModel? {
