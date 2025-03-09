@@ -6,6 +6,7 @@ import controller.viewmodel.login.toDomainModel
 import controller.viewmodel.login.toViewModel
 import controller.viewmodel.qrcodetoken.RequestQrCodeTokenViewModel
 import controller.viewmodel.qrcodetoken.toDomainModel
+import controller.viewmodel.qrcodetoken.toViewModel
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
@@ -54,7 +55,7 @@ internal fun Routing.authController() {
             call.respond(
                 message = requestCodeService.requestQrCodeToken(
                     request = model
-                ),
+                ).toViewModel(),
                 status = HttpStatusCode.Created
             )
         }

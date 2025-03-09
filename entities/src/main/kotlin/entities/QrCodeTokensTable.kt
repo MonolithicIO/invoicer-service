@@ -11,7 +11,8 @@ object QrCodeTokensTable : UUIDTable("t_qrcode_tokens") {
     val ipAddress = varchar("ip_address", 100)
     val agent = varchar("agent", 100)
     val content = varchar("content", 1000)
-    val base64Content = varchar("base64_content", 1000)
+    // Apparently 1000 is not enough lol
+    val base64Content = varchar("base64_content", 2000)
     val status = varchar("status", 100)
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
