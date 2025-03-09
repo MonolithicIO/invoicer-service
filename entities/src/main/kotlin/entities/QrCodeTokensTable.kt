@@ -7,7 +7,7 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import java.util.*
 
-object QrCodeTokensTable : UUIDTable("") {
+object QrCodeTokensTable : UUIDTable("t_qrcode_tokens") {
     val ipAddress = varchar("ip_address", 100)
     val agent = varchar("agent", 100)
     val content = varchar("content", 1000)
