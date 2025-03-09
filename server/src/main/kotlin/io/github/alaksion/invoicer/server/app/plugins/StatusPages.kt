@@ -1,6 +1,6 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
-import io.ktor.http.HttpStatusCode
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
@@ -33,4 +33,5 @@ private fun HttpCode.toKtorCode(): HttpStatusCode = when (this) {
     HttpCode.NotFound -> HttpStatusCode.NotFound
     HttpCode.Conflict -> HttpStatusCode.Conflict
     HttpCode.UnAuthorized -> HttpStatusCode.Unauthorized
+    HttpCode.Gone -> HttpStatusCode.Gone
 }

@@ -5,5 +5,6 @@ enum class HttpCode {
     NotFound,
     Forbidden,
     Conflict,
-    UnAuthorized
+    UnAuthorized,
+    Gone
 }

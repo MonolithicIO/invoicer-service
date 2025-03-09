@@ -17,3 +17,5 @@ fun unauthorizedResourceError(): Nothing =
 
 fun unAuthorizedError(message: String): Nothing =
     httpError(message = message, code = HttpCode.UnAuthorized)
+
+fun goneError(message: String): Nothing = httpError(message = message, code = HttpCode.Gone)
