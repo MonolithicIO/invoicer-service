@@ -34,6 +34,7 @@ internal class ConsumeQrCodeTokenServiceImpl(
         getUserByIdService.get(userUuid)
 
         qrCodeTokenRepository.consumeQrCodeToken(token.id)
+        // TODO -> Once QrCode is consumed what to do next?
     }
 
     private fun checkExpiredToken(expiresAt: Instant): Boolean {

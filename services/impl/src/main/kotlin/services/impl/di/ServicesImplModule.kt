@@ -225,8 +225,6 @@ private fun DI.Builder.loginServices() {
 
     bindProvider<ConsumeQrCodeTokenService> {
         ConsumeQrCodeTokenServiceImpl(
-            authTokenManager = instance(),
-            storeRefreshTokenService = instance(),
             qrCodeTokenRepository = instance(),
             dateProvider = instance(),
             getUserByIdService = instance()
