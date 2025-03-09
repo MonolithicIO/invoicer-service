@@ -71,10 +71,10 @@ internal class QrCodeDatabaseSourceImpl(
             ) {
                 it[status] = QrCodeTokenStatus.CONSUMED.value
                 it[updatedAt] = dateProvider.currentInstant()
-            }
-        }.map {
-            QrCodeTokenEntity.wrapRow(it).toModel()
-        }.first()
+            }.map {
+                QrCodeTokenEntity.wrapRow(it).toModel()
+            }.first()
+        }
     }
 
     override suspend fun expireQrCodeToken(id: String) {
