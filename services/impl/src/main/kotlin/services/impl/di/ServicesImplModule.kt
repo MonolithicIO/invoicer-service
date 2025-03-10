@@ -227,7 +227,10 @@ private fun DI.Builder.loginServices() {
         ConsumeQrCodeTokenServiceImpl(
             qrCodeTokenRepository = instance(),
             dateProvider = instance(),
-            getUserByIdService = instance()
+            getUserByIdService = instance(),
+            authTokenManager = instance(),
+            storeRefreshTokenService = instance(),
+            qrCodeTokenStream = instance(),
         )
     }
 }

@@ -98,10 +98,12 @@ internal fun Routing.authController() {
                     // no op
                 }
             }.onFailure {
+                // Job Cancellation exception: parent is canelling
+                println(it)
                 close(
                     reason = CloseReason(
                         message = "Socket connection closed for contentId: ${contentId}",
-                        code = 500
+                        code = 500,
                     )
                 )
                 job.cancel()
