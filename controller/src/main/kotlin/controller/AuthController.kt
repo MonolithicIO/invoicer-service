@@ -17,17 +17,21 @@ import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import models.login.AuthTokenModel
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
 import services.api.services.qrcodetoken.RequestQrCodeTokenService
 import utils.exceptions.unauthorizedResourceError
+import java.util.concurrent.ConcurrentHashMap
 
 internal fun Routing.authController() {
     val qrCodeEventChannel by closestDI().instance<QrCodeEventHandler>()
+    val sessionMap = ConcurrentHashMap<String, WebSocketServerSession>()
 
     route("/v1/auth") {
         post("/login") {
@@ -68,18 +72,38 @@ internal fun Routing.authController() {
             )
         }
 
-        webSocket("/login/qrcode_session") {
-            val eventChannel = MutableSharedFlow<String>()
+        webSocket("/login/qrcode_session/{contentId}") {
+            val contentId = call.parameters["contentId"] ?: unauthorizedResourceError()
+            sessionMap[contentId] = this
+            val job =  launch {
+                qrCodeEventChannel
+                    .events
+                    .filter { it.contentId == contentId }
+                    .collect { event ->
+                        val matchingConnection = sessionMap[contentId]
 
-            val job = launch {
-                eventChannel.collect {
-                    send(it)
-                }
+                        if (matchingConnection != null && matchingConnection.isActive) {
+                            matchingConnection.sendSerialized(
+                                AuthTokenModel(
+                                    accessToken = event.accessToken,
+                                    refreshToken = event.refreshToken
+                                )
+                            )
+                        }
+                    }
             }
+
             runCatching {
-                incoming.consumeEach { frame -> }
-            }.onFailure { error ->
-                print("Websocket failure:${error.message.toString()}")
+                incoming.consumeEach {
+                    // no op
+                }
+            }.onFailure {
+                close(
+                    reason = CloseReason(
+                        message = "Socket connection closed for contentId: ${contentId}",
+                        code = 500
+                    )
+                )
                 job.cancel()
             }
         }
