@@ -18,5 +18,6 @@ fun Application.module() {
     configureSerialization()
     installStatusPages()
     configureMonitoring()
+    installWebSocket()
     rootController()
 }

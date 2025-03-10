@@ -72,6 +72,7 @@ ktor-server-auth-core = { module = "io.ktor:ktor-server-auth" }
 ktor-server-auth-jwt = { module = 'io.ktor:ktor-server-auth-jwt' }
 ktor-server-metrics-micrometer = { module = "io.ktor:ktor-server-metrics-micrometer" }
 ktor-server-cors = { module = "io.ktor:ktor-server-cors" }
+ktor-server-websockets = { module = "io.ktor:ktor-server-websockets" }
 
 # Micrometer
 micrometer-prometheus = { module = "io.micrometer:micrometer-registry-prometheus", version.ref = "prometheus-micrometer" }
@@ -113,5 +114,6 @@ ktor = [
     "ktor-server-auth-core",
     "ktor-server-auth-jwt",
     "ktor-server-metrics-micrometer",
-    "ktor-server-cors"
+    "ktor-server-cors",
+    "ktor-server-websockets",
 ]

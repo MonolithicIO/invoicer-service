@@ -8,6 +8,7 @@ import foundation.impl.di.secretsModule
 import foundation.qrcode.di.qrCodeModule
 import foundation.redis.impl.di.redisDiModule
 import foundation.validator.impl.di.validatorModule
+import io.github.alaksion.invoicer.foundation.di.foundationDiModule
 import io.ktor.server.application.*
 import org.kodein.di.ktor.di
 import repository.api.di.repositoryModule
@@ -29,5 +30,6 @@ fun Application.installDi() {
         import(redisDiModule)
         import(datasourceModule)
         import(qrCodeModule)
+        import(foundationDiModule)
     }
 }
