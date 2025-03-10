@@ -1,9 +1,6 @@
 package controller
 
-import controller.viewmodel.login.LoginViewModel
-import controller.viewmodel.login.RefreshAuthRequest
-import controller.viewmodel.login.toDomainModel
-import controller.viewmodel.login.toViewModel
+import controller.viewmodel.login.*
 import controller.viewmodel.qrcodetoken.RequestQrCodeTokenViewModel
 import controller.viewmodel.qrcodetoken.toDomainModel
 import controller.viewmodel.qrcodetoken.toViewModel
@@ -20,7 +17,6 @@ import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import models.login.AuthTokenModel
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.login.LoginService
@@ -75,7 +71,7 @@ internal fun Routing.authController() {
         webSocket("/login/qrcode_session/{contentId}") {
             val contentId = call.parameters["contentId"] ?: unauthorizedResourceError()
             sessionMap[contentId] = this
-            val job =  launch {
+            val job = launch {
                 qrCodeEventChannel
                     .events
                     .filter { it.contentId == contentId }
@@ -84,10 +80,14 @@ internal fun Routing.authController() {
 
                         if (matchingConnection != null && matchingConnection.isActive) {
                             matchingConnection.sendSerialized(
-                                AuthTokenModel(
-                                    accessToken = event.accessToken,
+                                LoginResponseViewModel(
+                                    token = event.accessToken,
                                     refreshToken = event.refreshToken
                                 )
+                            )
+                            sessionMap.remove(contentId)
+                            matchingConnection.close(
+                                reason = CloseReason(CloseReason.Codes.NORMAL, "Authentication successful")
                             )
                         }
                     }
@@ -100,12 +100,6 @@ internal fun Routing.authController() {
             }.onFailure {
                 // Job Cancellation exception: parent is canelling
                 println(it)
-                close(
-                    reason = CloseReason(
-                        message = "Socket connection closed for contentId: ${contentId}",
-                        code = 500,
-                    )
-                )
                 job.cancel()
             }
         }
