@@ -9,7 +9,7 @@ import java.util.*
 
 object QrCodeTokensTable : UUIDTable("t_qrcode_tokens") {
     val ipAddress = varchar("ip_address", 100)
-    val agent = varchar("agent", 100)
+    val agent = varchar("agent", 1000)
     val content = varchar("content", 1000)
     // Apparently 1000 is not enough lol
     val base64Content = varchar("base64_content", 2000)
