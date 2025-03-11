@@ -21,6 +21,7 @@ import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
+import services.api.services.qrcodetoken.FindQrCodeTokenByContentIdService
 import services.api.services.qrcodetoken.RequestQrCodeTokenService
 import utils.exceptions.unauthorizedResourceError
 import java.util.concurrent.ConcurrentHashMap
@@ -70,6 +71,15 @@ internal fun Routing.authController() {
 
         webSocket("/login/qrcode_session/{contentId}") {
             val contentId = call.parameters["contentId"] ?: unauthorizedResourceError()
+            val findTokenService by closestDI().instance<FindQrCodeTokenByContentIdService>()
+
+            findTokenService.find(contentId) ?: close(
+                reason = CloseReason(
+                    code = 1000,
+                    message = "QrCode not found, closing connection"
+                )
+            )
+
             sessionMap[contentId] = this
             val job = launch {
                 qrCodeEventChannel
@@ -98,8 +108,6 @@ internal fun Routing.authController() {
                     // no op
                 }
             }.onFailure {
-                // Job Cancellation exception: parent is canelling
-                println(it)
                 job.cancel()
             }
         }
