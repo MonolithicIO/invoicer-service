@@ -2,6 +2,6 @@ package services.api.services.qrcodetoken
 
 import models.qrcodetoken.QrCodeTokenModel
 
-interface FindQrCodeTokenByContentIdService {
+interface GetQrCodeTokenByContentIdService {
     suspend fun find(contentId: String): QrCodeTokenModel?
 }

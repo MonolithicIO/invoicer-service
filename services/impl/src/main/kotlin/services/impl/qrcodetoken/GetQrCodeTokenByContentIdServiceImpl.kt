@@ -2,11 +2,11 @@ package services.impl.qrcodetoken
 
 import models.qrcodetoken.QrCodeTokenModel
 import repository.api.repository.QrCodeTokenRepository
-import services.api.services.qrcodetoken.FindQrCodeTokenByContentIdService
+import services.api.services.qrcodetoken.GetQrCodeTokenByContentIdService
 
-internal class FindQrCodeTokenByContentIdServiceImpl(
+internal class GetQrCodeTokenByContentIdServiceImpl(
     private val qrCodeTokenRepository: QrCodeTokenRepository
-) : FindQrCodeTokenByContentIdService {
+) : GetQrCodeTokenByContentIdService {
     override suspend fun find(contentId: String): QrCodeTokenModel? {
         return qrCodeTokenRepository.getQrCodeByTokenId(contentId = contentId)
     }

@@ -11,7 +11,7 @@ internal data class QrCodeTokenResponseViewModel(
     val rawContent: String
 )
 
-internal fun QrCodeTokenModel.toViewModel(): QrCodeTokenResponseViewModel {
+internal fun QrCodeTokenModel.toTokenResponseViewModel(): QrCodeTokenResponseViewModel {
     return QrCodeTokenResponseViewModel(
         base64Content = this.base64Content,
         expiration = this.expiresAt,
