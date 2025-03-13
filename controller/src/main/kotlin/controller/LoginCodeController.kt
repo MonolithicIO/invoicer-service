@@ -51,7 +51,7 @@ internal fun Routing.loginCodeController() {
         }
 
         jwtProtected {
-            post("/consume/{id}") {
+            post("/{id}/consume") {
                 val qrCodeContentId = call.parameters["id"]!!
                 val service by closestDI().instance<ConsumeQrCodeTokenService>()
                 service.consume(
