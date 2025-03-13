@@ -12,7 +12,6 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
 import services.api.services.user.CreateUserService
 import services.api.services.user.DeleteUserService
 
@@ -32,18 +31,6 @@ internal fun Routing.userController() {
             delete {
                 val useCase by closestDI().instance<DeleteUserService>()
                 useCase.delete(jwtUserId())
-                call.respond(HttpStatusCode.NoContent)
-            }
-        }
-
-        jwtProtected {
-            post("/qrcode/{id}/consume") {
-                val qrCodeContentId = call.parameters["id"]!!
-                val service by closestDI().instance<ConsumeQrCodeTokenService>()
-                service.consume(
-                    contentId = qrCodeContentId,
-                    userUuid = jwtUserId()
-                )
                 call.respond(HttpStatusCode.NoContent)
             }
         }

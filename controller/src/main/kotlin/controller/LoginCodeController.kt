@@ -6,6 +6,7 @@ import controller.viewmodel.qrcodetoken.toDomainModel
 import controller.viewmodel.qrcodetoken.toTokenDetailsViewModel
 import controller.viewmodel.qrcodetoken.toTokenResponseViewModel
 import foundation.authentication.impl.jwt.jwtProtected
+import foundation.authentication.impl.jwt.jwtUserId
 import io.github.alaksion.invoicer.foundation.events.QrCodeEventHandler
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -21,6 +22,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
+import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
 import services.api.services.qrcodetoken.GetQrCodeTokenByContentIdService
 import services.api.services.qrcodetoken.RequestQrCodeTokenService
 import utils.exceptions.notFoundError
@@ -46,6 +48,18 @@ internal fun Routing.loginCodeController() {
                 ).toTokenResponseViewModel(),
                 status = HttpStatusCode.Created
             )
+        }
+
+        jwtProtected {
+            post("/consume/{id}") {
+                val qrCodeContentId = call.parameters["id"]!!
+                val service by closestDI().instance<ConsumeQrCodeTokenService>()
+                service.consume(
+                    contentId = qrCodeContentId,
+                    userUuid = jwtUserId()
+                )
+                call.respond(HttpStatusCode.NoContent)
+            }
         }
 
         jwtProtected {
