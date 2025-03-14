@@ -17,5 +17,6 @@ internal fun QrCodeTokenEntity.toModel(): QrCodeTokenModel = QrCodeTokenModel(
     createdAt = createdAt,
     updatedAt = updatedAt,
     expiresAt = expiresAt,
-    rawContent = content
+    rawContent = content,
+    ipAddress = ipAddress
 )

@@ -11,6 +11,7 @@ internal data class QrCodeTokenDetailsViewModel(
     val agent: String,
     val base64Content: String,
     val rawContent: String,
+    val ipAddress: String,
     val status: QrCodeTokenStatusViewModel,
     val createdAt: Instant,
     val updatedAt: Instant,
@@ -37,6 +38,7 @@ internal fun QrCodeTokenModel.toTokenDetailsViewModel(): QrCodeTokenDetailsViewM
         },
         createdAt = createdAt,
         updatedAt = updatedAt,
-        expiresAt = expiresAt
+        expiresAt = expiresAt,
+        ipAddress = ipAddress
     )
 }
