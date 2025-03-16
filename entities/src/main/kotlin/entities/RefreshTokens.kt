@@ -23,6 +23,6 @@ class RefreshTokenEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var user by UserEntity referencedOn RefreshTokensTable.user
     var enabled by RefreshTokensTable.enabled
     var refreshToken by RefreshTokensTable.refreshToken
-    var createdAt: Instant by InvoiceActivityTable.createdAt
-    var updatedAt: Instant by InvoiceActivityTable.updatedAt
+    var createdAt: Instant by RefreshTokensTable.createdAt
+    var updatedAt: Instant by RefreshTokensTable.updatedAt
 }
