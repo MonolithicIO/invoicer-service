@@ -74,7 +74,7 @@ internal fun Routing.loginCodeController() {
             }
         }
 
-        webSocket("/login/qrcode_session/{contentId}") {
+        webSocket("/qrcode_socket/{contentId}") {
             val contentId = call.parameters["contentId"] ?: unauthorizedResourceError()
             val findTokenService by closestDI().instance<GetQrCodeTokenByContentIdService>()
 
