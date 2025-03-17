@@ -8,7 +8,7 @@ database:
   name: $INVOICER_DB_NAME
   username: $INVOICER_DB_USERNAME
   password: $INVOICER_DB_PASSWORD
-  url: "jdbc:postgresql://localhost:5432/postgres"
+  url: $INVOICER_DB_URL
 jwt:
   audience: $INVOICER_JWT_AUDIENCE
   issuer: $INVOICER_JWT_ISSUER
