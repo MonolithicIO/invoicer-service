@@ -17,9 +17,11 @@ import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
@@ -78,15 +80,20 @@ internal fun Routing.loginCodeController() {
             val contentId = call.parameters["contentId"] ?: unauthorizedResourceError()
             val findTokenService by closestDI().instance<GetQrCodeTokenByContentIdService>()
 
-            findTokenService.find(contentId) ?: close(
-                reason = CloseReason(
-                    code = 1000,
-                    message = "QrCode not found, closing connection"
+            val token = findTokenService.find(contentId)
+            if (token == null) {
+                close(
+                    reason = CloseReason(
+                        code = 1000,
+                        message = "QrCode not found, closing connection"
+                    )
                 )
-            )
+            }
 
+            val codeExpiration = token!!.expiresAt - Clock.System.now()
             sessionMap[contentId] = this
-            val job = launch {
+
+            val scanJob = launch {
                 qrCodeEventChannel
                     .events
                     .filter { it.contentId == contentId }
@@ -108,12 +115,25 @@ internal fun Routing.loginCodeController() {
                     }
             }
 
+            val expirationJob = launch {
+                delay(codeExpiration)
+                scanJob.cancel()
+                close(
+                    reason = CloseReason(
+                        code = 1001,
+                        message = "QrCode expired, closing connection"
+                    )
+                )
+            }
+
+            scanJob.invokeOnCompletion { expirationJob.cancel() }
+
             runCatching {
                 incoming.consumeEach {
                     // no op
                 }
             }.onFailure {
-                job.cancel()
+                scanJob.cancel()
             }
         }
     }
