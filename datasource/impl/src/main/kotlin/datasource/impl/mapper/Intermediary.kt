@@ -1,6 +1,6 @@
 package datasource.impl.mapper
 
-import entities.IntermediaryEntity
+import datasource.impl.entities.IntermediaryEntity
 import models.intermediary.IntermediaryModel
 
 

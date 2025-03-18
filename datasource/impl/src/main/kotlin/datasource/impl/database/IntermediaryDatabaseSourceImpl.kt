@@ -3,10 +3,9 @@ package datasource.impl.database
 import datasource.api.database.IntermediaryDatabaseSource
 import datasource.api.model.intermediary.CreateIntermediaryData
 import datasource.api.model.intermediary.UpdateIntermediaryData
+import datasource.impl.entities.IntermediaryEntity
+import datasource.impl.entities.IntermediaryTable
 import datasource.impl.mapper.toModel
-import entities.IntermediaryEntity
-import entities.IntermediaryTable
-import entities.IntermediaryTable.user
 import models.intermediary.IntermediaryModel
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -36,7 +35,7 @@ internal class IntermediaryDatabaseSourceImpl(
         return newSuspendedTransaction {
             IntermediaryTable.update(
                 where = {
-                    user.eq(userId).and(IntermediaryTable.id eq intermediaryId)
+                    IntermediaryTable.user.eq(userId).and(IntermediaryTable.id eq intermediaryId)
                 }
             ) {
                 it[isDeleted] = true
@@ -55,7 +54,7 @@ internal class IntermediaryDatabaseSourceImpl(
     override suspend fun getBySwift(userId: UUID, swift: String): IntermediaryModel? {
         return newSuspendedTransaction {
             IntermediaryEntity.find {
-                (user eq userId).and(IntermediaryTable.swift eq swift) and (IntermediaryTable.isDeleted eq false)
+                (IntermediaryTable.user eq userId).and(IntermediaryTable.swift eq swift) and (IntermediaryTable.isDeleted eq false)
             }.firstOrNull()?.toModel()
         }
     }
@@ -69,7 +68,7 @@ internal class IntermediaryDatabaseSourceImpl(
             val query = IntermediaryTable
                 .selectAll()
                 .where {
-                    user eq userId and (IntermediaryTable.isDeleted eq false)
+                    IntermediaryTable.user eq userId and (IntermediaryTable.isDeleted eq false)
                 }
                 .limit(n = limit, offset = page * limit)
 
@@ -87,7 +86,7 @@ internal class IntermediaryDatabaseSourceImpl(
         return newSuspendedTransaction {
             IntermediaryTable.updateReturning(
                 where = {
-                    user eq userId
+                    IntermediaryTable.user eq userId
                     IntermediaryTable.id eq intermediaryId
                 }
             ) { table ->

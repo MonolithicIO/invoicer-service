@@ -1,4 +1,4 @@
-package entities
+package datasource.impl.entities
 
 import kotlinx.datetime.Instant
 import org.jetbrains.exposed.dao.UUIDEntity

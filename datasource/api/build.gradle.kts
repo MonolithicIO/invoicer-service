@@ -6,7 +6,6 @@ plugins {
 group = "datasource.api"
 
 dependencies {
-    implementation(projects.entities)
     implementation(projects.models)
     implementation(libs.kotlin.datetime)
 }

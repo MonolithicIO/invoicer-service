@@ -1,4 +1,4 @@
-package entities
+package datasource.impl.entities
 
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass

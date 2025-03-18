@@ -1,6 +1,6 @@
 package datasource.impl.mapper
 
-import entities.InvoiceEntity
+import datasource.impl.entities.InvoiceEntity
 import models.InvoiceModel
 import models.InvoiceModelActivityModel
 import models.getinvoices.InvoiceListItemModel

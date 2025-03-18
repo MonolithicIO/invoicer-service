@@ -1,4 +1,4 @@
-package entities
+package datasource.impl.entities
 
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate

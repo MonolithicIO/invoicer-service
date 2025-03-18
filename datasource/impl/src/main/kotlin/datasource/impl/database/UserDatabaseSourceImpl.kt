@@ -2,9 +2,9 @@ package datasource.impl.database
 
 import datasource.api.database.UserDatabaseSource
 import datasource.api.model.user.CreateUserData
+import datasource.impl.entities.UserEntity
+import datasource.impl.entities.UserTable
 import datasource.impl.mapper.toModel
-import entities.UserEntity
-import entities.UserTable
 import models.user.UserModel
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere

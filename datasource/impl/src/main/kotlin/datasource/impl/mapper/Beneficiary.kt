@@ -1,6 +1,6 @@
 package datasource.impl.mapper
 
-import entities.BeneficiaryEntity
+import datasource.impl.entities.BeneficiaryEntity
 import models.beneficiary.BeneficiaryModel
 
 internal fun BeneficiaryEntity.toModel(): BeneficiaryModel = BeneficiaryModel(

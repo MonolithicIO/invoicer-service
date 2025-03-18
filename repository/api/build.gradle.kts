@@ -9,7 +9,6 @@ group = "io.github.alaksion.invoicer.repository.api"
 version = "0.0.1"
 
 dependencies {
-    implementation(projects.entities)
     implementation(projects.models)
     implementation(projects.datasource.api)
     implementation(projects.foundation.cache.impl)

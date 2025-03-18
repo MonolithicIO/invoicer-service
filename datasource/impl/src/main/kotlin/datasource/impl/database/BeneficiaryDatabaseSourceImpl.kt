@@ -3,13 +3,13 @@ package datasource.impl.database
 import datasource.api.database.BeneficiaryDatabaseSource
 import datasource.api.model.beneficiary.CreateBeneficiaryData
 import datasource.api.model.beneficiary.UpdateBeneficiaryData
-import entities.BeneficiaryEntity
-import entities.BeneficiaryTable
+import datasource.impl.entities.BeneficiaryEntity
+import datasource.impl.entities.BeneficiaryTable
+import datasource.impl.mapper.toModel
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.UserBeneficiaries
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import datasource.impl.mapper.toModel
 import utils.date.impl.DateProvider
 import java.util.*
 

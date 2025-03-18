@@ -1,8 +1,8 @@
 package datasource.impl.database
 
 import datasource.api.database.RefreshTokenDatabaseSource
-import entities.RefreshTokenEntity
-import entities.RefreshTokensTable
+import datasource.impl.entities.RefreshTokenEntity
+import datasource.impl.entities.RefreshTokensTable
 import models.login.RefreshTokenModel
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert

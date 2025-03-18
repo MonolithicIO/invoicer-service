@@ -1,6 +1,6 @@
 package datasource.impl.mapper
 
-import entities.UserEntity
+import datasource.impl.entities.UserEntity
 import models.user.UserModel
 
 

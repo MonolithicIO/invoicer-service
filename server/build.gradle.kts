@@ -60,9 +60,6 @@ dependencies {
     // Models
     implementation(projects.models)
 
-    // Entities
-    implementation(projects.entities)
-
     // Controller
     implementation(projects.controller)
 

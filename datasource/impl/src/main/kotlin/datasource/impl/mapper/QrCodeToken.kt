@@ -1,6 +1,6 @@
 package datasource.impl.mapper
 
-import entities.QrCodeTokenEntity
+import datasource.impl.entities.QrCodeTokenEntity
 import models.qrcodetoken.QrCodeTokenModel
 import models.qrcodetoken.QrCodeTokenStatusModel
 

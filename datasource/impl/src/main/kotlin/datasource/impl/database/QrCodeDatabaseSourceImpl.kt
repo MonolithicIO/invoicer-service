@@ -1,9 +1,9 @@
 package datasource.impl.database
 
 import datasource.api.database.QrCodeTokenDatabaseSource
+import datasource.impl.entities.QrCodeTokenEntity
+import datasource.impl.entities.QrCodeTokensTable
 import datasource.impl.mapper.toModel
-import entities.QrCodeTokenEntity
-import entities.QrCodeTokensTable
 import models.qrcodetoken.QrCodeTokenModel
 import org.jetbrains.exposed.sql.insertReturning
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
