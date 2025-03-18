@@ -52,7 +52,7 @@ dependencies {
     implementation(projects.datasource.impl)
 
     // Repository
-    implementation(projects.repository.api)
+    implementation(projects.repository.impl)
 
     // Services
     implementation(projects.services.impl)

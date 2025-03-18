@@ -12,7 +12,7 @@ dependencies {
     implementation(libs.kodein.server)
 
     implementation(projects.models)
-    implementation(projects.repository.api)
+    implementation(projects.repository.impl)
     implementation(projects.services.api)
 
     implementation(projects.foundation.validator.impl)
