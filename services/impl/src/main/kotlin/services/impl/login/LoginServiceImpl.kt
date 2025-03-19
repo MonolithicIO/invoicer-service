@@ -1,12 +1,12 @@
 package services.impl.login
 
-import foundation.validator.impl.EmailValidator
+import foundation.authentication.impl.AuthTokenManager
+import io.github.alaksion.invoicer.foundation.validation.EmailValidator
 import models.login.AuthTokenModel
 import models.login.LoginModel
 import services.api.services.login.LoginService
 import services.api.services.login.StoreRefreshTokenService
 import services.api.services.user.GetUserByEmailService
-import foundation.authentication.impl.AuthTokenManager
 import utils.exceptions.badRequestError
 import utils.exceptions.notFoundError
 import utils.password.impl.PasswordEncryption

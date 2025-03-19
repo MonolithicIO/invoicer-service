@@ -1,7 +1,7 @@
 package services.impl.user
 
-import foundation.validator.impl.EmailValidator
 import io.github.alaksion.invoicer.foundation.http.HttpCode
+import io.github.alaksion.invoicer.foundation.validation.EmailValidator
 import models.user.CreateUserModel
 import repository.api.repository.UserRepository
 import services.api.services.user.CreateUserService

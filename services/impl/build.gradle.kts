@@ -15,7 +15,6 @@ dependencies {
     implementation(projects.repository.impl)
     implementation(projects.services.api)
 
-    implementation(projects.foundation.validator.impl)
     implementation(projects.foundation.exceptions)
     implementation(projects.foundation.authentication.impl)
     implementation(projects.foundation.password.impl)
@@ -24,7 +23,6 @@ dependencies {
     implementation(libs.kotlin.coroutines.core)
 
     testImplementation(projects.repository.test)
-    testImplementation(projects.foundation.validator.test)
     testImplementation(libs.kotlin.test)
     testImplementation(libs.kotlin.coroutines.test)
     testImplementation(projects.services.test)

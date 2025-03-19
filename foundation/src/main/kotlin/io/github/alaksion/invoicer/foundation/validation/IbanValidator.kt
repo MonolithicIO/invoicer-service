@@ -1,4 +1,4 @@
-package foundation.validator.impl
+package io.github.alaksion.invoicer.foundation.validation
 
 interface IbanValidator {
     fun validate(iban: String): Boolean

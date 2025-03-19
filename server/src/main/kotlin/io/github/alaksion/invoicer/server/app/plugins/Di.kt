@@ -6,7 +6,6 @@ import foundation.cache.impl.di.cacheDiModule
 import foundation.env.impl.invoicerEnvironmentDiModule
 import foundation.impl.di.secretsModule
 import foundation.qrcode.di.qrCodeModule
-import foundation.validator.impl.di.validatorModule
 import io.github.alaksion.invoicer.foundation.di.foundationDiModule
 import io.ktor.server.application.*
 import org.kodein.di.ktor.di
@@ -18,7 +17,6 @@ fun Application.installDi() {
     di {
         import(utilPasswordDi)
         import(utilsAuthenticationModule)
-        import(validatorModule)
         import(secretsModule)
         import(servicesImplModule)
         import(repositoryModule)

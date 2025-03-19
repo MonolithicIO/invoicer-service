@@ -1,6 +1,6 @@
-package foundation.validator.test
+package services.fakes
 
-import foundation.validator.impl.IbanValidator
+import io.github.alaksion.invoicer.foundation.validation.IbanValidator
 
 class FakeIbanValidator : IbanValidator {
 

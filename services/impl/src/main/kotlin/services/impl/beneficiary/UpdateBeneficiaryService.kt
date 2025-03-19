@@ -1,8 +1,8 @@
 package services.impl.beneficiary
 
-import foundation.validator.impl.IbanValidator
-import foundation.validator.impl.SwiftValidator
 import io.github.alaksion.invoicer.foundation.http.HttpCode
+import io.github.alaksion.invoicer.foundation.validation.IbanValidator
+import io.github.alaksion.invoicer.foundation.validation.SwiftValidator
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.PartialUpdateBeneficiaryModel
 import models.beneficiary.UpdateBeneficiaryModel
