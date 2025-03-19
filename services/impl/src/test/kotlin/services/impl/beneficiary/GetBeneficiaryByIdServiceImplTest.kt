@@ -1,5 +1,6 @@
 package services.impl.beneficiary
 
+import io.github.alaksion.invoicer.foundation.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import repository.test.repository.FakeBeneficiaryRepository
 import utils.exceptions.HttpError

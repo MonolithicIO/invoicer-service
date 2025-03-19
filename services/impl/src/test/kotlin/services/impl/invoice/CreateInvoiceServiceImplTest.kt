@@ -1,5 +1,6 @@
 package services.impl.invoice
 
+import io.github.alaksion.invoicer.foundation.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.InvoiceModel
@@ -11,10 +12,10 @@ import models.user.UserModel
 import org.junit.Before
 import org.junit.Test
 import repository.test.repository.FakeInvoiceRepository
+import services.fakes.FakeClock
 import services.test.beneficiary.FakeGetBeneficiaryByIdService
 import services.test.intermediary.FakeGetIntermediaryByIdService
 import services.test.user.FakeGetUserByIdService
-import utils.date.test.FakeDateProvider
 import utils.exceptions.HttpError
 import java.util.*
 import kotlin.test.assertEquals
@@ -25,7 +26,7 @@ class CreateInvoiceServiceImplTest {
 
     private lateinit var service: CreateInvoiceServiceImpl
     private lateinit var invoiceRepository: FakeInvoiceRepository
-    private lateinit var dateProvider: FakeDateProvider
+    private lateinit var clock: FakeClock
     private lateinit var getUserByIdService: FakeGetUserByIdService
     private lateinit var getBeneficiaryByIdService: FakeGetBeneficiaryByIdService
     private lateinit var getIntermediaryByIdService: FakeGetIntermediaryByIdService
@@ -33,14 +34,14 @@ class CreateInvoiceServiceImplTest {
     @Before
     fun setUp() {
         invoiceRepository = FakeInvoiceRepository()
-        dateProvider = FakeDateProvider()
+        clock = FakeClock()
         getUserByIdService = FakeGetUserByIdService()
         getBeneficiaryByIdService = FakeGetBeneficiaryByIdService()
         getIntermediaryByIdService = FakeGetIntermediaryByIdService()
 
         service = CreateInvoiceServiceImpl(
             invoiceRepository = invoiceRepository,
-            clock = dateProvider,
+            clock = clock,
             getUserByIdService = getUserByIdService,
             getBeneficiaryByIdService = getBeneficiaryByIdService,
             getIntermediaryByIdService = getIntermediaryByIdService
@@ -52,7 +53,7 @@ class CreateInvoiceServiceImplTest {
     fun `should throw error when issue date is past`() = runTest {
         val today = Instant.parse("2000-06-19T00:00:00Z")
 
-        dateProvider.nowInstant = today
+        clock.nowResponse = today
 
         val error = assertFailsWith<HttpError> {
             service.createInvoice(
@@ -73,7 +74,7 @@ class CreateInvoiceServiceImplTest {
     fun `should throw error when due date is past`() = runTest {
         val today = Instant.parse("2000-06-19T00:00:00Z")
 
-        dateProvider.nowInstant = today
+        clock.nowResponse = today
 
         val error = assertFailsWith<HttpError> {
             service.createInvoice(

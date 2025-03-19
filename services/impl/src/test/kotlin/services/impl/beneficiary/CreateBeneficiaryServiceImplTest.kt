@@ -2,6 +2,7 @@ package services.impl.beneficiary
 
 import foundation.validator.test.FakeIbanValidator
 import foundation.validator.test.FakeSwiftValidator
+import io.github.alaksion.invoicer.foundation.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import models.beneficiary.CreateBeneficiaryModel
 import repository.test.repository.FakeBeneficiaryRepository
