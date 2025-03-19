@@ -1,6 +1,6 @@
 package services.impl.invoice
 
-import io.github.alaksion.invoicer.foundation.http.HttpCode
+import io.github.alaksion.invoicer.utils.http.HttpCode
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import models.createinvoice.CreateInvoiceActivityModel

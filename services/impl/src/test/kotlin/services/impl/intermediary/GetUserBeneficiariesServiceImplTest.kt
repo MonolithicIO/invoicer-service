@@ -1,6 +1,6 @@
 package services.impl.intermediary
 
-import io.github.alaksion.invoicer.foundation.http.HttpCode
+import io.github.alaksion.invoicer.utils.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.intermediary.IntermediaryModel

@@ -1,4 +1,4 @@
-package io.github.alaksion.invoicer.foundation.http
+package io.github.alaksion.invoicer.utils.http
 
 enum class HttpCode {
     BadRequest,

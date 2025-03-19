@@ -4,7 +4,7 @@ plugins {
 }
 
 // Move to build plugin
-group = "io.github.alaksion.invoicer.foundation"
+group = "io.github.alaksion.invoicer.utils"
 version = "0.0.1"
 
 dependencies {

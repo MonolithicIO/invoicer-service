@@ -1,7 +1,7 @@
 package services.impl.login
 
 import foundation.authentication.api.FakeAuthTokenManager
-import io.github.alaksion.invoicer.foundation.http.HttpCode
+import io.github.alaksion.invoicer.utils.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import models.login.LoginModel
 import services.fakes.FakeEmailValidator

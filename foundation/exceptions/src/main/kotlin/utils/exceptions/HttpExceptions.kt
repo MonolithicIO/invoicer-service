@@ -1,6 +1,6 @@
 package utils.exceptions
 
-import io.github.alaksion.invoicer.foundation.http.HttpCode
+import io.github.alaksion.invoicer.utils.http.HttpCode
 
 class HttpError(
     override val message: String,

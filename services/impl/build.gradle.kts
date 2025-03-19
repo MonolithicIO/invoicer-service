@@ -19,7 +19,7 @@ dependencies {
     implementation(projects.foundation.authentication.impl)
     implementation(projects.foundation.password.impl)
     implementation(projects.foundation.qrcode)
-    implementation(projects.foundation)
+    implementation(projects.utils)
     implementation(libs.kotlin.coroutines.core)
 
     testImplementation(projects.repository.test)

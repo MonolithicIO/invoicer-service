@@ -1,8 +1,8 @@
 package services.impl.intermediary
 
-import io.github.alaksion.invoicer.foundation.http.HttpCode
-import io.github.alaksion.invoicer.foundation.validation.IbanValidator
-import io.github.alaksion.invoicer.foundation.validation.SwiftValidator
+import io.github.alaksion.invoicer.utils.http.HttpCode
+import io.github.alaksion.invoicer.utils.validation.IbanValidator
+import io.github.alaksion.invoicer.utils.validation.SwiftValidator
 import models.intermediary.IntermediaryModel
 import models.intermediary.PartialUpdateIntermediaryModel
 import models.intermediary.UpdateIntermediaryModel

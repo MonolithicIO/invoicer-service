@@ -1,6 +1,8 @@
 package services.impl.beneficiary
 
-import io.github.alaksion.invoicer.foundation.http.HttpCode
+import io.github.alaksion.invoicer.utils.http.HttpCode
+import io.github.alaksion.invoicer.utils.validation.IbanValidator
+import io.github.alaksion.invoicer.utils.validation.SwiftValidator
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.beneficiary.BeneficiaryModel

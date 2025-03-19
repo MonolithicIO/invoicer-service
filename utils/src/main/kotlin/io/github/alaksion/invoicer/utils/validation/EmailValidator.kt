@@ -1,4 +1,4 @@
-package io.github.alaksion.invoicer.foundation.validation
+package io.github.alaksion.invoicer.utils.validation
 
 interface EmailValidator {
     fun validate(email: String): Boolean

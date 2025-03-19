@@ -1,9 +1,8 @@
 package services.impl.beneficiary
 
-import io.github.alaksion.invoicer.foundation.http.HttpCode
+import io.github.alaksion.invoicer.utils.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDate
 import models.getinvoices.InvoiceListItemModel
 import repository.test.repository.FakeBeneficiaryRepository
 import repository.test.repository.FakeInvoiceRepository

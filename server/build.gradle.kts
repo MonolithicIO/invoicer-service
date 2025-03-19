@@ -43,7 +43,7 @@ dependencies {
     implementation(projects.foundation.env.impl)
     implementation(projects.foundation.cache.impl)
     implementation(projects.foundation.qrcode)
-    implementation(projects.foundation)
+    implementation(projects.utils)
 
     // Datasource
     implementation(projects.datasource.impl)

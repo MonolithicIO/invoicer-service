@@ -7,7 +7,7 @@ import controller.viewmodel.qrcodetoken.toTokenDetailsViewModel
 import controller.viewmodel.qrcodetoken.toTokenResponseViewModel
 import foundation.authentication.impl.jwt.jwtProtected
 import foundation.authentication.impl.jwt.jwtUserId
-import io.github.alaksion.invoicer.foundation.events.QrCodeEventHandler
+import io.github.alaksion.invoicer.utils.events.QrCodeEventHandler
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*

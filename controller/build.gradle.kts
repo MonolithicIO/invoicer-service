@@ -17,5 +17,5 @@ dependencies {
     implementation(projects.foundation.authentication.impl)
     implementation(projects.models)
     implementation(projects.foundation.exceptions)
-    implementation(projects.foundation)
+    implementation(projects.utils)
 }

@@ -1,4 +1,4 @@
-package io.github.alaksion.invoicer.foundation.events
+package io.github.alaksion.invoicer.utils.events
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow

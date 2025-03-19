@@ -1,6 +1,6 @@
 package services.fakes
 
-import io.github.alaksion.invoicer.foundation.validation.EmailValidator
+import io.github.alaksion.invoicer.utils.validation.EmailValidator
 
 class FakeEmailValidator : EmailValidator {
 

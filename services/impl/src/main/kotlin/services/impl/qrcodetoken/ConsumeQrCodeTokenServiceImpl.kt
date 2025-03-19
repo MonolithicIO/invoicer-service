@@ -1,8 +1,8 @@
 package services.impl.qrcodetoken
 
 import foundation.authentication.impl.AuthTokenManager
-import io.github.alaksion.invoicer.foundation.events.QrCodeEventHandler
-import io.github.alaksion.invoicer.foundation.events.QrCodeLoginEvent
+import io.github.alaksion.invoicer.utils.events.QrCodeEventHandler
+import io.github.alaksion.invoicer.utils.events.QrCodeLoginEvent
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import models.qrcodetoken.QrCodeTokenStatusModel

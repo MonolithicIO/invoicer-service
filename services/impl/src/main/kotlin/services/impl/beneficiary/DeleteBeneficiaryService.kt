@@ -1,6 +1,6 @@
 package services.impl.beneficiary
 
-import io.github.alaksion.invoicer.foundation.http.HttpCode
+import io.github.alaksion.invoicer.utils.http.HttpCode
 import repository.api.repository.BeneficiaryRepository
 import repository.api.repository.InvoiceRepository
 import services.api.services.beneficiary.DeleteBeneficiaryService

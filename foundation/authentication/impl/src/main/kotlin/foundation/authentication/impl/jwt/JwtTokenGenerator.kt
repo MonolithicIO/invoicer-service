@@ -6,7 +6,7 @@ import foundation.authentication.impl.AuthTokenGenerator
 import foundation.authentication.impl.AuthTokenManager
 import foundation.impl.SecretKeys
 import foundation.impl.SecretsProvider
-import io.github.alaksion.invoicer.foundation.http.HttpCode
+import io.github.alaksion.invoicer.utils.http.HttpCode
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*

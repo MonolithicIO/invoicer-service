@@ -1,7 +1,7 @@
 package services.impl.login
 
 import foundation.authentication.impl.AuthTokenManager
-import io.github.alaksion.invoicer.foundation.validation.EmailValidator
+import io.github.alaksion.invoicer.utils.validation.EmailValidator
 import models.login.AuthTokenModel
 import models.login.LoginModel
 import services.api.services.login.LoginService

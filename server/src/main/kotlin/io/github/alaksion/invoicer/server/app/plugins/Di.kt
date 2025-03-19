@@ -6,7 +6,7 @@ import foundation.cache.impl.di.cacheDiModule
 import foundation.env.impl.invoicerEnvironmentDiModule
 import foundation.impl.di.secretsModule
 import foundation.qrcode.di.qrCodeModule
-import io.github.alaksion.invoicer.foundation.di.foundationDiModule
+import io.github.alaksion.invoicer.utils.di.utilDiModule
 import io.ktor.server.application.*
 import org.kodein.di.ktor.di
 import repository.api.di.repositoryModule
@@ -24,6 +24,6 @@ fun Application.installDi() {
         import(cacheDiModule)
         import(datasourceModule)
         import(qrCodeModule)
-        import(foundationDiModule)
+        import(utilDiModule)
     }
 }

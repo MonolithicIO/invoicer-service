@@ -10,5 +10,5 @@ version = "0.0.1"
 dependencies {
     implementation(libs.kotlin.serialization)
     implementation(libs.kotlin.datetime)
-    implementation(projects.foundation)
+    implementation(projects.utils)
 }

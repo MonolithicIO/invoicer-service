@@ -1,6 +1,6 @@
 package services.fakes
 
-import io.github.alaksion.invoicer.foundation.validation.SwiftValidator
+import io.github.alaksion.invoicer.utils.validation.SwiftValidator
 
 class FakeSwiftValidator : SwiftValidator {
 

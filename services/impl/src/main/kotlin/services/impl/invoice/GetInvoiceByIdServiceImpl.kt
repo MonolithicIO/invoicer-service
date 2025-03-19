@@ -1,6 +1,6 @@
 package services.impl.invoice
 
-import io.github.alaksion.invoicer.foundation.http.HttpCode
+import io.github.alaksion.invoicer.utils.http.HttpCode
 import models.InvoiceModel
 import repository.api.repository.InvoiceRepository
 import services.api.services.invoice.GetInvoiceByIdService

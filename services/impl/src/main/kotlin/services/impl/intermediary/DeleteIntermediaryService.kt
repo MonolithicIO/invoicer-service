@@ -1,6 +1,6 @@
 package services.impl.intermediary
 
-import io.github.alaksion.invoicer.foundation.http.HttpCode
+import io.github.alaksion.invoicer.utils.http.HttpCode
 import repository.api.repository.IntermediaryRepository
 import repository.api.repository.InvoiceRepository
 import services.api.services.intermediary.DeleteIntermediaryService
