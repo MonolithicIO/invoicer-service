@@ -2,14 +2,13 @@ package services.impl.intermediary
 
 import foundation.validator.test.FakeIbanValidator
 import foundation.validator.test.FakeSwiftValidator
+import io.github.alaksion.invoicer.foundation.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import models.intermediary.UpdateIntermediaryModel
 import repository.test.repository.FakeIntermediaryRepository
-import services.test.beneficiary.FakeCheckBeneficiarySwiftAvailableService
 import services.test.intermediary.FakeCheckIntermediarySwiftAvailableService
 import services.test.intermediary.FakeGetIntermediaryByIdService
 import services.test.user.FakeGetUserByIdService
-import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import kotlin.test.BeforeTest
 import kotlin.test.Test

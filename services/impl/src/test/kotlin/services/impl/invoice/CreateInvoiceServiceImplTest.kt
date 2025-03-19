@@ -15,7 +15,6 @@ import services.test.beneficiary.FakeGetBeneficiaryByIdService
 import services.test.intermediary.FakeGetIntermediaryByIdService
 import services.test.user.FakeGetUserByIdService
 import utils.date.test.FakeDateProvider
-import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import java.util.*
 import kotlin.test.assertEquals
@@ -41,7 +40,7 @@ class CreateInvoiceServiceImplTest {
 
         service = CreateInvoiceServiceImpl(
             invoiceRepository = invoiceRepository,
-            dateProvider = dateProvider,
+            clock = dateProvider,
             getUserByIdService = getUserByIdService,
             getBeneficiaryByIdService = getBeneficiaryByIdService,
             getIntermediaryByIdService = getIntermediaryByIdService

@@ -5,7 +5,6 @@ import kotlinx.datetime.Instant
 import models.intermediary.IntermediaryModel
 import repository.test.repository.FakeIntermediaryRepository
 import services.test.user.FakeGetUserByIdService
-import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import kotlin.test.BeforeTest
 import kotlin.test.Test

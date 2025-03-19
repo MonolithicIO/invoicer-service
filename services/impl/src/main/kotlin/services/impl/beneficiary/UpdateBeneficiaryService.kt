@@ -2,6 +2,7 @@ package services.impl.beneficiary
 
 import foundation.validator.impl.IbanValidator
 import foundation.validator.impl.SwiftValidator
+import io.github.alaksion.invoicer.foundation.http.HttpCode
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.PartialUpdateBeneficiaryModel
 import models.beneficiary.UpdateBeneficiaryModel
@@ -10,7 +11,6 @@ import services.api.services.beneficiary.CheckBeneficiarySwiftAvailableService
 import services.api.services.beneficiary.GetBeneficiaryByIdService
 import services.api.services.beneficiary.UpdateBeneficiaryService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.HttpCode
 import utils.exceptions.badRequestError
 import utils.exceptions.httpError
 import java.util.*

@@ -8,7 +8,6 @@ import repository.test.repository.FakeBeneficiaryRepository
 import repository.test.repository.FakeInvoiceRepository
 import services.test.beneficiary.FakeGetBeneficiaryByIdService
 import services.test.user.FakeGetUserByIdService
-import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import java.util.*
 import kotlin.test.BeforeTest

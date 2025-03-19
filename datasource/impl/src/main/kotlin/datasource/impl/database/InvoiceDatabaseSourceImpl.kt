@@ -8,16 +8,16 @@ import datasource.impl.entities.InvoiceEntity
 import datasource.impl.entities.InvoiceTable
 import datasource.impl.mapper.toListItemModel
 import datasource.impl.mapper.toModel
+import kotlinx.datetime.Clock
 import models.InvoiceModel
 import models.getinvoices.InvoiceListItemModel
 import models.getinvoices.InvoiceListModel
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import utils.date.impl.DateProvider
 import java.util.*
 
 internal class InvoiceDatabaseSourceImpl(
-    private val dateProvider: DateProvider
+    private val clock: Clock
 ) : InvoiceDatabaseSource {
 
     override suspend fun createInvoice(
@@ -37,8 +37,8 @@ internal class InvoiceDatabaseSourceImpl(
                 it[beneficiary] = UUID.fromString(data.beneficiaryId)
                 it[intermediary] =
                     data.intermediaryId?.let { intermediaryId -> UUID.fromString(intermediaryId) }
-                it[createdAt] = dateProvider.currentInstant()
-                it[updatedAt] = dateProvider.currentInstant()
+                it[createdAt] = clock.now()
+                it[updatedAt] = clock.now()
                 it[user] = userId
             }
             val createdInvoiceId = newInvoice.value
@@ -48,8 +48,8 @@ internal class InvoiceDatabaseSourceImpl(
                 this[InvoiceActivityTable.quantity] = item.quantity
                 this[InvoiceActivityTable.unitPrice] = item.unitPrice
                 this[InvoiceActivityTable.description] = item.description
-                this[InvoiceActivityTable.createdAt] = dateProvider.currentInstant()
-                this[InvoiceActivityTable.updatedAt] = dateProvider.currentInstant()
+                this[InvoiceActivityTable.createdAt] = clock.now()
+                this[InvoiceActivityTable.updatedAt] = clock.now()
             }
 
             createdInvoiceId.toString()
@@ -136,7 +136,7 @@ internal class InvoiceDatabaseSourceImpl(
                 }
             ) {
                 it[isDeleted] = true
-                it[updatedAt] = dateProvider.currentInstant()
+                it[updatedAt] = clock.now()
             }
         }
     }

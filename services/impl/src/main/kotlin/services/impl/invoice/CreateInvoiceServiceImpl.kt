@@ -1,5 +1,7 @@
 package services.impl.invoice
 
+import io.github.alaksion.invoicer.foundation.http.HttpCode
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import models.createinvoice.CreateInvoiceActivityModel
 import models.createinvoice.CreateInvoiceModel
@@ -9,8 +11,6 @@ import services.api.services.beneficiary.GetBeneficiaryByIdService
 import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.invoice.CreateInvoiceService
 import services.api.services.user.GetUserByIdService
-import utils.date.impl.DateProvider
-import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import utils.exceptions.httpError
 import java.util.*
@@ -18,7 +18,7 @@ import java.util.*
 
 internal class CreateInvoiceServiceImpl(
     private val invoiceRepository: InvoiceRepository,
-    private val dateProvider: DateProvider,
+    private val clock: Clock,
     private val getUserByIdService: GetUserByIdService,
     private val getBeneficiaryByIdService: GetBeneficiaryByIdService,
     private val getIntermediaryByIdService: GetIntermediaryByIdService
@@ -69,14 +69,14 @@ internal class CreateInvoiceServiceImpl(
         issueDate: Instant,
         dueDate: Instant
     ) {
-        if (dateProvider.currentInstant() > issueDate) {
+        if (clock.now() > issueDate) {
             httpError(
                 message = "Issue date cannot be past date",
                 code = HttpCode.BadRequest
             )
         }
 
-        if (dateProvider.currentInstant() > dueDate) {
+        if (clock.now() > dueDate) {
             httpError(
                 message = "Due date cannot be past date",
                 code = HttpCode.BadRequest

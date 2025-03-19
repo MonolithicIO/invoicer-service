@@ -13,9 +13,7 @@ dependencies {
     implementation(libs.kotlin.datetime)
     implementation(libs.ktor.server.core.jvm)
     implementation(libs.kotlin.serialization)
-
-    // Project
-    implementation(projects.foundation.date.impl)
+    implementation(projects.foundation)
 
     // Test
     testImplementation(libs.kotlin.test)

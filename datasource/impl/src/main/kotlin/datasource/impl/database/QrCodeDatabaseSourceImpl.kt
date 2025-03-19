@@ -4,11 +4,11 @@ import datasource.api.database.QrCodeTokenDatabaseSource
 import datasource.impl.entities.QrCodeTokenEntity
 import datasource.impl.entities.QrCodeTokensTable
 import datasource.impl.mapper.toModel
+import kotlinx.datetime.Clock
 import models.qrcodetoken.QrCodeTokenModel
 import org.jetbrains.exposed.sql.insertReturning
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.updateReturning
-import utils.date.impl.DateProvider
 import java.util.*
 import kotlin.time.Duration.Companion.seconds
 
@@ -21,7 +21,7 @@ internal enum class QrCodeTokenStatus(
 }
 
 internal class QrCodeDatabaseSourceImpl(
-    private val dateProvider: DateProvider
+    private val clock: Clock
 ) : QrCodeTokenDatabaseSource {
 
     override suspend fun createQrCodeToken(
@@ -37,9 +37,9 @@ internal class QrCodeDatabaseSourceImpl(
                 it[QrCodeTokensTable.base64Content] = base64Content
                 it[QrCodeTokensTable.content] = content
                 it[status] = QrCodeTokenStatus.GENERATED.value
-                it[createdAt] = dateProvider.currentInstant()
-                it[updatedAt] = dateProvider.currentInstant()
-                it[expiresAt] = dateProvider.currentInstant().plus(60.seconds)
+                it[createdAt] = clock.now()
+                it[updatedAt] = clock.now()
+                it[expiresAt] = clock.now().plus(60.seconds)
             }.map {
                 QrCodeTokenEntity.wrapRow(it)
             }.first().toModel()
@@ -70,7 +70,7 @@ internal class QrCodeDatabaseSourceImpl(
                 }
             ) {
                 it[status] = QrCodeTokenStatus.CONSUMED.value
-                it[updatedAt] = dateProvider.currentInstant()
+                it[updatedAt] = clock.now()
             }.map {
                 QrCodeTokenEntity.wrapRow(it).toModel()
             }.first()
@@ -85,7 +85,7 @@ internal class QrCodeDatabaseSourceImpl(
                 }
             ) {
                 it[status] = QrCodeTokenStatus.EXPIRED.value
-                it[updatedAt] = dateProvider.currentInstant()
+                it[updatedAt] = clock.now()
             }
         }
     }

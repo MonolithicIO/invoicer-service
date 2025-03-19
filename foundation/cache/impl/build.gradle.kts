@@ -13,11 +13,12 @@ dependencies {
     implementation(libs.kodein.server)
     implementation(libs.kotlin.serialization)
 
+    // Redis
+    implementation(libs.jedis)
+
     // Project
-    implementation(projects.foundation.date.impl)
     implementation(projects.foundation.exceptions)
     implementation(projects.foundation.secrets.impl)
-    implementation(projects.foundation.redis.impl)
 
     // Test
     testImplementation(libs.kotlin.test)

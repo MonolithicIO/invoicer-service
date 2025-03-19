@@ -1,7 +1,6 @@
 package foundation.cache.impl.redis
 
 import foundation.cache.impl.CacheHandler
-import foundation.redis.impl.RedisInstance
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 

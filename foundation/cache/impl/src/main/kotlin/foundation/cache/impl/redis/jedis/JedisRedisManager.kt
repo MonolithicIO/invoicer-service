@@ -1,8 +1,8 @@
-package foundation.redis.impl.jedis
+package foundation.cache.impl.redis.jedis
 
+import foundation.cache.impl.redis.RedisInstance
 import foundation.impl.SecretKeys
 import foundation.impl.SecretsProvider
-import foundation.redis.impl.RedisInstance
 import redis.clients.jedis.JedisPool
 import redis.clients.jedis.params.SetParams
 

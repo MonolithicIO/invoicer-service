@@ -10,8 +10,8 @@ version = "0.0.1"
 dependencies {
     implementation(libs.kodein.server)
     implementation(libs.kotlin.datetime)
-    implementation(projects.models)
     implementation(libs.kotlin.coroutines.core)
+    implementation(libs.kotlin.serialization)
     testImplementation(libs.kotlin.test)
     testImplementation(libs.kotlin.coroutines.test)
 }

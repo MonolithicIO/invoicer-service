@@ -1,6 +1,6 @@
 package models.user
 
-import foundation.serialization.JavaUUIDSerializer
+import io.github.alaksion.invoicer.foundation.serialization.JavaUUIDSerializer
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 import java.util.*

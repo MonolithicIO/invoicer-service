@@ -2,6 +2,7 @@ package services.impl.intermediary
 
 import foundation.validator.impl.IbanValidator
 import foundation.validator.impl.SwiftValidator
+import io.github.alaksion.invoicer.foundation.http.HttpCode
 import models.intermediary.IntermediaryModel
 import models.intermediary.PartialUpdateIntermediaryModel
 import models.intermediary.UpdateIntermediaryModel
@@ -10,7 +11,6 @@ import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
 import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.intermediary.UpdateIntermediaryService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.HttpCode
 import utils.exceptions.badRequestError
 import utils.exceptions.httpError
 import java.util.*

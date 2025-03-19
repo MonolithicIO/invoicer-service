@@ -1,11 +1,11 @@
 package services.impl.beneficiary
 
+import io.github.alaksion.invoicer.foundation.http.HttpCode
 import repository.api.repository.BeneficiaryRepository
 import repository.api.repository.InvoiceRepository
 import services.api.services.beneficiary.DeleteBeneficiaryService
 import services.api.services.beneficiary.GetBeneficiaryByIdService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.HttpCode
 import utils.exceptions.httpError
 import java.util.*
 

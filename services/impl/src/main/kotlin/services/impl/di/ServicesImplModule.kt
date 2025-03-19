@@ -163,7 +163,7 @@ private fun DI.Builder.invoiceServices() {
     bindProvider<CreateInvoiceService> {
         CreateInvoiceServiceImpl(
             invoiceRepository = instance(),
-            dateProvider = instance(),
+            clock = instance(),
             getUserByIdService = instance(),
             getBeneficiaryByIdService = instance(),
             getIntermediaryByIdService = instance()
@@ -228,7 +228,7 @@ private fun DI.Builder.loginServices() {
     bindProvider<ConsumeQrCodeTokenService> {
         ConsumeQrCodeTokenServiceImpl(
             qrCodeTokenRepository = instance(),
-            dateProvider = instance(),
+            clock = instance(),
             getUserByIdService = instance(),
             authTokenManager = instance(),
             storeRefreshTokenService = instance(),

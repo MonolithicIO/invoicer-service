@@ -9,8 +9,6 @@ group = "datasource.impl"
 dependencies {
     implementation(projects.datasource.api)
     implementation(projects.models)
-    implementation(projects.foundation.date.impl)
-
     implementation(libs.kotlin.datetime)
     implementation(libs.bundles.exposed)
     implementation(libs.kodein.server)

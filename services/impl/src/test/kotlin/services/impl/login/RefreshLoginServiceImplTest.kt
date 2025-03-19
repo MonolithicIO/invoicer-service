@@ -7,7 +7,6 @@ import models.login.RefreshTokenModel
 import repository.test.repository.FakeRefreshTokenRepository
 import services.test.refreshtoken.FakeStoreRefreshTokenService
 import services.test.user.FakeGetUserByIdService
-import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import kotlin.test.BeforeTest
 import kotlin.test.Test

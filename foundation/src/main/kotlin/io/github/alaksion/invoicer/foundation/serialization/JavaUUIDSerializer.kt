@@ -1,4 +1,4 @@
-package foundation.serialization
+package io.github.alaksion.invoicer.foundation.serialization
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor

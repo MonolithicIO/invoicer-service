@@ -8,7 +8,6 @@ import repository.test.repository.FakeIntermediaryRepository
 import repository.test.repository.FakeUserRepository
 import services.test.intermediary.FakeCheckIntermediarySwiftAvailableService
 import services.test.user.FakeGetUserByIdService
-import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import kotlin.test.BeforeTest
 import kotlin.test.Test

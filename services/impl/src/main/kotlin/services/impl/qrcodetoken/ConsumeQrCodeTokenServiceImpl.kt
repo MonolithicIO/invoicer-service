@@ -3,13 +3,13 @@ package services.impl.qrcodetoken
 import foundation.authentication.impl.AuthTokenManager
 import io.github.alaksion.invoicer.foundation.events.QrCodeEventHandler
 import io.github.alaksion.invoicer.foundation.events.QrCodeLoginEvent
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import models.qrcodetoken.QrCodeTokenStatusModel
 import repository.api.repository.QrCodeTokenRepository
 import services.api.services.login.StoreRefreshTokenService
 import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
 import services.api.services.user.GetUserByIdService
-import utils.date.impl.DateProvider
 import utils.exceptions.goneError
 import utils.exceptions.notFoundError
 
@@ -18,7 +18,7 @@ internal class ConsumeQrCodeTokenServiceImpl(
     private val storeRefreshTokenService: StoreRefreshTokenService,
     private val qrCodeTokenStream: QrCodeEventHandler,
     private val qrCodeTokenRepository: QrCodeTokenRepository,
-    private val dateProvider: DateProvider,
+    private val clock: Clock,
     private val getUserByIdService: GetUserByIdService
 ) : ConsumeQrCodeTokenService {
 
@@ -59,6 +59,6 @@ internal class ConsumeQrCodeTokenServiceImpl(
     }
 
     private fun checkExpiredToken(expiresAt: Instant): Boolean {
-        return dateProvider.currentInstant() > expiresAt
+        return clock.now() > expiresAt
     }
 }

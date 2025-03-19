@@ -10,19 +10,19 @@ val datasourceModule = DI.Module("datasourceModule") {
 
     bindProvider<BeneficiaryDatabaseSource> {
         BeneficiaryDatabaseSourceImpl(
-            dateProvider = instance(),
+            clock = instance(),
         )
     }
 
     bindProvider<IntermediaryDatabaseSource> {
         IntermediaryDatabaseSourceImpl(
-            dateProvider = instance(),
+            clock = instance(),
         )
     }
 
     bindProvider<InvoiceDatabaseSource> {
         InvoiceDatabaseSourceImpl(
-            dateProvider = instance(),
+            clock = instance(),
         )
     }
 
@@ -34,13 +34,13 @@ val datasourceModule = DI.Module("datasourceModule") {
 
     bindProvider<UserDatabaseSource> {
         UserDatabaseSourceImpl(
-            dateProvider = instance(),
+            clock = instance(),
         )
     }
 
     bindProvider<QrCodeTokenDatabaseSource> {
         QrCodeDatabaseSourceImpl(
-            dateProvider = instance()
+            clock = instance()
         )
     }
 

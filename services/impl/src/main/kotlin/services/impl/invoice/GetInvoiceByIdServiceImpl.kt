@@ -1,10 +1,10 @@
 package services.impl.invoice
 
+import io.github.alaksion.invoicer.foundation.http.HttpCode
 import models.InvoiceModel
 import repository.api.repository.InvoiceRepository
 import services.api.services.invoice.GetInvoiceByIdService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import utils.exceptions.unauthorizedResourceError
 import java.util.*

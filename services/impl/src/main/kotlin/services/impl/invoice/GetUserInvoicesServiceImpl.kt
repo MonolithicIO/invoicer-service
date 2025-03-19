@@ -1,5 +1,6 @@
 package services.impl.invoice
 
+import io.github.alaksion.invoicer.foundation.http.HttpCode
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import models.getinvoices.GetInvoicesFilterModel
@@ -7,7 +8,6 @@ import models.getinvoices.InvoiceListItemModel
 import models.getinvoices.InvoiceListModel
 import repository.api.repository.InvoiceRepository
 import services.api.services.invoice.GetUserInvoicesService
-import utils.exceptions.HttpCode
 import utils.exceptions.httpError
 
 internal class GetUserInvoicesServiceImpl(

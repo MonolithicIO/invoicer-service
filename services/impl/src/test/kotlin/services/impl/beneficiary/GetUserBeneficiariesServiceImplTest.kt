@@ -6,7 +6,6 @@ import models.beneficiary.BeneficiaryModel
 import models.beneficiary.UserBeneficiaries
 import repository.test.repository.FakeBeneficiaryRepository
 import services.test.user.FakeGetUserByIdService
-import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import kotlin.test.BeforeTest
 import kotlin.test.Test

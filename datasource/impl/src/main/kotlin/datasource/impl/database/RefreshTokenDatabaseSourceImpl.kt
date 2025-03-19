@@ -3,16 +3,16 @@ package datasource.impl.database
 import datasource.api.database.RefreshTokenDatabaseSource
 import datasource.impl.entities.RefreshTokenEntity
 import datasource.impl.entities.RefreshTokensTable
+import kotlinx.datetime.Clock
 import models.login.RefreshTokenModel
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.update
-import utils.date.impl.DateProvider
 import java.util.*
 
 internal class RefreshTokenDatabaseSourceImpl(
-    private val dateProvider: DateProvider
+    private val dateProvider: Clock
 ) : RefreshTokenDatabaseSource {
 
     override suspend fun createRefreshToken(token: String, userId: String) {
@@ -21,8 +21,8 @@ internal class RefreshTokenDatabaseSourceImpl(
                 it[refreshToken] = token
                 it[user] = UUID.fromString(userId)
                 it[enabled] = true
-                it[createdAt] = dateProvider.currentInstant()
-                it[updatedAt] = dateProvider.currentInstant()
+                it[createdAt] = dateProvider.now()
+                it[updatedAt] = dateProvider.now()
             }
         }
     }
@@ -39,7 +39,7 @@ internal class RefreshTokenDatabaseSourceImpl(
                 }
             ) {
                 it[enabled] = false
-                it[updatedAt] = dateProvider.currentInstant()
+                it[updatedAt] = dateProvider.now()
             }
         }
     }
@@ -52,7 +52,7 @@ internal class RefreshTokenDatabaseSourceImpl(
                 }
             ) {
                 it[enabled] = false
-                it[updatedAt] = dateProvider.currentInstant()
+                it[updatedAt] = dateProvider.now()
             }
         }
     }

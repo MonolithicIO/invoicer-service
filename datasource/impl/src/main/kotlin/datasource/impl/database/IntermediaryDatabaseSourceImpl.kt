@@ -6,14 +6,14 @@ import datasource.api.model.intermediary.UpdateIntermediaryData
 import datasource.impl.entities.IntermediaryEntity
 import datasource.impl.entities.IntermediaryTable
 import datasource.impl.mapper.toModel
+import kotlinx.datetime.Clock
 import models.intermediary.IntermediaryModel
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import utils.date.impl.DateProvider
 import java.util.*
 
 internal class IntermediaryDatabaseSourceImpl(
-    private val dateProvider: DateProvider
+    private val clock: Clock
 ) : IntermediaryDatabaseSource {
 
     override suspend fun create(userId: UUID, model: CreateIntermediaryData): String {
@@ -25,8 +25,8 @@ internal class IntermediaryDatabaseSourceImpl(
                 table[bankName] = model.bankName
                 table[bankAddress] = model.bankAddress
                 table[user] = userId
-                table[createdAt] = dateProvider.currentInstant()
-                table[updatedAt] = dateProvider.currentInstant()
+                table[createdAt] = clock.now()
+                table[updatedAt] = clock.now()
             }.value.toString()
         }
     }
@@ -95,7 +95,7 @@ internal class IntermediaryDatabaseSourceImpl(
                 model.swift?.let { table[swift] = it }
                 model.bankName?.let { table[bankName] = it }
                 model.bankAddress?.let { table[bankAddress] = it }
-                table[updatedAt] = dateProvider.currentInstant()
+                table[updatedAt] = clock.now()
             }.map {
                 IntermediaryEntity.wrapRow(it).toModel()
             }.first()

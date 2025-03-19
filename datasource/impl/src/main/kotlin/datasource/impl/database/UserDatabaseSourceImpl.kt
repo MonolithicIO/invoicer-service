@@ -5,16 +5,16 @@ import datasource.api.model.user.CreateUserData
 import datasource.impl.entities.UserEntity
 import datasource.impl.entities.UserTable
 import datasource.impl.mapper.toModel
+import kotlinx.datetime.Clock
 import models.user.UserModel
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import utils.date.impl.DateProvider
 import java.util.*
 
 internal class UserDatabaseSourceImpl(
-    private val dateProvider: DateProvider
+    private val clock: Clock
 ) : UserDatabaseSource {
 
     override suspend fun getUserByEmail(email: String): UserModel? {
@@ -35,8 +35,8 @@ internal class UserDatabaseSourceImpl(
                 it[verified] = true
                 it[email] = data.email
                 it[password] = data.password
-                it[updatedAt] = dateProvider.currentInstant()
-                it[createdAt] = dateProvider.currentInstant()
+                it[updatedAt] = clock.now()
+                it[createdAt] = clock.now()
             }.value.toString()
         }
     }

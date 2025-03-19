@@ -7,7 +7,6 @@ import repository.test.repository.FakeIntermediaryRepository
 import repository.test.repository.FakeInvoiceRepository
 import services.test.intermediary.FakeGetIntermediaryByIdService
 import services.test.user.FakeGetUserByIdService
-import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import java.util.*
 import kotlin.test.BeforeTest

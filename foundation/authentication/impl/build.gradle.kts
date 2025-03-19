@@ -17,7 +17,7 @@ dependencies {
     implementation(libs.kodein.server)
 
     // Project
-    implementation(projects.foundation.date.impl)
+    implementation(projects.foundation)
     implementation(projects.foundation.exceptions)
     implementation(projects.foundation.secrets.impl)
 

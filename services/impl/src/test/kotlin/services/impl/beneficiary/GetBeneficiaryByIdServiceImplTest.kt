@@ -2,7 +2,6 @@ package services.impl.beneficiary
 
 import kotlinx.coroutines.test.runTest
 import repository.test.repository.FakeBeneficiaryRepository
-import utils.exceptions.HttpCode
 import utils.exceptions.HttpError
 import kotlin.test.BeforeTest
 import kotlin.test.Test
