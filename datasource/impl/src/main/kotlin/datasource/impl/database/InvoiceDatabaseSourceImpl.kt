@@ -29,7 +29,7 @@ internal class InvoiceDatabaseSourceImpl(
                 it[externalId] = data.externalId
                 it[externalId] = data.externalId
                 it[senderCompanyName] = data.senderCompanyName
-                it[senderCompanyAddress] = data.senderCompanyName
+                it[senderCompanyAddress] = data.senderCompanyAddress
                 it[recipientCompanyName] = data.recipientCompanyName
                 it[recipientCompanyAddress] = data.recipientCompanyAddress
                 it[issueDate] = data.issueDate
