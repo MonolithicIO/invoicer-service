@@ -30,7 +30,7 @@ import services.impl.login.RefreshLoginServiceImpl
 import services.impl.login.StoreRefreshTokenServiceImpl
 import services.impl.pdf.GenerateInvoicePdfServiceImpl
 import services.impl.pdf.pdfwriter.InvoicePdfWriter
-import services.impl.pdf.pdfwriter.ItextInvoiceWriter
+import services.impl.pdf.pdfwriter.itext.ItextInvoiceWriter
 import services.impl.qrcodetoken.ConsumeQrCodeTokenServiceImpl
 import services.impl.qrcodetoken.GetQrCodeTokenByContentIdServiceImpl
 import services.impl.qrcodetoken.RequestQrCodeTokenServiceImpl

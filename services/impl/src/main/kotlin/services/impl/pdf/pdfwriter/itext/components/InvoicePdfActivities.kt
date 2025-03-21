@@ -1,4 +1,4 @@
-package services.impl.pdf.pdfwriter.components
+package services.impl.pdf.pdfwriter.itext.components
 
 import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.layout.element.Cell
@@ -7,7 +7,7 @@ import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.UnitValue
 import models.InvoiceModelActivityModel
-import services.impl.pdf.pdfwriter.components.PdfStyle.formatCurrency
+import services.impl.pdf.pdfwriter.itext.components.PdfStyle.formatCurrency
 
 internal fun invoicePdfActivities(
     activities: List<InvoiceModelActivityModel>,

@@ -1,4 +1,4 @@
-package services.impl.pdf.pdfwriter
+package services.impl.pdf.pdfwriter.itext
 
 import com.itextpdf.io.font.FontProgramFactory
 import com.itextpdf.kernel.font.PdfFontFactory
@@ -8,17 +8,15 @@ import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Paragraph
 import models.InvoiceModel
-import services.impl.pdf.pdfwriter.components.*
-import services.impl.pdf.pdfwriter.components.PdfStyle.formatDate
+import services.impl.pdf.pdfwriter.InvoicePdfWriter
+import services.impl.pdf.pdfwriter.itext.components.*
+import services.impl.pdf.pdfwriter.itext.components.PdfStyle.formatDate
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-internal interface InvoicePdfWriter {
-    suspend fun write(invoice: InvoiceModel, outputPath: String)
-}
 
 internal class ItextInvoiceWriter : InvoicePdfWriter {
 

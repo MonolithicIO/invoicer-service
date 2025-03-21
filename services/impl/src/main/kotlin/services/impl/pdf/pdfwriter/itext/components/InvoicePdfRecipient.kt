@@ -1,4 +1,4 @@
-package services.impl.pdf.pdfwriter.components
+package services.impl.pdf.pdfwriter.itext.components
 
 import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.layout.element.Cell
