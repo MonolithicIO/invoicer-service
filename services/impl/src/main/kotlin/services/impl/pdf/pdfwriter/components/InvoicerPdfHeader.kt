@@ -1,5 +1,6 @@
 package services.impl.pdf.pdfwriter.components
 
+import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.layout.element.Cell
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
@@ -13,6 +14,8 @@ internal fun buildHeader(
     id: String,
     dueDate: String,
     issueDate: String,
+    regularFont: PdfFont,
+    boldFont: PdfFont
 ): Table {
     val table = Table(UnitValue.createPercentArray(floatArrayOf(50f, 50f)))
         .apply {
@@ -23,6 +26,8 @@ internal fun buildHeader(
         logoCell(
             senderCompanyName = senderCompanyName,
             senderCompanyAddress = senderCompanyAddress,
+            regularFont = regularFont,
+            boldFont = boldFont
         )
     )
     table.addCell(
@@ -31,6 +36,8 @@ internal fun buildHeader(
             id = id,
             dueDate = dueDate,
             issueDate = issueDate,
+            regularFont = regularFont,
+            boldFont = boldFont
         )
     )
     return table
@@ -38,38 +45,42 @@ internal fun buildHeader(
 
 private fun logoCell(
     senderCompanyName: String,
-    senderCompanyAddress: String
+    senderCompanyAddress: String,
+    regularFont: PdfFont,
+    boldFont: PdfFont
 ) = Cell()
     .add(
         Paragraph("INVOICE")
-            .setFont(PdfStyle.Font.Bold)
+            .setFont(boldFont)
             .setFontSize(PdfStyle.FontSize.XLarge)
             .setFontColor(PdfStyle.Color.Primary)
     )
-    .add(Paragraph(senderCompanyName).setFont(PdfStyle.Font.Bold).setFontSize(PdfStyle.FontSize.Medium))
-    .add(Paragraph(senderCompanyAddress).setFont(PdfStyle.Font.Regular).setFontSize(PdfStyle.FontSize.Small))
+    .add(Paragraph(senderCompanyName).setFont(boldFont).setFontSize(PdfStyle.FontSize.Medium))
+    .add(Paragraph(senderCompanyAddress).setFont(regularFont).setFontSize(PdfStyle.FontSize.Small))
     .setBorder(null)
 
 private fun detailsCell(
     externalId: String,
     id: String,
     dueDate: String,
-    issueDate: String
+    issueDate: String,
+    regularFont: PdfFont,
+    boldFont: PdfFont
 ) = Cell()
     .add(
-        Paragraph("Nº: $externalId").setFont(PdfStyle.Font.Bold).setFontSize(PdfStyle.FontSize.Small)
+        Paragraph("Nº: $externalId").setFont(boldFont).setFontSize(PdfStyle.FontSize.Small)
             .setTextAlignment(TextAlignment.RIGHT)
     )
     .add(
-        Paragraph("ID: $id").setFont(PdfStyle.Font.Regular).setFontSize(PdfStyle.FontSize.XSmall)
+        Paragraph("ID: $id").setFont(regularFont).setFontSize(PdfStyle.FontSize.XSmall)
             .setTextAlignment(TextAlignment.RIGHT)
     )
     .add(
-        Paragraph("Issue Date: $issueDate").setFont(PdfStyle.Font.Regular).setFontSize(PdfStyle.FontSize.Small)
+        Paragraph("Issue Date: $issueDate").setFont(regularFont).setFontSize(PdfStyle.FontSize.Small)
             .setTextAlignment(TextAlignment.RIGHT)
     )
     .add(
-        Paragraph("Due Date: $dueDate").setFont(PdfStyle.Font.Regular).setFontSize(PdfStyle.FontSize.Small)
+        Paragraph("Due Date: $dueDate").setFont(regularFont).setFontSize(PdfStyle.FontSize.Small)
             .setTextAlignment(TextAlignment.RIGHT)
     )
     .setBorder(null)

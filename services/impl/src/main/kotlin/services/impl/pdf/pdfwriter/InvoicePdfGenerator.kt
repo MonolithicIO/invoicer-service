@@ -1,5 +1,7 @@
 package services.impl.pdf.pdfwriter
 
+import com.itextpdf.io.font.FontProgramFactory
+import com.itextpdf.kernel.font.PdfFontFactory
 import com.itextpdf.kernel.geom.PageSize
 import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfWriter
@@ -8,11 +10,6 @@ import com.itextpdf.layout.element.Paragraph
 import models.InvoiceModel
 import services.impl.pdf.pdfwriter.components.*
 import services.impl.pdf.pdfwriter.components.PdfStyle.formatDate
-import services.impl.pdf.pdfwriter.components.buildHeader
-import services.impl.pdf.pdfwriter.components.invoicePdfActivities
-import services.impl.pdf.pdfwriter.components.invoicePdfFooter
-import services.impl.pdf.pdfwriter.components.invoicePdfPaymentInfo
-import services.impl.pdf.pdfwriter.components.invoicePdfRecipient
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.coroutines.resume
@@ -51,6 +48,9 @@ internal class ItextInvoiceWriter : InvoicePdfWriter {
         val pdf = PdfDocument(writer)
         val document = Document(pdf, PageSize.A4)
 
+        val regular = PdfFontFactory.createFont(FontProgramFactory.createFont("Helvetica"))
+        val bold = PdfFontFactory.createFont(FontProgramFactory.createFont("Helvetica-Bold"))
+
         document.setMargins(
             PdfStyle.Spacing.XLarge4,
             PdfStyle.Spacing.XLarge4,
@@ -64,7 +64,9 @@ internal class ItextInvoiceWriter : InvoicePdfWriter {
             externalId = invoice.externalId,
             id = invoice.id.toString(),
             dueDate = formatDate(invoice.dueDate),
-            issueDate = formatDate(invoice.issueDate)
+            issueDate = formatDate(invoice.issueDate),
+            boldFont = bold,
+            regularFont = regular
         )
         document.add(headerTable)
 
@@ -72,20 +74,28 @@ internal class ItextInvoiceWriter : InvoicePdfWriter {
 
         val recipientTable = invoicePdfRecipient(
             recipientCompanyAddress = invoice.recipientCompanyAddress,
-            recipientCompanyName = invoice.recipientCompanyName
+            recipientCompanyName = invoice.recipientCompanyName,
+            boldFont = bold,
+            regularFont = regular
         )
         document.add(recipientTable)
 
         document.add(Paragraph("\n"))
 
-        val activitiesTable = invoicePdfActivities(invoice.activities)
+        val activitiesTable = invoicePdfActivities(
+            invoice.activities,
+            boldFont = bold,
+            regularFont = regular
+        )
         document.add(activitiesTable)
 
         document.add(Paragraph("\n"))
 
         val paymentTable = invoicePdfPaymentInfo(
             beneficiary = invoice.beneficiary,
-            intermediary = invoice.intermediary
+            intermediary = invoice.intermediary,
+            boldFont = bold,
+            regularFont = regular
         )
 
         document.add(paymentTable)
@@ -95,7 +105,8 @@ internal class ItextInvoiceWriter : InvoicePdfWriter {
         val footerTable = invoicePdfFooter(
             updatedAt = invoice.updatedAt,
             createdAt = invoice.createdAt,
-            userEmail = invoice.user.email
+            userEmail = invoice.user.email,
+            regularFont = regular
         )
         document.add(footerTable)
         document.close()

@@ -1,5 +1,6 @@
 package services.impl.pdf.pdfwriter.components
 
+import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.layout.element.Cell
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
@@ -9,7 +10,9 @@ import models.InvoiceModelActivityModel
 import services.impl.pdf.pdfwriter.components.PdfStyle.formatCurrency
 
 internal fun invoicePdfActivities(
-    activities: List<InvoiceModelActivityModel>
+    activities: List<InvoiceModelActivityModel>,
+    regularFont: PdfFont,
+    boldFont: PdfFont
 ): Table {
     val table = Table(
         UnitValue.createPercentArray(
@@ -19,10 +22,10 @@ internal fun invoicePdfActivities(
         width = UnitValue.createPercentValue(100f)
     }
 
-    table.addCell(descriptionColumnTitle)
-    table.addCell(unitPriceColumnTile)
-    table.addCell(quantityColumnTitle)
-    table.addCell(totalColumnTitle)
+    table.addCell(descriptionColumnTitle(boldFont))
+    table.addCell(unitPriceColumnTile(boldFont))
+    table.addCell(quantityColumnTitle(boldFont))
+    table.addCell(totalColumnTitle(boldFont))
 
     var totalAmount = 0L
     activities.forEach { item ->
@@ -30,75 +33,78 @@ internal fun invoicePdfActivities(
         totalAmount += itemTotal
 
         table.addCell(
-            Cell().add(Paragraph(item.name).setFont(PdfStyle.Font.Regular))
+            Cell().add(Paragraph(item.name).setFont(regularFont))
         )
         table.addCell(
-            Cell().add(Paragraph(formatCurrency(item.unitPrice)).setFont(PdfStyle.Font.Regular))
+            Cell().add(Paragraph(formatCurrency(item.unitPrice)).setFont(regularFont))
                 .setTextAlignment(TextAlignment.RIGHT)
         )
 
         table.addCell(
-            Cell().add(Paragraph(item.quantity.toString()).setFont(PdfStyle.Font.Regular))
+            Cell().add(Paragraph(item.quantity.toString()).setFont(regularFont))
                 .setTextAlignment(TextAlignment.RIGHT)
         )
 
         table.addCell(
-            Cell().add(Paragraph(formatCurrency(itemTotal)).setFont(PdfStyle.Font.Regular))
+            Cell().add(Paragraph(formatCurrency(itemTotal)).setFont(regularFont))
                 .setTextAlignment(TextAlignment.RIGHT)
         )
     }
 
-    table.addCell(totalLabel)
-    table.addCell(totalValue(totalAmount))
+    table.addCell(totalLabel(boldFont))
+    table.addCell(totalValue(totalAmount, boldFont))
     return table
 }
 
-private val descriptionColumnTitle = Cell()
+private fun descriptionColumnTitle(boldFont: PdfFont) = Cell()
     .add(
         Paragraph("Description")
-            .setFont(PdfStyle.Font.Bold)
+            .setFont(boldFont)
     )
     .setBackgroundColor(PdfStyle.Color.Primary)
     .setFontColor(PdfStyle.Color.Background)
 
-private val unitPriceColumnTile = Cell()
+private fun unitPriceColumnTile(boldFont: PdfFont) = Cell()
     .add(
         Paragraph("Unite Price")
-            .setFont(PdfStyle.Font.Bold)
+            .setFont(boldFont)
     )
     .setBackgroundColor(PdfStyle.Color.Primary)
     .setFontColor(PdfStyle.Color.Background)
     .setTextAlignment(TextAlignment.RIGHT)
 
-private val quantityColumnTitle = Cell()
+private fun quantityColumnTitle(boldFont: PdfFont) = Cell()
     .add(
         Paragraph("Quantity")
-            .setFont(PdfStyle.Font.Bold)
+            .setFont(boldFont)
     )
     .setBackgroundColor(PdfStyle.Color.Primary)
     .setFontColor(PdfStyle.Color.Background)
     .setTextAlignment(TextAlignment.RIGHT)
 
-private val totalColumnTitle = Cell()
+private fun totalColumnTitle(boldFont: PdfFont) = Cell()
     .add(
         Paragraph("Total")
-            .setFont(PdfStyle.Font.Bold)
+            .setFont(boldFont)
     )
     .setBackgroundColor(PdfStyle.Color.Primary)
     .setFontColor(PdfStyle.Color.Background)
     .setTextAlignment(TextAlignment.RIGHT)
 
-private val totalLabel = Cell(1, 3)
+private fun totalLabel(boldFont: PdfFont) = Cell(1, 3)
     .add(
         Paragraph("TOTAL")
-            .setFont(PdfStyle.Font.Bold)
+            .setFont(boldFont)
     )
     .setBorder(null)
     .setTextAlignment(TextAlignment.RIGHT)
 
-private fun totalValue(value: Long) = Cell()
+private fun totalValue(
+    value: Long,
+    boldFont: PdfFont
+) = Cell()
     .add(
-        Paragraph(formatCurrency(value)).setFont(PdfStyle.Font.Bold)
+        Paragraph(formatCurrency(value)).setFont(boldFont)
     )
     .setBackgroundColor(PdfStyle.Color.Overlay)
     .setTextAlignment(TextAlignment.RIGHT)

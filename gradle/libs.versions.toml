@@ -21,7 +21,7 @@ coroutines = "1.8.1"
 prometheus-micrometer = "1.14.3"
 jedis = "5.2.0"
 zxing = "3.5.3"
-pdf = "7.2.5"
+pdf = "9.1.0"
 
 [libraries]
 kodein-server = { module = "org.kodein.di:kodein-di-framework-ktor-server-jvm", version.ref = "kodein" }

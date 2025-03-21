@@ -1,5 +1,6 @@
 package services.impl.pdf.pdfwriter.components
 
+import com.itextpdf.kernel.font.PdfFont
 import com.itextpdf.layout.borders.SolidBorder
 import com.itextpdf.layout.element.Cell
 import com.itextpdf.layout.element.Paragraph
@@ -10,7 +11,9 @@ import models.intermediary.IntermediaryModel
 
 internal fun invoicePdfPaymentInfo(
     beneficiary: BeneficiaryModel,
-    intermediary: IntermediaryModel?
+    intermediary: IntermediaryModel?,
+    regularFont: PdfFont,
+    boldFont: PdfFont
 ): Table {
     val paymentTable = Table(1).apply {
         width = UnitValue.createPercentValue(100f)
@@ -19,7 +22,9 @@ internal fun invoicePdfPaymentInfo(
     paymentTable.addCell(
         paymentCell(
             beneficiary = beneficiary,
-            intermediary = intermediary
+            intermediary = intermediary,
+            regularFont = regularFont,
+            boldFont = boldFont
         )
     )
 
@@ -28,12 +33,14 @@ internal fun invoicePdfPaymentInfo(
 
 private fun paymentCell(
     beneficiary: BeneficiaryModel,
-    intermediary: IntermediaryModel?
+    intermediary: IntermediaryModel?,
+    regularFont: PdfFont,
+    boldFont: PdfFont
 ): Cell {
     val cell = Cell()
         .add(
             Paragraph("PAYMENT INFORMATION")
-                .setFont(PdfStyle.Font.Bold)
+                .setFont(boldFont)
                 .setFontSize(PdfStyle.FontSize.Small)
                 .setFontColor(PdfStyle.Color.Primary)
         )
@@ -46,7 +53,9 @@ private fun paymentCell(
         iban = beneficiary.iban,
         swift = beneficiary.swift,
         bankName = beneficiary.bankName,
-        bankAddress = beneficiary.bankAddress
+        bankAddress = beneficiary.bankAddress,
+        regularFont = regularFont,
+        boldFont = boldFont
     )
 
     intermediary?.let {
@@ -56,7 +65,9 @@ private fun paymentCell(
             iban = it.iban,
             swift = it.swift,
             bankName = it.bankName,
-            bankAddress = it.bankAddress
+            bankAddress = it.bankAddress,
+            regularFont = regularFont,
+            boldFont = boldFont
         )
     }
 
@@ -69,12 +80,14 @@ private fun Cell.addPaymentInfo(
     iban: String,
     swift: String,
     bankName: String,
-    bankAddress: String
+    bankAddress: String,
+    regularFont: PdfFont,
+    boldFont: PdfFont
 ) {
-    add(Paragraph("$label:").setFont(PdfStyle.Font.Bold).setFontSize(PdfStyle.FontSize.Small))
-    add(Paragraph("Name: $name").setFont(PdfStyle.Font.Regular).setFontSize(PdfStyle.FontSize.Small))
-    add(Paragraph("Iban: $iban").setFont(PdfStyle.Font.Regular).setFontSize(PdfStyle.FontSize.Small))
-    add(Paragraph("Swift: $swift").setFont(PdfStyle.Font.Regular).setFontSize(PdfStyle.FontSize.Small))
-    add(Paragraph("Bank Name: $bankName").setFont(PdfStyle.Font.Regular).setFontSize(PdfStyle.FontSize.Small))
-    add(Paragraph("Bank Address: $bankAddress").setFont(PdfStyle.Font.Regular).setFontSize(PdfStyle.FontSize.Small))
+    add(Paragraph("$label:").setFont(boldFont).setFontSize(PdfStyle.FontSize.Small))
+    add(Paragraph("Name: $name").setFont(regularFont).setFontSize(PdfStyle.FontSize.Small))
+    add(Paragraph("Iban: $iban").setFont(regularFont).setFontSize(PdfStyle.FontSize.Small))
+    add(Paragraph("Swift: $swift").setFont(regularFont).setFontSize(PdfStyle.FontSize.Small))
+    add(Paragraph("Bank Name: $bankName").setFont(regularFont).setFontSize(PdfStyle.FontSize.Small))
+    add(Paragraph("Bank Address: $bankAddress").setFont(regularFont).setFontSize(PdfStyle.FontSize.Small))
 }

@@ -2,18 +2,12 @@ package services.impl.pdf.pdfwriter.components
 
 import com.itextpdf.kernel.colors.ColorConstants
 import com.itextpdf.kernel.colors.DeviceRgb
-import com.itextpdf.kernel.font.PdfFontFactory
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toJavaInstant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
-object PdfStyle {
-
-    object Font {
-        val Regular = PdfFontFactory.createFont("Helvetica")
-        val Bold = PdfFontFactory.createFont("Helvetica-Bold")
-    }
+internal object PdfStyle {
 
     object FontSize {
         const val XLarge = 24F

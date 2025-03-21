@@ -8,7 +8,7 @@ database:
   name: $INVOICER_DB_NAME
   username: $INVOICER_DB_USERNAME
   password: $INVOICER_DB_PASSWORD
-  url: $INVOICER_DB_URL
+  url: "jdbc:postgresql://localhost:5432/postgres"
 jwt:
   audience: $INVOICER_JWT_AUDIENCE
   issuer: $INVOICER_JWT_ISSUER
@@ -16,5 +16,5 @@ jwt:
   realm: $INVOICER_JWT_REALM
 redis:
   port: $INVOICER_REDIS_PORT
-  host: $INVOICER_REDIS_HOST
+  host: "localhost"
   ttl: $INVOICER_REDIS_TTL
