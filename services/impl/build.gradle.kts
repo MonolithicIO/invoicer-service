@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.repository.impl)
     implementation(projects.services.api)
 
+    implementation(libs.pdf.itext)
     implementation(projects.foundation.exceptions)
     implementation(projects.foundation.authentication.impl)
     implementation(projects.foundation.password.impl)
