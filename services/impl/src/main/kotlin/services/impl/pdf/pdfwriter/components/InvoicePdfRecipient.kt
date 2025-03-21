@@ -1,4 +1,4 @@
-package services.impl.pdf.pdfwriter
+package services.impl.pdf.pdfwriter.components
 
 import com.itextpdf.layout.element.Cell
 import com.itextpdf.layout.element.Paragraph

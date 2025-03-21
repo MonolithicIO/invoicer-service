@@ -21,7 +21,7 @@ internal class GenerateInvoicePdfServiceImpl(
             id = invoiceId
         )
 
-        val outputPath = Path("").toAbsolutePath().toString()
+        val outputPath = Path("").toAbsolutePath().toString()+"/invoice-${invoice.id}.pdf"
 
         writer.write(
             invoice = invoice,

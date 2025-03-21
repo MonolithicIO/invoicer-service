@@ -6,7 +6,13 @@ import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Paragraph
 import models.InvoiceModel
-import services.impl.pdf.pdfwriter.PdfStyle.formatDate
+import services.impl.pdf.pdfwriter.components.*
+import services.impl.pdf.pdfwriter.components.PdfStyle.formatDate
+import services.impl.pdf.pdfwriter.components.buildHeader
+import services.impl.pdf.pdfwriter.components.invoicePdfActivities
+import services.impl.pdf.pdfwriter.components.invoicePdfFooter
+import services.impl.pdf.pdfwriter.components.invoicePdfPaymentInfo
+import services.impl.pdf.pdfwriter.components.invoicePdfRecipient
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.coroutines.resume
@@ -17,7 +23,7 @@ internal interface InvoicePdfWriter {
     suspend fun write(invoice: InvoiceModel, outputPath: String)
 }
 
-internal class InvoicePdfWriterImpl : InvoicePdfWriter {
+internal class ItextInvoiceWriter : InvoicePdfWriter {
 
     override suspend fun write(invoice: InvoiceModel, outputPath: String) {
         return suspendCoroutine { continuation ->

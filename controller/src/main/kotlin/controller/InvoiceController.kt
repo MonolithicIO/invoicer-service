@@ -20,6 +20,7 @@ import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.DeleteInvoiceService
 import services.api.services.invoice.GetInvoiceByIdService
 import services.api.services.invoice.GetUserInvoicesService
+import services.api.services.pdf.GenerateInvoicePdfService
 
 internal fun Routing.invoiceController() {
     route("/v1/invoice") {
@@ -85,13 +86,25 @@ internal fun Routing.invoiceController() {
             }
         }
 
-
         jwtProtected {
             delete("/{id}") {
                 val invoiceId = call.parameters["id"]!!
                 val deleteUseCase by closestDI().instance<DeleteInvoiceService>()
                 deleteUseCase.delete(invoiceId = invoiceId, userId = jwtUserId())
                 call.respond(HttpStatusCode.NoContent)
+            }
+        }
+
+        jwtProtected {
+            post("/{id}/pdf") {
+                val invoiceId = call.parameters["id"]!!
+                val generateService by closestDI().instance<GenerateInvoicePdfService>()
+
+                generateService.generate(
+                    invoiceId = invoiceId,
+                    userId = jwtUserId()
+                )
+                call.respond(HttpStatusCode.OK)
             }
         }
     }

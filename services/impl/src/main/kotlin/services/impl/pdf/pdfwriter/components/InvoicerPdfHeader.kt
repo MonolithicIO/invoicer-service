@@ -1,4 +1,4 @@
-package services.impl.pdf.pdfwriter
+package services.impl.pdf.pdfwriter.components
 
 import com.itextpdf.layout.element.Cell
 import com.itextpdf.layout.element.Paragraph
@@ -41,7 +41,7 @@ private fun logoCell(
     senderCompanyAddress: String
 ) = Cell()
     .add(
-        Paragraph("Invoice")
+        Paragraph("INVOICE")
             .setFont(PdfStyle.Font.Bold)
             .setFontSize(PdfStyle.FontSize.XLarge)
             .setFontColor(PdfStyle.Color.Primary)

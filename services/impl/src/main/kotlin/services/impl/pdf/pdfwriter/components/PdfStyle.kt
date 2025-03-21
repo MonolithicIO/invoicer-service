@@ -1,4 +1,4 @@
-package services.impl.pdf.pdfwriter
+package services.impl.pdf.pdfwriter.components
 
 import com.itextpdf.kernel.colors.ColorConstants
 import com.itextpdf.kernel.colors.DeviceRgb
@@ -42,8 +42,8 @@ object PdfStyle {
     }
 
     fun formatCurrency(value: Long): String {
-        val euros = value / 100
-        val cents = value % 100
-        return "€$euros,${cents.toString().padStart(2, '0')}"
+        val int = value / 100
+        val decimals = value % 100
+        return "$ $int,${decimals.toString().padStart(2, '0')}"
     }
 }

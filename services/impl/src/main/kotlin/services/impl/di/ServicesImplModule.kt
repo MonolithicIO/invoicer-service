@@ -30,7 +30,7 @@ import services.impl.login.RefreshLoginServiceImpl
 import services.impl.login.StoreRefreshTokenServiceImpl
 import services.impl.pdf.GenerateInvoicePdfServiceImpl
 import services.impl.pdf.pdfwriter.InvoicePdfWriter
-import services.impl.pdf.pdfwriter.InvoicePdfWriterImpl
+import services.impl.pdf.pdfwriter.ItextInvoiceWriter
 import services.impl.qrcodetoken.ConsumeQrCodeTokenServiceImpl
 import services.impl.qrcodetoken.GetQrCodeTokenByContentIdServiceImpl
 import services.impl.qrcodetoken.RequestQrCodeTokenServiceImpl
@@ -195,7 +195,7 @@ private fun DI.Builder.invoiceServices() {
         )
     }
 
-    bindProvider<InvoicePdfWriter> { InvoicePdfWriterImpl() }
+    bindProvider<InvoicePdfWriter> { ItextInvoiceWriter() }
 
     bindProvider<GenerateInvoicePdfService> {
         GenerateInvoicePdfServiceImpl(

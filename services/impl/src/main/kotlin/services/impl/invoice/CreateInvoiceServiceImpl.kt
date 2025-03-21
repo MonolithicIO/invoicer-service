@@ -69,7 +69,7 @@ internal class CreateInvoiceServiceImpl(
         issueDate: Instant,
         dueDate: Instant
     ) {
-        if (clock.now() > issueDate) {
+        if (issueDate >= clock.now()) {
             httpError(
                 message = "Issue date cannot be past date",
                 code = HttpCode.BadRequest
@@ -83,7 +83,7 @@ internal class CreateInvoiceServiceImpl(
             )
         }
 
-        if (issueDate > dueDate) {
+        if (issueDate >= dueDate) {
             throw HttpError(
                 message = "Issue date cannot be after due date",
                 statusCode = HttpCode.BadRequest
