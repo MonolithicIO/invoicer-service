@@ -9,59 +9,89 @@ import models.InvoiceModel
 import services.impl.pdf.pdfwriter.PdfStyle.formatDate
 import java.io.File
 import java.io.FileOutputStream
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
-fun generateInvoicePdf(invoice: InvoiceModel, outputPath: String) {
-    // Configura o documento PDF
-    val writer = PdfWriter(FileOutputStream(File(outputPath)))
-    val pdf = PdfDocument(writer)
-    val document = Document(pdf, PageSize.A4)
+internal interface InvoicePdfWriter {
+    suspend fun write(invoice: InvoiceModel, outputPath: String)
+}
 
-    document.setMargins(
-        PdfStyle.Spacing.XLarge4,
-        PdfStyle.Spacing.XLarge4,
-        PdfStyle.Spacing.XLarge4,
-        PdfStyle.Spacing.XLarge4
-    )
+internal class InvoicePdfWriterImpl : InvoicePdfWriter {
 
-    val headerTable = buildHeader(
-        senderCompanyName = invoice.senderCompanyName,
-        senderCompanyAddress = invoice.senderCompanyAddress,
-        externalId = invoice.externalId,
-        id = invoice.id.toString(),
-        dueDate = formatDate(invoice.dueDate),
-        issueDate = formatDate(invoice.issueDate)
-    )
-    document.add(headerTable)
+    override suspend fun write(invoice: InvoiceModel, outputPath: String) {
+        return suspendCoroutine { continuation ->
+            runCatching {
+                generateInvoicePdf(
+                    invoice = invoice,
+                    outputPath = outputPath
+                )
+            }.fold(
+                onSuccess = {
+                    continuation.resume(Unit)
+                },
+                onFailure = {
+                    // Add proper logger
+                    println(it)
+                    continuation.resumeWithException(it)
+                }
+            )
+        }
+    }
 
-    document.add(Paragraph("\n"))
+    private fun generateInvoicePdf(invoice: InvoiceModel, outputPath: String) {
+        // Configura o documento PDF
+        val writer = PdfWriter(FileOutputStream(File(outputPath)))
+        val pdf = PdfDocument(writer)
+        val document = Document(pdf, PageSize.A4)
 
-    val recipientTable = invoicePdfRecipient(
-        recipientCompanyAddress = invoice.recipientCompanyAddress,
-        recipientCompanyName = invoice.recipientCompanyName
-    )
-    document.add(recipientTable)
+        document.setMargins(
+            PdfStyle.Spacing.XLarge4,
+            PdfStyle.Spacing.XLarge4,
+            PdfStyle.Spacing.XLarge4,
+            PdfStyle.Spacing.XLarge4
+        )
 
-    document.add(Paragraph("\n"))
+        val headerTable = buildHeader(
+            senderCompanyName = invoice.senderCompanyName,
+            senderCompanyAddress = invoice.senderCompanyAddress,
+            externalId = invoice.externalId,
+            id = invoice.id.toString(),
+            dueDate = formatDate(invoice.dueDate),
+            issueDate = formatDate(invoice.issueDate)
+        )
+        document.add(headerTable)
 
-    val activitiesTable = invoicePdfActivities(invoice.activities)
-    document.add(activitiesTable)
+        document.add(Paragraph("\n"))
 
-    document.add(Paragraph("\n"))
+        val recipientTable = invoicePdfRecipient(
+            recipientCompanyAddress = invoice.recipientCompanyAddress,
+            recipientCompanyName = invoice.recipientCompanyName
+        )
+        document.add(recipientTable)
 
-    val paymentTable = invoicePdfPaymentInfo(
-        beneficiary = invoice.beneficiary,
-        intermediary = invoice.intermediary
-    )
+        document.add(Paragraph("\n"))
 
-    document.add(paymentTable)
+        val activitiesTable = invoicePdfActivities(invoice.activities)
+        document.add(activitiesTable)
 
-    document.add(Paragraph("\n"))
+        document.add(Paragraph("\n"))
 
-    val footerTable = invoicePdfFooter(
-        updatedAt = invoice.updatedAt,
-        createdAt = invoice.createdAt,
-        userEmail = invoice.user.email
-    )
-    document.add(footerTable)
-    document.close()
+        val paymentTable = invoicePdfPaymentInfo(
+            beneficiary = invoice.beneficiary,
+            intermediary = invoice.intermediary
+        )
+
+        document.add(paymentTable)
+
+        document.add(Paragraph("\n"))
+
+        val footerTable = invoicePdfFooter(
+            updatedAt = invoice.updatedAt,
+            createdAt = invoice.createdAt,
+            userEmail = invoice.user.email
+        )
+        document.add(footerTable)
+        document.close()
+    }
 }

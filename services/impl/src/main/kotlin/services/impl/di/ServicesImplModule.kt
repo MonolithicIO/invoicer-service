@@ -12,6 +12,7 @@ import services.api.services.invoice.GetUserInvoicesService
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
 import services.api.services.login.StoreRefreshTokenService
+import services.api.services.pdf.GenerateInvoicePdfService
 import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
 import services.api.services.qrcodetoken.GetQrCodeTokenByContentIdService
 import services.api.services.qrcodetoken.RequestQrCodeTokenService
@@ -27,6 +28,9 @@ import services.impl.invoice.GetUserInvoicesServiceImpl
 import services.impl.login.LoginServiceImpl
 import services.impl.login.RefreshLoginServiceImpl
 import services.impl.login.StoreRefreshTokenServiceImpl
+import services.impl.pdf.GenerateInvoicePdfServiceImpl
+import services.impl.pdf.pdfwriter.InvoicePdfWriter
+import services.impl.pdf.pdfwriter.InvoicePdfWriterImpl
 import services.impl.qrcodetoken.ConsumeQrCodeTokenServiceImpl
 import services.impl.qrcodetoken.GetQrCodeTokenByContentIdServiceImpl
 import services.impl.qrcodetoken.RequestQrCodeTokenServiceImpl
@@ -188,6 +192,16 @@ private fun DI.Builder.invoiceServices() {
     bindProvider<GetUserInvoicesService> {
         GetUserInvoicesServiceImpl(
             repository = instance()
+        )
+    }
+
+    bindProvider<InvoicePdfWriter> { InvoicePdfWriterImpl() }
+
+    bindProvider<GenerateInvoicePdfService> {
+        GenerateInvoicePdfServiceImpl(
+            getUserByIdService = instance(),
+            getInvoiceByIdService = instance(),
+            writer = instance()
         )
     }
 }
