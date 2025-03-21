@@ -35,7 +35,7 @@ private fun recipientCell(
 ) =
     Cell()
         .add(
-            Paragraph("INVOICE FOR")
+            Paragraph("FOR")
                 .setFont(boldFont)
                 .setFontSize(PdfStyle.FontSize.Small)
                 .setFontColor(PdfStyle.Color.Primary)

@@ -55,6 +55,13 @@ private fun logoCell(
             .setFontSize(PdfStyle.FontSize.XLarge)
             .setFontColor(PdfStyle.Color.Primary)
     )
+    .add(Paragraph("\n"))
+    .add(
+        Paragraph("FROM")
+            .setFont(boldFont)
+            .setFontSize(PdfStyle.FontSize.Small)
+            .setFontColor(PdfStyle.Color.Primary)
+    )
     .add(Paragraph(senderCompanyName).setFont(boldFont).setFontSize(PdfStyle.FontSize.Medium))
     .add(Paragraph(senderCompanyAddress).setFont(regularFont).setFontSize(PdfStyle.FontSize.Small))
     .setBorder(null)
