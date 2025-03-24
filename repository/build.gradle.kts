@@ -12,7 +12,7 @@ version = "0.0.1"
 dependencies {
     implementation(projects.models)
     implementation(projects.datasource.api)
-    implementation(projects.foundation.cache.impl)
+    implementation(projects.foundation.cache)
     implementation(libs.kotlin.serialization)
 
     implementation(libs.kodein.server)

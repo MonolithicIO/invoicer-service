@@ -1,4 +1,4 @@
-package foundation.cache.impl
+package foundation.cache
 
 import kotlinx.serialization.KSerializer
 

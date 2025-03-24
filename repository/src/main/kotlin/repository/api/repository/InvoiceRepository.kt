@@ -4,7 +4,7 @@ import datasource.api.database.InvoiceDatabaseSource
 import datasource.api.model.invoice.CreateInvoiceActivityData
 import datasource.api.model.invoice.CreateInvoiceData
 import datasource.api.model.invoice.GetInvoicesFilterData
-import foundation.cache.impl.CacheHandler
+import foundation.cache.CacheHandler
 import models.InvoiceModel
 import models.createinvoice.CreateInvoiceModel
 import models.getinvoices.GetInvoicesFilterModel

@@ -3,7 +3,7 @@ package repository.api.repository
 import datasource.api.database.IntermediaryDatabaseSource
 import datasource.api.model.intermediary.CreateIntermediaryData
 import datasource.api.model.intermediary.UpdateIntermediaryData
-import foundation.cache.impl.CacheHandler
+import foundation.cache.CacheHandler
 import models.intermediary.CreateIntermediaryModel
 import models.intermediary.IntermediaryModel
 import models.intermediary.PartialUpdateIntermediaryModel

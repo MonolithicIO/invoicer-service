@@ -1,6 +1,6 @@
-package foundation.cache.impl.redis
+package foundation.cache.redis
 
-import foundation.cache.impl.CacheHandler
+import foundation.cache.CacheHandler
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 

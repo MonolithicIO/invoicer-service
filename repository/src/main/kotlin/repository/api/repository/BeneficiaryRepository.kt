@@ -3,7 +3,7 @@ package repository.api.repository
 import datasource.api.database.BeneficiaryDatabaseSource
 import datasource.api.model.beneficiary.CreateBeneficiaryData
 import datasource.api.model.beneficiary.UpdateBeneficiaryData
-import foundation.cache.impl.CacheHandler
+import foundation.cache.CacheHandler
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.CreateBeneficiaryModel
 import models.beneficiary.PartialUpdateBeneficiaryModel

@@ -2,7 +2,7 @@ package io.github.alaksion.invoicer.server.app.plugins
 
 import datasource.impl.di.datasourceModule
 import foundation.authentication.impl.di.utilsAuthenticationModule
-import foundation.cache.impl.di.cacheDiModule
+import foundation.cache.di.cacheDiModule
 import foundation.env.invoicerEnvironmentDiModule
 import foundation.secrets.di.secretsModule
 import foundation.qrcode.di.qrCodeModule

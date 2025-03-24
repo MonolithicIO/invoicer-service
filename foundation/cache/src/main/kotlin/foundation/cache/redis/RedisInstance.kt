@@ -1,4 +1,4 @@
-package foundation.cache.impl.redis
+package foundation.cache.redis
 
 interface RedisInstance {
     fun setKey(key: String, value: String)
