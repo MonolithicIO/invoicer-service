@@ -4,7 +4,7 @@ import datasource.impl.di.datasourceModule
 import foundation.authentication.impl.di.utilsAuthenticationModule
 import foundation.cache.impl.di.cacheDiModule
 import foundation.env.impl.invoicerEnvironmentDiModule
-import foundation.impl.di.secretsModule
+import foundation.secrets.di.secretsModule
 import foundation.qrcode.di.qrCodeModule
 import io.github.alaksion.invoicer.utils.di.utilDiModule
 import io.ktor.server.application.*

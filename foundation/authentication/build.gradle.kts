@@ -20,7 +20,7 @@ dependencies {
     // Project
     implementation(projects.utils)
     implementation(projects.foundation.exceptions)
-    implementation(projects.foundation.secrets.impl)
+    implementation(projects.foundation.secrets)
 
     // Test
     testImplementation(libs.kotlin.test)

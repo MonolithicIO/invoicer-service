@@ -1,6 +1,6 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
-import foundation.impl.SecretsProvider
+import foundation.secrets.SecretsProvider
 import foundation.authentication.impl.jwt.appJwt
 import io.ktor.server.application.*
 import io.ktor.server.auth.*

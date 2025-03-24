@@ -1,4 +1,4 @@
-package foundation.impl
+package foundation.secrets
 
 interface SecretsProvider {
     fun getSecret(key: SecretKeys): String

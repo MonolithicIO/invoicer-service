@@ -4,8 +4,8 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import foundation.authentication.impl.AuthTokenGenerator
 import foundation.authentication.impl.AuthTokenManager
-import foundation.impl.SecretKeys
-import foundation.impl.SecretsProvider
+import foundation.secrets.SecretKeys
+import foundation.secrets.SecretsProvider
 import io.github.alaksion.invoicer.utils.http.HttpCode
 import io.ktor.server.application.*
 import io.ktor.server.auth.*

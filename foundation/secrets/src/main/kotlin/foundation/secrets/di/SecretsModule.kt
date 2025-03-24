@@ -1,7 +1,7 @@
-package foundation.impl.di
+package foundation.secrets.di
 
-import foundation.impl.EnvSecretsProvider
-import foundation.impl.SecretsProvider
+import foundation.secrets.EnvSecretsProvider
+import foundation.secrets.SecretsProvider
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance

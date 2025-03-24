@@ -1,4 +1,4 @@
-package foundation.impl
+package foundation.secrets
 
 import foundation.env.impl.InvoicerEnvironment
 

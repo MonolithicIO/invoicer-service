@@ -2,8 +2,8 @@ package foundation.authentication.impl.jwt
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import foundation.impl.SecretKeys
-import foundation.impl.SecretsProvider
+import foundation.secrets.SecretKeys
+import foundation.secrets.SecretsProvider
 import foundation.authentication.impl.AuthTokenVerifier
 
 internal class InvoicerJwtVerifierImpl(
