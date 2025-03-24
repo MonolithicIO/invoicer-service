@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kover)
+    `java-test-fixtures`
 }
 
 // Move to build plugin
@@ -12,7 +13,7 @@ dependencies {
     implementation(libs.kodein.server)
 
     implementation(projects.models)
-    implementation(projects.repository.impl)
+    implementation(projects.repository)
     implementation(projects.services.api)
 
     implementation(libs.pdf.itext)
@@ -23,7 +24,8 @@ dependencies {
     implementation(projects.utils)
     implementation(libs.kotlin.coroutines.core)
 
-    testImplementation(projects.repository.test)
+    testImplementation(testFixtures(projects.models))
+    testImplementation(testFixtures(projects.repository))
     testImplementation(libs.kotlin.test)
     testImplementation(libs.kotlin.coroutines.test)
     testImplementation(projects.services.test)

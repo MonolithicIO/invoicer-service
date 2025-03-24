@@ -5,7 +5,7 @@ import io.github.alaksion.invoicer.utils.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.login.RefreshTokenModel
-import repository.test.repository.FakeRefreshTokenRepository
+import repository.api.fakes.FakeRefreshTokenRepository
 import services.test.refreshtoken.FakeStoreRefreshTokenService
 import services.test.user.FakeGetUserByIdService
 import utils.exceptions.HttpError

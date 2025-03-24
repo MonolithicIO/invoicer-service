@@ -4,7 +4,7 @@ import io.github.alaksion.invoicer.utils.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.intermediary.IntermediaryModel
-import repository.test.repository.FakeIntermediaryRepository
+import repository.api.fakes.FakeIntermediaryRepository
 import services.test.user.FakeGetUserByIdService
 import utils.exceptions.HttpError
 import kotlin.test.BeforeTest

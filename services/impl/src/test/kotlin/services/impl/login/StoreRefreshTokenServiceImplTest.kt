@@ -1,7 +1,7 @@
 package services.impl.login
 
 import kotlinx.coroutines.test.runTest
-import repository.test.repository.FakeRefreshTokenRepository
+import repository.api.fakes.FakeRefreshTokenRepository
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

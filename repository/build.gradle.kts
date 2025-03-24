@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kover)
     alias(libs.plugins.serialization)
+    `java-test-fixtures`
 }
 
 // Move to build plugin
@@ -16,4 +17,7 @@ dependencies {
 
     implementation(libs.kodein.server)
     implementation(libs.kotlin.datetime)
+
+    // Fixtures
+    testFixturesImplementation(testFixtures(projects.models))
 }

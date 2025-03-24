@@ -2,7 +2,8 @@ package services.impl.beneficiary
 
 import io.github.alaksion.invoicer.utils.http.HttpCode
 import kotlinx.coroutines.test.runTest
-import repository.test.repository.FakeBeneficiaryRepository
+import models.fixtures.beneficiaryModelFixture
+import repository.api.fakes.FakeBeneficiaryRepository
 import utils.exceptions.HttpError
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -43,7 +44,7 @@ class GetBeneficiaryByIdServiceImplTest {
     fun `when beneficiaryId owner does not match userId parameter then should throw error`() = runTest {
         val error = assertFailsWith<HttpError> {
             repository.getByIdResponse = {
-                FakeBeneficiaryRepository.DEFAULT_BENEFICIARY.copy(
+                beneficiaryModelFixture.copy(
                     userId = "cf6870a5-ae78-44bc-a360-211a30c2c264"
                 )
             }
@@ -62,7 +63,7 @@ class GetBeneficiaryByIdServiceImplTest {
 
     @Test
     fun `when beneficiaryId owner matches userId parameter then should return beneficiary`() = runTest {
-        val beneficiary = FakeBeneficiaryRepository.DEFAULT_BENEFICIARY.copy(
+        val beneficiary = beneficiaryModelFixture.copy(
             userId = "8bd22165-975f-4a99-9f89-9447e57d45ad"
         )
 

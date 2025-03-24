@@ -3,8 +3,8 @@ package services.impl.beneficiary
 import io.github.alaksion.invoicer.utils.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import models.beneficiary.CreateBeneficiaryModel
-import repository.test.repository.FakeBeneficiaryRepository
-import repository.test.repository.FakeUserRepository
+import repository.api.fakes.FakeBeneficiaryRepository
+import repository.api.fakes.FakeUserRepository
 import services.fakes.FakeIbanValidator
 import services.fakes.FakeSwiftValidator
 import services.test.beneficiary.FakeCheckBeneficiarySwiftAvailableService

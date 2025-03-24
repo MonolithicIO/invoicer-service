@@ -1,7 +1,8 @@
 package services.impl.beneficiary
 
 import kotlinx.coroutines.test.runTest
-import repository.test.repository.FakeBeneficiaryRepository
+import models.fixtures.beneficiaryModelFixture
+import repository.api.fakes.FakeBeneficiaryRepository
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertFalse
@@ -32,7 +33,7 @@ class CheckBeneficiarySwiftAvailableServiceImplTest {
 
     @Test
     fun `given non null response then should return true`() = runTest {
-        repository.getBySwiftResponse = { BeneficiaryTestData.beneficiary }
+        repository.getBySwiftResponse = { beneficiaryModelFixture }
 
         val result = service.execute(swift = "value", userId = "d593ba02-c2bb-4be8-bd97-e71c02d229d3")
 

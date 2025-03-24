@@ -3,8 +3,8 @@ package services.impl.intermediary
 import io.github.alaksion.invoicer.utils.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import models.intermediary.CreateIntermediaryModel
-import repository.test.repository.FakeIntermediaryRepository
-import repository.test.repository.FakeUserRepository
+import repository.api.fakes.FakeIntermediaryRepository
+import repository.api.fakes.FakeUserRepository
 import services.fakes.FakeIbanValidator
 import services.fakes.FakeSwiftValidator
 import services.test.intermediary.FakeCheckIntermediarySwiftAvailableService

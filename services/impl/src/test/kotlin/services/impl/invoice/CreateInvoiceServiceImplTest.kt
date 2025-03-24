@@ -11,7 +11,7 @@ import models.createinvoice.CreateInvoiceModel
 import models.user.UserModel
 import org.junit.Before
 import org.junit.Test
-import repository.test.repository.FakeInvoiceRepository
+import repository.api.fakes.FakeInvoiceRepository
 import services.fakes.FakeClock
 import services.test.beneficiary.FakeGetBeneficiaryByIdService
 import services.test.intermediary.FakeGetIntermediaryByIdService
@@ -109,11 +109,6 @@ class CreateInvoiceServiceImplTest {
             expected = HttpCode.BadRequest,
             actual = error.statusCode
         )
-    }
-
-    @Test
-    fun `should throw error if external id is duplicated`() = runTest {
-        invoiceRepository.getInvoiceByExternalIdResponse = { duplicatedInvoice }
     }
 
     companion object {

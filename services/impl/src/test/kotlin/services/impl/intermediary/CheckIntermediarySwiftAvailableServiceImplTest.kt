@@ -1,9 +1,8 @@
 package services.impl.intermediary
 
 import kotlinx.coroutines.test.runTest
-import repository.test.repository.FakeBeneficiaryRepository
-import repository.test.repository.FakeIntermediaryRepository
-import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
+import models.fixtures.intermediaryModelFixture
+import repository.api.fakes.FakeIntermediaryRepository
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertFalse
@@ -34,7 +33,7 @@ class CheckIntermediarySwiftAvailableServiceImplTest {
 
     @Test
     fun `given non null response then should return true`() = runTest {
-        repository.getBySwiftResponse = { IntermediaryTestData.intermediary }
+        repository.getBySwiftResponse = { intermediaryModelFixture }
 
         val result = service.execute(swift = "value", userId = "d593ba02-c2bb-4be8-bd97-e71c02d229d3")
 

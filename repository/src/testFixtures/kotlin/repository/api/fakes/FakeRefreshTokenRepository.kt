@@ -1,4 +1,4 @@
-package repository.test.repository
+package repository.api.fakes
 
 import models.login.RefreshTokenModel
 import repository.api.repository.RefreshTokenRepository

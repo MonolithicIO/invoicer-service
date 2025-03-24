@@ -4,8 +4,8 @@ import io.github.alaksion.invoicer.utils.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.getinvoices.InvoiceListItemModel
-import repository.test.repository.FakeBeneficiaryRepository
-import repository.test.repository.FakeInvoiceRepository
+import repository.api.fakes.FakeBeneficiaryRepository
+import repository.api.fakes.FakeInvoiceRepository
 import services.test.beneficiary.FakeGetBeneficiaryByIdService
 import services.test.user.FakeGetUserByIdService
 import utils.exceptions.HttpError

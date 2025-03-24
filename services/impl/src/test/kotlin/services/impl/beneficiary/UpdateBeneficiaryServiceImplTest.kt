@@ -3,7 +3,9 @@ package services.impl.beneficiary
 import io.github.alaksion.invoicer.utils.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import models.beneficiary.UpdateBeneficiaryModel
-import repository.test.repository.FakeBeneficiaryRepository
+import models.fixtures.beneficiaryModelFixture
+import models.fixtures.updateBeneficiaryModelFixture
+import repository.api.fakes.FakeBeneficiaryRepository
 import services.fakes.FakeIbanValidator
 import services.fakes.FakeSwiftValidator
 import services.test.beneficiary.FakeCheckBeneficiarySwiftAvailableService
@@ -189,7 +191,7 @@ class UpdateBeneficiaryServiceImplTest {
         swiftInUseService.response = { false }
 
         beneficiaryRepository.updateBeneficiaryResponse = {
-            BeneficiaryTestData.beneficiary
+            beneficiaryModelFixture
         }
 
         val result = serviceImpl.execute(
@@ -199,29 +201,35 @@ class UpdateBeneficiaryServiceImplTest {
         )
 
         assertEquals(
-            expected = BeneficiaryTestData.beneficiary,
+            expected = beneficiaryModelFixture,
             actual = result
         )
     }
 
     @Test
     fun `should ignore swift check if it did not change`() = runTest {
+        val beneficiaryId = "aae887c0-732e-42d8-ac79-0d1953a7d3ec"
         mockIdCodes(
             ibanValid = true,
             swiftValid = true
         )
 
         beneficiaryRepository.updateBeneficiaryResponse = {
-            BeneficiaryTestData.beneficiary
+            beneficiaryModelFixture
         }
 
         getBeneficiaryByIdService.response = {
-            BeneficiaryTestData.beneficiary.copy(swift = "1234")
+            beneficiaryModelFixture.copy(
+                swift = "1234",
+                id = beneficiaryId
+            )
         }
 
         serviceImpl.execute(
-            model = UPDATED_REQUEST.copy(swift = "1234"),
-            beneficiaryId = BENEFICIARY_ID,
+            model = updateBeneficiaryModelFixture.copy(
+                swift = "1234"
+            ),
+            beneficiaryId = beneficiaryId,
             userId = USER_ID
         )
 

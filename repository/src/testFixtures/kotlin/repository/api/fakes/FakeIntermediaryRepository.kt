@@ -1,6 +1,7 @@
-package repository.test.repository
+package repository.api.fakes
 
-import kotlinx.datetime.Instant
+import models.fixtures.intermediaryModelFixture
+import models.fixtures.userIntermediariesFixture
 import models.intermediary.CreateIntermediaryModel
 import models.intermediary.IntermediaryModel
 import models.intermediary.PartialUpdateIntermediaryModel
@@ -10,10 +11,10 @@ import java.util.*
 class FakeIntermediaryRepository : IntermediaryRepository {
 
     var getBySwiftResponse: suspend () -> IntermediaryModel? = { null }
-    var getByIdResponse: suspend () -> IntermediaryModel? = { DEFAULT_INTERMEDIARY }
+    var getByIdResponse: suspend () -> IntermediaryModel? = { intermediaryModelFixture }
     var createResponse: suspend () -> String = { DEFAULT_CREATE_RESPONSE }
-    var getAllResponse: suspend () -> List<IntermediaryModel> = { listOf() }
-    lateinit var updateResponse: suspend () -> IntermediaryModel
+    var getAllResponse: suspend () -> List<IntermediaryModel> = { userIntermediariesFixture }
+    var updateResponse: suspend () -> IntermediaryModel = { intermediaryModelFixture }
 
     var deleteCalls = 0
         private set
@@ -48,17 +49,5 @@ class FakeIntermediaryRepository : IntermediaryRepository {
 
     companion object {
         val DEFAULT_CREATE_RESPONSE = "1234"
-
-        val DEFAULT_INTERMEDIARY = IntermediaryModel(
-            name = "Name",
-            iban = "Iban",
-            swift = "Swift,",
-            bankName = "bank name",
-            bankAddress = "bank address",
-            userId = "6da1cca3-6784-4f75-8af8-36390b67a5e0",
-            id = "d593ba02-c2bb-4be8-bd97-e71c02d229d3",
-            createdAt = Instant.parse("2000-06-19T00:00:00Z"),
-            updatedAt = Instant.parse("2000-06-19T00:00:00Z")
-        )
     }
 }

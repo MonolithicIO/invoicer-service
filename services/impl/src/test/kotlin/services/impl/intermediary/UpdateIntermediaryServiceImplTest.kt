@@ -2,8 +2,9 @@ package services.impl.intermediary
 
 import io.github.alaksion.invoicer.utils.http.HttpCode
 import kotlinx.coroutines.test.runTest
+import models.fixtures.intermediaryModelFixture
 import models.intermediary.UpdateIntermediaryModel
-import repository.test.repository.FakeIntermediaryRepository
+import repository.api.fakes.FakeIntermediaryRepository
 import services.fakes.FakeIbanValidator
 import services.fakes.FakeSwiftValidator
 import services.test.intermediary.FakeCheckIntermediarySwiftAvailableService
@@ -189,7 +190,7 @@ class UpdateIntermediaryServiceImplTest {
         swiftInUseService.response = { false }
 
         intermediaryRepository.updateResponse = {
-            IntermediaryTestData.intermediary
+            intermediaryModelFixture
         }
 
         val result = serviceImpl.execute(
@@ -199,7 +200,7 @@ class UpdateIntermediaryServiceImplTest {
         )
 
         assertEquals(
-            expected = IntermediaryTestData.intermediary,
+            expected = intermediaryModelFixture,
             actual = result
         )
     }
