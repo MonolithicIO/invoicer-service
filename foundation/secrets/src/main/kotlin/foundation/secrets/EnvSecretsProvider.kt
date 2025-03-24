@@ -1,6 +1,6 @@
 package foundation.secrets
 
-import foundation.env.impl.InvoicerEnvironment
+import foundation.env.InvoicerEnvironment
 
 internal class EnvSecretsProvider(
     private val environment: InvoicerEnvironment

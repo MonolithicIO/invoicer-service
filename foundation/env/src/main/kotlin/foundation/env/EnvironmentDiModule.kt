@@ -1,4 +1,4 @@
-package foundation.env.impl
+package foundation.env
 
 import org.kodein.di.DI
 import org.kodein.di.bindProvider

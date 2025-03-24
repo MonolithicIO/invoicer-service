@@ -1,4 +1,4 @@
-package foundation.env.impl
+package foundation.env
 
 import io.ktor.server.application.*
 

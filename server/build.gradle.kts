@@ -40,7 +40,7 @@ dependencies {
     implementation(projects.foundation.authentication)
     implementation(projects.foundation.exceptions)
     implementation(projects.foundation.secrets)
-    implementation(projects.foundation.env.impl)
+    implementation(projects.foundation.env)
     implementation(projects.foundation.cache.impl)
     implementation(projects.foundation.qrcode)
     implementation(projects.utils)
