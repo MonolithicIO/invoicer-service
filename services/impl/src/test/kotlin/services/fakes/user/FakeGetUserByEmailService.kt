@@ -1,4 +1,4 @@
-package services.test.user
+package services.fakes.user
 
 import kotlinx.datetime.Instant
 import models.user.UserModel

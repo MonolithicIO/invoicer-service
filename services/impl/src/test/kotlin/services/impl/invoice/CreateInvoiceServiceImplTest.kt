@@ -13,9 +13,9 @@ import models.user.UserModel
 import org.junit.Before
 import org.junit.Test
 import repository.api.fakes.FakeInvoiceRepository
-import services.test.beneficiary.FakeGetBeneficiaryByIdService
-import services.test.intermediary.FakeGetIntermediaryByIdService
-import services.test.user.FakeGetUserByIdService
+import services.fakes.beneficiary.FakeGetBeneficiaryByIdService
+import services.fakes.intermediary.FakeGetIntermediaryByIdService
+import services.fakes.user.FakeGetUserByIdService
 import utils.exceptions.HttpError
 import java.util.*
 import kotlin.test.assertEquals

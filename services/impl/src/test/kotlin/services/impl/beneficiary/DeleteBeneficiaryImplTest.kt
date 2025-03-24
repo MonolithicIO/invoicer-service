@@ -6,8 +6,8 @@ import kotlinx.datetime.Instant
 import models.getinvoices.InvoiceListItemModel
 import repository.api.fakes.FakeBeneficiaryRepository
 import repository.api.fakes.FakeInvoiceRepository
-import services.test.beneficiary.FakeGetBeneficiaryByIdService
-import services.test.user.FakeGetUserByIdService
+import services.fakes.beneficiary.FakeGetBeneficiaryByIdService
+import services.fakes.user.FakeGetUserByIdService
 import utils.exceptions.HttpError
 import java.util.*
 import kotlin.test.BeforeTest

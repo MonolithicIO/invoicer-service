@@ -1,4 +1,4 @@
-package services.test.beneficiary
+package services.fakes.beneficiary
 
 import services.api.services.beneficiary.CheckBeneficiarySwiftAvailableService
 

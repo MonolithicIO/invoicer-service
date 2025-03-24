@@ -1,4 +1,4 @@
-package services.test.intermediary
+package services.fakes.intermediary
 
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate

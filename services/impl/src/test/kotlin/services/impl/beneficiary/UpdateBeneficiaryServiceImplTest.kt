@@ -8,9 +8,9 @@ import models.fixtures.updateBeneficiaryModelFixture
 import repository.api.fakes.FakeBeneficiaryRepository
 import io.github.alaksion.invoicer.utils.fakes.FakeIbanValidator
 import io.github.alaksion.invoicer.utils.fakes.FakeSwiftValidator
-import services.test.beneficiary.FakeCheckBeneficiarySwiftAvailableService
-import services.test.beneficiary.FakeGetBeneficiaryByIdService
-import services.test.user.FakeGetUserByIdService
+import services.fakes.beneficiary.FakeCheckBeneficiarySwiftAvailableService
+import services.fakes.beneficiary.FakeGetBeneficiaryByIdService
+import services.fakes.user.FakeGetUserByIdService
 import utils.exceptions.HttpError
 import kotlin.test.BeforeTest
 import kotlin.test.Test

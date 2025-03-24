@@ -6,8 +6,8 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.login.RefreshTokenModel
 import repository.api.fakes.FakeRefreshTokenRepository
-import services.test.refreshtoken.FakeStoreRefreshTokenService
-import services.test.user.FakeGetUserByIdService
+import services.fakes.refreshtoken.FakeStoreRefreshTokenService
+import services.fakes.user.FakeGetUserByIdService
 import utils.exceptions.HttpError
 import kotlin.test.BeforeTest
 import kotlin.test.Test

@@ -34,6 +34,5 @@ dependencies {
     // Unit Tests
     testImplementation(libs.kotlin.test)
     testImplementation(libs.kotlin.coroutines.test)
-    testImplementation(projects.services.test)
 
 }

@@ -6,8 +6,8 @@ import io.github.alaksion.invoicer.utils.fakes.FakeEmailValidator
 import io.github.alaksion.invoicer.utils.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import models.login.LoginModel
-import services.test.refreshtoken.FakeStoreRefreshTokenService
-import services.test.user.FakeGetUserByEmailService
+import services.fakes.refreshtoken.FakeStoreRefreshTokenService
+import services.fakes.user.FakeGetUserByEmailService
 import utils.exceptions.HttpError
 import kotlin.test.*
 

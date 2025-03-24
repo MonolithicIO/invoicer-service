@@ -1,4 +1,4 @@
-package services.test.intermediary
+package services.fakes.intermediary
 
 import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
 

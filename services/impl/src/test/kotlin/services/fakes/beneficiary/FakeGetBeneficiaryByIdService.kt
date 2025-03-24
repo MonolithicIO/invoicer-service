@@ -1,4 +1,4 @@
-package services.test.beneficiary
+package services.fakes.beneficiary
 
 import kotlinx.datetime.Instant
 import models.beneficiary.BeneficiaryModel

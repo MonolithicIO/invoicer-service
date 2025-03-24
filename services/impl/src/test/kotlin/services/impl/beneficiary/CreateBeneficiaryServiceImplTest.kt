@@ -7,8 +7,8 @@ import kotlinx.coroutines.test.runTest
 import models.beneficiary.CreateBeneficiaryModel
 import repository.api.fakes.FakeBeneficiaryRepository
 import repository.api.fakes.FakeUserRepository
-import services.test.beneficiary.FakeCheckBeneficiarySwiftAvailableService
-import services.test.user.FakeGetUserByIdService
+import services.fakes.beneficiary.FakeCheckBeneficiarySwiftAvailableService
+import services.fakes.user.FakeGetUserByIdService
 import utils.exceptions.HttpError
 import kotlin.test.BeforeTest
 import kotlin.test.Test

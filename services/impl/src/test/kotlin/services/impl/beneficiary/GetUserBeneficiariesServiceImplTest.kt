@@ -6,7 +6,7 @@ import kotlinx.datetime.Instant
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.UserBeneficiaries
 import repository.api.fakes.FakeBeneficiaryRepository
-import services.test.user.FakeGetUserByIdService
+import services.fakes.user.FakeGetUserByIdService
 import utils.exceptions.HttpError
 import kotlin.test.BeforeTest
 import kotlin.test.Test
