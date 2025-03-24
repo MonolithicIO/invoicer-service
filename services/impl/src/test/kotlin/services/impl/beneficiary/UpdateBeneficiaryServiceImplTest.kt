@@ -6,8 +6,8 @@ import models.beneficiary.UpdateBeneficiaryModel
 import models.fixtures.beneficiaryModelFixture
 import models.fixtures.updateBeneficiaryModelFixture
 import repository.api.fakes.FakeBeneficiaryRepository
-import services.fakes.FakeIbanValidator
-import services.fakes.FakeSwiftValidator
+import io.github.alaksion.invoicer.utils.fakes.FakeIbanValidator
+import io.github.alaksion.invoicer.utils.fakes.FakeSwiftValidator
 import services.test.beneficiary.FakeCheckBeneficiarySwiftAvailableService
 import services.test.beneficiary.FakeGetBeneficiaryByIdService
 import services.test.user.FakeGetUserByIdService

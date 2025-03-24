@@ -1,4 +1,4 @@
-package services.fakes
+package io.github.alaksion.invoicer.utils.fakes
 
 import io.github.alaksion.invoicer.utils.validation.SwiftValidator
 

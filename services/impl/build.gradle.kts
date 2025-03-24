@@ -24,8 +24,12 @@ dependencies {
     implementation(projects.utils)
     implementation(libs.kotlin.coroutines.core)
 
+    // Fixtures
     testImplementation(testFixtures(projects.models))
+    testImplementation(testFixtures(projects.utils))
     testImplementation(testFixtures(projects.repository))
+
+    // Unit Tests
     testImplementation(libs.kotlin.test)
     testImplementation(libs.kotlin.coroutines.test)
     testImplementation(projects.services.test)

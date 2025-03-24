@@ -5,8 +5,8 @@ import kotlinx.coroutines.test.runTest
 import models.intermediary.CreateIntermediaryModel
 import repository.api.fakes.FakeIntermediaryRepository
 import repository.api.fakes.FakeUserRepository
-import services.fakes.FakeIbanValidator
-import services.fakes.FakeSwiftValidator
+import io.github.alaksion.invoicer.utils.fakes.FakeIbanValidator
+import io.github.alaksion.invoicer.utils.fakes.FakeSwiftValidator
 import services.test.intermediary.FakeCheckIntermediarySwiftAvailableService
 import services.test.user.FakeGetUserByIdService
 import utils.exceptions.HttpError

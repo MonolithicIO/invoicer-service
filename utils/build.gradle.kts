@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kover)
+    `java-test-fixtures`
 }
 
 // Move to build plugin
@@ -14,4 +15,6 @@ dependencies {
     implementation(libs.kotlin.serialization)
     testImplementation(libs.kotlin.test)
     testImplementation(libs.kotlin.coroutines.test)
+
+    testFixturesImplementation(libs.kotlin.datetime)
 }
