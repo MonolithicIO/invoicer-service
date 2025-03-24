@@ -1,4 +1,4 @@
-package foundation.authentication.api
+package foundation.authentication.fakes
 
 import foundation.authentication.impl.AuthTokenManager
 

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.ktor)
     alias(libs.plugins.serialization)
     alias(libs.plugins.kover)
+    `java-test-fixtures`
 }
 
 // Move to build plugin

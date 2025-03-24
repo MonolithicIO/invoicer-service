@@ -37,7 +37,7 @@ dependencies {
 
     // Foundation
     implementation(projects.foundation.password.impl)
-    implementation(projects.foundation.authentication.impl)
+    implementation(projects.foundation.authentication)
     implementation(projects.foundation.exceptions)
     implementation(projects.foundation.secrets.impl)
     implementation(projects.foundation.env.impl)
