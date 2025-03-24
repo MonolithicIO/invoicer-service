@@ -9,7 +9,7 @@ import services.api.services.login.StoreRefreshTokenService
 import services.api.services.user.GetUserByEmailService
 import utils.exceptions.badRequestError
 import utils.exceptions.notFoundError
-import utils.password.impl.PasswordEncryption
+import foundation.password.PasswordEncryption
 
 internal class LoginServiceImpl(
     private val getUserByEmailService: GetUserByEmailService,

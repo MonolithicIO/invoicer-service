@@ -11,7 +11,7 @@ import io.ktor.server.application.*
 import org.kodein.di.ktor.di
 import repository.api.di.repositoryModule
 import services.impl.di.servicesImplModule
-import utils.password.impl.di.utilPasswordDi
+import foundation.password.di.utilPasswordDi
 
 fun Application.installDi() {
     di {

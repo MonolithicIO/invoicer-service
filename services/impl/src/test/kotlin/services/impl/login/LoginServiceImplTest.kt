@@ -1,6 +1,7 @@
 package services.impl.login
 
 import foundation.authentication.fakes.FakeAuthTokenManager
+import foundation.password.fakes.FakePasswordEncryption
 import io.github.alaksion.invoicer.utils.fakes.FakeEmailValidator
 import io.github.alaksion.invoicer.utils.http.HttpCode
 import kotlinx.coroutines.test.runTest
@@ -8,7 +9,6 @@ import models.login.LoginModel
 import services.test.refreshtoken.FakeStoreRefreshTokenService
 import services.test.user.FakeGetUserByEmailService
 import utils.exceptions.HttpError
-import utils.password.FakePasswordEncryption
 import kotlin.test.*
 
 class LoginServiceImplTest {

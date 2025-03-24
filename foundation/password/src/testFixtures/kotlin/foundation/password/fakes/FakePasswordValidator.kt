@@ -1,7 +1,7 @@
-package utils.password
+package foundation.password.fakes
 
-import utils.password.impl.PasswordStrength
-import utils.password.impl.PasswordValidator
+import foundation.password.PasswordStrength
+import foundation.password.PasswordValidator
 
 class FakePasswordValidator : PasswordValidator {
 

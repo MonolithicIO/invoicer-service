@@ -19,7 +19,7 @@ dependencies {
     implementation(libs.pdf.itext)
     implementation(projects.foundation.exceptions)
     implementation(projects.foundation.authentication)
-    implementation(projects.foundation.password.impl)
+    implementation(projects.foundation.password)
     implementation(projects.foundation.qrcode)
     implementation(projects.utils)
     implementation(libs.kotlin.coroutines.core)
@@ -29,10 +29,11 @@ dependencies {
     testImplementation(testFixtures(projects.utils))
     testImplementation(testFixtures(projects.repository))
     testImplementation(testFixtures(projects.foundation.authentication))
+    testImplementation(testFixtures(projects.foundation.password))
 
     // Unit Tests
     testImplementation(libs.kotlin.test)
     testImplementation(libs.kotlin.coroutines.test)
     testImplementation(projects.services.test)
-    testImplementation(projects.foundation.password.test)
+
 }

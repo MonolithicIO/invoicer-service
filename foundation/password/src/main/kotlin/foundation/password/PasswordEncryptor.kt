@@ -1,4 +1,4 @@
-package utils.password.impl
+package foundation.password
 
 import org.mindrot.jbcrypt.BCrypt
 

@@ -1,6 +1,6 @@
-package utils.password
+package foundation.password.fakes
 
-import utils.password.impl.PasswordEncryption
+import foundation.password.PasswordEncryption
 
 
 class FakePasswordEncryption : PasswordEncryption {

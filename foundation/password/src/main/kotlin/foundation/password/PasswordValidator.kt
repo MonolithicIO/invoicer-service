@@ -1,4 +1,4 @@
-package utils.password.impl
+package foundation.password
 
 interface PasswordValidator {
     fun validate(password: String): PasswordStrength

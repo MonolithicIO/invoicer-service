@@ -21,8 +21,7 @@ dependencyResolutionManagement {
 rootProject.name = "invoicer-api"
 include(":server")
 include(":detekt")
-include(":foundation:password:impl")
-include(":foundation:password:test")
+include(":foundation:password")
 include(":foundation:authentication")
 include(":foundation:exceptions")
 include(":foundation:secrets:impl")

@@ -36,7 +36,7 @@ dependencies {
     implementation(libs.micrometer.prometheus)
 
     // Foundation
-    implementation(projects.foundation.password.impl)
+    implementation(projects.foundation.password)
     implementation(projects.foundation.authentication)
     implementation(projects.foundation.exceptions)
     implementation(projects.foundation.secrets.impl)
