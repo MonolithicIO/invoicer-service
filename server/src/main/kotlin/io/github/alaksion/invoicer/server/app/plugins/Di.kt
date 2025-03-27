@@ -12,6 +12,7 @@ import org.kodein.di.ktor.di
 import repository.api.di.repositoryModule
 import services.impl.di.servicesImplModule
 import foundation.password.di.utilPasswordDi
+import io.github.alaksion.invoicer.foundation.storage.di.storageDiModule
 
 fun Application.installDi() {
     di {
@@ -25,5 +26,6 @@ fun Application.installDi() {
         import(datasourceModule)
         import(qrCodeModule)
         import(utilDiModule)
+        import(storageDiModule)
     }
 }
