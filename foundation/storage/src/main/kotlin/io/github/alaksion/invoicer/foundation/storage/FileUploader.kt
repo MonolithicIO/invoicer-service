@@ -4,5 +4,5 @@ interface FileUploader {
     suspend fun uploadFile(
         localFilePath: String,
         fileName: String
-    )
+    ): String
 }

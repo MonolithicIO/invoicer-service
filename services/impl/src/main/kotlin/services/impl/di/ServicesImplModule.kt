@@ -201,7 +201,8 @@ private fun DI.Builder.invoiceServices() {
         GenerateInvoicePdfServiceImpl(
             getUserByIdService = instance(),
             getInvoiceByIdService = instance(),
-            writer = instance()
+            writer = instance(),
+            fileUploader = instance()
         )
     }
 }

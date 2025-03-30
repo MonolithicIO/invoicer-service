@@ -13,7 +13,7 @@ internal class MinIOFileUploader(
     override suspend fun uploadFile(
         localFilePath: String,
         fileName: String
-    ) {
+    ): String {
         val client = MinioClient.builder()
             .endpoint(secretsProvider.getSecret(SecretKeys.MIN_IO_URL))
             .credentials(
@@ -28,6 +28,8 @@ internal class MinIOFileUploader(
             .filename(localFilePath)
             .build()
 
-        client.uploadObject(uploadPayload)
+        val response = client.uploadObject(uploadPayload)
+
+        return response.`object`()
     }
 }
