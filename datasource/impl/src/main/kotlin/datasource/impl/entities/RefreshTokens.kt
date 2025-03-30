@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import java.util.*
 
-object RefreshTokensTable : UUIDTable("t_refresh_tokens") {
+internal object RefreshTokensTable : UUIDTable("t_refresh_tokens") {
     val user = reference(name = "user_id", foreign = UserTable, onDelete = ReferenceOption.CASCADE)
     val enabled = bool("enabled").default(true)
     val refreshToken = varchar("token", 1000)
@@ -17,7 +17,7 @@ object RefreshTokensTable : UUIDTable("t_refresh_tokens") {
     val updatedAt = timestamp("updated_at")
 }
 
-class RefreshTokenEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+internal class RefreshTokenEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<RefreshTokenEntity>(RefreshTokensTable)
 
     var user by UserEntity referencedOn RefreshTokensTable.user

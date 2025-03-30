@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.kotlin.datetime.date
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import java.util.*
 
-object UserTable : UUIDTable("T_USER") {
+internal object UserTable : UUIDTable("T_USER") {
     val email = varchar(name = "email", length = 500)
     val password = varchar(name = "password", length = 60)
     val verified = bool("verified")
@@ -16,7 +16,7 @@ object UserTable : UUIDTable("T_USER") {
     val updatedAt = timestamp("updated_at")
 }
 
-class UserEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+internal class UserEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<UserEntity>(UserTable)
 
     var email by UserTable.email

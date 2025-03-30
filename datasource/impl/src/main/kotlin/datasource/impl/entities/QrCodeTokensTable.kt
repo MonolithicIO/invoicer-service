@@ -7,7 +7,7 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import java.util.*
 
-object QrCodeTokensTable : UUIDTable("t_qrcode_tokens") {
+internal object QrCodeTokensTable : UUIDTable("t_qrcode_tokens") {
     val ipAddress = varchar("ip_address", 100)
     val agent = varchar("agent", 1000)
     val content = varchar("content", 1000)
@@ -19,7 +19,7 @@ object QrCodeTokensTable : UUIDTable("t_qrcode_tokens") {
     val expiresAt = timestamp("expires_at")
 }
 
-class QrCodeTokenEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+internal class QrCodeTokenEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<QrCodeTokenEntity>(QrCodeTokensTable)
 
     var ipAddress by QrCodeTokensTable.ipAddress

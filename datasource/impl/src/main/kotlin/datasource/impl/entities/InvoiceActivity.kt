@@ -11,7 +11,7 @@ import org.jetbrains.exposed.sql.kotlin.datetime.date
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import java.util.*
 
-object InvoiceActivityTable : UUIDTable("t_invoice_activity") {
+internal object InvoiceActivityTable : UUIDTable("t_invoice_activity") {
     val description = varchar("description", 500)
     val quantity = integer("quantity")
     val unitPrice = long("unit_price")
@@ -20,7 +20,7 @@ object InvoiceActivityTable : UUIDTable("t_invoice_activity") {
     val invoice = reference(name = "invoice_id", foreign = InvoiceTable, onDelete = ReferenceOption.CASCADE)
 }
 
-class InvoiceActivityEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+internal class InvoiceActivityEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<InvoiceActivityEntity>(InvoiceActivityTable)
 
     var description: String by InvoiceActivityTable.description

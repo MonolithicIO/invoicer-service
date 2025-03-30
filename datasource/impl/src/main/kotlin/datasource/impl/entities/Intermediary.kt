@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.kotlin.datetime.date
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import java.util.UUID
 
-object IntermediaryTable : UUIDTable("t_intermediary") {
+internal object IntermediaryTable : UUIDTable("t_intermediary") {
     val name = varchar("name", 1000)
     val iban = varchar("iban", 1000)
     val swift = varchar("swift", 11)
@@ -21,7 +21,7 @@ object IntermediaryTable : UUIDTable("t_intermediary") {
     val user = reference("user_id", foreign = UserTable, onDelete = ReferenceOption.CASCADE)
 }
 
-class IntermediaryEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+internal class IntermediaryEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<IntermediaryEntity>(IntermediaryTable)
 
     var name by IntermediaryTable.name

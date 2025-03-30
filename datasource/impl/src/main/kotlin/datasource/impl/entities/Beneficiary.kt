@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import java.util.*
 
-object BeneficiaryTable : UUIDTable("t_beneficiary") {
+internal object BeneficiaryTable : UUIDTable("t_beneficiary") {
     val name = varchar("name", 1000)
     val iban = varchar("iban", 1000)
     val swift = varchar("swift", 11)
@@ -20,7 +20,7 @@ object BeneficiaryTable : UUIDTable("t_beneficiary") {
     val user = reference("user_id", foreign = UserTable, onDelete = ReferenceOption.CASCADE)
 }
 
-class BeneficiaryEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+internal class BeneficiaryEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<BeneficiaryEntity>(BeneficiaryTable)
 
     var name by BeneficiaryTable.name

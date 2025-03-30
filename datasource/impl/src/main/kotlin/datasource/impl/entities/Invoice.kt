@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import java.util.*
 
 
-object InvoiceTable : UUIDTable("t_invoice") {
+internal object InvoiceTable : UUIDTable("t_invoice") {
     val externalId = varchar("external_id", 36)
     val senderCompanyName = varchar("sender_company_name", 500)
     val senderCompanyAddress = varchar("sender_company_address", 1000)
@@ -25,7 +25,7 @@ object InvoiceTable : UUIDTable("t_invoice") {
     val intermediary = optReference("intermediary_id", foreign = IntermediaryTable)
 }
 
-class InvoiceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
+internal class InvoiceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<InvoiceEntity>(InvoiceTable)
 
     var externalId by InvoiceTable.externalId
