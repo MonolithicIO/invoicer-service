@@ -17,6 +17,7 @@ enum class SecretKeys {
     REDIS_TTL,
     MIN_IO_KEY,
     MIN_IO_SECRET_KEY,
-    MIN_IO_SECRET_URL,
+    MIN_IO_URL,
+    MIN_IO_BUCKET
 }
 

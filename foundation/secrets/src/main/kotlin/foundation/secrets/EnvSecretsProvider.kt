@@ -20,7 +20,8 @@ internal class EnvSecretsProvider(
             SecretKeys.REDIS_TTL -> "redis.ttl"
             SecretKeys.MIN_IO_KEY -> "minIO.key"
             SecretKeys.MIN_IO_SECRET_KEY -> "minIO.secret"
-            SecretKeys.MIN_IO_SECRET_URL -> "minIO.url"
+            SecretKeys.MIN_IO_URL -> "minIO.url"
+            SecretKeys.MIN_IO_BUCKET -> "minIO.bucket"
         }
 
         return environment.getVariable(path).orEmpty()
