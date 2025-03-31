@@ -44,4 +44,5 @@ val datasourceModule = DI.Module("datasourceModule") {
         )
     }
 
+    bindProvider<InvoicePdfDatabaseSource> { InvoicePdfDatabaseSourceImpl(clock = instance()) }
 }
