@@ -45,4 +45,6 @@ val repositoryModule = DI.Module("invocer-repository") {
             databaseSource = instance()
         )
     }
+
+    bindProvider<InvoicePdfRepository> { InvoicePdfRepositoryImpl(databaseSource = instance()) }
 }

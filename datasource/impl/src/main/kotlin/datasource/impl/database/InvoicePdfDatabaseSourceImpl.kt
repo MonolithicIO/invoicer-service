@@ -5,10 +5,12 @@ import datasource.api.model.pdf.CreatePdfData
 import datasource.impl.entities.InvoicePdfEntity
 import datasource.impl.entities.InvoicePdfStatus
 import datasource.impl.entities.InvoicePdfTable
+import datasource.impl.mapper.toModel
 import kotlinx.datetime.Clock
 import models.invoicepdf.InvoicePdfModel
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.updateReturning
 import java.util.*
 
 internal class InvoicePdfDatabaseSourceImpl(
@@ -40,6 +42,26 @@ internal class InvoicePdfDatabaseSourceImpl(
                     path = it.filePath
                 )
             }
+        }
+    }
+
+    override suspend fun updateInvoicePdfState(
+        invoiceId: String,
+        status: models.invoicepdf.InvoicePdfStatus,
+        filePath: String
+    ): InvoicePdfModel {
+        return newSuspendedTransaction {
+            InvoicePdfTable.updateReturning(
+                where = {
+                    InvoicePdfTable.invoice eq UUID.fromString(invoiceId)
+                }
+            ) { table ->
+                table[updatedAt] = clock.now()
+                table[InvoicePdfTable.status] = InvoicePdfStatus.valueOf(status.name)
+                table[InvoicePdfTable.filePath] = filePath
+            }.map {
+                InvoicePdfEntity.wrapRow(it)
+            }.first().toModel()
         }
     }
 }
