@@ -12,4 +12,5 @@ dependencies {
     implementation(libs.kotlin.datetime)
     implementation(libs.bundles.exposed)
     implementation(libs.kodein.server)
+    implementation(libs.postgres)
 }

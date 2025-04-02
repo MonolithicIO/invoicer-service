@@ -3,11 +3,12 @@ package datasource.impl.database
 import datasource.api.database.InvoicePdfDatabaseSource
 import datasource.api.model.pdf.CreatePdfData
 import datasource.impl.entities.InvoicePdfEntity
-import datasource.impl.entities.InvoicePdfStatus
+import datasource.impl.entities.InvoicePdfStatusEntity
 import datasource.impl.entities.InvoicePdfTable
 import datasource.impl.mapper.toModel
 import kotlinx.datetime.Clock
 import models.invoicepdf.InvoicePdfModel
+import models.invoicepdf.InvoicePdfStatus
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.updateReturning
@@ -24,7 +25,7 @@ internal class InvoicePdfDatabaseSourceImpl(
                 it[createdAt] = clock.now()
                 it[updatedAt] = clock.now()
                 it[filePath] = payload.pdfPath
-                it[status] = InvoicePdfStatus.PENDING
+                it[status] = InvoicePdfStatusEntity.pending
             }
         }
     }
@@ -47,7 +48,7 @@ internal class InvoicePdfDatabaseSourceImpl(
 
     override suspend fun updateInvoicePdfState(
         invoiceId: String,
-        status: models.invoicepdf.InvoicePdfStatus,
+        status: InvoicePdfStatus,
         filePath: String
     ): InvoicePdfModel {
         return newSuspendedTransaction {
@@ -57,7 +58,7 @@ internal class InvoicePdfDatabaseSourceImpl(
                 }
             ) { table ->
                 table[updatedAt] = clock.now()
-                table[InvoicePdfTable.status] = InvoicePdfStatus.valueOf(status.name)
+                table[InvoicePdfTable.status] = InvoicePdfStatusEntity.fromModel(status)
                 table[InvoicePdfTable.filePath] = filePath
             }.map {
                 InvoicePdfEntity.wrapRow(it)
