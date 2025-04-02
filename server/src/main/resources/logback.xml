@@ -1,13 +1,20 @@
 <configuration>
 
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>invoicer-logstash:5000</destination>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+        <!-- Variável de ambiente LOGSTASH_HOST com fallback -->
+        <destination>${INVOICER_LOGSTASH}</destination>
+
+        <!-- Opcional: tempo de reconexão -->
+        <reconnectionDelay>10000</reconnectionDelay>
+
+        <!-- Keep alive para manter a conexão ativa -->
+        <keepAliveDuration>5 minutes</keepAliveDuration>
+
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"app":"my-ktor-app","environment":"${ENV:-dev}"}</customFields>
+        </encoder>
     </appender>
 
-    <root level="trace">
-        <appender-ref ref="LOGSTASH"/>
-    </root>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -17,6 +24,10 @@
 
     <root level="trace">
         <appender-ref ref="STDOUT"/>
+    </root>
+
+    <root level="trace">
+        <appender-ref ref="LOGSTASH"/>
     </root>
 
     <logger name="org.eclipse.jetty" level="INFO"/>
