@@ -1,12 +1,6 @@
 package controller
 
-import controller.viewmodel.createinvoice.request.CreateInvoiceViewModel
-import controller.viewmodel.createinvoice.request.toModel
-import controller.viewmodel.createinvoice.response.CreateInvoiceResponseViewModel
-import controller.viewmodel.getinvoices.request.GetInvoicesFilterViewModel
-import controller.viewmodel.getinvoices.request.receiveGetInvoicesFilterViewModel
-import controller.viewmodel.getinvoices.response.toViewModel
-import controller.viewmodel.invoicedetails.response.toViewModel
+import controller.viewmodel.invoice.*
 import foundation.authentication.impl.jwt.jwtProtected
 import foundation.authentication.impl.jwt.jwtUserId
 import io.ktor.http.*
@@ -20,8 +14,8 @@ import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.DeleteInvoiceService
 import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.invoice.GetUserInvoicesService
-import services.api.services.pdf.DownloadInvoicePdfService
 import services.api.services.pdf.GenerateInvoicePdfService
+import services.api.services.pdf.InvoicePdfSecureLinkService
 
 internal fun Routing.invoiceController() {
     route("/v1/invoice") {
@@ -110,15 +104,19 @@ internal fun Routing.invoiceController() {
         }
 
         jwtProtected {
-            get("/{id}/download") {
+            get("/{id}/download_link") {
                 val invoiceId = call.parameters["id"]!!
-                val generateService by closestDI().instance<DownloadInvoicePdfService>()
+                val generateService by closestDI().instance<InvoicePdfSecureLinkService>()
 
-                generateService.download(
-                    invoiceId = invoiceId,
-                    userId = jwtUserId()
+                call.respond(
+                    message = InvoiceDownloadLinkViewModel(
+                        generateService.generate(
+                            invoiceId = invoiceId,
+                            userId = jwtUserId()
+                        )
+                    ),
+                    status = HttpStatusCode.OK
                 )
-                call.respond(HttpStatusCode.OK)
             }
         }
     }

@@ -1,7 +1,6 @@
-package controller.viewmodel.getinvoices.request
+package controller.viewmodel.invoice
 
 import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import models.getinvoices.GetInvoicesFilterModel
 import utils.exceptions.badRequestError

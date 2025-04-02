@@ -1,4 +1,4 @@
-package controller.viewmodel.invoicedetails.response
+package controller.viewmodel.invoice
 
 import kotlinx.serialization.Serializable
 import models.InvoiceModel

@@ -12,7 +12,7 @@ import services.api.services.invoice.GetUserInvoicesService
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
 import services.api.services.login.StoreRefreshTokenService
-import services.api.services.pdf.DownloadInvoicePdfService
+import services.api.services.pdf.InvoicePdfSecureLinkService
 import services.api.services.pdf.GenerateInvoicePdfService
 import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
 import services.api.services.qrcodetoken.GetQrCodeTokenByContentIdService
@@ -29,7 +29,7 @@ import services.impl.invoice.GetUserInvoicesServiceImpl
 import services.impl.login.LoginServiceImpl
 import services.impl.login.RefreshLoginServiceImpl
 import services.impl.login.StoreRefreshTokenServiceImpl
-import services.impl.pdf.DownloadInvoicePdfServiceImpl
+import services.impl.pdf.InvoicePdfSecureLinkServiceImpl
 import services.impl.pdf.GenerateInvoicePdfServiceImpl
 import services.impl.pdf.pdfwriter.InvoicePdfWriter
 import services.impl.pdf.pdfwriter.itext.ItextInvoiceWriter
@@ -209,11 +209,11 @@ private fun DI.Builder.invoiceServices() {
         )
     }
 
-    bindProvider<DownloadInvoicePdfService> {
-        DownloadInvoicePdfServiceImpl(
-            fileDownloader = instance(),
+    bindProvider<InvoicePdfSecureLinkService> {
+        InvoicePdfSecureLinkServiceImpl(
             getUserInvoiceByIdService = instance(),
-            invoicePdfRepository = instance()
+            invoicePdfRepository = instance(),
+            secureFileLinkGenerator = instance()
         )
     }
 }

@@ -1,8 +1,8 @@
 package services.api.services.pdf
 
-interface DownloadInvoicePdfService {
-    suspend fun download(
+interface InvoicePdfSecureLinkService {
+    suspend fun generate(
         invoiceId: String,
         userId: String
-    )
+    ): String
 }

@@ -1,7 +1,6 @@
-package controller.viewmodel.getinvoices.response
+package controller.viewmodel.invoice
 
 import kotlinx.serialization.Serializable
-import models.getinvoices.InvoiceListItemModel
 import models.getinvoices.InvoiceListModel
 
 @Serializable

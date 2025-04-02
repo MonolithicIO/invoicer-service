@@ -1,6 +1,7 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
 import io.github.alaksion.invoicer.utils.http.HttpCode
+import io.ktor.client.engine.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.statuspages.*
@@ -27,6 +28,13 @@ fun Application.installStatusPages() {
                 status = HttpStatusCode.BadRequest
             )
         }
+
+        exception<Throwable> { call, _ ->
+            call.respond(
+                message = ErrorBody("Server failed unexpectedly"),
+                status = HttpStatusCode.InternalServerError
+            )
+        }
     }
 }
 
@@ -37,6 +45,7 @@ private fun HttpCode.toKtorCode(): HttpStatusCode = when (this) {
     HttpCode.Conflict -> HttpStatusCode.Conflict
     HttpCode.UnAuthorized -> HttpStatusCode.Unauthorized
     HttpCode.Gone -> HttpStatusCode.Gone
+    HttpCode.ServerError -> HttpStatusCode.InternalServerError
 }
 
 @Serializable
