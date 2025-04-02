@@ -8,6 +8,7 @@ data class InvoicePdfModel(
     val createdAt: Instant,
     val updatedAt: Instant,
     val path: String,
+    val status: InvoicePdfStatus
 )
 
 enum class InvoicePdfStatus {

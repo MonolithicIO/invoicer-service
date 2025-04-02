@@ -7,11 +7,12 @@ import services.api.services.beneficiary.*
 import services.api.services.intermediary.*
 import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.DeleteInvoiceService
-import services.api.services.invoice.GetInvoiceByIdService
+import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.invoice.GetUserInvoicesService
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
 import services.api.services.login.StoreRefreshTokenService
+import services.api.services.pdf.DownloadInvoicePdfService
 import services.api.services.pdf.GenerateInvoicePdfService
 import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
 import services.api.services.qrcodetoken.GetQrCodeTokenByContentIdService
@@ -23,11 +24,12 @@ import services.impl.beneficiary.*
 import services.impl.intermediary.*
 import services.impl.invoice.CreateInvoiceServiceImpl
 import services.impl.invoice.DeleteInvoiceServiceImpl
-import services.impl.invoice.GetInvoiceByIdServiceImpl
+import services.impl.invoice.GetUserInvoiceByIdServiceImpl
 import services.impl.invoice.GetUserInvoicesServiceImpl
 import services.impl.login.LoginServiceImpl
 import services.impl.login.RefreshLoginServiceImpl
 import services.impl.login.StoreRefreshTokenServiceImpl
+import services.impl.pdf.DownloadInvoicePdfServiceImpl
 import services.impl.pdf.GenerateInvoicePdfServiceImpl
 import services.impl.pdf.pdfwriter.InvoicePdfWriter
 import services.impl.pdf.pdfwriter.itext.ItextInvoiceWriter
@@ -177,13 +179,13 @@ private fun DI.Builder.invoiceServices() {
     bindProvider<DeleteInvoiceService> {
         DeleteInvoiceServiceImpl(
             getUserByIdUseCase = instance(),
-            getInvoiceByIdService = instance(),
+            getUserInvoiceByIdService = instance(),
             repository = instance()
         )
     }
 
-    bindProvider<GetInvoiceByIdService> {
-        GetInvoiceByIdServiceImpl(
+    bindProvider<GetUserInvoiceByIdService> {
+        GetUserInvoiceByIdServiceImpl(
             repository = instance(),
             getUserByIdUseCase = instance()
         )
@@ -200,9 +202,17 @@ private fun DI.Builder.invoiceServices() {
     bindProvider<GenerateInvoicePdfService> {
         GenerateInvoicePdfServiceImpl(
             getUserByIdService = instance(),
-            getInvoiceByIdService = instance(),
+            getUserInvoiceByIdService = instance(),
             writer = instance(),
             fileUploader = instance(),
+            invoicePdfRepository = instance()
+        )
+    }
+
+    bindProvider<DownloadInvoicePdfService> {
+        DownloadInvoicePdfServiceImpl(
+            fileDownloader = instance(),
+            getUserInvoiceByIdService = instance(),
             invoicePdfRepository = instance()
         )
     }

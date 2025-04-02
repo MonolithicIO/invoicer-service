@@ -2,6 +2,6 @@ package services.api.services.invoice
 
 import models.InvoiceModel
 
-interface GetInvoiceByIdService {
+interface GetUserInvoiceByIdService {
     suspend fun get(id: String, userId: String): InvoiceModel
 }

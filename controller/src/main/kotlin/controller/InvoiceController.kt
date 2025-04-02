@@ -18,7 +18,7 @@ import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.DeleteInvoiceService
-import services.api.services.invoice.GetInvoiceByIdService
+import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.invoice.GetUserInvoicesService
 import services.api.services.pdf.GenerateInvoicePdfService
 
@@ -28,7 +28,7 @@ internal fun Routing.invoiceController() {
         jwtProtected {
             get("/{id}") {
                 val invoiceId = call.parameters["id"]
-                val findOneService by closestDI().instance<GetInvoiceByIdService>()
+                val findOneService by closestDI().instance<GetUserInvoiceByIdService>()
 
                 call.respond(
                     status = HttpStatusCode.OK,

@@ -3,7 +3,7 @@ package services.impl.pdf
 import io.github.alaksion.invoicer.foundation.storage.FileUploader
 import models.invoicepdf.InvoicePdfStatus
 import repository.api.repository.InvoicePdfRepository
-import services.api.services.invoice.GetInvoiceByIdService
+import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.pdf.GenerateInvoicePdfService
 import services.api.services.user.GetUserByIdService
 import services.impl.pdf.pdfwriter.InvoicePdfWriter
@@ -12,7 +12,7 @@ import kotlin.io.path.deleteIfExists
 
 internal class GenerateInvoicePdfServiceImpl(
     private val getUserByIdService: GetUserByIdService,
-    private val getInvoiceByIdService: GetInvoiceByIdService,
+    private val getUserInvoiceByIdService: GetUserInvoiceByIdService,
     private val writer: InvoicePdfWriter,
     private val fileUploader: FileUploader,
     private val invoicePdfRepository: InvoicePdfRepository
@@ -21,7 +21,7 @@ internal class GenerateInvoicePdfServiceImpl(
     override suspend fun generate(invoiceId: String, userId: String) {
         getUserByIdService.get(userId)
 
-        val invoice = getInvoiceByIdService.get(
+        val invoice = getUserInvoiceByIdService.get(
             userId = userId,
             id = invoiceId
         )

@@ -15,6 +15,10 @@ interface InvoicePdfRepository {
         status: InvoicePdfStatus,
         filePath: String,
     ): InvoicePdfModel
+
+    suspend fun getInvoicePdf(
+        invoiceId: String
+    ): InvoicePdfModel?
 }
 
 internal class InvoicePdfRepositoryImpl(
@@ -40,5 +44,9 @@ internal class InvoicePdfRepositoryImpl(
             status = status,
             filePath = filePath
         )
+    }
+
+    override suspend fun getInvoicePdf(invoiceId: String): InvoicePdfModel? {
+        return databaseSource.getInvoicePdf(invoiceId)
     }
 }
