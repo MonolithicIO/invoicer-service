@@ -20,6 +20,7 @@ import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.DeleteInvoiceService
 import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.invoice.GetUserInvoicesService
+import services.api.services.pdf.DownloadInvoicePdfService
 import services.api.services.pdf.GenerateInvoicePdfService
 
 internal fun Routing.invoiceController() {
@@ -101,6 +102,19 @@ internal fun Routing.invoiceController() {
                 val generateService by closestDI().instance<GenerateInvoicePdfService>()
 
                 generateService.generate(
+                    invoiceId = invoiceId,
+                    userId = jwtUserId()
+                )
+                call.respond(HttpStatusCode.OK)
+            }
+        }
+
+        jwtProtected {
+            get("/{id}/download") {
+                val invoiceId = call.parameters["id"]!!
+                val generateService by closestDI().instance<DownloadInvoicePdfService>()
+
+                generateService.download(
                     invoiceId = invoiceId,
                     userId = jwtUserId()
                 )

@@ -5,7 +5,13 @@ import foundation.secrets.SecretsProvider
 import io.github.alaksion.invoicer.foundation.storage.FileDownloader
 import io.minio.DownloadObjectArgs
 import io.minio.MinioClient
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 import kotlin.io.path.Path
+import kotlin.io.path.createDirectories
+import kotlin.io.path.deleteExisting
+
 
 internal class MinIOFilerDownloader(
     private val secretsProvider: SecretsProvider
@@ -20,10 +26,17 @@ internal class MinIOFilerDownloader(
             )
             .build()
 
-        val path = Path("").toAbsolutePath().toString() + "temp/downloads/$fileKey"
+        val path = Path("").toAbsolutePath().toString() + "/temp/downloads/$fileKey"
+
+        val dirPath: Path = Paths.get(path).parent
+
+        // Create path if not exists
+        if (!Files.exists(dirPath)) {
+            Files.createDirectories(dirPath)
+        }
 
         val downloadProps = DownloadObjectArgs.Builder()
-            .filename(fileKey)
+            .`object`(fileKey)
             .bucket(secretsProvider.getSecret(SecretKeys.MIN_IO_BUCKET))
             .filename(path)
             .build()

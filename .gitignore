@@ -38,4 +38,4 @@ out/
 .env
 .kotlin
 
-temp/pdfs
+temp/*

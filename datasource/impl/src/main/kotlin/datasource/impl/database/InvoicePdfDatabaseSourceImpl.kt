@@ -40,7 +40,12 @@ internal class InvoicePdfDatabaseSourceImpl(
                     invoiceId = it.invoice.id.value.toString(),
                     createdAt = it.createdAt,
                     updatedAt = it.updatedAt,
-                    path = it.filePath
+                    path = it.filePath,
+                    status = when (it.status) {
+                        InvoicePdfStatusEntity.pending -> InvoicePdfStatus.Pending
+                        InvoicePdfStatusEntity.success -> InvoicePdfStatus.Success
+                        InvoicePdfStatusEntity.error -> InvoicePdfStatus.Failed
+                    }
                 )
             }
         }
