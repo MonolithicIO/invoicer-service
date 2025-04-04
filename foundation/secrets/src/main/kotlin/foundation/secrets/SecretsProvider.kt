@@ -18,6 +18,7 @@ enum class SecretKeys {
     MIN_IO_KEY,
     MIN_IO_SECRET_KEY,
     MIN_IO_URL,
-    MIN_IO_BUCKET
+    MIN_IO_BUCKET,
+    KAFKA_BOOTSTRAP,
 }
 

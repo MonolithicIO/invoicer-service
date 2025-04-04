@@ -44,6 +44,7 @@ dependencies {
     implementation(projects.foundation.cache)
     implementation(projects.foundation.qrcode)
     implementation(projects.foundation.storage)
+    implementation(projects.foundation.messaging)
     implementation(projects.utils)
 
     // Datasource

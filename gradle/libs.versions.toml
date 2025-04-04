@@ -23,6 +23,7 @@ jedis = "5.2.0"
 zxing = "3.5.3"
 pdf = "9.1.0"
 minIO = "8.5.17"
+kafka = "3.6.1"
 
 [libraries]
 kodein-server = { module = "org.kodein.di:kodein-di-framework-ktor-server-jvm", version.ref = "kodein" }
@@ -96,6 +97,9 @@ pdf-itext = { module = "com.itextpdf:itext7-core", version.ref = "pdf" }
 
 # MinIO
 minIO = { module = "io.minio:minio", version.ref = "minIO" }
+
+# Kafka
+kafka = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt-plugin" }

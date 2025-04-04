@@ -23,3 +23,5 @@ minIO:
   secret: $INVOICER_MIN_IO_SECRET_KEY
   url: $INVOICER_MIN_IO_URL
   bucket: $INVOICER_MIN_IO_BUCKET
+kafka:
+  bootstrap_servers: $INVOICER_KAFKA_BOOTSTRAP_SERVERS

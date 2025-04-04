@@ -1,0 +1,32 @@
+package io.github.alaksion.invoicer.foundation.messaging.kafka
+
+import foundation.secrets.SecretKeys
+import foundation.secrets.SecretsProvider
+import io.github.alaksion.invoicer.foundation.messaging.MessageProducer
+import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.ProducerRecord
+import java.util.*
+
+internal class KafkaProducer(
+    private val secrets: SecretsProvider
+) : MessageProducer {
+
+    private val producer by lazy {
+        val properties = Properties()
+        properties["bootstrap.servers"] = secrets.getSecret(SecretKeys.KAFKA_BOOTSTRAP)
+        properties["key.serializer"] = "org.apache.kafka.common.serialization.StringSerializer"
+        properties["value.serializer"] = "org.apache.kafka.common.serialization.StringSerializer"
+        KafkaProducer<String, String>(properties)
+    }
+
+    override suspend fun produceMessage(topic: String, key: String, value: String) {
+        val message = ProducerRecord(topic, key, value)
+        producer.send(message) { metadata, exception ->
+            if (exception != null) {
+                println("Failed to send message: ${exception.message}")
+            } else {
+                println("Message succeeded with metadata: $metadata")
+            }
+        }
+    }
+}
