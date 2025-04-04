@@ -1,5 +1,7 @@
 package services.impl.invoice
 
+import io.github.alaksion.invoicer.foundation.messaging.MessageProducer
+import io.github.alaksion.invoicer.foundation.messaging.MessageTopic
 import io.github.alaksion.invoicer.utils.http.HttpCode
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
@@ -21,7 +23,8 @@ internal class CreateInvoiceServiceImpl(
     private val clock: Clock,
     private val getUserByIdService: GetUserByIdService,
     private val getBeneficiaryByIdService: GetBeneficiaryByIdService,
-    private val getIntermediaryByIdService: GetIntermediaryByIdService
+    private val getIntermediaryByIdService: GetIntermediaryByIdService,
+    private val messageProducer: MessageProducer
 ) : CreateInvoiceService {
 
     override suspend fun createInvoice(
@@ -58,6 +61,12 @@ internal class CreateInvoiceServiceImpl(
 
         val response =
             invoiceRepository.createInvoice(data = model, userId = UUID.fromString(userId))
+
+        messageProducer.produceMessage(
+            topic = MessageTopic.INVOICE_PDF,
+            key = response,
+            value = "{ \"invoiceId\": \"$response\" }"
+        )
 
         return CreateInvoiceResponseModel(
             externalInvoiceId = model.externalId,

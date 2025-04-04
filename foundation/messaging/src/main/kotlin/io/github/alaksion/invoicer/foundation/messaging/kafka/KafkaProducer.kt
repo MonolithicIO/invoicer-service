@@ -3,6 +3,7 @@ package io.github.alaksion.invoicer.foundation.messaging.kafka
 import foundation.secrets.SecretKeys
 import foundation.secrets.SecretsProvider
 import io.github.alaksion.invoicer.foundation.messaging.MessageProducer
+import io.github.alaksion.invoicer.foundation.messaging.MessageTopic
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import java.util.*
@@ -19,8 +20,8 @@ internal class KafkaProducer(
         KafkaProducer<String, String>(properties)
     }
 
-    override suspend fun produceMessage(topic: String, key: String, value: String) {
-        val message = ProducerRecord(topic, key, value)
+    override suspend fun produceMessage(topic: MessageTopic, key: String, value: String) {
+        val message = ProducerRecord(topic.topicId, key, value)
         producer.send(message) { metadata, exception ->
             if (exception != null) {
                 println("Failed to send message: ${exception.message}")

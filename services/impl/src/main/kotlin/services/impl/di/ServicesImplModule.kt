@@ -172,7 +172,8 @@ private fun DI.Builder.invoiceServices() {
             clock = instance(),
             getUserByIdService = instance(),
             getBeneficiaryByIdService = instance(),
-            getIntermediaryByIdService = instance()
+            getIntermediaryByIdService = instance(),
+            messageProducer = instance()
         )
     }
 
