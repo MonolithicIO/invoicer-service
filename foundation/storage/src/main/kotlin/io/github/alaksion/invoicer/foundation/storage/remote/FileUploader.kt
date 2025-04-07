@@ -1,4 +1,4 @@
-package io.github.alaksion.invoicer.foundation.storage
+package io.github.alaksion.invoicer.foundation.storage.remote
 
 interface FileUploader {
     suspend fun uploadFile(

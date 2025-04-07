@@ -206,7 +206,8 @@ private fun DI.Builder.invoiceServices() {
             getUserInvoiceByIdService = instance(),
             writer = instance(),
             fileUploader = instance(),
-            invoicePdfRepository = instance()
+            invoicePdfRepository = instance(),
+            localStorage = instance()
         )
     }
 

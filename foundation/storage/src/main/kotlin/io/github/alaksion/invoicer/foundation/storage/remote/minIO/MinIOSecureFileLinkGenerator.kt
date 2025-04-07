@@ -1,8 +1,8 @@
-package io.github.alaksion.invoicer.foundation.storage.minIO
+package io.github.alaksion.invoicer.foundation.storage.remote.minIO
 
 import foundation.secrets.SecretKeys
 import foundation.secrets.SecretsProvider
-import io.github.alaksion.invoicer.foundation.storage.SecureFileLinkGenerator
+import io.github.alaksion.invoicer.foundation.storage.remote.SecureFileLinkGenerator
 import io.minio.GetPresignedObjectUrlArgs
 import io.minio.MinioClient
 import io.minio.http.Method

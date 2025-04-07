@@ -1,15 +1,12 @@
 package services.impl.pdf
 
-import io.github.alaksion.invoicer.foundation.storage.SecureFileLinkGenerator
+import io.github.alaksion.invoicer.foundation.storage.remote.SecureFileLinkGenerator
 import models.invoicepdf.InvoicePdfStatus
 import repository.api.repository.InvoicePdfRepository
 import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.pdf.InvoicePdfSecureLinkService
 import utils.exceptions.badRequestError
 import utils.exceptions.notFoundError
-import utils.exceptions.serverException
-import kotlin.time.Duration.Companion.days
-import kotlin.time.DurationUnit
 
 internal class InvoicePdfSecureLinkServiceImpl(
     private val secureFileLinkGenerator: SecureFileLinkGenerator,
