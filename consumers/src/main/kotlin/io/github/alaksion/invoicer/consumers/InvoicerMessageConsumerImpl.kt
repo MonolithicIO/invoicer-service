@@ -15,6 +15,8 @@ internal class InvoicerMessageConsumerImpl(
     private val messageContext: MessageContext
 ) : InvoicerMessageConsumer {
 
+    private val json = Json { ignoreUnknownKeys = true }
+
     override suspend fun consume() {
         messageConsumer.startConsuming()
 
@@ -22,7 +24,7 @@ internal class InvoicerMessageConsumerImpl(
             .messageStream
             .collect { message ->
                 runCatching {
-                    Json.decodeFromString(MessageSerializer, message)
+                    json.decodeFromString(MessageSerializer, message)
                 }.onSuccess { parsedMessage ->
                     messageContext.executeStrategy(parsedMessage)
                 }.onFailure {
