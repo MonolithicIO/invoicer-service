@@ -4,18 +4,24 @@ import foundation.secrets.SecretKeys
 import foundation.secrets.SecretsProvider
 import io.github.alaksion.invoicer.foundation.messaging.MessageConsumer
 import io.github.alaksion.invoicer.foundation.messaging.MessageTopic
-import kotlinx.coroutines.currentCoroutineContext
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.isActive
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import java.util.*
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toJavaDuration
 
 internal class KafkaConsumer(
-    private val secrets: SecretsProvider
+    private val secrets: SecretsProvider,
+    private val coroutineScope: CoroutineScope
 ) : MessageConsumer {
+
+    private val _messageStream = MutableSharedFlow<String>()
+    override val messageStream: SharedFlow<String> = _messageStream
+
+    private var messagingJob: Job? = null
 
     private val consumer by lazy {
         val properties = Properties()
@@ -29,13 +35,13 @@ internal class KafkaConsumer(
         }
     }
 
-    override suspend fun consumeMessages(): Flow<String> {
-        return flow {
-            while (currentCoroutineContext().isActive) {
-                val records = consumer.poll(100.milliseconds.toJavaDuration())
+    override suspend fun startConsuming() {
+        messagingJob = coroutineScope.launch {
+            while (true) {
+                val records = consumer.poll(1.seconds.toJavaDuration())
                 for (record in records) {
+                    _messageStream.emit(record.value())
                     println("Received message: ${record.value()} from topic: ${record.topic()}")
-                    emit(record.value())
                     consumer.commitSync()
                 }
             }
@@ -43,6 +49,7 @@ internal class KafkaConsumer(
     }
 
     override fun close() {
+        messagingJob?.cancel()
         consumer.close()
     }
 }

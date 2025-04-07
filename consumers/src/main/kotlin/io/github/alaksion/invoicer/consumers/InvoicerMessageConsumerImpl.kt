@@ -16,14 +16,17 @@ internal class InvoicerMessageConsumerImpl(
 ) : InvoicerMessageConsumer {
 
     override suspend fun consume() {
+        messageConsumer.startConsuming()
+
         messageConsumer
-            .consumeMessages()
+            .messageStream
             .collect { message ->
                 runCatching {
                     Json.decodeFromString(MessageSerializer, message)
                 }.onSuccess { parsedMessage ->
                     messageContext.executeStrategy(parsedMessage)
                 }.onFailure {
+                    println(it)
                     // Log incorrect message serialization
                 }
             }

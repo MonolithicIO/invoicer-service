@@ -19,7 +19,9 @@ internal object MessageSerializer : JsonContentPolymorphicSerializer<Message>(Me
     )
 
     override fun selectDeserializer(element: JsonElement): DeserializationStrategy<Message> {
-        return when (element.jsonObject["type"]?.jsonPrimitive?.content) {
+        val type = element.jsonObject["type"]?.jsonPrimitive?.content
+
+        return when (type) {
             MessageType.GENERATE_PDF.messageId -> GeneratePdfMessage.serializer()
             MessageType.SEND_PDF_EMAIL.messageId -> SendEmailMessage.serializer()
             else -> Unkown.serializer()
