@@ -47,6 +47,8 @@ private fun paymentCell(
         .setBorder(SolidBorder(PdfStyle.Color.Primary, 1f))
         .setPadding(PdfStyle.Spacing.Small)
 
+    cell.add(Paragraph("\n"))
+
     cell.addPaymentInfo(
         label = "Beneficiary",
         name = beneficiary.name,
