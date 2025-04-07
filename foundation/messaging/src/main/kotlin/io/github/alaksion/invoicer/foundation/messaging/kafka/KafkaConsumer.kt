@@ -2,6 +2,8 @@ package io.github.alaksion.invoicer.foundation.messaging.kafka
 
 import foundation.secrets.SecretKeys
 import foundation.secrets.SecretsProvider
+import io.github.alaksion.invoicer.foundation.log.LogLevel
+import io.github.alaksion.invoicer.foundation.log.Logger
 import io.github.alaksion.invoicer.foundation.messaging.MessageConsumer
 import io.github.alaksion.invoicer.foundation.messaging.MessageTopic
 import kotlinx.coroutines.CoroutineScope
@@ -16,7 +18,8 @@ import kotlin.time.toJavaDuration
 
 internal class KafkaConsumer(
     private val secrets: SecretsProvider,
-    private val coroutineScope: CoroutineScope
+    private val coroutineScope: CoroutineScope,
+    private val logger: Logger,
 ) : MessageConsumer {
 
     private val _messageStream = MutableSharedFlow<String>()
@@ -42,7 +45,11 @@ internal class KafkaConsumer(
                 val records = consumer.poll(1.seconds.toJavaDuration())
                 for (record in records) {
                     _messageStream.emit(record.value())
-                    println("Received message: ${record.value()} from topic: ${record.topic()}")
+                    logger.log(
+                        type = KafkaConsumer::class,
+                        message = "Received message: ${record.value()} from topic: ${record.topic()}",
+                        level = LogLevel.Debug,
+                    )
                 }
                 consumer.commitSync()
             }

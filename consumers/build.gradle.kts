@@ -14,4 +14,5 @@ dependencies {
     implementation(projects.services.api)
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kodein.server)
+    implementation(projects.foundation.log)
 }

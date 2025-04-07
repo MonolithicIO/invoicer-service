@@ -29,8 +29,8 @@
         <appender-ref ref="LOGSTASH"/>
     </root>
 
-    <logger name="org.eclipse.jetty" level="INFO"/>
-    <logger name="io.netty" level="INFO"/>
-    <logger name="org.apache.kafka" level="WARN" />
+    <logger name="org.eclipse.jetty" level="${JETTY_LOG_LEVEL:-INFO}"/>
+    <logger name="io.netty" level="NETTY_LOG_LEVEL:-INFO"/>
+    <logger name="org.apache.kafka" level="KAFKA_LOG_LEVEL:-WARN" />
 
 </configuration>

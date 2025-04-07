@@ -14,6 +14,7 @@ dependencies {
     implementation(libs.kodein.server)
 
     implementation(projects.foundation.secrets)
+    implementation(projects.foundation.log)
 
     testImplementation(libs.kotlin.coroutines.test)
     testImplementation(libs.kotlin.test)

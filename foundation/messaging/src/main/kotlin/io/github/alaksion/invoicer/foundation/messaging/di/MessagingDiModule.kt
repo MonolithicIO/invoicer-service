@@ -18,7 +18,8 @@ val messagingDiModule = DI.Module("messaging-di") {
     bindSingleton<MessageConsumer> {
         KafkaConsumer(
             secrets = instance(),
-            coroutineScope = CoroutineScope(Dispatchers.IO)
+            coroutineScope = CoroutineScope(Dispatchers.IO),
+            logger = instance()
         )
     }
 }

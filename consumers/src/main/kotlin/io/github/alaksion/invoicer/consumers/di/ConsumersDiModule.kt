@@ -15,7 +15,8 @@ val consumersDiModule = DI.Module(name = "ConsumersDiModule") {
     bindProvider<MessageContext> {
         MessageContextImpl(
             generatePdfStrategy = instance(),
-            sendEmailStrategy = instance()
+            sendEmailStrategy = instance(),
+            logger = instance()
         )
     }
 
@@ -28,7 +29,8 @@ val consumersDiModule = DI.Module(name = "ConsumersDiModule") {
     bindProvider<InvoicerMessageConsumerImpl> {
         InvoicerMessageConsumerImpl(
             messageConsumer = instance(),
-            messageContext = instance()
+            messageContext = instance(),
+            logger = instance()
         )
     }
 

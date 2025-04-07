@@ -2,6 +2,8 @@ package io.github.alaksion.invoicer.consumers
 
 import io.github.alaksion.invoicer.consumers.messages.MessageSerializer
 import io.github.alaksion.invoicer.consumers.strategy.context.MessageContext
+import io.github.alaksion.invoicer.foundation.log.LogLevel
+import io.github.alaksion.invoicer.foundation.log.Logger
 import io.github.alaksion.invoicer.foundation.messaging.MessageConsumer
 import kotlinx.serialization.json.Json
 
@@ -12,7 +14,8 @@ interface InvoicerMessageConsumer {
 
 internal class InvoicerMessageConsumerImpl(
     private val messageConsumer: MessageConsumer,
-    private val messageContext: MessageContext
+    private val messageContext: MessageContext,
+    private val logger: Logger
 ) : InvoicerMessageConsumer {
 
     private val json = Json { ignoreUnknownKeys = true }
@@ -28,8 +31,12 @@ internal class InvoicerMessageConsumerImpl(
                 }.onSuccess { parsedMessage ->
                     messageContext.executeStrategy(parsedMessage)
                 }.onFailure {
-                    println(it)
-                    // Log incorrect message serialization
+                    logger.log(
+                        type = InvoicerMessageConsumerImpl::class,
+                        message = "Failed to deserialize kafka message: $message. Check Json Schema",
+                        level = LogLevel.Error,
+                        throwable = it
+                    )
                 }
             }
     }
