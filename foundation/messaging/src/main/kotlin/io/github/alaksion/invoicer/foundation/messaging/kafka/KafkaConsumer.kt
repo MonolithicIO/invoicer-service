@@ -20,8 +20,8 @@ internal class KafkaConsumer(
     private val consumer by lazy {
         val properties = Properties()
         properties["bootstrap.servers"] = secrets.getSecret(SecretKeys.KAFKA_BOOTSTRAP)
-        properties["key.serializer"] = "org.apache.kafka.common.serialization.StringSerializer"
-        properties["value.serializer"] = "org.apache.kafka.common.serialization.StringSerializer"
+        properties["key.deserializer"] = "org.apache.kafka.common.serialization.StringDeserializer"
+        properties["value.deserializer"] = "org.apache.kafka.common.serialization.StringDeserializer"
         properties["group.id"] = "invoicer-service-group"
         properties["enable.auto.commit"] = "false"
         KafkaConsumer<String, String>(properties).apply {
