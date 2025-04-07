@@ -4,12 +4,13 @@ import foundation.secrets.SecretKeys
 import foundation.secrets.SecretsProvider
 import io.github.alaksion.invoicer.foundation.messaging.MessageConsumer
 import io.github.alaksion.invoicer.foundation.messaging.MessageTopic
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.launch
 import org.apache.kafka.clients.consumer.KafkaConsumer
 import java.util.*
-import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toJavaDuration
 

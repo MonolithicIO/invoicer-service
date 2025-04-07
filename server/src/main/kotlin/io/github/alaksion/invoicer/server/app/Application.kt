@@ -28,7 +28,5 @@ fun Application.module() {
 
     launch {
         consumer.consume()
-    }.invokeOnCompletion {
-        consumer.close()
     }
 }
