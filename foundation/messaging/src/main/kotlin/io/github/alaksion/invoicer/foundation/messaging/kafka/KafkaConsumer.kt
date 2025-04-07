@@ -29,18 +29,20 @@ internal class KafkaConsumer(
         }
     }
 
-    override suspend fun consumeMessages(): Flow<Unit> {
+    override suspend fun consumeMessages(): Flow<String> {
         return flow {
             while (currentCoroutineContext().isActive) {
                 val records = consumer.poll(100.milliseconds.toJavaDuration())
                 for (record in records) {
-                    // Message processor Logic
-                    // If success then commit the offset
-                    // If failure then do not commit the offset
                     println("Received message: ${record.value()} from topic: ${record.topic()}")
+                    emit(record.value())
                     consumer.commitSync()
                 }
             }
         }
+    }
+
+    override fun close() {
+        consumer.close()
     }
 }

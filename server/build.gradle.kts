@@ -46,6 +46,7 @@ dependencies {
     implementation(projects.foundation.storage)
     implementation(projects.foundation.messaging)
     implementation(projects.utils)
+    implementation(projects.consumers)
 
     // Datasource
     implementation(projects.datasource.impl)

@@ -65,7 +65,13 @@ internal class CreateInvoiceServiceImpl(
         messageProducer.produceMessage(
             topic = MessageTopic.INVOICE_PDF,
             key = response,
-            value = "{ \"invoiceId\": \"$response\" }"
+            value = """
+                {
+                    "invoiceId": "$response",
+                    "userId": "$userId",
+                    "type": "generate_pdf"
+                }
+            """.trimIndent()
         )
 
         return CreateInvoiceResponseModel(

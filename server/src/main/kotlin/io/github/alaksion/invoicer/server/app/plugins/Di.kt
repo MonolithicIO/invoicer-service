@@ -4,16 +4,17 @@ import datasource.impl.di.datasourceModule
 import foundation.authentication.impl.di.utilsAuthenticationModule
 import foundation.cache.di.cacheDiModule
 import foundation.env.invoicerEnvironmentDiModule
-import foundation.secrets.di.secretsModule
+import foundation.password.di.utilPasswordDi
 import foundation.qrcode.di.qrCodeModule
+import foundation.secrets.di.secretsModule
+import io.github.alaksion.invoicer.consumers.di.consumersDiModule
+import io.github.alaksion.invoicer.foundation.messaging.di.messagingDiModule
+import io.github.alaksion.invoicer.foundation.storage.di.storageDiModule
 import io.github.alaksion.invoicer.utils.di.utilDiModule
 import io.ktor.server.application.*
 import org.kodein.di.ktor.di
 import repository.api.di.repositoryModule
 import services.impl.di.servicesImplModule
-import foundation.password.di.utilPasswordDi
-import io.github.alaksion.invoicer.foundation.messaging.di.messagingDiModule
-import io.github.alaksion.invoicer.foundation.storage.di.storageDiModule
 
 fun Application.installDi() {
     di {
@@ -29,5 +30,6 @@ fun Application.installDi() {
         import(utilDiModule)
         import(storageDiModule)
         import(messagingDiModule)
+        import(consumersDiModule)
     }
 }
