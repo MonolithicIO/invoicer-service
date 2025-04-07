@@ -28,13 +28,6 @@ fun Application.installStatusPages() {
                 status = HttpStatusCode.BadRequest
             )
         }
-
-        exception<Throwable> { call, _ ->
-            call.respond(
-                message = ErrorBody("Server failed unexpectedly"),
-                status = HttpStatusCode.InternalServerError
-            )
-        }
     }
 }
 

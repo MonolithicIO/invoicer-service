@@ -43,8 +43,8 @@ internal class KafkaConsumer(
                 for (record in records) {
                     _messageStream.emit(record.value())
                     println("Received message: ${record.value()} from topic: ${record.topic()}")
-                    consumer.commitSync()
                 }
+                consumer.commitSync()
             }
         }
     }
