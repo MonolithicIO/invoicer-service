@@ -45,6 +45,7 @@ dependencies {
     implementation(projects.foundation.qrcode)
     implementation(projects.foundation.storage)
     implementation(projects.foundation.messaging)
+    implementation(projects.foundation.log)
     implementation(projects.utils)
     implementation(projects.consumers)
 

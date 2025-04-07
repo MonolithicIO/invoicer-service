@@ -8,6 +8,7 @@ import foundation.password.di.utilPasswordDi
 import foundation.qrcode.di.qrCodeModule
 import foundation.secrets.di.secretsModule
 import io.github.alaksion.invoicer.consumers.di.consumersDiModule
+import io.github.alaksion.invoicer.foundation.log.di.logDiModule
 import io.github.alaksion.invoicer.foundation.messaging.di.messagingDiModule
 import io.github.alaksion.invoicer.foundation.storage.di.storageDiModule
 import io.github.alaksion.invoicer.utils.di.utilDiModule
@@ -31,5 +32,6 @@ fun Application.installDi() {
         import(storageDiModule)
         import(messagingDiModule)
         import(consumersDiModule)
+        import(logDiModule)
     }
 }
