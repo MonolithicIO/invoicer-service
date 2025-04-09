@@ -1,0 +1,955 @@
+type: collection.insomnia.rest/5.0
+name: Invoicer API
+meta:
+  id: wrk_795436637af84496829248a9dec4db43
+  created: 1734462691194
+  modified: 1739936189721
+collection:
+  - name: Auth
+    meta:
+      id: fld_bcdbfec02ab94c1989607a1beb52d7d8
+      created: 1734462719270
+      modified: 1742170411825
+      sortKey: -1734462719270
+    children:
+      - url: "{{ _.DEBUG_URL }}/v1/auth/login"
+        name: Sign in
+        meta:
+          id: req_cd582f81bfc047b6947fa93a2f96f477
+          created: 1734462723084
+          modified: 1744051826741
+          isPrivate: false
+          sortKey: -1734462723084
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "teste@gmail.com",
+            	"password": "Abc123456@"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.2.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/user"
+        name: Sign up
+        meta:
+          id: req_2f7ac893269346ed9475db922f5569da
+          created: 1741552216702
+          modified: 1744052012452
+          isPrivate: false
+          sortKey: -1737921321350
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"email": "teste@gmail.com",
+            	"confirmEmail": "teste@gmail.com",
+            	"password": "Abc123456@"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.3.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/auth/refresh"
+        name: Refresh Auth
+        meta:
+          id: req_6a96832a18ac447e910961036a1a814f
+          created: 1744165980002
+          modified: 1744166043398
+          isPrivate: false
+          sortKey: -1736192998421.5
+        method: POST
+        body:
+          mimeType: application/json
+          text: >-
+            {
+            	"refreshToken":  "{% response 'body', 'req_cd582f81bfc047b6947fa93a2f96f477', 'b64::JC5yZWZyZXNoVG9rZW4=::46b', 'never', 60 %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.3.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Invoice
+    meta:
+      id: fld_5e080973573644d89225626d4c2dd993
+      created: 1734463099199
+      modified: 1743026487096
+      sortKey: -1734463099199
+    children:
+      - url: "{{ _.DEBUG_URL }}/v1/invoice"
+        name: List Invoices
+        meta:
+          id: req_81dcc43fa5f54933b71fd7d8cf2aa400
+          created: 1734463114880
+          modified: 1744166298489
+          isPrivate: false
+          sortKey: -1734463114880
+        method: GET
+        parameters:
+          - disabled: false
+            id: pair_744a498eed2e488497d357e2f9f57260
+            name: page
+            value: "1"
+          - disabled: false
+            id: pair_d4d226e973df4fc5bf7ba4d17ff37ab3
+            name: limit
+            value: "10"
+          - disabled: true
+            id: pair_6133300a4943453497030c90f349ebbf
+            name: minIssueDate
+          - disabled: true
+            id: pair_08dfd8ebf3c643d484e8223613f06038
+            name: maxIssueDate
+          - disabled: true
+            id: pair_3446e6e6a1054a49a7bf8b0e8c776ad4
+            name: minDueDate
+          - disabled: true
+            id: pair_a9d9c904ad324889a8c6b9b44d2c03cd
+            name: maxDueDate
+          - disabled: true
+            id: pair_5b46f69241294bb89103d2fb0d8e14bf
+            name: senderCompanyName
+          - disabled: true
+            id: pair_17c7379922004e4ea77e4ddd4b36ebf6
+            name: recipientCompanyName
+        headers:
+          - id: pair_ed07477395bf4382921c754e7389e59d
+            name: User-Agent
+            value: insomnia/10.2.0
+        authentication:
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/invoice"
+        name: Create Invoice
+        meta:
+          id: req_b1f32f57990e48bb85cb3c71299e33a8
+          created: 1734464564576
+          modified: 1744060716153
+          isPrivate: false
+          sortKey: -1734464564576
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"externalId": "Invoice - {% faker 'randomInt' %}",
+            	"senderCompanyName": "{% faker 'randomCompanyName' %}",
+            	"senderCompanyAddress": "{% faker 'randomStreetAddress' %}",
+            	"recipientCompanyName": "{% faker 'randomCompanyName' %}",
+            	"recipientCompanyAddress": "{% faker 'randomStreetAddress' %}",
+            	"issueDate": "2026-03-22T01:05:02.479Z",
+            	"dueDate": "2027-03-22T01:05:02.479Z",
+            	"beneficiaryId": "05da88f9-1316-4a0d-9c22-a3c8c3e18ae5",
+            	"activities": [
+            		{
+            			"description": "IT Services",
+            			"unitPrice": 10,
+            			"quantity": 5
+            		}
+            	]
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.2.0
+        authentication:
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/invoice/{% response 'body',
+          'req_b1f32f57990e48bb85cb3c71299e33a8', 'b64::JC5pbnZvaWNlSWQ=::46b',
+          'never', 60 %}/pdf"
+        name: Generate Invoice PDF
+        meta:
+          id: req_c5406c15e4b146ff816c04af0175ea53
+          created: 1742518911038
+          modified: 1744055437251
+          isPrivate: false
+          sortKey: -1742518911038
+        method: POST
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.0
+        authentication:
+          type: bearer
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/invoice/{% response 'body',
+          'req_b1f32f57990e48bb85cb3c71299e33a8', 'b64::JC5pbnZvaWNlSWQ=::46b',
+          'never', 60 %}/download_link"
+        name: Generate Invoice PDF Download Link
+        meta:
+          id: req_01d70085cb7e4c2c917533aa7f7c6e2b
+          created: 1743556054330
+          modified: 1743621911305
+          isPrivate: false
+          sortKey: -1742093888473
+        method: GET
+        body:
+          mimeType: application/json
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.0.0
+        authentication:
+          type: bearer
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/invoice/{% response 'body',
+          'req_b1f32f57990e48bb85cb3c71299e33a8', 'b64::JC5pbnZvaWNlSWQ=::46b',
+          'never', 60 %}"
+        name: Invoice Details
+        meta:
+          id: req_e44a0d516d984500af565fb634fccb0c
+          created: 1744166084109
+          modified: 1744166306615
+          isPrivate: false
+          sortKey: -1734462918982
+        method: GET
+        parameters:
+          - disabled: false
+            id: pair_744a498eed2e488497d357e2f9f57260
+            name: page
+            value: "1"
+          - disabled: false
+            id: pair_d4d226e973df4fc5bf7ba4d17ff37ab3
+            name: limit
+            value: "10"
+          - disabled: true
+            id: pair_6133300a4943453497030c90f349ebbf
+            name: minIssueDate
+          - disabled: true
+            id: pair_08dfd8ebf3c643d484e8223613f06038
+            name: maxIssueDate
+          - disabled: true
+            id: pair_3446e6e6a1054a49a7bf8b0e8c776ad4
+            name: minDueDate
+          - disabled: true
+            id: pair_a9d9c904ad324889a8c6b9b44d2c03cd
+            name: maxDueDate
+          - disabled: true
+            id: pair_5b46f69241294bb89103d2fb0d8e14bf
+            name: senderCompanyName
+          - disabled: true
+            id: pair_17c7379922004e4ea77e4ddd4b36ebf6
+            name: recipientCompanyName
+        headers:
+          - id: pair_ed07477395bf4382921c754e7389e59d
+            name: User-Agent
+            value: insomnia/10.2.0
+        authentication:
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/invoice/{% response 'body',
+          'req_b1f32f57990e48bb85cb3c71299e33a8', 'b64::JC5pbnZvaWNlSWQ=::46b',
+          'never', 60 %}"
+        name: Invoice Delete
+        meta:
+          id: req_5c7cd78132ac4a898dc2bc51a940ca82
+          created: 1744166335531
+          modified: 1744166349369
+          isPrivate: false
+          sortKey: -1734462821033
+        method: DELETE
+        parameters:
+          - disabled: false
+            id: pair_744a498eed2e488497d357e2f9f57260
+            name: page
+            value: "1"
+          - disabled: false
+            id: pair_d4d226e973df4fc5bf7ba4d17ff37ab3
+            name: limit
+            value: "10"
+          - disabled: true
+            id: pair_6133300a4943453497030c90f349ebbf
+            name: minIssueDate
+          - disabled: true
+            id: pair_08dfd8ebf3c643d484e8223613f06038
+            name: maxIssueDate
+          - disabled: true
+            id: pair_3446e6e6a1054a49a7bf8b0e8c776ad4
+            name: minDueDate
+          - disabled: true
+            id: pair_a9d9c904ad324889a8c6b9b44d2c03cd
+            name: maxDueDate
+          - disabled: true
+            id: pair_5b46f69241294bb89103d2fb0d8e14bf
+            name: senderCompanyName
+          - disabled: true
+            id: pair_17c7379922004e4ea77e4ddd4b36ebf6
+            name: recipientCompanyName
+        headers:
+          - id: pair_ed07477395bf4382921c754e7389e59d
+            name: User-Agent
+            value: insomnia/10.2.0
+        authentication:
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Beneficiary
+    meta:
+      id: fld_9f8bd172ca6b4cffa1abf32ac460e049
+      created: 1734464671392
+      modified: 1739936189719
+      sortKey: -1734464671392
+    children:
+      - url: "{{ _.DEBUG_URL }}/v1/beneficiary"
+        name: Create Beneficiary
+        meta:
+          id: req_407f67b0dccd4729b6581fb5b06fb644
+          created: 1734464675093
+          modified: 1744140855640
+          isPrivate: false
+          sortKey: -1734464675093
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "test beneficiary",
+            	"swift": "QJMAKPYDXXX",
+            	"iban": "{% faker 'randomAlphaNumeric' %}",
+            	"bankName": "{% faker 'randomCompanyName' %}",
+            	"bankAddress": "{% faker 'randomStreetAddress' %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.2.0
+        authentication:
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/beneficiary/{% response 'body',
+          'req_407f67b0dccd4729b6581fb5b06fb644', 'b64::JC5pZA==::46b', 'never',
+          60 %}"
+        name: Update Beneficiary
+        meta:
+          id: req_4ba86e2742d44ba789e5e789a13fdf55
+          created: 1744140810870
+          modified: 1744140865482
+          isPrivate: false
+          sortKey: -1734464675193
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "Intermediary Company S.A Edit",
+            	"swift": "YGKGJMV8XXX",
+            	"iban": "MC44 9001 9086 64W0 7C5M 77Q7 604",
+            	"bankName": "{% faker 'randomCompanyName' %}",
+            	"bankAddress": "{% faker 'randomStreetAddress' %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.2.0
+        authentication:
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/beneficiary/{% response 'body',
+          'req_407f67b0dccd4729b6581fb5b06fb644', 'b64::JC5pZA==::46b', 'never',
+          60 %}"
+        name: Delete Beneficiary
+        meta:
+          id: req_a9ce063f96f6462890b71ce4ca400156
+          created: 1744140819227
+          modified: 1744140871230
+          isPrivate: false
+          sortKey: -1734464675293
+        method: DELETE
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "Intermediary Company S.A",
+            	"swift": "YGKGJMV8XXX",
+            	"iban": "MC44 9001 9086 64W0 7C5M 77Q7 604",
+            	"bankName": "{% faker 'randomCompanyName' %}",
+            	"bankAddress": "{% faker 'randomStreetAddress' %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.2.0
+        authentication:
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/beneficiary/{% response 'body',
+          'req_407f67b0dccd4729b6581fb5b06fb644', 'b64::JC5pZA==::46b', 'never',
+          60 %}"
+        name: Beneficiary Details
+        meta:
+          id: req_4b4ca8b6c15444669afa3b5b696849f8
+          created: 1744140830687
+          modified: 1744140895445
+          isPrivate: false
+          sortKey: -1734464675393
+        method: GET
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "Intermediary Company S.A",
+            	"swift": "YGKGJMV8XXX",
+            	"iban": "MC44 9001 9086 64W0 7C5M 77Q7 604",
+            	"bankName": "{% faker 'randomCompanyName' %}",
+            	"bankAddress": "{% faker 'randomStreetAddress' %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.2.0
+        authentication:
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/beneficiary"
+        name: List Beneficiary
+        meta:
+          id: req_2eeeb4d167194900b1053a787836831a
+          created: 1744140838988
+          modified: 1744140844425
+          isPrivate: false
+          sortKey: -1734464675493
+        method: GET
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "Intermediary Company S.A",
+            	"swift": "YGKGJMV8XXX",
+            	"iban": "MC44 9001 9086 64W0 7C5M 77Q7 604",
+            	"bankName": "{% faker 'randomCompanyName' %}",
+            	"bankAddress": "{% faker 'randomStreetAddress' %}"
+            }
+        parameters:
+          - id: pair_7ceca57972ff45e3aa004314363911e2
+            name: limit
+            value: "50"
+            disabled: false
+          - id: pair_8fe7210fb4844af7a3a55b5d180c538d
+            name: page
+            value: "0"
+            disabled: false
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.2.0
+        authentication:
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Metrics
+    meta:
+      id: fld_485464aef74c4fbd92e34e78d8b30b66
+      created: 1738611514200
+      modified: 1743026470479
+      sortKey: -1738611514200
+  - name: QrCode
+    meta:
+      id: fld_67f69c1509864c429d410772b053fe4c
+      created: 1741668845837
+      modified: 1741668845837
+      sortKey: -1741668845837
+    children:
+      - url: "{{ _.DEBUG_URL }}/v1/login_code"
+        name: Request Qr Code Login
+        meta:
+          id: req_ab43f5cc079e454e9e428f78cacc5a65
+          created: 1741379919616
+          modified: 1743026461564
+          isPrivate: false
+          sortKey: -1741668865708
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"size": 512
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.3.1
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/login_code/{% response 'body',
+          'req_ab43f5cc079e454e9e428f78cacc5a65', 'b64::JC5yYXdDb250ZW50::46b',
+          'never', 60 %}/consume"
+        name: Consume Qr Code
+        meta:
+          id: req_814e101e28d7439dbd22870c1d84d3da
+          created: 1741491553214
+          modified: 1743026384731
+          isPrivate: false
+          sortKey: -1741668865808
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.3.1
+        authentication:
+          type: bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          prefix: Bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/login_code/{% response 'body',
+          'req_ab43f5cc079e454e9e428f78cacc5a65', 'b64::JC5yYXdDb250ZW50::46b',
+          'never', 60 %}"
+        name: Get QrCode
+        meta:
+          id: req_156e31332ab84078bc5779750913c984
+          created: 1741668887838
+          modified: 1743026375010
+          isPrivate: false
+          sortKey: -1741668865908
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/10.3.1
+        authentication:
+          type: bearer
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.WEB_SOCKET_URL }}/v1/login_code/qrcode_socket/{% response 'body',
+          'req_ab43f5cc079e454e9e428f78cacc5a65', 'b64::JC5yYXdDb250ZW50::46b',
+          'never', 60 %}"
+        name: QrCode Scanned Websocket
+        meta:
+          id: ws-req_58be6917aa9840b7821677a5d95d7ef5
+          created: 1741575660291
+          modified: 1743026463823
+          sortKey: -1741668865608
+        settings:
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+        headers:
+          - name: User-Agent
+            value: insomnia/10.3.1
+  - name: Intermediary
+    meta:
+      id: fld_32fcb76086fc4744abda59504d4129cf
+      created: 1742520169207
+      modified: 1742520169207
+      sortKey: -1742520169207
+    children:
+      - url: "{{ _.DEBUG_URL }}/v1/intermediary"
+        name: Create Intermediary
+        meta:
+          id: req_31a1ccca791745dcaba989e8ecd8d9fa
+          created: 1742520182395
+          modified: 1743026368408
+          isPrivate: false
+          sortKey: -1742520184095
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "Intermediary Company S.A",
+            	"swift": "YGKGJMV8XXX",
+            	"iban": "MC44 9001 9086 64W0 7C5M 77Q7 604",
+            	"bankName": "{% faker 'randomCompanyName' %}",
+            	"bankAddress": "{% faker 'randomStreetAddress' %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.2.0
+        authentication:
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/intermediary/{% response 'body',
+          'req_31a1ccca791745dcaba989e8ecd8d9fa', 'b64::JC5pZA==::46b', 'never',
+          60 %}"
+        name: Delete Intermediary
+        meta:
+          id: req_80dcd689ece64b3ab8e39cd2753eb030
+          created: 1744140335539
+          modified: 1744140671170
+          isPrivate: false
+          sortKey: -1742519547566.5
+        method: DELETE
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "Intermediary Company S.A",
+            	"swift": "YGKGJMV8XXX",
+            	"iban": "MC44 9001 9086 64W0 7C5M 77Q7 604",
+            	"bankName": "{% faker 'randomCompanyName' %}",
+            	"bankAddress": "{% faker 'randomStreetAddress' %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.2.0
+        authentication:
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/intermediary/{% response 'body',
+          'req_31a1ccca791745dcaba989e8ecd8d9fa', 'b64::JC5pZA==::46b', 'never',
+          60 %}"
+        name: Intermediary Details
+        meta:
+          id: req_667e4f6e854b4f2c9f7113a2d44dc11e
+          created: 1744140359677
+          modified: 1744140606992
+          isPrivate: false
+          sortKey: -1742519229302.25
+        method: GET
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "Intermediary Company S.A",
+            	"swift": "YGKGJMV8XXX",
+            	"iban": "MC44 9001 9086 64W0 7C5M 77Q7 604",
+            	"bankName": "{% faker 'randomCompanyName' %}",
+            	"bankAddress": "{% faker 'randomStreetAddress' %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.2.0
+        authentication:
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/intermediary"
+        name: List Intermediary
+        meta:
+          id: req_8328eca204994640adc6dc56f4be942f
+          created: 1744140415304
+          modified: 1744140496272
+          isPrivate: false
+          sortKey: -1742519070170.125
+        method: GET
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "Intermediary Company S.A",
+            	"swift": "YGKGJMV8XXX",
+            	"iban": "MC44 9001 9086 64W0 7C5M 77Q7 604",
+            	"bankName": "{% faker 'randomCompanyName' %}",
+            	"bankAddress": "{% faker 'randomStreetAddress' %}"
+            }
+        parameters:
+          - id: pair_7ceca57972ff45e3aa004314363911e2
+            name: limit
+            value: "50"
+            disabled: false
+          - id: pair_8fe7210fb4844af7a3a55b5d180c538d
+            name: page
+            value: "0"
+            disabled: false
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.2.0
+        authentication:
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.DEBUG_URL }}/v1/intermediary/{% response 'body',
+          'req_31a1ccca791745dcaba989e8ecd8d9fa', 'b64::JC5pZA==::46b', 'never',
+          60 %}"
+        name: Update Intermediary
+        meta:
+          id: req_4b7a028a40d44bffaf0e0b0a507bf874
+          created: 1744140685794
+          modified: 1744140730805
+          isPrivate: false
+          sortKey: -1742519865830.75
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"name": "Intermediary Company S.A Edit",
+            	"swift": "YGKGJMV8XXX",
+            	"iban": "MC44 9001 9086 64W0 7C5M 77Q7 604",
+            	"bankName": "{% faker 'randomCompanyName' %}",
+            	"bankAddress": "{% faker 'randomStreetAddress' %}"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/10.2.0
+        authentication:
+          prefix: Bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          type: bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: User
+    meta:
+      id: fld_127c067c19984fa49db9e4e3fcb7f598
+      created: 1744166662916
+      modified: 1744166662916
+      sortKey: -1744166662916
+    children:
+      - url: "{{ _.DEBUG_URL }}/v1/user"
+        name: Delete User
+        meta:
+          id: req_84407808b4cb43cc8772402e19fc207f
+          created: 1744166669675
+          modified: 1744166710713
+          isPrivate: false
+          sortKey: -1744166671852
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.0.2
+        authentication:
+          type: bearer
+          token: "{{ _.ACCESS_TOKEN }}"
+          prefix: Bearer
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_982f8823a405e444b0c5d855c23b2d3386d93937
+    created: 1739936189789
+    modified: 1739936189789
+environments:
+  name: Base Environment
+  meta:
+    id: env_982f8823a405e444b0c5d855c23b2d3386d93937
+    created: 1734462691195
+    modified: 1739936189718
+    isPrivate: false
+  subEnvironments:
+    - name: Invoicer Local
+      meta:
+        id: env_c9eab6955d924ffaa8bcb8ac7fe1b3ec
+        created: 1734462780483
+        modified: 1744166286242
+        isPrivate: false
+        sortKey: 1734462780483
+      data:
+        DEBUG_URL: http://192.168.0.92:4000
+        ACCESS_TOKEN: "{% response 'body', 'req_cd582f81bfc047b6947fa93a2f96f477',
+          'b64::JC50b2tlbg==::46b', 'when-expired', 500000 %}"
+        WEB_SOCKET_URL: ws://192.168.0.92:4000
+      color: "#ff0000"
