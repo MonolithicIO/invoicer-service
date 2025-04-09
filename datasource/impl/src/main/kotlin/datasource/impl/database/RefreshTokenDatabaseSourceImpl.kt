@@ -67,7 +67,7 @@ internal class RefreshTokenDatabaseSourceImpl(
             data?.let {
                 RefreshTokenModel(
                     token = it.refreshToken,
-                    userId = it.user.toString(),
+                    userId = it.user.id.value,
                     enabled = it.enabled,
                     createdAt = it.createdAt,
                     updatedAt = it.updatedAt

@@ -5,7 +5,7 @@ import models.qrcodetoken.QrCodeTokenModel
 import models.qrcodetoken.QrCodeTokenStatusModel
 
 internal fun QrCodeTokenEntity.toModel(): QrCodeTokenModel = QrCodeTokenModel(
-    id = id.toString(),
+    id = id.value,
     agent = agent,
     base64Content = base64Content,
     status = when (status) {

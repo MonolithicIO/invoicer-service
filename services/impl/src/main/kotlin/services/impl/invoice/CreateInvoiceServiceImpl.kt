@@ -40,13 +40,13 @@ internal class CreateInvoiceServiceImpl(
         )
 
         getBeneficiaryByIdService.get(
-            beneficiaryId = parseUuid(model.beneficiaryId),
+            beneficiaryId = model.beneficiaryId,
             userId = userId
         )
 
         model.intermediaryId?.let {
             getIntermediaryByIdService.get(
-                intermediaryId = parseUuid(it),
+                intermediaryId = it,
                 userId = userId
             )
         }
@@ -77,7 +77,7 @@ internal class CreateInvoiceServiceImpl(
 
         return CreateInvoiceResponseModel(
             externalInvoiceId = model.externalId,
-            invoiceId = response
+            invoiceId = parseUuid(response)
         )
     }
 

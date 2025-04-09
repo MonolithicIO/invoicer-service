@@ -36,7 +36,7 @@ internal fun BeneficiaryModel.toViewModel(): UserBeneficiaryViewModel {
         swift = swift,
         bankName = bankName,
         bankAddress = bankAddress,
-        id = id,
+        id = id.toString(),
         createdAt = createdAt.toString(),
         updatedAt = updatedAt.toString()
     )

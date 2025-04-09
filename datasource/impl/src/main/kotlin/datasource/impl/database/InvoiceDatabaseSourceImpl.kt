@@ -34,9 +34,8 @@ internal class InvoiceDatabaseSourceImpl(
                 it[recipientCompanyAddress] = data.recipientCompanyAddress
                 it[issueDate] = data.issueDate
                 it[dueDate] = data.dueDate
-                it[beneficiary] = UUID.fromString(data.beneficiaryId)
-                it[intermediary] =
-                    data.intermediaryId?.let { intermediaryId -> UUID.fromString(intermediaryId) }
+                it[beneficiary] = data.beneficiaryId
+                it[intermediary] = data.intermediaryId
                 it[createdAt] = clock.now()
                 it[updatedAt] = clock.now()
                 it[user] = userId

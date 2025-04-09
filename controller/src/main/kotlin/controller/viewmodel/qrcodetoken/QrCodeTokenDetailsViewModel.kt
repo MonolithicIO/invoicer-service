@@ -27,7 +27,7 @@ internal enum class QrCodeTokenStatusViewModel {
 
 internal fun QrCodeTokenModel.toTokenDetailsViewModel(): QrCodeTokenDetailsViewModel {
     return QrCodeTokenDetailsViewModel(
-        id = id,
+        id = id.toString(),
         agent = agent,
         base64Content = base64Content,
         rawContent = rawContent,

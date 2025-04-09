@@ -1,6 +1,7 @@
 package controller.viewmodel.invoice
 
 import io.github.alaksion.invoicer.server.validation.requireFilledString
+import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 import models.createinvoice.CreateInvoiceActivityModel
@@ -38,8 +39,8 @@ fun CreateInvoiceViewModel.toModel(): CreateInvoiceModel {
         recipientCompanyAddress = recipientCompanyAddress.requireFilledString("Missing recipient company name"),
         issueDate = issueDate ?: badRequestError("Missing issue date"),
         dueDate = dueDate ?: badRequestError("Missing issue date"),
-        beneficiaryId = beneficiaryId.requireFilledString("Missing beneficiary id"),
-        intermediaryId = intermediaryId,
+        beneficiaryId = parseUuid(beneficiaryId.requireFilledString("Missing beneficiary id")),
+        intermediaryId = intermediaryId?.let { parseUuid(it) },
         activities = receiveActivities(activities),
     )
 }

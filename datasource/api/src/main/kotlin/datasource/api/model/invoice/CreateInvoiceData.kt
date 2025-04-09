@@ -1,6 +1,7 @@
 package datasource.api.model.invoice
 
 import kotlinx.datetime.Instant
+import java.util.*
 
 data class CreateInvoiceData(
     val externalId: String,
@@ -10,8 +11,8 @@ data class CreateInvoiceData(
     val recipientCompanyAddress: String,
     val issueDate: Instant,
     val dueDate: Instant,
-    val beneficiaryId: String,
-    val intermediaryId: String?,
+    val beneficiaryId: UUID,
+    val intermediaryId: UUID?,
     val activities: List<CreateInvoiceActivityData>,
 )
 
