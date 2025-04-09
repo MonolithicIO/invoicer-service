@@ -32,7 +32,7 @@ internal class GetUserInvoicesServiceImpl(
             filters = filters,
             page = page,
             limit = limit,
-            userId = userId.toString()
+            userId = userId
         )
     }
 

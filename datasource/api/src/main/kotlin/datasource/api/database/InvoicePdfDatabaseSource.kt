@@ -3,6 +3,7 @@ package datasource.api.database
 import datasource.api.model.pdf.CreatePdfData
 import models.invoicepdf.InvoicePdfModel
 import models.invoicepdf.InvoicePdfStatus
+import java.util.*
 
 interface InvoicePdfDatabaseSource {
     suspend fun createPdf(
@@ -10,11 +11,11 @@ interface InvoicePdfDatabaseSource {
     )
 
     suspend fun getInvoicePdf(
-        invoiceId: String
+        invoiceId: UUID
     ): InvoicePdfModel?
 
     suspend fun updateInvoicePdfState(
-        invoiceId: String,
+        invoiceId: UUID,
         status: InvoicePdfStatus,
         filePath: String
     ): InvoicePdfModel

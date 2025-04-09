@@ -4,20 +4,21 @@ import datasource.api.database.InvoicePdfDatabaseSource
 import datasource.api.model.pdf.CreatePdfData
 import models.invoicepdf.InvoicePdfModel
 import models.invoicepdf.InvoicePdfStatus
+import java.util.UUID
 
 interface InvoicePdfRepository {
     suspend fun createInvoicePdf(
-        invoiceId: String
+        invoiceId: UUID
     )
 
     suspend fun updateInvoicePdfState(
-        invoiceId: String,
+        invoiceId: UUID,
         status: InvoicePdfStatus,
         filePath: String,
     ): InvoicePdfModel
 
     suspend fun getInvoicePdf(
-        invoiceId: String
+        invoiceId: UUID
     ): InvoicePdfModel?
 }
 
@@ -25,7 +26,7 @@ internal class InvoicePdfRepositoryImpl(
     private val databaseSource: InvoicePdfDatabaseSource
 ) : InvoicePdfRepository {
 
-    override suspend fun createInvoicePdf(invoiceId: String) {
+    override suspend fun createInvoicePdf(invoiceId: UUID) {
         databaseSource.createPdf(
             payload = CreatePdfData(
                 invoiceId = invoiceId,
@@ -35,7 +36,7 @@ internal class InvoicePdfRepositoryImpl(
     }
 
     override suspend fun updateInvoicePdfState(
-        invoiceId: String,
+        invoiceId: UUID,
         status: InvoicePdfStatus,
         filePath: String
     ): InvoicePdfModel {
@@ -46,7 +47,7 @@ internal class InvoicePdfRepositoryImpl(
         )
     }
 
-    override suspend fun getInvoicePdf(invoiceId: String): InvoicePdfModel? {
+    override suspend fun getInvoicePdf(invoiceId: UUID): InvoicePdfModel? {
         return databaseSource.getInvoicePdf(invoiceId)
     }
 }

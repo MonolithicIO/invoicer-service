@@ -21,7 +21,7 @@ internal class InvoicePdfDatabaseSourceImpl(
     override suspend fun createPdf(payload: CreatePdfData) {
         newSuspendedTransaction {
             InvoicePdfTable.insert {
-                it[invoice] = UUID.fromString(payload.invoiceId)
+                it[invoice] = payload.invoiceId
                 it[createdAt] = clock.now()
                 it[updatedAt] = clock.now()
                 it[filePath] = payload.pdfPath
@@ -30,10 +30,10 @@ internal class InvoicePdfDatabaseSourceImpl(
         }
     }
 
-    override suspend fun getInvoicePdf(invoiceId: String): InvoicePdfModel? {
+    override suspend fun getInvoicePdf(invoiceId: UUID): InvoicePdfModel? {
         return newSuspendedTransaction {
             InvoicePdfEntity.find {
-                InvoicePdfTable.invoice eq UUID.fromString(invoiceId)
+                InvoicePdfTable.invoice eq invoiceId
             }.firstOrNull()?.let {
                 InvoicePdfModel(
                     id = it.id.value,
@@ -52,14 +52,14 @@ internal class InvoicePdfDatabaseSourceImpl(
     }
 
     override suspend fun updateInvoicePdfState(
-        invoiceId: String,
+        invoiceId: UUID,
         status: InvoicePdfStatus,
         filePath: String
     ): InvoicePdfModel {
         return newSuspendedTransaction {
             InvoicePdfTable.updateReturning(
                 where = {
-                    InvoicePdfTable.invoice eq UUID.fromString(invoiceId)
+                    InvoicePdfTable.invoice eq invoiceId
                 }
             ) { table ->
                 table[updatedAt] = clock.now()

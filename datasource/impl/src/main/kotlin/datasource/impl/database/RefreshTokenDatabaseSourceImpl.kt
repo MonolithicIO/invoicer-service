@@ -15,11 +15,11 @@ internal class RefreshTokenDatabaseSourceImpl(
     private val dateProvider: Clock
 ) : RefreshTokenDatabaseSource {
 
-    override suspend fun createRefreshToken(token: String, userId: String) {
+    override suspend fun createRefreshToken(token: String, userId: UUID) {
         return newSuspendedTransaction {
             RefreshTokensTable.insert {
                 it[refreshToken] = token
-                it[user] = UUID.fromString(userId)
+                it[user] = userId
                 it[enabled] = true
                 it[createdAt] = dateProvider.now()
                 it[updatedAt] = dateProvider.now()
@@ -28,14 +28,14 @@ internal class RefreshTokenDatabaseSourceImpl(
     }
 
     override suspend fun invalidateToken(
-        userId: String,
+        userId: UUID,
         token: String,
     ) {
         return newSuspendedTransaction {
             RefreshTokensTable.update(
                 where = {
                     (RefreshTokensTable.refreshToken eq token) and
-                            (RefreshTokensTable.user eq UUID.fromString(userId))
+                            (RefreshTokensTable.user eq userId)
                 }
             ) {
                 it[enabled] = false
@@ -44,11 +44,11 @@ internal class RefreshTokenDatabaseSourceImpl(
         }
     }
 
-    override suspend fun invalidateAllUserTokens(userId: String) {
+    override suspend fun invalidateAllUserTokens(userId: UUID) {
         return newSuspendedTransaction {
             RefreshTokensTable.update(
                 where = {
-                    (RefreshTokensTable.user eq UUID.fromString(userId))
+                    (RefreshTokensTable.user eq userId)
                 }
             ) {
                 it[enabled] = false
@@ -57,11 +57,11 @@ internal class RefreshTokenDatabaseSourceImpl(
         }
     }
 
-    override suspend fun findUserToken(userId: String, token: String): RefreshTokenModel? {
+    override suspend fun findUserToken(userId: UUID, token: String): RefreshTokenModel? {
         return newSuspendedTransaction {
             val data = RefreshTokenEntity.find {
                 (RefreshTokensTable.refreshToken eq token) and
-                        (RefreshTokensTable.user eq UUID.fromString(userId))
+                        (RefreshTokensTable.user eq userId)
             }.firstOrNull()
 
             data?.let {
