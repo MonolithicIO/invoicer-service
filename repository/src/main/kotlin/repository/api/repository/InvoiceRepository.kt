@@ -30,7 +30,7 @@ interface InvoiceRepository {
         filters: GetInvoicesFilterModel,
         page: Long,
         limit: Int,
-        userId: String,
+        userId: UUID,
     ): InvoiceListModel
 
     suspend fun delete(
@@ -108,7 +108,7 @@ internal class InvoiceRepositoryImpl(
         filters: GetInvoicesFilterModel,
         page: Long,
         limit: Int,
-        userId: String,
+        userId: UUID,
     ): InvoiceListModel {
         val response = databaseSource.getInvoices(
             filters = GetInvoicesFilterData(

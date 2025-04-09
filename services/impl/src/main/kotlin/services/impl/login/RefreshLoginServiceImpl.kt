@@ -25,7 +25,7 @@ internal class RefreshLoginServiceImpl(
         val user = getUserByIdService.get(parseUuid(extractedUserId))
 
         val findToken =
-            refreshTokenRepository.findUserToken(user.id.toString(), refreshToken) ?: unAuthorizedError(
+            refreshTokenRepository.findUserToken(user.id, refreshToken) ?: unAuthorizedError(
                 message = "Refresh token already consumed"
             )
 
@@ -40,7 +40,7 @@ internal class RefreshLoginServiceImpl(
 
 
         refreshTokenRepository.invalidateToken(
-            userId = user.id.toString(),
+            userId = user.id,
             token = refreshToken
         )
 

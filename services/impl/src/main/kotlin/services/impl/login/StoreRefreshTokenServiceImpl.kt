@@ -11,7 +11,7 @@ internal class StoreRefreshTokenServiceImpl(
     override suspend fun storeRefreshToken(token: String, userId: UUID) {
         refreshTokenRepository.createRefreshToken(
             token = token,
-            userId = userId.toString()
+            userId = userId
         )
     }
 }

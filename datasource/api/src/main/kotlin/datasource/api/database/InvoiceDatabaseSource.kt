@@ -25,7 +25,7 @@ interface InvoiceDatabaseSource {
         filters: GetInvoicesFilterData,
         page: Long,
         limit: Int,
-        userId: String,
+        userId: UUID,
     ): InvoiceListModel
 
     suspend fun delete(

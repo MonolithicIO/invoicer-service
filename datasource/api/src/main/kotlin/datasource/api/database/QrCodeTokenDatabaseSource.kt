@@ -1,6 +1,7 @@
 package datasource.api.database
 
 import models.qrcodetoken.QrCodeTokenModel
+import java.util.*
 
 interface QrCodeTokenDatabaseSource {
     suspend fun createQrCodeToken(
@@ -15,14 +16,14 @@ interface QrCodeTokenDatabaseSource {
     ): QrCodeTokenModel?
 
     suspend fun getQrCodeTokenByUUID(
-        id: String
+        tokenId: UUID
     ): QrCodeTokenModel?
 
     suspend fun consumeQrCodeToken(
-        id: String
+        tokenId: UUID
     ): QrCodeTokenModel?
 
     suspend fun expireQrCodeToken(
-        id: String
+        tokenId: UUID
     )
 }

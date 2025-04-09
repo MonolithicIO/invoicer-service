@@ -29,7 +29,7 @@ internal class GenerateInvoicePdfServiceImpl(
 
         localStorage.createDirectory("/temp/pdfs")
 
-        invoicePdfRepository.createInvoicePdf(invoiceId.toString())
+        invoicePdfRepository.createInvoicePdf(invoiceId)
 
         val outputPath = localStorage.getRootPath() + "/temp/pdfs" + "/invoice-${invoice.id}.pdf"
 
@@ -46,7 +46,7 @@ internal class GenerateInvoicePdfServiceImpl(
         }.fold(
             onFailure = {
                 invoicePdfRepository.updateInvoicePdfState(
-                    invoiceId = invoiceId.toString(),
+                    invoiceId = invoiceId,
                     status = InvoicePdfStatus.Failed,
                     filePath = ""
                 )
@@ -54,7 +54,7 @@ internal class GenerateInvoicePdfServiceImpl(
             },
             onSuccess = { fileKey ->
                 invoicePdfRepository.updateInvoicePdfState(
-                    invoiceId = invoiceId.toString(),
+                    invoiceId = invoiceId,
                     status = InvoicePdfStatus.Success,
                     filePath = fileKey
                 )

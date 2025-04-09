@@ -75,13 +75,13 @@ internal class InvoiceDatabaseSourceImpl(
         filters: GetInvoicesFilterData,
         page: Long,
         limit: Int,
-        userId: String,
+        userId: UUID,
     ): InvoiceListModel {
         return newSuspendedTransaction {
             val query = InvoiceTable
                 .selectAll()
                 .where {
-                    InvoiceTable.user eq UUID.fromString(userId) and (InvoiceTable.isDeleted eq false)
+                    InvoiceTable.user eq userId and (InvoiceTable.isDeleted eq false)
                 }
 
             filters.senderCompanyName?.let { senderCompany ->

@@ -21,7 +21,7 @@ internal class InvoicePdfSecureLinkServiceImpl(
             userId = userId
         )
 
-        val invoicePdf = invoicePdfRepository.getInvoicePdf(invoiceId.toString()) ?: notFoundError("Invoice PDF not found")
+        val invoicePdf = invoicePdfRepository.getInvoicePdf(invoiceId) ?: notFoundError("Invoice PDF not found")
         if (invoicePdf.status != InvoicePdfStatus.Success) notFoundError("Invoice PDF not found")
 
         return runCatching {
