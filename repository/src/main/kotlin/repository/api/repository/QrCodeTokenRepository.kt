@@ -2,6 +2,7 @@ package repository.api.repository
 
 import datasource.api.database.QrCodeTokenDatabaseSource
 import models.qrcodetoken.QrCodeTokenModel
+import java.util.*
 
 interface QrCodeTokenRepository {
     suspend fun createQrCodeToken(
@@ -12,15 +13,15 @@ interface QrCodeTokenRepository {
     ): QrCodeTokenModel
 
     suspend fun getQrCodeTokenByUUID(
-        id: String
+        tokenId: UUID
     ): QrCodeTokenModel?
 
     suspend fun consumeQrCodeToken(
-        id: String
+        tokenId: UUID
     ): QrCodeTokenModel?
 
     suspend fun expireQrCodeToken(
-        id: String
+        tokenId: UUID
     )
 
     suspend fun getQrCodeByTokenId(
@@ -46,16 +47,16 @@ internal class QrCodeTokenRepositoryImpl(
         )
     }
 
-    override suspend fun getQrCodeTokenByUUID(id: String): QrCodeTokenModel? {
-        return getQrCodeTokenByUUID(id = id)
+    override suspend fun getQrCodeTokenByUUID(tokenId: UUID): QrCodeTokenModel? {
+        return getQrCodeTokenByUUID(tokenId = tokenId)
     }
 
-    override suspend fun consumeQrCodeToken(id: String): QrCodeTokenModel? {
-        return databaseSource.consumeQrCodeToken(id = id)
+    override suspend fun consumeQrCodeToken(tokenId: UUID): QrCodeTokenModel? {
+        return databaseSource.consumeQrCodeToken(tokenId = tokenId)
     }
 
-    override suspend fun expireQrCodeToken(id: String) {
-        databaseSource.expireQrCodeToken(id = id)
+    override suspend fun expireQrCodeToken(tokenId: UUID) {
+        databaseSource.expireQrCodeToken(tokenId = tokenId)
     }
 
     override suspend fun getQrCodeByTokenId(contentId: String): QrCodeTokenModel? {

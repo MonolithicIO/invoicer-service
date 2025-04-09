@@ -28,11 +28,11 @@ class FakeQrCodeTokenDatabaseSource : QrCodeTokenDatabaseSource {
         return getQrCodeTokenByUUIDResponse()
     }
 
-    override suspend fun consumeQrCodeToken(id: String): QrCodeTokenModel? {
+    override suspend fun consumeQrCodeToken(tokenId: String): QrCodeTokenModel? {
         return consumeQrCodeTokenResponse()
     }
 
-    override suspend fun expireQrCodeToken(id: String) {
+    override suspend fun expireQrCodeToken(tokenId: String) {
         return expireQrCodeTokenResponse()
     }
 }

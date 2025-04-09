@@ -54,19 +54,19 @@ internal class QrCodeDatabaseSourceImpl(
         }
     }
 
-    override suspend fun getQrCodeTokenByUUID(id: String): QrCodeTokenModel? {
+    override suspend fun getQrCodeTokenByUUID(tokenId: UUID): QrCodeTokenModel? {
         return newSuspendedTransaction {
-            QrCodeTokenEntity.find { QrCodeTokensTable.id eq UUID.fromString(id) }
+            QrCodeTokenEntity.find { QrCodeTokensTable.id eq tokenId }
                 .firstOrNull()
                 ?.toModel()
         }
     }
 
-    override suspend fun consumeQrCodeToken(id: String): QrCodeTokenModel {
+    override suspend fun consumeQrCodeToken(tokenId: UUID): QrCodeTokenModel {
         return newSuspendedTransaction {
             QrCodeTokensTable.updateReturning(
                 where = {
-                    QrCodeTokensTable.id eq UUID.fromString(id)
+                    QrCodeTokensTable.id eq tokenId
                 }
             ) {
                 it[status] = QrCodeTokenStatus.CONSUMED.value
@@ -77,11 +77,11 @@ internal class QrCodeDatabaseSourceImpl(
         }
     }
 
-    override suspend fun expireQrCodeToken(id: String) {
+    override suspend fun expireQrCodeToken(tokenId: UUID) {
         return newSuspendedTransaction {
             QrCodeTokensTable.updateReturning(
                 where = {
-                    QrCodeTokensTable.id eq UUID.fromString(id)
+                    QrCodeTokensTable.id eq tokenId
                 }
             ) {
                 it[status] = QrCodeTokenStatus.EXPIRED.value
