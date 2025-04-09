@@ -6,6 +6,7 @@ import io.github.alaksion.invoicer.consumers.InvoicerMessageConsumer
 import io.github.alaksion.invoicer.server.app.plugins.*
 import io.ktor.server.application.*
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 
@@ -19,7 +20,11 @@ fun Application.module() {
     connectDatabase()
     configureSecurity()
     configureSerialization()
-    installStatusPages()
+
+    val clock by closestDI().instance<Clock>()
+    installStatusPages(
+        clock = clock
+    )
     configureMonitoring()
     installWebSocket()
     rootController()
