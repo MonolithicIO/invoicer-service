@@ -1,8 +1,10 @@
 package services.api.services.pdf
 
+import java.util.*
+
 interface GenerateInvoicePdfService {
     suspend fun generate(
-        invoiceId: String,
-        userId: String
+        invoiceId: UUID,
+        userId: UUID
     )
 }

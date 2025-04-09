@@ -30,8 +30,8 @@ internal fun Routing.invoiceController() {
                     status = HttpStatusCode.OK,
                     message =
                         findOneService.get(
-                            id = invoiceId!!,
-                            userId = jwtUserId()
+                            invoiceId = parseUuid(invoiceId!!),
+                            userId = parseUuid(jwtUserId())
                         ).toViewModel()
                 )
             }
@@ -57,7 +57,7 @@ internal fun Routing.invoiceController() {
                         filters = receiveGetInvoicesFilterViewModel(filters),
                         limit = limit,
                         page = page,
-                        userId = jwtUserId()
+                        userId = parseUuid(jwtUserId())
                     ).toViewModel(),
                     status = HttpStatusCode.OK
                 )
@@ -86,7 +86,7 @@ internal fun Routing.invoiceController() {
             delete("/{id}") {
                 val invoiceId = call.parameters["id"]!!
                 val deleteUseCase by closestDI().instance<DeleteInvoiceService>()
-                deleteUseCase.delete(invoiceId = invoiceId, userId = jwtUserId())
+                deleteUseCase.delete(invoiceId = parseUuid(invoiceId), userId = parseUuid(jwtUserId()))
                 call.respond(HttpStatusCode.NoContent)
             }
         }
@@ -97,8 +97,8 @@ internal fun Routing.invoiceController() {
                 val generateService by closestDI().instance<GenerateInvoicePdfService>()
 
                 generateService.generate(
-                    invoiceId = invoiceId,
-                    userId = jwtUserId()
+                    invoiceId = parseUuid(invoiceId),
+                    userId = parseUuid(jwtUserId())
                 )
                 call.respond(HttpStatusCode.OK)
             }
@@ -112,8 +112,8 @@ internal fun Routing.invoiceController() {
                 call.respond(
                     message = InvoiceDownloadLinkViewModel(
                         generateService.generate(
-                            invoiceId = invoiceId,
-                            userId = jwtUserId()
+                            invoiceId = parseUuid(invoiceId),
+                            userId = parseUuid(jwtUserId())
                         )
                     ),
                     status = HttpStatusCode.OK

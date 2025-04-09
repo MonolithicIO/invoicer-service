@@ -1,8 +1,10 @@
 package services.api.services.pdf
 
+import java.util.UUID
+
 interface InvoicePdfSecureLinkService {
     suspend fun generate(
-        invoiceId: String,
-        userId: String
+        invoiceId: UUID,
+        userId: UUID
     ): String
 }

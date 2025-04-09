@@ -1,12 +1,13 @@
 package services.impl.invoice
 
-import utils.exceptions.http.HttpCode
 import kotlinx.datetime.Instant
 import models.getinvoices.GetInvoicesFilterModel
 import models.getinvoices.InvoiceListModel
 import repository.api.repository.InvoiceRepository
 import services.api.services.invoice.GetUserInvoicesService
+import utils.exceptions.http.HttpCode
 import utils.exceptions.http.httpError
+import java.util.*
 
 internal class GetUserInvoicesServiceImpl(
     private val repository: InvoiceRepository
@@ -16,7 +17,7 @@ internal class GetUserInvoicesServiceImpl(
         filters: GetInvoicesFilterModel,
         page: Long,
         limit: Int,
-        userId: String,
+        userId: UUID,
     ): InvoiceListModel {
         validateDateFilter(
             min = filters.minIssueDate,
@@ -31,7 +32,7 @@ internal class GetUserInvoicesServiceImpl(
             filters = filters,
             page = page,
             limit = limit,
-            userId = userId
+            userId = userId.toString()
         )
     }
 

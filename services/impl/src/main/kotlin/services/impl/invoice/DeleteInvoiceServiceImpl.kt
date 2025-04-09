@@ -13,10 +13,10 @@ internal class DeleteInvoiceServiceImpl(
     private val repository: InvoiceRepository
 ) : DeleteInvoiceService {
 
-    override suspend fun delete(invoiceId: String, userId: String) {
-        val user = getUserByIdUseCase.get(userId)
+    override suspend fun delete(invoiceId: UUID, userId: UUID) {
+        val user = getUserByIdUseCase.get(userId.toString())
         val invoice = getUserInvoiceByIdService.get(
-            id = invoiceId,
+            invoiceId = invoiceId,
             userId = userId
         )
 
@@ -24,7 +24,7 @@ internal class DeleteInvoiceServiceImpl(
             unauthorizedResourceError()
         }
 
-        repository.delete(UUID.fromString(invoiceId))
+        repository.delete(invoiceId)
     }
 
 }
