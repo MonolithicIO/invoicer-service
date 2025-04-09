@@ -19,7 +19,7 @@ internal class GetIntermediaryDetailsServiceImpl(
         val intermediary = intermediaryRepository.getById(intermediaryId = intermediaryId)
             ?: notFoundError("Intermediary not found")
 
-        if (intermediary.userId != user.id.toString()) {
+        if (intermediary.userId != user.id) {
             unauthorizedResourceError()
         }
 

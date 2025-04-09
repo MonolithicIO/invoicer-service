@@ -36,8 +36,8 @@ internal class InvoicePdfDatabaseSourceImpl(
                 InvoicePdfTable.invoice eq UUID.fromString(invoiceId)
             }.firstOrNull()?.let {
                 InvoicePdfModel(
-                    id = it.id.value.toString(),
-                    invoiceId = it.invoice.id.value.toString(),
+                    id = it.id.value,
+                    invoiceId = it.invoice.id.value,
                     createdAt = it.createdAt,
                     updatedAt = it.updatedAt,
                     path = it.filePath,

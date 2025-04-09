@@ -75,7 +75,7 @@ internal fun Routing.invoiceController() {
                 call.respond(
                     message = CreateInvoiceResponseViewModel(
                         externalInvoiceId = response.externalInvoiceId,
-                        invoiceId = response.invoiceId
+                        invoiceId = response.invoiceId.toString()
                     ),
                     status = HttpStatusCode.Created
                 )

@@ -18,7 +18,7 @@ internal class GetIntermediaryByIdServiceImpl(
 
         if (intermediary == null) notFoundError("Intermediary not found")
 
-        if (intermediary.userId != userId.toString()) unauthorizedResourceError()
+        if (intermediary.userId != userId) unauthorizedResourceError()
 
         return intermediary
     }

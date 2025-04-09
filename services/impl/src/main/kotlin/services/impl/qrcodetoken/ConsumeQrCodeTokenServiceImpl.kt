@@ -41,7 +41,7 @@ internal class ConsumeQrCodeTokenServiceImpl(
 
         getUserByIdService.get(userUuid)
 
-        qrCodeTokenRepository.consumeQrCodeToken(token.id)
+        qrCodeTokenRepository.consumeQrCodeToken(token.id.toString())
 
         val accessToken = authTokenManager.generateToken(userUuid.toString())
         val refreshToken = authTokenManager.generateRefreshToken(userUuid.toString())

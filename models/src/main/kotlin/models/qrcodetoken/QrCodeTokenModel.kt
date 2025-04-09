@@ -1,6 +1,7 @@
 package models.qrcodetoken
 
 import kotlinx.datetime.Instant
+import java.util.UUID
 
 enum class QrCodeTokenStatusModel {
     GENERATED,
@@ -9,7 +10,7 @@ enum class QrCodeTokenStatusModel {
 }
 
 data class QrCodeTokenModel(
-    val id: String,
+    val id: UUID,
     val agent: String,
     val base64Content: String,
     val ipAddress: String,

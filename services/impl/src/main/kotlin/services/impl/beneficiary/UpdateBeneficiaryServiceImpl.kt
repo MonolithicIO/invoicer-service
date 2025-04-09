@@ -67,7 +67,7 @@ internal class UpdateBeneficiaryServiceImpl(
 
         return beneficiaryRepository.update(
             userId = userId,
-            beneficiaryId = parseUuid(beneficiary.id),
+            beneficiaryId = beneficiary.id,
             model = buildUpdateModel(
                 originalModel = beneficiary,
                 newModel = model

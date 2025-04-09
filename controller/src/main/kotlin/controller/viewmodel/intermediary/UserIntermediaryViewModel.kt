@@ -21,7 +21,7 @@ internal fun IntermediaryModel.toViewModel() = UserIntermediaryViewModel(
     swift = swift,
     bankName = bankName,
     bankAddress = bankAddress,
-    id = this.id,
+    id = this.id.toString(),
     createdAt = createdAt.toString(),
     updatedAt = updatedAt.toString()
 )

@@ -1,10 +1,11 @@
 package models.invoicepdf
 
 import kotlinx.datetime.Instant
+import java.util.*
 
 data class InvoicePdfModel(
-    val id: String,
-    val invoiceId: String,
+    val id: UUID,
+    val invoiceId: UUID,
     val createdAt: Instant,
     val updatedAt: Instant,
     val path: String,

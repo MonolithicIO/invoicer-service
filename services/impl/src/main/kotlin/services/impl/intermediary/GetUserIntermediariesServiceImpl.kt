@@ -25,7 +25,7 @@ internal class GetUserIntermediariesServiceImpl(
             limit = limit
         )
 
-        if (intermediaries.any { it.userId != userId.toString() }) {
+        if (intermediaries.any { it.userId != userId }) {
             unauthorizedResourceError()
         }
 

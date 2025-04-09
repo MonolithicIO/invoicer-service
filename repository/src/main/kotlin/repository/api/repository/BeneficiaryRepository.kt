@@ -82,7 +82,7 @@ internal class BeneficiaryRepositoryImpl(
             beneficiaryId = beneficiaryId
         )?.also {
             cacheHandler.set(
-                key = it.id,
+                key = it.id.toString(),
                 value = it,
                 serializer = BeneficiaryModel.serializer()
             )

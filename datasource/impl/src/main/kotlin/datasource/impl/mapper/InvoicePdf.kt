@@ -5,8 +5,8 @@ import datasource.impl.entities.InvoicePdfStatusEntity
 import models.invoicepdf.InvoicePdfModel
 
 internal fun InvoicePdfEntity.toModel(): InvoicePdfModel = InvoicePdfModel(
-    id = id.value.toString(),
-    invoiceId = invoice.id.value.toString(),
+    id = id.value,
+    invoiceId = invoice.id.value,
     createdAt = createdAt,
     updatedAt = updatedAt,
     path = filePath,
