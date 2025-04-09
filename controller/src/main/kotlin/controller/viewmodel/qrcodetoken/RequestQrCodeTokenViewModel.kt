@@ -2,7 +2,7 @@ package controller.viewmodel.qrcodetoken
 
 import kotlinx.serialization.Serializable
 import models.login.RequestLoginCodeModel
-import utils.exceptions.badRequestError
+import utils.exceptions.http.badRequestError
 
 @Serializable
 internal data class RequestQrCodeTokenViewModel(

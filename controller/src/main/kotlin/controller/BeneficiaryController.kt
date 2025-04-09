@@ -6,6 +6,7 @@ import controller.viewmodel.beneficiary.UpdateBeneficiaryViewModel
 import controller.viewmodel.beneficiary.toViewModel
 import foundation.authentication.impl.jwt.jwtProtected
 import foundation.authentication.impl.jwt.jwtUserId
+import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -28,7 +29,7 @@ internal fun Routing.beneficiaryController() {
                         CreateBeneficiaryResponseViewModel(
                             id = useCase.create(
                                 model = model,
-                                userId = jwtUserId()
+                                userId = parseUuid(jwtUserId())
                             )
                         ),
                     status = HttpStatusCode.Created
@@ -42,8 +43,8 @@ internal fun Routing.beneficiaryController() {
                 val useCase by closestDI().instance<DeleteBeneficiaryService>()
 
                 useCase.execute(
-                    beneficiaryId = beneficiaryId,
-                    userId = jwtUserId()
+                    beneficiaryId = parseUuid(beneficiaryId),
+                    userId = parseUuid(jwtUserId())
                 )
 
                 call.respond(HttpStatusCode.NoContent)
@@ -59,7 +60,7 @@ internal fun Routing.beneficiaryController() {
                 call.respond(
                     status = HttpStatusCode.OK,
                     message = useCase.execute(
-                        userId = jwtUserId(),
+                        userId = parseUuid(jwtUserId()),
                         page = page,
                         limit = limit
                     ).toViewModel()
@@ -71,14 +72,13 @@ internal fun Routing.beneficiaryController() {
             put("/{id}") {
                 val beneficiaryId = call.parameters["id"]!!
                 val useCase by closestDI().instance<UpdateBeneficiaryService>()
-                val userId = jwtUserId()
                 val body = call.receive<UpdateBeneficiaryViewModel>()
                 call.respond(
                     status = HttpStatusCode.OK,
                     message = useCase.execute(
-                        beneficiaryId = beneficiaryId,
+                        beneficiaryId = parseUuid(beneficiaryId),
                         model = body.toViewModel(),
-                        userId = userId
+                        userId = parseUuid(jwtUserId())
                     ).toViewModel()
                 )
             }
@@ -88,12 +88,11 @@ internal fun Routing.beneficiaryController() {
             get("/{id}") {
                 val beneficiaryId = call.parameters["id"]!!
                 val useCase by closestDI().instance<GetBeneficiaryDetailsService>()
-                val userId = jwtUserId()
                 call.respond(
                     status = HttpStatusCode.OK,
                     message = useCase.getBeneficiaryDetails(
-                        userId = userId,
-                        beneficiaryId = beneficiaryId
+                        userId = parseUuid(jwtUserId()),
+                        beneficiaryId = parseUuid(beneficiaryId)
                     ).toViewModel()
                 )
             }

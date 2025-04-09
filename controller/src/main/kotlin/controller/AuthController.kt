@@ -13,7 +13,7 @@ import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
-import utils.exceptions.unauthorizedResourceError
+import utils.exceptions.http.unauthorizedResourceError
 
 internal fun Routing.authController() {
     route("/v1/auth") {

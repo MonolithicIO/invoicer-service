@@ -3,7 +3,7 @@ package services.impl.user
 import models.user.UserModel
 import repository.api.repository.UserRepository
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.notFoundError
+import utils.exceptions.http.notFoundError
 import java.util.*
 
 internal class GetUserByIdServiceImpl(

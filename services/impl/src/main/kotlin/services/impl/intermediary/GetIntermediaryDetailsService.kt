@@ -4,8 +4,8 @@ import models.intermediary.IntermediaryModel
 import repository.api.repository.IntermediaryRepository
 import services.api.services.intermediary.GetIntermediaryDetailsService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.notFoundError
-import utils.exceptions.unauthorizedResourceError
+import utils.exceptions.http.notFoundError
+import utils.exceptions.http.unauthorizedResourceError
 import java.util.*
 
 internal class GetIntermediaryDetailsServiceImpl(

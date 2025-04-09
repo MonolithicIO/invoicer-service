@@ -3,6 +3,7 @@ package controller
 import controller.viewmodel.invoice.*
 import foundation.authentication.impl.jwt.jwtProtected
 import foundation.authentication.impl.jwt.jwtUserId
+import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -69,7 +70,7 @@ internal fun Routing.invoiceController() {
                 val createService by closestDI().instance<CreateInvoiceService>()
                 val response = createService.createInvoice(
                     model = body.toModel(),
-                    userId = jwtUserId()
+                    userId = parseUuid(jwtUserId())
                 )
                 call.respond(
                     message = CreateInvoiceResponseViewModel(

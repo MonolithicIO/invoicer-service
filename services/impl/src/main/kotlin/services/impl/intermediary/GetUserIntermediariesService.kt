@@ -4,7 +4,7 @@ import models.intermediary.IntermediaryModel
 import repository.api.repository.IntermediaryRepository
 import services.api.services.intermediary.GetUserIntermediariesService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.unauthorizedResourceError
+import utils.exceptions.http.unauthorizedResourceError
 import java.util.*
 
 internal class GetUserIntermediariesServiceImpl(

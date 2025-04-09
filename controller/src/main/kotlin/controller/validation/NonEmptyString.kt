@@ -1,6 +1,6 @@
 package io.github.alaksion.invoicer.server.validation
 
-import utils.exceptions.badRequestError
+import utils.exceptions.http.badRequestError
 
 fun String?.requireFilledString(
     blankErrorMessage: String,

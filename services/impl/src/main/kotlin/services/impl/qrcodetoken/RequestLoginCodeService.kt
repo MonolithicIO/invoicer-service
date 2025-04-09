@@ -5,7 +5,7 @@ import models.login.RequestLoginCodeModel
 import models.qrcodetoken.QrCodeTokenModel
 import repository.api.repository.QrCodeTokenRepository
 import services.api.services.qrcodetoken.RequestQrCodeTokenService
-import utils.exceptions.badRequestError
+import utils.exceptions.http.badRequestError
 import java.util.*
 
 internal class RequestQrCodeTokenServiceImpl(

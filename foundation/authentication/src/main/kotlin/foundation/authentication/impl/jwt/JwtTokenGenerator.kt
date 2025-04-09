@@ -6,7 +6,7 @@ import foundation.authentication.impl.AuthTokenGenerator
 import foundation.authentication.impl.AuthTokenManager
 import foundation.secrets.SecretKeys
 import foundation.secrets.SecretsProvider
-import io.github.alaksion.invoicer.utils.http.HttpCode
+import utils.exceptions.http.HttpCode
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
@@ -14,7 +14,7 @@ import io.ktor.server.routing.*
 import io.ktor.util.pipeline.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toJavaInstant
-import utils.exceptions.httpError
+import utils.exceptions.http.httpError
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours

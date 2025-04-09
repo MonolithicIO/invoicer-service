@@ -6,8 +6,8 @@ import repository.api.repository.RefreshTokenRepository
 import services.api.services.login.RefreshLoginService
 import services.api.services.login.StoreRefreshTokenService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.unAuthorizedError
-import utils.exceptions.unauthorizedResourceError
+import utils.exceptions.http.unAuthorizedError
+import utils.exceptions.http.unauthorizedResourceError
 
 internal class RefreshLoginServiceImpl(
     private val tokenManager: AuthTokenManager,

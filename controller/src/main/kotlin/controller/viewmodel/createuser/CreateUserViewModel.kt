@@ -2,7 +2,7 @@ package controller.viewmodel.createuser
 
 import kotlinx.serialization.Serializable
 import models.user.CreateUserModel
-import utils.exceptions.badRequestError
+import utils.exceptions.http.badRequestError
 
 @Serializable
 internal data class CreateUserRequestViewModel(

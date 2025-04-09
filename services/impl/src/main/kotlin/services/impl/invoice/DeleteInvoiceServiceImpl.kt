@@ -4,7 +4,7 @@ import repository.api.repository.InvoiceRepository
 import services.api.services.invoice.DeleteInvoiceService
 import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.unauthorizedResourceError
+import utils.exceptions.http.unauthorizedResourceError
 import java.util.*
 
 internal class DeleteInvoiceServiceImpl(

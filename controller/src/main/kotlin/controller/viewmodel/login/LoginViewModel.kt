@@ -3,7 +3,7 @@ package controller.viewmodel.login
 import kotlinx.serialization.Serializable
 import models.login.AuthTokenModel
 import models.login.LoginModel
-import utils.exceptions.badRequestError
+import utils.exceptions.http.badRequestError
 
 @Serializable
 internal data class LoginViewModel(

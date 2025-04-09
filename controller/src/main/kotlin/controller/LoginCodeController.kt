@@ -27,8 +27,8 @@ import org.kodein.di.ktor.closestDI
 import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
 import services.api.services.qrcodetoken.GetQrCodeTokenByContentIdService
 import services.api.services.qrcodetoken.RequestQrCodeTokenService
-import utils.exceptions.notFoundError
-import utils.exceptions.unauthorizedResourceError
+import utils.exceptions.http.notFoundError
+import utils.exceptions.http.unauthorizedResourceError
 import java.util.concurrent.ConcurrentHashMap
 
 internal fun Routing.loginCodeController() {

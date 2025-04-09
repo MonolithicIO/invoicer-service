@@ -1,6 +1,6 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
-import io.github.alaksion.invoicer.utils.http.HttpCode
+import utils.exceptions.http.HttpCode
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.statuspages.*
@@ -9,7 +9,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
-import utils.exceptions.HttpError
+import utils.exceptions.http.HttpError
 import utils.exceptions.InvalidUUIDException
 import java.time.format.DateTimeParseException
 

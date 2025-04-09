@@ -1,12 +1,12 @@
 package services.impl.intermediary
 
-import io.github.alaksion.invoicer.utils.http.HttpCode
+import utils.exceptions.http.HttpCode
 import repository.api.repository.IntermediaryRepository
 import repository.api.repository.InvoiceRepository
 import services.api.services.intermediary.DeleteIntermediaryService
 import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.httpError
+import utils.exceptions.http.httpError
 import java.util.*
 
 internal class DeleteIntermediaryServiceImpl(

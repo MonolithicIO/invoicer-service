@@ -1,13 +1,13 @@
 package services.impl.beneficiary
 
-import io.github.alaksion.invoicer.utils.http.HttpCode
+import utils.exceptions.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.UserBeneficiaries
 import repository.api.fakes.FakeBeneficiaryRepository
 import services.fakes.user.FakeGetUserByIdService
-import utils.exceptions.HttpError
+import utils.exceptions.http.HttpError
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

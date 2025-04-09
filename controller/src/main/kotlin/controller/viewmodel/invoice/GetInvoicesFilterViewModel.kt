@@ -3,7 +3,7 @@ package controller.viewmodel.invoice
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 import models.getinvoices.GetInvoicesFilterModel
-import utils.exceptions.badRequestError
+import utils.exceptions.http.badRequestError
 
 @Serializable
 internal data class GetInvoicesFilterViewModel(

@@ -5,8 +5,8 @@ import models.invoicepdf.InvoicePdfStatus
 import repository.api.repository.InvoicePdfRepository
 import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.pdf.InvoicePdfSecureLinkService
-import utils.exceptions.badRequestError
-import utils.exceptions.notFoundError
+import utils.exceptions.http.badRequestError
+import utils.exceptions.http.notFoundError
 
 internal class InvoicePdfSecureLinkServiceImpl(
     private val secureFileLinkGenerator: SecureFileLinkGenerator,

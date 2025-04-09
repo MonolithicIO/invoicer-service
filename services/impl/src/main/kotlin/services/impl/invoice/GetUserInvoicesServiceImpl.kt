@@ -1,12 +1,12 @@
 package services.impl.invoice
 
-import io.github.alaksion.invoicer.utils.http.HttpCode
+import utils.exceptions.http.HttpCode
 import kotlinx.datetime.Instant
 import models.getinvoices.GetInvoicesFilterModel
 import models.getinvoices.InvoiceListModel
 import repository.api.repository.InvoiceRepository
 import services.api.services.invoice.GetUserInvoicesService
-import utils.exceptions.httpError
+import utils.exceptions.http.httpError
 
 internal class GetUserInvoicesServiceImpl(
     private val repository: InvoiceRepository

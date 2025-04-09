@@ -1,12 +1,12 @@
 package services.impl.intermediary
 
-import io.github.alaksion.invoicer.utils.http.HttpCode
+import utils.exceptions.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.intermediary.IntermediaryModel
 import repository.api.fakes.FakeIntermediaryRepository
 import services.fakes.user.FakeGetUserByIdService
-import utils.exceptions.HttpError
+import utils.exceptions.http.HttpError
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

@@ -10,8 +10,8 @@ import repository.api.repository.QrCodeTokenRepository
 import services.api.services.login.StoreRefreshTokenService
 import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.goneError
-import utils.exceptions.notFoundError
+import utils.exceptions.http.goneError
+import utils.exceptions.http.notFoundError
 
 internal class ConsumeQrCodeTokenServiceImpl(
     private val authTokenManager: AuthTokenManager,
