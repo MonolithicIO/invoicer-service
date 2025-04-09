@@ -1,36 +1,41 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
-import utils.exceptions.http.HttpCode
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import utils.exceptions.http.HttpError
 import utils.exceptions.InvalidUUIDException
+import utils.exceptions.http.HttpCode
+import utils.exceptions.http.HttpError
 import java.time.format.DateTimeParseException
 
-fun Application.installStatusPages() {
+fun Application.installStatusPages(
+    clock: Clock
+) {
+
     install(StatusPages) {
         exception<HttpError> { call, cause ->
             call.respond(
-                message = ErrorBody(cause.message),
+                message = ErrorBody(message = cause.message, timeStamp = clock.now()),
                 status = cause.statusCode.toKtorCode()
             )
         }
 
         exception<InvalidUUIDException> { call, cause ->
             call.respond(
-                message = ErrorBody(cause.message.orEmpty()),
+                message = ErrorBody(
+                    message = cause.message.orEmpty(),
+                    timeStamp = clock.now()
+                ),
                 status = HttpStatusCode.BadRequest
             )
         }
         exception<DateTimeParseException> { call, _ ->
             call.respond(
-                message = ErrorBody("Invalid date format"),
+                message = ErrorBody(message = "Invalid date format", timeStamp = clock.now()),
                 status = HttpStatusCode.BadRequest
             )
         }
@@ -50,6 +55,5 @@ private fun HttpCode.toKtorCode(): HttpStatusCode = when (this) {
 @Serializable
 private data class ErrorBody(
     val message: String,
-) {
-    val timeStamp = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-}
+    val timeStamp: Instant
+)
