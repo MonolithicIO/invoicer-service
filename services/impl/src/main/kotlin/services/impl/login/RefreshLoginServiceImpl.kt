@@ -45,7 +45,7 @@ internal class RefreshLoginServiceImpl(
 
         storeRefreshTokenService.storeRefreshToken(
             token = authResponse.refreshToken,
-            userId = user.id.toString()
+            userId = user.id
         )
 
         return authResponse

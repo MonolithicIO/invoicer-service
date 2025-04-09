@@ -41,7 +41,7 @@ internal class LoginServiceImpl(
 
         storeRefreshTokenService.storeRefreshToken(
             token = refreshToken,
-            userId = account.id.toString()
+            userId = account.id
         )
 
         return AuthTokenModel(

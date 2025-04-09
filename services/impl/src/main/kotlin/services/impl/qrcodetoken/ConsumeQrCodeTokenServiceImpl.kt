@@ -12,6 +12,7 @@ import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.http.goneError
 import utils.exceptions.http.notFoundError
+import java.util.*
 
 internal class ConsumeQrCodeTokenServiceImpl(
     private val authTokenManager: AuthTokenManager,
@@ -24,7 +25,7 @@ internal class ConsumeQrCodeTokenServiceImpl(
 
     override suspend fun consume(
         contentId: String,
-        userUuid: String
+        userUuid: UUID
     ) {
         val token = qrCodeTokenRepository.getQrCodeByTokenId(
             contentId = contentId
@@ -38,12 +39,12 @@ internal class ConsumeQrCodeTokenServiceImpl(
             goneError("Qr code token is expired")
         }
 
-        getUserByIdService.get(userUuid)
+        getUserByIdService.get(userUuid.toString())
 
         qrCodeTokenRepository.consumeQrCodeToken(token.id)
 
-        val accessToken = authTokenManager.generateToken(userUuid)
-        val refreshToken = authTokenManager.generateRefreshToken(userUuid)
+        val accessToken = authTokenManager.generateToken(userUuid.toString())
+        val refreshToken = authTokenManager.generateRefreshToken(userUuid.toString())
         storeRefreshTokenService.storeRefreshToken(
             token = refreshToken,
             userId = userUuid

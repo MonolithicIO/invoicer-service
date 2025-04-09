@@ -8,6 +8,7 @@ import controller.viewmodel.qrcodetoken.toTokenResponseViewModel
 import foundation.authentication.impl.jwt.jwtProtected
 import foundation.authentication.impl.jwt.jwtUserId
 import io.github.alaksion.invoicer.utils.events.QrCodeEventHandler
+import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
@@ -58,7 +59,7 @@ internal fun Routing.loginCodeController() {
                 val service by closestDI().instance<ConsumeQrCodeTokenService>()
                 service.consume(
                     contentId = qrCodeContentId,
-                    userUuid = jwtUserId()
+                    userUuid = parseUuid(jwtUserId())
                 )
                 call.respond(HttpStatusCode.NoContent)
             }
