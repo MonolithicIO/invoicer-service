@@ -1,8 +1,10 @@
 package services.api.services.intermediary
 
+import java.util.*
+
 interface DeleteIntermediaryService {
     suspend fun execute(
-        beneficiaryId: String,
-        userId: String
+        beneficiaryId: UUID,
+        userId: UUID
     )
 }

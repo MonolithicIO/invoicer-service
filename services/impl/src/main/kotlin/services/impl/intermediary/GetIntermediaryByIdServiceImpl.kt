@@ -11,14 +11,14 @@ internal class GetIntermediaryByIdServiceImpl(
     private val repository: IntermediaryRepository
 ) : GetIntermediaryByIdService {
 
-    override suspend fun get(intermediaryId: String, userId: String): IntermediaryModel {
+    override suspend fun get(intermediaryId: UUID, userId: UUID): IntermediaryModel {
         val intermediary = repository.getById(
-            intermediaryId = UUID.fromString(intermediaryId),
+            intermediaryId = intermediaryId,
         )
 
         if (intermediary == null) notFoundError("Intermediary not found")
 
-        if (intermediary.userId != userId) unauthorizedResourceError()
+        if (intermediary.userId != userId.toString()) unauthorizedResourceError()
 
         return intermediary
     }

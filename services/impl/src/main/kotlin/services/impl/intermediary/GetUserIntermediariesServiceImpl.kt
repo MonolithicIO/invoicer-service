@@ -13,19 +13,19 @@ internal class GetUserIntermediariesServiceImpl(
 ) : GetUserIntermediariesService {
 
     override suspend fun execute(
-        userId: String,
+        userId: UUID,
         page: Long,
         limit: Int,
     ): List<IntermediaryModel> {
-        getUserByIdService.get(userId)
+        getUserByIdService.get(userId.toString())
 
         val intermediaries = repository.getAll(
-            userId = UUID.fromString(userId),
+            userId = userId,
             page = page,
             limit = limit
         )
 
-        if (intermediaries.any { it.userId != userId }) {
+        if (intermediaries.any { it.userId != userId.toString() }) {
             unauthorizedResourceError()
         }
 

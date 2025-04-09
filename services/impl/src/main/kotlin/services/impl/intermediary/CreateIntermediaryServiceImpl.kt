@@ -1,6 +1,5 @@
 package services.impl.intermediary
 
-import utils.exceptions.http.HttpCode
 import io.github.alaksion.invoicer.utils.validation.IbanValidator
 import io.github.alaksion.invoicer.utils.validation.SwiftValidator
 import models.intermediary.CreateIntermediaryModel
@@ -8,8 +7,10 @@ import repository.api.repository.IntermediaryRepository
 import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
 import services.api.services.intermediary.CreateIntermediaryService
 import services.api.services.user.GetUserByIdService
+import utils.exceptions.http.HttpCode
 import utils.exceptions.http.badRequestError
 import utils.exceptions.http.httpError
+import java.util.*
 
 internal class CreateIntermediaryServiceImpl(
     private val getUserByIdService: GetUserByIdService,
@@ -19,7 +20,7 @@ internal class CreateIntermediaryServiceImpl(
     private val ibanValidator: IbanValidator
 ) : CreateIntermediaryService {
 
-    override suspend fun create(model: CreateIntermediaryModel, userId: String): String {
+    override suspend fun create(model: CreateIntermediaryModel, userId: UUID): String {
         if (swiftValidator.validate(model.swift).not()) {
             badRequestError("Invalid swift code: ${model.swift}")
         }
@@ -41,7 +42,7 @@ internal class CreateIntermediaryServiceImpl(
             fieldName = "Bank address"
         )
 
-        val user = getUserByIdService.get(userId)
+        val user = getUserByIdService.get(userId.toString())
 
         if (checkIntermediarySwiftAlreadyUsedService.execute(model.swift, userId)) {
             httpError(

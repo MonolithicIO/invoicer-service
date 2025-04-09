@@ -13,10 +13,10 @@ internal class GetIntermediaryDetailsServiceImpl(
     private val getUserByIdService: GetUserByIdService
 ) : GetIntermediaryDetailsService {
 
-    override suspend fun getIntermediaryDetails(userId: String, intermediaryId: String): IntermediaryModel {
-        val user = getUserByIdService.get(userId)
+    override suspend fun getIntermediaryDetails(userId: UUID, intermediaryId: UUID): IntermediaryModel {
+        val user = getUserByIdService.get(userId.toString())
 
-        val intermediary = intermediaryRepository.getById(intermediaryId = UUID.fromString(intermediaryId))
+        val intermediary = intermediaryRepository.getById(intermediaryId = intermediaryId)
             ?: notFoundError("Intermediary not found")
 
         if (intermediary.userId != user.id.toString()) {
