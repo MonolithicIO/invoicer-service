@@ -5,7 +5,7 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 import models.createinvoice.CreateInvoiceActivityModel
 import models.createinvoice.CreateInvoiceModel
-import utils.exceptions.badRequestError
+import utils.exceptions.http.badRequestError
 
 @Serializable
 data class CreateInvoiceViewModel(

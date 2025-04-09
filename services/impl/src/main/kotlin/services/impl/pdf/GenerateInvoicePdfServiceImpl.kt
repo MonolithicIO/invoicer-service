@@ -8,6 +8,7 @@ import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.pdf.GenerateInvoicePdfService
 import services.api.services.user.GetUserByIdService
 import services.impl.pdf.pdfwriter.InvoicePdfWriter
+import java.util.*
 
 internal class GenerateInvoicePdfServiceImpl(
     private val getUserByIdService: GetUserByIdService,
@@ -18,17 +19,17 @@ internal class GenerateInvoicePdfServiceImpl(
     private val localStorage: LocalStorage
 ) : GenerateInvoicePdfService {
 
-    override suspend fun generate(invoiceId: String, userId: String) {
+    override suspend fun generate(invoiceId: UUID, userId: UUID) {
         getUserByIdService.get(userId)
 
         val invoice = getUserInvoiceByIdService.get(
             userId = userId,
-            id = invoiceId
+            invoiceId = invoiceId
         )
 
         localStorage.createDirectory("/temp/pdfs")
 
-        invoicePdfRepository.createInvoicePdf(invoiceId)
+        invoicePdfRepository.createInvoicePdf(invoiceId.toString())
 
         val outputPath = localStorage.getRootPath() + "/temp/pdfs" + "/invoice-${invoice.id}.pdf"
 
@@ -45,7 +46,7 @@ internal class GenerateInvoicePdfServiceImpl(
         }.fold(
             onFailure = {
                 invoicePdfRepository.updateInvoicePdfState(
-                    invoiceId = invoiceId,
+                    invoiceId = invoiceId.toString(),
                     status = InvoicePdfStatus.Failed,
                     filePath = ""
                 )
@@ -53,7 +54,7 @@ internal class GenerateInvoicePdfServiceImpl(
             },
             onSuccess = { fileKey ->
                 invoicePdfRepository.updateInvoicePdfState(
-                    invoiceId = invoiceId,
+                    invoiceId = invoiceId.toString(),
                     status = InvoicePdfStatus.Success,
                     filePath = fileKey
                 )

@@ -4,7 +4,7 @@ import repository.api.repository.InvoiceRepository
 import services.api.services.invoice.DeleteInvoiceService
 import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.unauthorizedResourceError
+import utils.exceptions.http.unauthorizedResourceError
 import java.util.*
 
 internal class DeleteInvoiceServiceImpl(
@@ -13,10 +13,10 @@ internal class DeleteInvoiceServiceImpl(
     private val repository: InvoiceRepository
 ) : DeleteInvoiceService {
 
-    override suspend fun delete(invoiceId: String, userId: String) {
+    override suspend fun delete(invoiceId: UUID, userId: UUID) {
         val user = getUserByIdUseCase.get(userId)
         val invoice = getUserInvoiceByIdService.get(
-            id = invoiceId,
+            invoiceId = invoiceId,
             userId = userId
         )
 
@@ -24,7 +24,7 @@ internal class DeleteInvoiceServiceImpl(
             unauthorizedResourceError()
         }
 
-        repository.delete(UUID.fromString(invoiceId))
+        repository.delete(invoiceId)
     }
 
 }

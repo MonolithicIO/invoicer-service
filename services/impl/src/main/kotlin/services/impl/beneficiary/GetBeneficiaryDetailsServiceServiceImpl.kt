@@ -4,9 +4,9 @@ import models.beneficiary.BeneficiaryModel
 import repository.api.repository.BeneficiaryRepository
 import services.api.services.beneficiary.GetBeneficiaryDetailsService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.notFoundError
-import utils.exceptions.unauthorizedResourceError
-import java.util.UUID
+import utils.exceptions.http.notFoundError
+import utils.exceptions.http.unauthorizedResourceError
+import java.util.*
 
 internal class GetBeneficiaryDetailsServiceServiceImpl(
     private val repository: BeneficiaryRepository,
@@ -14,13 +14,13 @@ internal class GetBeneficiaryDetailsServiceServiceImpl(
 ) : GetBeneficiaryDetailsService {
 
     override suspend fun getBeneficiaryDetails(
-        userId: String,
-        beneficiaryId: String
+        userId: UUID,
+        beneficiaryId: UUID
     ): BeneficiaryModel {
         val user = getUserService.get(userId)
 
         val beneficiary = repository.getById(
-            UUID.fromString(beneficiaryId)
+            beneficiaryId
         )
 
         if (beneficiary == null) {

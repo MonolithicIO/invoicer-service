@@ -1,12 +1,12 @@
 package services.impl.intermediary
 
-import io.github.alaksion.invoicer.utils.http.HttpCode
 import repository.api.repository.IntermediaryRepository
 import repository.api.repository.InvoiceRepository
 import services.api.services.intermediary.DeleteIntermediaryService
 import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.httpError
+import utils.exceptions.http.HttpCode
+import utils.exceptions.http.httpError
 import java.util.*
 
 internal class DeleteIntermediaryServiceImpl(
@@ -16,7 +16,7 @@ internal class DeleteIntermediaryServiceImpl(
     private val invoiceRepository: InvoiceRepository
 ) : DeleteIntermediaryService {
 
-    override suspend fun execute(beneficiaryId: String, userId: String) {
+    override suspend fun execute(beneficiaryId: UUID, userId: UUID) {
         getUserByIdUseCase.get(userId)
 
         getIntermediaryByIdService.get(
@@ -25,16 +25,16 @@ internal class DeleteIntermediaryServiceImpl(
         )
 
         if (invoiceRepository.getInvoicesByIntermediaryId(
-                intermediaryId = UUID.fromString(beneficiaryId),
-                userId = UUID.fromString(userId)
+                intermediaryId = beneficiaryId,
+                userId = userId
             ).isNotEmpty()
         ) {
             httpError(message = "Cannot delete intermediary with invoices associated", code = HttpCode.Conflict)
         }
 
         intermediaryRepo.delete(
-            intermediaryId = UUID.fromString(beneficiaryId),
-            userId = UUID.fromString(userId)
+            intermediaryId = beneficiaryId,
+            userId = userId
         )
     }
 }

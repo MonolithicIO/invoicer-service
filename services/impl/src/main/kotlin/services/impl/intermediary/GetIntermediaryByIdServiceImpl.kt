@@ -3,22 +3,22 @@ package services.impl.intermediary
 import models.intermediary.IntermediaryModel
 import repository.api.repository.IntermediaryRepository
 import services.api.services.intermediary.GetIntermediaryByIdService
-import utils.exceptions.notFoundError
-import utils.exceptions.unauthorizedResourceError
+import utils.exceptions.http.notFoundError
+import utils.exceptions.http.unauthorizedResourceError
 import java.util.*
 
 internal class GetIntermediaryByIdServiceImpl(
     private val repository: IntermediaryRepository
 ) : GetIntermediaryByIdService {
 
-    override suspend fun get(intermediaryId: String, userId: String): IntermediaryModel {
+    override suspend fun get(intermediaryId: UUID, userId: UUID): IntermediaryModel {
         val intermediary = repository.getById(
-            intermediaryId = UUID.fromString(intermediaryId),
+            intermediaryId = intermediaryId,
         )
 
         if (intermediary == null) notFoundError("Intermediary not found")
 
-        if (intermediary.userId != userId) unauthorizedResourceError()
+        if (intermediary.userId != userId.toString()) unauthorizedResourceError()
 
         return intermediary
     }

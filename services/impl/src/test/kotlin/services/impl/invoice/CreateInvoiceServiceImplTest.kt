@@ -1,7 +1,7 @@
 package services.impl.invoice
 
 import io.github.alaksion.invoicer.utils.fakes.FakeClock
-import io.github.alaksion.invoicer.utils.http.HttpCode
+import utils.exceptions.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.InvoiceModel
@@ -16,7 +16,7 @@ import repository.api.fakes.FakeInvoiceRepository
 import services.fakes.beneficiary.FakeGetBeneficiaryByIdService
 import services.fakes.intermediary.FakeGetIntermediaryByIdService
 import services.fakes.user.FakeGetUserByIdService
-import utils.exceptions.HttpError
+import utils.exceptions.http.HttpError
 import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith

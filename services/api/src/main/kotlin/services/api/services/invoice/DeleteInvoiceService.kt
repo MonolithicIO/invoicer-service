@@ -1,8 +1,10 @@
 package services.api.services.invoice
 
+import java.util.*
+
 interface DeleteInvoiceService {
     suspend fun delete(
-        invoiceId: String,
-        userId: String
+        invoiceId: UUID,
+        userId: UUID
     )
 }

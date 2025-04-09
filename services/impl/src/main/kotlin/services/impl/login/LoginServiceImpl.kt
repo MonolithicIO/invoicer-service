@@ -7,8 +7,8 @@ import models.login.LoginModel
 import services.api.services.login.LoginService
 import services.api.services.login.StoreRefreshTokenService
 import services.api.services.user.GetUserByEmailService
-import utils.exceptions.badRequestError
-import utils.exceptions.notFoundError
+import utils.exceptions.http.badRequestError
+import utils.exceptions.http.notFoundError
 import foundation.password.PasswordEncryption
 
 internal class LoginServiceImpl(
@@ -41,7 +41,7 @@ internal class LoginServiceImpl(
 
         storeRefreshTokenService.storeRefreshToken(
             token = refreshToken,
-            userId = account.id.toString()
+            userId = account.id
         )
 
         return AuthTokenModel(

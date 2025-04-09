@@ -2,7 +2,7 @@ package services.impl.invoice
 
 import io.github.alaksion.invoicer.foundation.messaging.MessageProducer
 import io.github.alaksion.invoicer.foundation.messaging.MessageTopic
-import io.github.alaksion.invoicer.utils.http.HttpCode
+import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import models.createinvoice.CreateInvoiceActivityModel
@@ -13,8 +13,9 @@ import services.api.services.beneficiary.GetBeneficiaryByIdService
 import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.invoice.CreateInvoiceService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.HttpError
-import utils.exceptions.httpError
+import utils.exceptions.http.HttpCode
+import utils.exceptions.http.HttpError
+import utils.exceptions.http.httpError
 import java.util.*
 
 
@@ -29,7 +30,7 @@ internal class CreateInvoiceServiceImpl(
 
     override suspend fun createInvoice(
         model: CreateInvoiceModel,
-        userId: String,
+        userId: UUID,
     ): CreateInvoiceResponseModel {
         validateActivities(model.activities)
 
@@ -39,13 +40,13 @@ internal class CreateInvoiceServiceImpl(
         )
 
         getBeneficiaryByIdService.get(
-            beneficiaryId = model.beneficiaryId,
+            beneficiaryId = parseUuid(model.beneficiaryId),
             userId = userId
         )
 
         model.intermediaryId?.let {
             getIntermediaryByIdService.get(
-                intermediaryId = it,
+                intermediaryId = parseUuid(it),
                 userId = userId
             )
         }
@@ -60,7 +61,7 @@ internal class CreateInvoiceServiceImpl(
         }
 
         val response =
-            invoiceRepository.createInvoice(data = model, userId = UUID.fromString(userId))
+            invoiceRepository.createInvoice(data = model, userId = userId)
 
         messageProducer.produceMessage(
             topic = MessageTopic.INVOICE_PDF,

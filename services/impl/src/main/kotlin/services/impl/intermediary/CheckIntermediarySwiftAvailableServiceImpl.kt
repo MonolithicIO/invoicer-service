@@ -8,10 +8,10 @@ internal class CheckIntermediarySwiftAvailableServiceImpl(
     private val repository: IntermediaryRepository
 ) : CheckIntermediarySwiftAvailableService {
 
-    override suspend fun execute(swift: String, userId: String): Boolean {
+    override suspend fun execute(swift: String, userId: UUID): Boolean {
         val response =
             repository.getBySwift(
-                userId = UUID.fromString(userId),
+                userId = userId,
                 swift = swift
             ) != null
 

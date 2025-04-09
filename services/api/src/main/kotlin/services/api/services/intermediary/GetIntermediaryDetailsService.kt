@@ -1,10 +1,11 @@
 package services.api.services.intermediary
 
 import models.intermediary.IntermediaryModel
+import java.util.*
 
 interface GetIntermediaryDetailsService {
     suspend fun getIntermediaryDetails(
-        userId: String,
-        intermediaryId: String
+        userId: UUID,
+        intermediaryId: UUID
     ): IntermediaryModel
 }

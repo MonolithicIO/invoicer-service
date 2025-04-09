@@ -2,7 +2,7 @@ package controller.viewmodel.beneficiary
 
 import kotlinx.serialization.Serializable
 import models.beneficiary.CreateBeneficiaryModel
-import utils.exceptions.badRequestError
+import utils.exceptions.http.badRequestError
 
 @Serializable
 internal data class CreateBeneficiaryViewModel(

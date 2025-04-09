@@ -1,6 +1,6 @@
 package services.impl.beneficiary
 
-import io.github.alaksion.invoicer.utils.http.HttpCode
+import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.github.alaksion.invoicer.utils.validation.IbanValidator
 import io.github.alaksion.invoicer.utils.validation.SwiftValidator
 import models.beneficiary.BeneficiaryModel
@@ -11,8 +11,9 @@ import services.api.services.beneficiary.CheckBeneficiarySwiftAvailableService
 import services.api.services.beneficiary.GetBeneficiaryByIdService
 import services.api.services.beneficiary.UpdateBeneficiaryService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.badRequestError
-import utils.exceptions.httpError
+import utils.exceptions.http.HttpCode
+import utils.exceptions.http.badRequestError
+import utils.exceptions.http.httpError
 import java.util.*
 
 internal class UpdateBeneficiaryServiceImpl(
@@ -26,8 +27,8 @@ internal class UpdateBeneficiaryServiceImpl(
 
     override suspend fun execute(
         model: UpdateBeneficiaryModel,
-        userId: String,
-        beneficiaryId: String
+        userId: UUID,
+        beneficiaryId: UUID
     ): BeneficiaryModel {
         validateSwift(model.swift)
         validateIban(model.iban)
@@ -48,13 +49,13 @@ internal class UpdateBeneficiaryServiceImpl(
 
         val beneficiary = getBeneficiaryByIdService.get(
             beneficiaryId = beneficiaryId,
-            userId = user.id.toString()
+            userId = user.id
         )
 
         if (beneficiary.swift != model.swift) {
             if (checkBeneficiarySwiftAvailableService.execute(
                     swift = model.swift,
-                    userId = user.id.toString(),
+                    userId = user.id,
                 )
             ) {
                 httpError(
@@ -65,8 +66,8 @@ internal class UpdateBeneficiaryServiceImpl(
         }
 
         return beneficiaryRepository.update(
-            userId = UUID.fromString(userId),
-            beneficiaryId = UUID.fromString(beneficiary.id),
+            userId = userId,
+            beneficiaryId = parseUuid(beneficiary.id),
             model = buildUpdateModel(
                 originalModel = beneficiary,
                 newModel = model

@@ -1,6 +1,5 @@
 package services.impl.intermediary
 
-import io.github.alaksion.invoicer.utils.http.HttpCode
 import io.github.alaksion.invoicer.utils.validation.IbanValidator
 import io.github.alaksion.invoicer.utils.validation.SwiftValidator
 import models.intermediary.IntermediaryModel
@@ -11,8 +10,9 @@ import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
 import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.intermediary.UpdateIntermediaryService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.badRequestError
-import utils.exceptions.httpError
+import utils.exceptions.http.HttpCode
+import utils.exceptions.http.badRequestError
+import utils.exceptions.http.httpError
 import java.util.*
 
 internal class UpdateIntermediaryServiceImpl(
@@ -26,8 +26,8 @@ internal class UpdateIntermediaryServiceImpl(
 
     override suspend fun execute(
         model: UpdateIntermediaryModel,
-        userId: String,
-        intermediaryId: String
+        userId: UUID,
+        intermediaryId: UUID
     ): IntermediaryModel {
 
         validateString(
@@ -72,8 +72,8 @@ internal class UpdateIntermediaryServiceImpl(
         }
 
         return intermediaryRepository.update(
-            userId = UUID.fromString(userId),
-            intermediaryId = UUID.fromString(intermediaryId),
+            userId = userId,
+            intermediaryId = intermediaryId,
             model = buildUpdateModel(
                 originalModel = intermediary,
                 newModel = model

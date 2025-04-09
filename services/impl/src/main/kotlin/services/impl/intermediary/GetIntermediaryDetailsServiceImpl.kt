@@ -4,8 +4,8 @@ import models.intermediary.IntermediaryModel
 import repository.api.repository.IntermediaryRepository
 import services.api.services.intermediary.GetIntermediaryDetailsService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.notFoundError
-import utils.exceptions.unauthorizedResourceError
+import utils.exceptions.http.notFoundError
+import utils.exceptions.http.unauthorizedResourceError
 import java.util.*
 
 internal class GetIntermediaryDetailsServiceImpl(
@@ -13,10 +13,10 @@ internal class GetIntermediaryDetailsServiceImpl(
     private val getUserByIdService: GetUserByIdService
 ) : GetIntermediaryDetailsService {
 
-    override suspend fun getIntermediaryDetails(userId: String, intermediaryId: String): IntermediaryModel {
+    override suspend fun getIntermediaryDetails(userId: UUID, intermediaryId: UUID): IntermediaryModel {
         val user = getUserByIdService.get(userId)
 
-        val intermediary = intermediaryRepository.getById(intermediaryId = UUID.fromString(intermediaryId))
+        val intermediary = intermediaryRepository.getById(intermediaryId = intermediaryId)
             ?: notFoundError("Intermediary not found")
 
         if (intermediary.userId != user.id.toString()) {

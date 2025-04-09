@@ -1,8 +1,10 @@
 package services.api.services.beneficiary
 
+import java.util.*
+
 interface DeleteBeneficiaryService {
     suspend fun execute(
-        beneficiaryId: String,
-        userId: String
+        beneficiaryId: UUID,
+        userId: UUID
     )
 }

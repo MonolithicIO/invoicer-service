@@ -5,8 +5,9 @@ import models.invoicepdf.InvoicePdfStatus
 import repository.api.repository.InvoicePdfRepository
 import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.pdf.InvoicePdfSecureLinkService
-import utils.exceptions.badRequestError
-import utils.exceptions.notFoundError
+import utils.exceptions.http.badRequestError
+import utils.exceptions.http.notFoundError
+import java.util.UUID
 
 internal class InvoicePdfSecureLinkServiceImpl(
     private val secureFileLinkGenerator: SecureFileLinkGenerator,
@@ -14,13 +15,13 @@ internal class InvoicePdfSecureLinkServiceImpl(
     private val invoicePdfRepository: InvoicePdfRepository
 ) : InvoicePdfSecureLinkService {
 
-    override suspend fun generate(invoiceId: String, userId: String): String {
+    override suspend fun generate(invoiceId: UUID, userId: UUID): String {
         getUserInvoiceByIdService.get(
-            id = invoiceId,
+            invoiceId = invoiceId,
             userId = userId
         )
 
-        val invoicePdf = invoicePdfRepository.getInvoicePdf(invoiceId) ?: notFoundError("Invoice PDF not found")
+        val invoicePdf = invoicePdfRepository.getInvoicePdf(invoiceId.toString()) ?: notFoundError("Invoice PDF not found")
         if (invoicePdf.status != InvoicePdfStatus.Success) notFoundError("Invoice PDF not found")
 
         return runCatching {

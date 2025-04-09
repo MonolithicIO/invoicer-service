@@ -5,6 +5,7 @@ import controller.viewmodel.createuser.CreateUserResponseViewModel
 import controller.viewmodel.createuser.toDomainModel
 import foundation.authentication.impl.jwt.jwtProtected
 import foundation.authentication.impl.jwt.jwtUserId
+import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -30,7 +31,7 @@ internal fun Routing.userController() {
         jwtProtected {
             delete {
                 val useCase by closestDI().instance<DeleteUserService>()
-                useCase.delete(jwtUserId())
+                useCase.delete(parseUuid(jwtUserId()))
                 call.respond(HttpStatusCode.NoContent)
             }
         }

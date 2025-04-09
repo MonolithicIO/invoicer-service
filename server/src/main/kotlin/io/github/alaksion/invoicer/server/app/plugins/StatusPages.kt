@@ -1,7 +1,6 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
-import io.github.alaksion.invoicer.utils.http.HttpCode
-import io.ktor.client.engine.*
+import utils.exceptions.http.HttpCode
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.statuspages.*
@@ -10,7 +9,8 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Serializable
-import utils.exceptions.HttpError
+import utils.exceptions.http.HttpError
+import utils.exceptions.InvalidUUIDException
 import java.time.format.DateTimeParseException
 
 fun Application.installStatusPages() {
@@ -20,7 +20,13 @@ fun Application.installStatusPages() {
                 message = ErrorBody(cause.message),
                 status = cause.statusCode.toKtorCode()
             )
+        }
 
+        exception<InvalidUUIDException> { call, cause ->
+            call.respond(
+                message = ErrorBody(cause.message.orEmpty()),
+                status = HttpStatusCode.BadRequest
+            )
         }
         exception<DateTimeParseException> { call, _ ->
             call.respond(

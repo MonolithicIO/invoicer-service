@@ -1,6 +1,5 @@
 package services.impl.beneficiary
 
-import io.github.alaksion.invoicer.utils.http.HttpCode
 import io.github.alaksion.invoicer.utils.validation.IbanValidator
 import io.github.alaksion.invoicer.utils.validation.SwiftValidator
 import models.beneficiary.CreateBeneficiaryModel
@@ -8,8 +7,10 @@ import repository.api.repository.BeneficiaryRepository
 import services.api.services.beneficiary.CheckBeneficiarySwiftAvailableService
 import services.api.services.beneficiary.CreateBeneficiaryService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.badRequestError
-import utils.exceptions.httpError
+import utils.exceptions.http.HttpCode
+import utils.exceptions.http.badRequestError
+import utils.exceptions.http.httpError
+import java.util.*
 
 internal class CreateBeneficiaryServiceImpl(
     private val getUserByIdService: GetUserByIdService,
@@ -19,7 +20,7 @@ internal class CreateBeneficiaryServiceImpl(
     private val ibanValidator: IbanValidator,
 ) : CreateBeneficiaryService {
 
-    override suspend fun create(model: CreateBeneficiaryModel, userId: String): String {
+    override suspend fun create(model: CreateBeneficiaryModel, userId: UUID): String {
 
         validateSwift(model.swift)
         validateIban(model.iban)

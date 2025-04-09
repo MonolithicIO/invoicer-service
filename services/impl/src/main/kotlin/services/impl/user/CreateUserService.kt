@@ -1,13 +1,13 @@
 package services.impl.user
 
-import io.github.alaksion.invoicer.utils.http.HttpCode
+import utils.exceptions.http.HttpCode
 import io.github.alaksion.invoicer.utils.validation.EmailValidator
 import models.user.CreateUserModel
 import repository.api.repository.UserRepository
 import services.api.services.user.CreateUserService
 import services.api.services.user.GetUserByEmailService
-import utils.exceptions.badRequestError
-import utils.exceptions.httpError
+import utils.exceptions.http.badRequestError
+import utils.exceptions.http.httpError
 import foundation.password.PasswordEncryption
 import foundation.password.PasswordStrength
 import foundation.password.PasswordValidator

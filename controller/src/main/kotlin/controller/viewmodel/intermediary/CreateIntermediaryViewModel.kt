@@ -2,7 +2,7 @@ package controller.viewmodel.intermediary
 
 import kotlinx.serialization.Serializable
 import models.intermediary.CreateIntermediaryModel
-import utils.exceptions.badRequestError
+import utils.exceptions.http.badRequestError
 
 @Serializable
 internal data class CreateIntermediaryViewModel(

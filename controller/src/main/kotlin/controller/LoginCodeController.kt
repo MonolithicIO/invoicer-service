@@ -8,6 +8,7 @@ import controller.viewmodel.qrcodetoken.toTokenResponseViewModel
 import foundation.authentication.impl.jwt.jwtProtected
 import foundation.authentication.impl.jwt.jwtUserId
 import io.github.alaksion.invoicer.utils.events.QrCodeEventHandler
+import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
@@ -27,8 +28,8 @@ import org.kodein.di.ktor.closestDI
 import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
 import services.api.services.qrcodetoken.GetQrCodeTokenByContentIdService
 import services.api.services.qrcodetoken.RequestQrCodeTokenService
-import utils.exceptions.notFoundError
-import utils.exceptions.unauthorizedResourceError
+import utils.exceptions.http.notFoundError
+import utils.exceptions.http.unauthorizedResourceError
 import java.util.concurrent.ConcurrentHashMap
 
 internal fun Routing.loginCodeController() {
@@ -58,7 +59,7 @@ internal fun Routing.loginCodeController() {
                 val service by closestDI().instance<ConsumeQrCodeTokenService>()
                 service.consume(
                     contentId = qrCodeContentId,
-                    userUuid = jwtUserId()
+                    userUuid = parseUuid(jwtUserId())
                 )
                 call.respond(HttpStatusCode.NoContent)
             }
