@@ -1,5 +1,6 @@
 package io.github.alaksion.invoicer.utils.serialization
 
+import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
@@ -15,6 +16,6 @@ class JavaUUIDSerializer : KSerializer<UUID> {
     }
 
     override fun deserialize(decoder: Decoder): UUID {
-        return UUID.fromString(decoder.decodeString())
+        return parseUuid(decoder.decodeString())
     }
 }
