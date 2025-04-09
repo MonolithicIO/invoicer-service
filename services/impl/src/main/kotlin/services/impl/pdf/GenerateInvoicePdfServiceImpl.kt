@@ -20,7 +20,7 @@ internal class GenerateInvoicePdfServiceImpl(
 ) : GenerateInvoicePdfService {
 
     override suspend fun generate(invoiceId: UUID, userId: UUID) {
-        getUserByIdService.get(userId.toString())
+        getUserByIdService.get(userId)
 
         val invoice = getUserInvoiceByIdService.get(
             userId = userId,

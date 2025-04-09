@@ -51,7 +51,7 @@ internal class CreateInvoiceServiceImpl(
             )
         }
 
-        getUserByIdService.get(userId.toString())
+        getUserByIdService.get(userId)
 
         if (invoiceRepository.getInvoiceByExternalId(externalId = model.externalId) != null) {
             throw HttpError(

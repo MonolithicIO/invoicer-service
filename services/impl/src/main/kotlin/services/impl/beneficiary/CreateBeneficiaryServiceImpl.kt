@@ -1,6 +1,5 @@
 package services.impl.beneficiary
 
-import utils.exceptions.http.HttpCode
 import io.github.alaksion.invoicer.utils.validation.IbanValidator
 import io.github.alaksion.invoicer.utils.validation.SwiftValidator
 import models.beneficiary.CreateBeneficiaryModel
@@ -8,6 +7,7 @@ import repository.api.repository.BeneficiaryRepository
 import services.api.services.beneficiary.CheckBeneficiarySwiftAvailableService
 import services.api.services.beneficiary.CreateBeneficiaryService
 import services.api.services.user.GetUserByIdService
+import utils.exceptions.http.HttpCode
 import utils.exceptions.http.badRequestError
 import utils.exceptions.http.httpError
 import java.util.*
@@ -37,7 +37,7 @@ internal class CreateBeneficiaryServiceImpl(
             fieldName = "Bank address"
         )
 
-        val user = getUserByIdService.get(userId.toString())
+        val user = getUserByIdService.get(userId)
 
         if (checkSwiftService.execute(model.swift, userId)) {
             httpError(

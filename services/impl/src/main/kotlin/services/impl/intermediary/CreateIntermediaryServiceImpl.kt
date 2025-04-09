@@ -42,7 +42,7 @@ internal class CreateIntermediaryServiceImpl(
             fieldName = "Bank address"
         )
 
-        val user = getUserByIdService.get(userId.toString())
+        val user = getUserByIdService.get(userId)
 
         if (checkIntermediarySwiftAlreadyUsedService.execute(model.swift, userId)) {
             httpError(

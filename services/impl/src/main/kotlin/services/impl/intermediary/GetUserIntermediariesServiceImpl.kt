@@ -17,7 +17,7 @@ internal class GetUserIntermediariesServiceImpl(
         page: Long,
         limit: Int,
     ): List<IntermediaryModel> {
-        getUserByIdService.get(userId.toString())
+        getUserByIdService.get(userId)
 
         val intermediaries = repository.getAll(
             userId = userId,

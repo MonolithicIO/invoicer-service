@@ -17,7 +17,7 @@ internal class DeleteBeneficiaryServiceImpl(
 ) : DeleteBeneficiaryService {
 
     override suspend fun execute(beneficiaryId: UUID, userId: UUID) {
-        getUserByIdService.get(userId.toString())
+        getUserByIdService.get(userId)
 
         getBeneficiaryByIdService.get(
             beneficiaryId = beneficiaryId,

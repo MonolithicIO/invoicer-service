@@ -45,7 +45,7 @@ internal class UpdateBeneficiaryServiceImpl(
             fieldName = "Bank address"
         )
 
-        val user = getUserByIdService.get(userId.toString())
+        val user = getUserByIdService.get(userId)
 
         val beneficiary = getBeneficiaryByIdService.get(
             beneficiaryId = beneficiaryId,

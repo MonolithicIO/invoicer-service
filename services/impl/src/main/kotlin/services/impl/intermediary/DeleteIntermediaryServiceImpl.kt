@@ -17,7 +17,7 @@ internal class DeleteIntermediaryServiceImpl(
 ) : DeleteIntermediaryService {
 
     override suspend fun execute(beneficiaryId: UUID, userId: UUID) {
-        getUserByIdUseCase.get(userId.toString())
+        getUserByIdUseCase.get(userId)
 
         getIntermediaryByIdService.get(
             intermediaryId = beneficiaryId,

@@ -17,7 +17,7 @@ internal class GetBeneficiaryDetailsServiceServiceImpl(
         userId: UUID,
         beneficiaryId: UUID
     ): BeneficiaryModel {
-        val user = getUserService.get(userId.toString())
+        val user = getUserService.get(userId)
 
         val beneficiary = repository.getById(
             beneficiaryId

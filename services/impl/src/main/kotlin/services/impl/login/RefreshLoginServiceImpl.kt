@@ -1,6 +1,7 @@
 package services.impl.login
 
 import foundation.authentication.impl.AuthTokenManager
+import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import models.login.AuthTokenModel
 import repository.api.repository.RefreshTokenRepository
 import services.api.services.login.RefreshLoginService
@@ -21,7 +22,7 @@ internal class RefreshLoginServiceImpl(
             message = "Invalid refresh token"
         )
 
-        val user = getUserByIdService.get(extractedUserId)
+        val user = getUserByIdService.get(parseUuid(extractedUserId))
 
         val findToken =
             refreshTokenRepository.findUserToken(user.id.toString(), refreshToken) ?: unAuthorizedError(

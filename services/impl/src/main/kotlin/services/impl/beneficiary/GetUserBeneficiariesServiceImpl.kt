@@ -17,7 +17,7 @@ internal class GetUserBeneficiariesServiceImpl(
         page: Long,
         limit: Int,
     ): UserBeneficiaries {
-        getUserByIdUseCase.get(userId.toString())
+        getUserByIdUseCase.get(userId)
 
         val beneficiaries = repository.getAll(
             userId = userId,

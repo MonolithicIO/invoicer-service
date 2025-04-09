@@ -14,7 +14,7 @@ internal class GetIntermediaryDetailsServiceImpl(
 ) : GetIntermediaryDetailsService {
 
     override suspend fun getIntermediaryDetails(userId: UUID, intermediaryId: UUID): IntermediaryModel {
-        val user = getUserByIdService.get(userId.toString())
+        val user = getUserByIdService.get(userId)
 
         val intermediary = intermediaryRepository.getById(intermediaryId = intermediaryId)
             ?: notFoundError("Intermediary not found")

@@ -39,7 +39,7 @@ internal class ConsumeQrCodeTokenServiceImpl(
             goneError("Qr code token is expired")
         }
 
-        getUserByIdService.get(userUuid.toString())
+        getUserByIdService.get(userUuid)
 
         qrCodeTokenRepository.consumeQrCodeToken(token.id)
 

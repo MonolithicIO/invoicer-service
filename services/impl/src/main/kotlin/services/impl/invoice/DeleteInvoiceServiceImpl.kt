@@ -14,7 +14,7 @@ internal class DeleteInvoiceServiceImpl(
 ) : DeleteInvoiceService {
 
     override suspend fun delete(invoiceId: UUID, userId: UUID) {
-        val user = getUserByIdUseCase.get(userId.toString())
+        val user = getUserByIdUseCase.get(userId)
         val invoice = getUserInvoiceByIdService.get(
             invoiceId = invoiceId,
             userId = userId

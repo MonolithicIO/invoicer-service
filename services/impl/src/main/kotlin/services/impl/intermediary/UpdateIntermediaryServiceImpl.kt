@@ -51,7 +51,7 @@ internal class UpdateIntermediaryServiceImpl(
             httpError("Invalid swift code: ${model.swift}", HttpCode.BadRequest)
         }
 
-        getUserByIdService.get(userId.toString())
+        getUserByIdService.get(userId)
 
         val intermediary = getIntermediaryByIdService.get(
             intermediaryId = intermediaryId,
