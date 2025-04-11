@@ -10,6 +10,6 @@ plugins {
 }
 
 subprojects {
-    apply(plugin = "requireKover")
+    apply(plugin = "org.jetbrains.kotlinx.kover")
     apply(plugin = "invoicer.detekt")
 }
