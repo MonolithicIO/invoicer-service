@@ -1,0 +1,35 @@
+name: Test Coverage Check
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  cobertura:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed to access main branch history
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Make coverage script executable
+        run: chmod +x scripts/coverage.sh
+
+      - name: Run test coverage comparison
+        run: ./scripts/coverage.sh
+
+      - name: Comment test coverage summary
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          body-file: coverage.md
+          comment-id: test-coverage-comment
+          edit-mode: replace
