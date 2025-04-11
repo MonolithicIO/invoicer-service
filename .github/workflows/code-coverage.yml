@@ -24,7 +24,7 @@ jobs:
         run: ./gradlew server:koverXmlReport
 
       - name: Store branch report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: branch-coverage
           path: server/build/reports/kover/report.xml
@@ -50,7 +50,7 @@ jobs:
         run: ./gradlew server:koverXmlReport
 
       - name: Store Main report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: main-coverage
           path: server/build/reports/kover/report.xml
@@ -61,12 +61,12 @@ jobs:
     needs: [ main-coverage, branch-coverage ]
     steps:
       - name: Download branch report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: branch-coverage
 
       - name: Download main report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: main-coverage
 
