@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.serialization) apply false
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.kover) apply false
-    id("requireKover") apply false
     id("invoicer.detekt") apply false
     `version-catalog`
 }
