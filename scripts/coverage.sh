@@ -2,19 +2,23 @@
 set -e
 
 COVERAGE_FILE="build/reports/kover/merged/xml/report.xml"
+WORKTREE_DIR=".main_branch_copy"
 
 extract_coverage() {
     grep -oP 'line-rate="\K[0-9.]+' "$1"
 }
 
-# Run coverage on main branch
+# Create worktree for main branch
 git fetch origin main
-git checkout origin/main
+git worktree add $WORKTREE_DIR origin/main
+
+# Run coverage on main
+pushd $WORKTREE_DIR
 ./gradlew koverMergedReport --no-daemon
 MAIN_COVERAGE=$(extract_coverage "$COVERAGE_FILE")
+popd
 
-# Back to current branch
-git checkout -
+# Run coverage on current branch
 ./gradlew koverMergedReport --no-daemon
 CURRENT_COVERAGE=$(extract_coverage "$COVERAGE_FILE")
 
@@ -31,7 +35,7 @@ else
     EMOJI="➖"
 fi
 
-# Generate Markdown comment
+# Create Markdown report
 echo "### 📊 Test Coverage Comparison" > coverage.md
 echo "" >> coverage.md
 echo "| Branch         | Coverage |" >> coverage.md
@@ -41,9 +45,12 @@ echo "| Current branch | \`$CURRENT_COVERAGE\` |" >> coverage.md
 echo "" >> coverage.md
 echo "**Change in coverage**: $EMOJI \`$DELTA_FORMATTED\`" >> coverage.md
 
-# Fail if current coverage < 0.80
-COVERAGE_THRESHOLD=0.80
-if (( $(echo "$CURRENT_COVERAGE < $COVERAGE_THRESHOLD" | bc -l) )); then
-    echo "❌ Test coverage is below threshold ($COVERAGE_THRESHOLD)."
+# Fail if below threshold
+THRESHOLD=0.80
+if (( $(echo "$CURRENT_COVERAGE < $THRESHOLD" | bc -l) )); then
+    echo "❌ Coverage below threshold ($THRESHOLD)"
     exit 1
 fi
+
+# Cleanup
+git worktree remove $WORKTREE_DIR --force
