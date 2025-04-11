@@ -58,7 +58,7 @@ jobs:
   write-report:
     name: Compare report
     runs-on: ubuntu-latest
-    needs: [ gera-atual, gera-main ]
+    needs: [ main-coverage, branch-coverage ]
     steps:
       - name: Download branch report
         uses: actions/download-artifact@v3
@@ -73,11 +73,3 @@ jobs:
       - name: Comparar resultados
         run: |
           ls
-
-#      - name: Comment test coverage summary
-#        uses: peter-evans/create-or-update-comment@v4
-#        with:
-#          issue-number: ${{ github.event.pull_request.number }}
-#          body-file: coverage.md
-#          comment-id: test-coverage-comment
-#          edit-mode: replace
