@@ -23,11 +23,15 @@ jobs:
       - name: Generate branch coverage report
         run: ./gradlew server:koverXmlReport
 
+      - name: Rename file
+        run: |
+          mv server/build/reports/kover/report.xml server/build/reports/kover/branch-report.xml
+
       - name: Store branch report
         uses: actions/upload-artifact@v4
         with:
           name: branch-coverage
-          path: server/build/reports/kover/report.xml
+          path: server/build/reports/kover/branch-report.xml
 
   main-coverage:
     runs-on: ubuntu-latest
@@ -49,11 +53,15 @@ jobs:
       - name: Generate main coverage report
         run: ./gradlew server:koverXmlReport
 
+      - name: Rename file
+        run: |
+          mv server/build/reports/kover/report.xml server/build/reports/kover/main-report.xml
+
       - name: Store Main report
         uses: actions/upload-artifact@v4
         with:
           name: main-coverage
-          path: server/build/reports/kover/report.xml
+          path: server/build/reports/kover/main-report.xml
 
   write-report:
     name: Compare report
