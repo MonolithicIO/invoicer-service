@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-COVERAGE_FILE="build/reports/kover/merged/xml/report.xml"
+COVERAGE_FILE="server/build/reports/kover/report.xml"
 WORKTREE_DIR=".main_branch_copy"
 
 extract_coverage() {
@@ -14,12 +14,12 @@ git worktree add $WORKTREE_DIR origin/main
 
 # Run coverage on main
 pushd $WORKTREE_DIR
-./gradlew koverMergedReport --no-daemon
+./gradlew server:koverXmlReport --no-daemon
 MAIN_COVERAGE=$(extract_coverage "$COVERAGE_FILE")
 popd
 
 # Run coverage on current branch
-./gradlew koverMergedReport --no-daemon
+./gradlew server:koverXmlReport --no-daemon
 CURRENT_COVERAGE=$(extract_coverage "$COVERAGE_FILE")
 
 # Calculate delta
