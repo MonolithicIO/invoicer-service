@@ -1,4 +1,4 @@
-package services.fakes.refreshtoken
+package services.api.fakes.refreshtoken
 
 import services.api.services.login.StoreRefreshTokenService
 import java.util.*

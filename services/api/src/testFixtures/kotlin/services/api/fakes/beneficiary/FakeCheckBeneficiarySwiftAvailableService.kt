@@ -1,4 +1,4 @@
-package services.fakes.beneficiary
+package services.api.fakes.beneficiary
 
 import services.api.services.beneficiary.CheckBeneficiarySwiftAvailableService
 import java.util.UUID

@@ -6,8 +6,8 @@ import kotlinx.coroutines.test.runTest
 import models.intermediary.CreateIntermediaryModel
 import repository.api.fakes.FakeIntermediaryRepository
 import repository.api.fakes.FakeUserRepository
-import services.fakes.intermediary.FakeCheckIntermediarySwiftAvailableService
-import services.fakes.user.FakeGetUserByIdService
+import services.api.fakes.intermediary.FakeCheckIntermediarySwiftAvailableService
+import services.api.fakes.user.FakeGetUserByIdService
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
 import java.util.*

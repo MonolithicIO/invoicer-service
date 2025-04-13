@@ -1,4 +1,4 @@
-package services.fakes.user
+package services.api.fakes.user
 
 import kotlinx.datetime.Instant
 import models.user.UserModel

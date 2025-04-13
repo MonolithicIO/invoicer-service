@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin)
+    `java-test-fixtures`
 }
 
 // Move to build plugin
@@ -9,4 +10,7 @@ version = "0.0.1"
 dependencies {
     implementation(libs.kotlin.datetime)
     implementation(projects.models)
+
+    testFixturesImplementation(testFixtures(projects.models))
+    testFixturesImplementation(libs.kotlin.datetime)
 }

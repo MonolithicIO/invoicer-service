@@ -13,9 +13,9 @@ import models.user.UserModel
 import org.junit.Before
 import org.junit.Test
 import repository.api.fakes.FakeInvoiceRepository
-import services.fakes.beneficiary.FakeGetBeneficiaryByIdService
-import services.fakes.intermediary.FakeGetIntermediaryByIdService
-import services.fakes.user.FakeGetUserByIdService
+import services.api.fakes.beneficiary.FakeGetBeneficiaryByIdService
+import services.api.fakes.intermediary.FakeGetIntermediaryByIdService
+import services.api.fakes.user.FakeGetUserByIdService
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
 import java.util.*

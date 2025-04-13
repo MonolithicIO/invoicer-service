@@ -2,13 +2,13 @@ package services.impl.beneficiary
 
 import io.github.alaksion.invoicer.utils.fakes.FakeIbanValidator
 import io.github.alaksion.invoicer.utils.fakes.FakeSwiftValidator
-import utils.exceptions.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import models.beneficiary.CreateBeneficiaryModel
 import repository.api.fakes.FakeBeneficiaryRepository
 import repository.api.fakes.FakeUserRepository
-import services.fakes.beneficiary.FakeCheckBeneficiarySwiftAvailableService
-import services.fakes.user.FakeGetUserByIdService
+import services.api.fakes.beneficiary.FakeCheckBeneficiarySwiftAvailableService
+import services.api.fakes.user.FakeGetUserByIdService
+import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
 import java.util.*
 import kotlin.test.BeforeTest
