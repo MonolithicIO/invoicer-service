@@ -29,6 +29,30 @@ class GetUserInvoicesServiceImplTest {
         repository.getInvoicesResponse = { invoiceListModelFixture }
 
         val filters = GetInvoicesFilterModel(
+            minIssueDate = Instant.parse("2000-06-19T00:00:00Z"),
+            maxIssueDate = Instant.parse("2000-06-20T00:00:00Z"),
+            minDueDate = null,
+            maxDueDate = null,
+            senderCompanyName = null,
+            recipientCompanyName = null
+        )
+
+        val page = 1L
+        val limit = 10
+
+        val result = service.get(filters, page, limit, userModelFixture.id)
+
+        assertEquals(
+            expected = invoiceListModelFixture,
+            actual = result
+        )
+    }
+
+    @Test
+    fun `should return invoices filtered by date`() = runTest {
+        repository.getInvoicesResponse = { invoiceListModelFixture }
+
+        val filters = GetInvoicesFilterModel(
             minIssueDate = null,
             maxIssueDate = null,
             minDueDate = null,

@@ -83,6 +83,7 @@ kover {
         filters {
             excludes {
                 packages("**.di")
+                this.packages("**.fakes")
             }
         }
     }
