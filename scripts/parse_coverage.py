@@ -73,9 +73,6 @@ def generate_markdown_report(branch_metrics, main_metrics):
 
 _Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}_
 """
-    ## Print the report so CI can copy its content to a file
-    print(report)
-
     changedFiles = findChangedFiles()
 
     if (changedFiles.__len__() > 0):
@@ -84,7 +81,9 @@ _Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}_
         report += "|------|----------------|--------------|------------|--------|\n"
         for file in changedFiles:
             report += f"| {file} | 0% | 0% | 0% | '❌' |\n"
-        
+    
+    ## Print the report so CI can copy its content to a file
+    print(report)
 
 if __name__ == "__main__":
     compare_files(sys.argv[1], sys.argv[2])
