@@ -44,39 +44,47 @@ def findChangedFiles():
             capture_output=True, text=True, check=True
         )
         changed_files = result.stdout.strip().split("\n")
-        return [f for f in changed_files if f]
+        filtered = [f for f in changed_files if f]
+        return filtered
     except Exception as e:
         print(f"Erro ao obter arquivos alterados: {e}", file=sys.stderr)
         return []
 
 def generate_markdown_report(branch_metrics, main_metrics):
     """Generate a Markdown report comparing coverage metrics."""
-
+    
     branch_lines = branch_metrics["LINE"]["coverage"]
     brach_branches = branch_metrics["BRANCH"]["coverage"]
 
     main_lines = main_metrics["LINE"]["coverage"]
     main_branches = main_metrics["BRANCH"]["coverage"]
     
-    # Determine status icons
     line_status = "✅" if branch_lines >= 80 else "❌"
     branch_status = "✅" if brach_branches >= 80 else "❌"
-
-    print(findChangedFiles())
     
-     # Build Markdown report
     report = f"""
 ## 📊 Test Coverage Report
 
 ### Comparison Summary
 | Metric | Branch | Main | Difference | Status |
 |--------|--------|------|------------|--------|
-| Line Coverage | {branch_lines}% | {main_lines}% | {(main_lines - branch_lines) * -1}% | {line_status} |
+| Line Coverage | {branch_lines}% | {main_lines}% | {round((main_lines - branch_lines), 2) * -1}% | {line_status} |
 | Branch Coverage | {brach_branches}% | {main_branches}% | {(main_branches - brach_branches) * -1}% | {branch_status} |
 
 _Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}_
 """
+    ## Print the report so CI can copy its content to a file
     print(report)
+
+    changedFiles = findChangedFiles()
+
+    if (changedFiles.__len__() > 0):
+        report += "\n### Coverage by Changed Files\n"
+        report += "| File | Branch Coverage | Main Coverage | Difference | Status |\n"
+        report += "|------|----------------|--------------|------------|--------|\n"
+        for file in changedFiles:
+            report += f"| {file} | 0% | 0% | 0% | '❌' |\n"
+        
 
 if __name__ == "__main__":
     compare_files(sys.argv[1], sys.argv[2])
