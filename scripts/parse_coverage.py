@@ -62,7 +62,7 @@ def generate_markdown_report(branch_metrics, main_metrics):
     line_status = "✅" if branch_lines >= 80 else "❌"
     branch_status = "✅" if brach_branches >= 80 else "❌"
 
-    print(findChangedFiles)
+    print(findChangedFiles())
     
      # Build Markdown report
     report = f"""
