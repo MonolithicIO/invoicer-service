@@ -6,6 +6,7 @@ on:
 
 jobs:
   branch-coverage:
+    name: Generate branch coverage report
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -34,6 +35,7 @@ jobs:
           path: server/build/reports/kover/branch-report.xml
 
   main-coverage:
+    name: Generate main coverage report
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -91,9 +93,12 @@ jobs:
         run: |
           python scripts/parse_coverage.py branch-report.xml main-report.xml > report.md
 
+      - name: Debug
+        run: |
+          ls
+
       - name: Comment on PR
-        uses: thollander/actions-comment-pull-request@v2
+        uses: marocchino/sticky-pull-request-comment@v2
         with:
-          filePath: report.md
-          comment_tag: coverage-report
-          mode: recreate
+          header: coverage-report
+          path: report.md
