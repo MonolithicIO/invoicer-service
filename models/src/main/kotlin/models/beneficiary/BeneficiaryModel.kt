@@ -18,4 +18,8 @@ data class BeneficiaryModel(
     val id: UUID,
     val createdAt: Instant,
     val updatedAt: Instant
-)
+) {
+    companion object {
+        val teste = "123"
+    }
+}

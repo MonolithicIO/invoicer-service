@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 import sys
+import subprocess
 from datetime import datetime
 
 def compare_files(
@@ -35,6 +36,19 @@ def parse_file(xml_file):
             }
     return result
 
+def findChangedFiles(): 
+    """Get list of changed or added files in the PR."""
+    try:
+        result = subprocess.run(
+            ["git", "diff", "--name-only", "--diff-filter=d", "origin/main...HEAD"],
+            capture_output=True, text=True, check=True
+        )
+        changed_files = result.stdout.strip().split("\n")
+        return [f for f in changed_files if f]
+    except Exception as e:
+        print(f"Erro ao obter arquivos alterados: {e}", file=sys.stderr)
+        return []
+
 def generate_markdown_report(branch_metrics, main_metrics):
     """Generate a Markdown report comparing coverage metrics."""
 
@@ -47,6 +61,8 @@ def generate_markdown_report(branch_metrics, main_metrics):
     # Determine status icons
     line_status = "✅" if branch_lines >= 80 else "❌"
     branch_status = "✅" if brach_branches >= 80 else "❌"
+
+    print(findChangedFiles)
     
      # Build Markdown report
     report = f"""
@@ -60,7 +76,6 @@ def generate_markdown_report(branch_metrics, main_metrics):
 
 _Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}_
 """
-
     print(report)
 
 if __name__ == "__main__":

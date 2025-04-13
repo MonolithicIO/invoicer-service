@@ -6,4 +6,8 @@ data class CreateBeneficiaryModel(
     val swift: String,
     val bankName: String,
     val bankAddress: String,
-)
+) {
+    companion object {
+        val teste = "123"
+    }
+}
