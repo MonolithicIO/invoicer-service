@@ -85,10 +85,10 @@ internal fun Routing.intermediaryController() {
         jwtProtected {
             get("/{id}") {
                 val intermediaryId = call.parameters["id"]!!
-                val useCase by closestDI().instance<GetIntermediaryDetailsService>()
+                val useCase by closestDI().instance<GetIntermediaryByIdService>()
                 call.respond(
                     status = HttpStatusCode.OK,
-                    message = useCase.getIntermediaryDetails(
+                    message = useCase.get(
                         userId = parseUuid(jwtUserId()),
                         intermediaryId = parseUuid(intermediaryId)
                     ).toViewModel()
