@@ -1,6 +1,15 @@
 import xml.etree.ElementTree as ET
+import sys
 from datetime import datetime
 
+def compare_files(
+        branchFile,
+        mainFile,
+):
+    branchCoverage = parse_file(branchFile)
+    mainCoverage = parse_file(mainFile)
+
+    generate_markdown_report(branchCoverage, mainCoverage)
 
 def parse_file(xml_file):
     tree = ET.parse(xml_file)
@@ -25,16 +34,6 @@ def parse_file(xml_file):
                 "coverage": percent
             }
     return result
-
-def compare_files():
-    branchCoverage = parse_file("branch-report.xml")
-    mainCoverage = parse_file("main-coverage.xml")
-
-    generate_markdown_report(branchCoverage, mainCoverage)
-
-    lineDiff = branchCoverage["LINE"]["coverage"] - mainCoverage["LINE"]["coverage"]
-    branchDiff = branchCoverage["BRANCH"]["coverage"] - mainCoverage["BRANCH"]["coverage"]
-
 
 def generate_markdown_report(branch_metrics, main_metrics):
     """Generate a Markdown report comparing coverage metrics."""
@@ -63,3 +62,6 @@ def generate_markdown_report(branch_metrics, main_metrics):
         """
     
     print(report)
+
+if __name__ == "__main__":
+    compare_files(sys.argv[0], sys.argv[1])

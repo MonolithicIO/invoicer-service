@@ -78,6 +78,11 @@ jobs:
         with:
           name: main-coverage
 
-      - name: Comparar resultados
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'      
+
+      - name: Run comparison script
         run: |
-          ls
+          python scripts/parse_coverage.py branch-report.xml main-report.xml
