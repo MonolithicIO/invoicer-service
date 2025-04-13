@@ -98,7 +98,8 @@ jobs:
           python scripts/parse_coverage.py branch-report.xml main-report.xml > report.md
 
       - name: Comment on PR
-        uses: marocchino/sticky-pull-request-comment@v2
+        uses: mshick/add-pr-comment@v2
         with:
-          header: coverage-report
-          path: report.md
+          message-path: report.md
+          message-id: coverage-report
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
