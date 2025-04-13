@@ -36,8 +36,6 @@ def parse_file(xml_file):
     return result
 
 def generate_markdown_report(branch_metrics, main_metrics):
-    print(branch_metrics)
-    print(main_metrics)
     """Generate a Markdown report comparing coverage metrics."""
 
     branch_lines = branch_metrics["LINE"]["coverage"]
@@ -57,8 +55,8 @@ def generate_markdown_report(branch_metrics, main_metrics):
 ### Comparison Summary
 | Metric | Branch | Main | Difference | Status |
 |--------|--------|------|------------|--------|
-| Line Coverage | {branch_lines}% | {main_lines}% | {main_lines - branch_lines}% | {line_status} |
-| Branch Coverage | {brach_branches}% | {main_branches}% | {main_branches - brach_branches}% | {branch_status} |
+| Line Coverage | {branch_lines}% | {main_lines}% | {(main_lines - branch_lines) * -1}% | {line_status} |
+| Branch Coverage | {brach_branches}% | {main_branches}% | {(main_branches - brach_branches) * -1}% | {branch_status} |
 
 _Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}_
 """
