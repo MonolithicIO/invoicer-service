@@ -64,5 +64,4 @@ def generate_markdown_report(branch_metrics, main_metrics):
     print(report)
 
 if __name__ == "__main__":
-    print(sys.argv)
     compare_files(sys.argv[1], sys.argv[2])
