@@ -1,11 +1,11 @@
 package services.impl.intermediary
 
-import utils.exceptions.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.intermediary.IntermediaryModel
 import repository.api.fakes.FakeIntermediaryRepository
-import services.fakes.user.FakeGetUserByIdService
+import services.api.fakes.user.FakeGetUserByIdService
+import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
 import java.util.*
 import kotlin.test.BeforeTest

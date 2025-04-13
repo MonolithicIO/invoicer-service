@@ -46,5 +46,12 @@ internal class GetUserInvoicesServiceImpl(
                 code = HttpCode.BadRequest
             )
         }
+
+        if (min != null && max != null && (min > max)) {
+            httpError(
+                message = "Min date filter must be less than max date filter.",
+                code = HttpCode.BadRequest
+            )
+        }
     }
 }

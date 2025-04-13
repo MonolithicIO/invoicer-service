@@ -1,12 +1,12 @@
 package services.impl.beneficiary
 
-import utils.exceptions.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.UserBeneficiaries
 import repository.api.fakes.FakeBeneficiaryRepository
-import services.fakes.user.FakeGetUserByIdService
+import services.api.fakes.user.FakeGetUserByIdService
+import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
 import java.util.*
 import kotlin.test.BeforeTest

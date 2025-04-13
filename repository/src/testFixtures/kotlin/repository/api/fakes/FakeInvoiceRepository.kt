@@ -21,7 +21,14 @@ class FakeInvoiceRepository : InvoiceRepository {
     var createInvoiceResponse: suspend () -> String = { DEFAULT_CREATE_RESPONSE }
     var deleteResponse: suspend () -> Unit = {}
 
-    override suspend fun createInvoice(data: CreateInvoiceModel, userId: UUID): String = createInvoiceResponse()
+    val deleteCallStack = mutableListOf<UUID>()
+    val createCallStack = mutableListOf<String>()
+
+    override suspend fun createInvoice(data: CreateInvoiceModel, userId: UUID): String {
+        val response = createInvoiceResponse()
+        createCallStack.add(response)
+        return response
+    }
 
     override suspend fun getInvoiceByUUID(id: UUID): InvoiceModel? {
         return getInvoiceByIdResponse()
@@ -41,6 +48,7 @@ class FakeInvoiceRepository : InvoiceRepository {
     }
 
     override suspend fun delete(id: UUID) {
+        deleteCallStack.add(id)
         return deleteResponse()
     }
 

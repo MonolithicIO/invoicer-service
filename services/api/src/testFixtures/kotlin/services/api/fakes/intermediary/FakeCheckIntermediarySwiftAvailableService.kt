@@ -1,4 +1,4 @@
-package services.fakes.intermediary
+package services.api.fakes.intermediary
 
 import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
 import java.util.*

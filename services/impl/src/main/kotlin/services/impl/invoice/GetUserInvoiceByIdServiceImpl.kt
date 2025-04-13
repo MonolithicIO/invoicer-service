@@ -27,5 +27,4 @@ internal class GetUserInvoiceByIdServiceImpl(
 
         return invoice
     }
-
 }

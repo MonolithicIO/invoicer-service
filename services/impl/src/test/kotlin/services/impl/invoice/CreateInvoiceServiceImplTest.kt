@@ -1,21 +1,20 @@
 package services.impl.invoice
 
+import io.github.alaksion.invoicer.foundation.messaging.MessageTopic
 import io.github.alaksion.invoicer.messaging.fakes.FakeMessageProducer
 import io.github.alaksion.invoicer.utils.fakes.FakeClock
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
-import models.InvoiceModel
-import models.InvoiceModelActivityModel
-import models.beneficiary.BeneficiaryModel
 import models.createinvoice.CreateInvoiceActivityModel
 import models.createinvoice.CreateInvoiceModel
-import models.user.UserModel
+import models.fixtures.invoiceModelFixture
+import models.fixtures.userModelFixture
 import org.junit.Before
 import org.junit.Test
 import repository.api.fakes.FakeInvoiceRepository
-import services.fakes.beneficiary.FakeGetBeneficiaryByIdService
-import services.fakes.intermediary.FakeGetIntermediaryByIdService
-import services.fakes.user.FakeGetUserByIdService
+import services.api.fakes.beneficiary.FakeGetBeneficiaryByIdService
+import services.api.fakes.intermediary.FakeGetIntermediaryByIdService
+import services.api.fakes.user.FakeGetUserByIdService
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
 import java.util.*
@@ -53,23 +52,86 @@ class CreateInvoiceServiceImplTest {
     }
 
     @Test
-    fun `should throw error when issue date is past`() = runTest {
+    fun `should create invoice successfully`() = runTest {
         val today = Instant.parse("2000-06-19T00:00:00Z")
+        val invoiceResponse = "fed3e1ac-c755-4048-9315-356054c4da11"
 
         clock.nowResponse = today
+        invoiceRepository.createInvoiceResponse = { invoiceResponse }
+        getUserByIdService.response = { userModelFixture }
+        invoiceRepository.getInvoiceByExternalIdResponse = { null }
 
-        val error = assertFailsWith<HttpError> {
-            service.createInvoice(
-                BASE_INPUT.copy(
-                    issueDate = today.minus(1.days)
-                ),
-                userId = UUID.fromString("fed3e1ac-c755-4048-9315-356054c4da11")
-            )
-        }
+        service.createInvoice(
+            BASE_INPUT,
+            userId = userModelFixture.id
+        )
 
         assertEquals(
-            expected = HttpCode.BadRequest,
-            actual = error.statusCode
+            expected = 1,
+            actual = invoiceRepository.createCallStack.size
+        )
+        assertEquals(
+            expected = invoiceResponse,
+            actual = invoiceRepository.createCallStack[0]
+        )
+    }
+
+    @Test
+    fun `should create invoice without intermediary successfully`() = runTest {
+        val today = Instant.parse("2000-06-19T00:00:00Z")
+        val invoiceResponse = "fed3e1ac-c755-4048-9315-356054c4da11"
+
+        clock.nowResponse = today
+        invoiceRepository.createInvoiceResponse = { invoiceResponse }
+        getUserByIdService.response = { userModelFixture }
+        invoiceRepository.getInvoiceByExternalIdResponse = { null }
+
+        service.createInvoice(
+            BASE_INPUT.copy(intermediaryId = null),
+            userId = userModelFixture.id
+        )
+
+        assertEquals(
+            expected = 1,
+            actual = invoiceRepository.createCallStack.size
+        )
+        assertEquals(
+            expected = invoiceResponse,
+            actual = invoiceRepository.createCallStack[0]
+        )
+    }
+
+    @Test
+    fun `should send PDF message on create success`() = runTest {
+        val today = Instant.parse("2000-06-19T00:00:00Z")
+        val invoiceResponse = "fed3e1ac-c755-4048-9315-356054c4da11"
+
+        clock.nowResponse = today
+        invoiceRepository.createInvoiceResponse = { invoiceResponse }
+        getUserByIdService.response = { userModelFixture }
+        invoiceRepository.getInvoiceByExternalIdResponse = { null }
+
+        val response = service.createInvoice(
+            BASE_INPUT.copy(intermediaryId = null),
+            userId = userModelFixture.id
+        )
+
+        assertEquals(
+            expected = 1,
+            actual = messageProducer.calls
+        )
+
+        assertEquals(
+            expected = Triple(
+                MessageTopic.INVOICE_PDF, response.invoiceId.toString(), """
+                {
+                    "invoiceId": "${response.invoiceId}",
+                    "userId": "${userModelFixture.id}",
+                    "type": "generate_pdf"
+                }
+            """.trimIndent()
+            ),
+            actual = messageProducer.messages.first()
         )
     }
 
@@ -83,6 +145,27 @@ class CreateInvoiceServiceImplTest {
             service.createInvoice(
                 BASE_INPUT.copy(
                     dueDate = today.minus(1.days)
+                ),
+                userId = UUID.fromString("fed3e1ac-c755-4048-9315-356054c4da11")
+            )
+        }
+
+        assertEquals(
+            expected = HttpCode.BadRequest,
+            actual = error.statusCode
+        )
+    }
+
+    @Test
+    fun `should throw error when issue date is past`() = runTest {
+        val today = Instant.parse("2000-06-19T00:00:00Z")
+
+        clock.nowResponse = today
+
+        val error = assertFailsWith<HttpError> {
+            service.createInvoice(
+                BASE_INPUT.copy(
+                    issueDate = today.minus(1.days)
                 ),
                 userId = UUID.fromString("fed3e1ac-c755-4048-9315-356054c4da11")
             )
@@ -114,6 +197,129 @@ class CreateInvoiceServiceImplTest {
         )
     }
 
+    @Test
+    fun `should throw error if external id is already in use`() = runTest {
+        val today = Instant.parse("2000-06-19T00:00:00Z")
+        val invoiceResponse = "fed3e1ac-c755-4048-9315-356054c4da11"
+
+        val error = assertFailsWith<HttpError> {
+            clock.nowResponse = today
+            invoiceRepository.createInvoiceResponse = { invoiceResponse }
+            getUserByIdService.response = { userModelFixture }
+            invoiceRepository.getInvoiceByExternalIdResponse = { invoiceModelFixture }
+
+            service.createInvoice(
+                BASE_INPUT.copy(intermediaryId = null),
+                userId = userModelFixture.id
+            )
+        }
+
+        assertEquals(
+            expected = HttpCode.Conflict,
+            actual = error.statusCode
+        )
+    }
+
+    @Test
+    fun `should throw error if invoice activities is empty`() = runTest {
+        val today = Instant.parse("2000-06-19T00:00:00Z")
+        val invoiceResponse = "fed3e1ac-c755-4048-9315-356054c4da11"
+
+        val error = assertFailsWith<HttpError> {
+            clock.nowResponse = today
+            invoiceRepository.createInvoiceResponse = { invoiceResponse }
+            getUserByIdService.response = { userModelFixture }
+            invoiceRepository.getInvoiceByExternalIdResponse = { null }
+
+            service.createInvoice(
+                BASE_INPUT.copy(activities = emptyList()),
+                userId = userModelFixture.id
+            )
+        }
+
+        assertEquals(
+            expected = HttpCode.BadRequest,
+            actual = error.statusCode
+        )
+
+        assertEquals(
+            expected = "Invoice must have at least one service",
+            actual = error.message
+        )
+    }
+
+    @Test
+    fun `should throw error if any invoice activity has quantity less than 1`() = runTest {
+        val today = Instant.parse("2000-06-19T00:00:00Z")
+        val invoiceResponse = "fed3e1ac-c755-4048-9315-356054c4da11"
+
+        val error = assertFailsWith<HttpError> {
+            clock.nowResponse = today
+            invoiceRepository.createInvoiceResponse = { invoiceResponse }
+            getUserByIdService.response = { userModelFixture }
+            invoiceRepository.getInvoiceByExternalIdResponse = { null }
+
+            service.createInvoice(
+                BASE_INPUT.copy(
+                    activities = listOf(
+                        CreateInvoiceActivityModel(
+                            description = "Description",
+                            unitPrice = 10L,
+                            quantity = 0
+                        )
+                    )
+                ),
+                userId = userModelFixture.id
+            )
+        }
+
+        assertEquals(
+            expected = HttpCode.BadRequest,
+            actual = error.statusCode
+        )
+
+        assertEquals(
+            expected = "Invoice activity must have quantity > 0",
+            actual = error.message
+        )
+    }
+
+    @Test
+    fun `should throw error if any invoice activity has unit price less than 1`() = runTest {
+        val today = Instant.parse("2000-06-19T00:00:00Z")
+        val invoiceResponse = "fed3e1ac-c755-4048-9315-356054c4da11"
+
+        val error = assertFailsWith<HttpError> {
+            clock.nowResponse = today
+            invoiceRepository.createInvoiceResponse = { invoiceResponse }
+            getUserByIdService.response = { userModelFixture }
+            invoiceRepository.getInvoiceByExternalIdResponse = { null }
+
+            service.createInvoice(
+                BASE_INPUT.copy(
+                    activities = listOf(
+                        CreateInvoiceActivityModel(
+                            description = "Description",
+                            unitPrice = 0,
+                            quantity = 1
+                        )
+                    )
+                ),
+                userId = userModelFixture.id
+            )
+        }
+
+        assertEquals(
+            expected = HttpCode.BadRequest,
+            actual = error.statusCode
+        )
+
+        assertEquals(
+            expected = "Invoice activity must have unitPrice > 0",
+            actual = error.message
+        )
+    }
+
     companion object {
         val BASE_INPUT = CreateInvoiceModel(
             externalId = "1234",
@@ -122,7 +328,7 @@ class CreateInvoiceServiceImplTest {
             recipientCompanyName = "Recipient Company name",
             recipientCompanyAddress = "Recipient Company Address",
             issueDate = Instant.parse("2000-06-19T00:00:00Z"),
-            dueDate = Instant.parse("2000-06-19T00:00:00Z"),
+            dueDate = Instant.parse("2000-06-20T00:00:00Z"),
             beneficiaryId = UUID.fromString("b2db44e1-af93-48cf-94fe-7484fd8045ef"),
             intermediaryId = UUID.fromString("02cac010-bc14-4192-872f-103f27afa1ed"),
             activities = listOf(
@@ -133,47 +339,5 @@ class CreateInvoiceServiceImplTest {
                 )
             )
         )
-
-        val duplicatedInvoice = InvoiceModel(
-            id = UUID.fromString("7e1855bd-6e94-413f-bfe7-9bace9f25e7c"),
-            externalId = "1234",
-            senderCompanyAddress = "Sender Company Address",
-            senderCompanyName = "Sender Company name",
-            recipientCompanyName = "Recipient Company name",
-            recipientCompanyAddress = "Recipient Company Address",
-            createdAt = Instant.parse("2000-06-19T00:00:00Z"),
-            updatedAt = Instant.parse("2000-06-19T00:00:00Z"),
-            beneficiary = BeneficiaryModel(
-                name = "Beneficiary",
-                iban = "iban",
-                swift = "swift",
-                bankName = "bank name",
-                bankAddress = "bank address",
-                userId = UUID.fromString("fed3e1ac-c755-4048-9315-356054c4da11"),
-                id = UUID.fromString("b2db44e1-af93-48cf-94fe-7484fd8045ef"),
-                createdAt = Instant.parse("2000-06-19T00:00:00Z"),
-                updatedAt = Instant.parse("2000-06-19T00:00:00Z"),
-            ),
-            intermediary = null,
-            issueDate = Instant.parse("2000-06-19T00:00:00Z"),
-            dueDate = Instant.parse("2000-06-19T00:00:00Z"),
-            activities = listOf(
-                InvoiceModelActivityModel(
-                    name = "Description",
-                    unitPrice = 10L,
-                    quantity = 1,
-                    id = UUID.fromString("7e1855bd-6e94-413f-bfe7-9bace9f25e7c"),
-                )
-            ),
-            user = UserModel(
-                id = UUID.fromString("fed3e1ac-c755-4048-9315-356054c4da11"),
-                email = "email",
-                password = "password",
-                createdAt = Instant.parse("2000-06-19T00:00:00Z"),
-                updatedAt = Instant.parse("2000-06-19T00:00:00Z"),
-                verified = true,
-            )
-        )
     }
-
 }

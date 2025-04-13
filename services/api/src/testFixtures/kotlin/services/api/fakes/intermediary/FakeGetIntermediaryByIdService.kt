@@ -1,20 +1,20 @@
-package services.fakes.beneficiary
+package services.api.fakes.intermediary
 
 import kotlinx.datetime.Instant
-import models.beneficiary.BeneficiaryModel
-import services.api.services.beneficiary.GetBeneficiaryByIdService
+import models.intermediary.IntermediaryModel
+import services.api.services.intermediary.GetIntermediaryByIdService
 import java.util.*
 
-class FakeGetBeneficiaryByIdService : GetBeneficiaryByIdService {
+class FakeGetIntermediaryByIdService : GetIntermediaryByIdService {
 
-    var response: suspend () -> BeneficiaryModel = { DEFAULT_RESPONSE }
+    var response: suspend () -> IntermediaryModel = { DEFAULT_RESPONSE }
 
-    override suspend fun get(beneficiaryId: UUID, userId: UUID): BeneficiaryModel {
-        return response()
+    override suspend fun get(intermediaryId: UUID, userId: UUID): IntermediaryModel {
+        return DEFAULT_RESPONSE
     }
 
     companion object {
-        val DEFAULT_RESPONSE = BeneficiaryModel(
+        val DEFAULT_RESPONSE = IntermediaryModel(
             name = "Beneficiary Name",
             iban = "1234",
             swift = "4321",
