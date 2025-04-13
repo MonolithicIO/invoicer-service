@@ -50,7 +50,8 @@ def generate_markdown_report(branch_metrics, main_metrics):
     branch_status = "✅" if brach_branches >= 80 else "❌"
     
      # Build Markdown report
-    report = f"""## 📊 Test Coverage Report
+    report = f"""
+        ## 📊 Test Coverage Report
 
         ### Comparison Summary
         | Metric | Branch | Main | Difference | Status |
@@ -60,7 +61,7 @@ def generate_markdown_report(branch_metrics, main_metrics):
 
         _Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}_
         """
-    
+
     print(report)
 
 if __name__ == "__main__":
