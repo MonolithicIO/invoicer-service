@@ -50,16 +50,16 @@ def generate_markdown_report(branch_metrics, main_metrics):
     
      # Build Markdown report
     report = f"""
-    ## 📊 Test Coverage Report
+## 📊 Test Coverage Report
 
-    ### Comparison Summary
-    | Metric | Branch | Main | Difference | Status |
-    |--------|--------|------|------------|--------|
-    | Line Coverage | {branch_lines}% | {main_lines} | {main_lines - branch_lines}% | {line_status} |
-    | Branch Coverage | {brach_branches}% | {main_branches}% | {main_branches - brach_branches}% | {branch_status} |
+### Comparison Summary
+| Metric | Branch | Main | Difference | Status |
+|--------|--------|------|------------|--------|
+| Line Coverage | {branch_lines}% | {main_lines} | {main_lines - branch_lines}% | {line_status} |
+| Branch Coverage | {brach_branches}% | {main_branches}% | {main_branches - brach_branches}% | {branch_status} |
 
-    _Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}_
-    """
+_Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}_
+"""
 
     print(report)
 
