@@ -55,8 +55,8 @@ def generate_markdown_report(branch_metrics, main_metrics):
 ### Comparison Summary
 | Metric | Branch | Main | Difference | Status |
 |--------|--------|------|------------|--------|
-| Line Coverage | {branch_lines}% | {main_lines}% | {(main_lines - branch_lines) * -1}% | {line_status} |
-| Branch Coverage | {brach_branches}% | {main_branches}% | {(main_branches - brach_branches) * -1}% | {branch_status} |
+| Line Coverage | {branch_lines}% | {main_lines}% | {round((main_lines - branch_lines), 2) * -1}% | {line_status} |
+| Branch Coverage | {brach_branches}% | {main_branches}% | {round((main_branches - brach_branches), 2) * -1}% | {branch_status} |
 
 _Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}_
 """
