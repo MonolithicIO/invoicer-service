@@ -83,7 +83,9 @@ kover {
         filters {
             excludes {
                 packages("**.di")
-                this.packages("**.fakes")
+                packages("**.fakes")
+                packages("**.fixtures")
+                annotatedBy("IgnoreCoverage")
             }
         }
     }
