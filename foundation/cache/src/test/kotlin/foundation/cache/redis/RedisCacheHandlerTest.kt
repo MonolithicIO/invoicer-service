@@ -94,6 +94,31 @@ class RedisCacheHandlerTest {
     }
 
     @Test
+    fun `should get given key with null value`() = runTest {
+        redisInstance.getKeyResponse = null
+
+        val result = handler.get(
+            key = "key",
+            serializer = Sample.serializer()
+        )
+
+        assertEquals(
+            expected = null,
+            actual = result
+        )
+
+        assertEquals(
+            expected = 1,
+            actual = redisInstance.getCallStack.size
+        )
+
+        assertEquals(
+            expected = "key",
+            actual = redisInstance.getCallStack.first()
+        )
+    }
+
+    @Test
     fun `should call logger if get key fails to serialize`() = runTest {
         redisInstance.getKeyResponse = "{\"na\":\"hello\"}"
 
@@ -105,6 +130,21 @@ class RedisCacheHandlerTest {
         assertEquals(
             expected = 1,
             actual = logger.logTypeCalls
+        )
+    }
+
+    @Test
+    fun `should delete given key`() = runTest {
+        handler.delete("key")
+
+        assertEquals(
+            expected = 1,
+            actual = redisInstance.clearCallStack.size
+        )
+
+        assertEquals(
+            expected = "key",
+            actual = redisInstance.clearCallStack.first()
         )
     }
 }
