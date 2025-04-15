@@ -8,7 +8,7 @@ import kotlinx.datetime.Instant
 import models.createinvoice.CreateInvoiceActivityModel
 import models.createinvoice.CreateInvoiceModel
 import models.createinvoice.CreateInvoiceResponseModel
-import repository.api.InvoiceRepository
+import repository.InvoiceRepository
 import services.api.services.beneficiary.GetBeneficiaryByIdService
 import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.invoice.CreateInvoiceService

@@ -5,7 +5,7 @@ import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
 import java.util.*
 
 internal class CheckIntermediarySwiftAvailableServiceImpl(
-    private val repository: _root_ide_package_.repository.IntermediaryRepository
+    private val repository: IntermediaryRepository
 ) : CheckIntermediarySwiftAvailableService {
 
     override suspend fun execute(swift: String, userId: UUID): Boolean {

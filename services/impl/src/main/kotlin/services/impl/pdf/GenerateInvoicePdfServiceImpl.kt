@@ -3,7 +3,7 @@ package services.impl.pdf
 import io.github.alaksion.invoicer.foundation.storage.local.LocalStorage
 import io.github.alaksion.invoicer.foundation.storage.remote.FileUploader
 import models.invoicepdf.InvoicePdfStatus
-import repository.api.InvoicePdfRepository
+import repository.InvoicePdfRepository
 import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.pdf.GenerateInvoicePdfService
 import services.api.services.user.GetUserByIdService

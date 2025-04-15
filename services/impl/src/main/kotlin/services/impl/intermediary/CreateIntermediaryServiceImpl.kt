@@ -14,7 +14,7 @@ import java.util.*
 
 internal class CreateIntermediaryServiceImpl(
     private val getUserByIdService: GetUserByIdService,
-    private val repository: _root_ide_package_.repository.IntermediaryRepository,
+    private val repository: IntermediaryRepository,
     private val checkIntermediarySwiftAlreadyUsedService: CheckIntermediarySwiftAvailableService,
     private val swiftValidator: SwiftValidator,
     private val ibanValidator: IbanValidator

@@ -3,7 +3,7 @@ package services.impl.login
 import foundation.authentication.impl.AuthTokenManager
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import models.login.AuthTokenModel
-import repository.api.RefreshTokenRepository
+import repository.RefreshTokenRepository
 import services.api.services.login.RefreshLoginService
 import services.api.services.login.StoreRefreshTokenService
 import services.api.services.user.GetUserByIdService

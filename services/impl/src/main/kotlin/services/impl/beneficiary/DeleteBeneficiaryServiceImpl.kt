@@ -1,11 +1,11 @@
 package services.impl.beneficiary
 
-import utils.exceptions.http.HttpCode
-import repository.api.BeneficiaryRepository
-import repository.api.InvoiceRepository
+import repository.BeneficiaryRepository
+import repository.InvoiceRepository
 import services.api.services.beneficiary.DeleteBeneficiaryService
 import services.api.services.beneficiary.GetBeneficiaryByIdService
 import services.api.services.user.GetUserByIdService
+import utils.exceptions.http.HttpCode
 import utils.exceptions.http.httpError
 import java.util.*
 

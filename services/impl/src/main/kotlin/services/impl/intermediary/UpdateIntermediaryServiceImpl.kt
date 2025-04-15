@@ -19,7 +19,7 @@ internal class UpdateIntermediaryServiceImpl(
     private val getUserByIdService: GetUserByIdService,
     private val getIntermediaryByIdService: GetIntermediaryByIdService,
     private val checkIntermediarySwiftAlreadyUsedService: CheckIntermediarySwiftAvailableService,
-    private val intermediaryRepository: _root_ide_package_.repository.IntermediaryRepository,
+    private val intermediaryRepository: IntermediaryRepository,
     private val swiftValidator: SwiftValidator,
     private val ibanValidator: IbanValidator
 ) : UpdateIntermediaryService {

@@ -1,6 +1,6 @@
 package services.impl.login
 
-import repository.api.RefreshTokenRepository
+import repository.RefreshTokenRepository
 import services.api.services.login.StoreRefreshTokenService
 import java.util.*
 

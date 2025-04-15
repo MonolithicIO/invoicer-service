@@ -8,7 +8,7 @@ import utils.exceptions.http.unauthorizedResourceError
 import java.util.*
 
 internal class GetIntermediaryByIdServiceImpl(
-    private val repository: _root_ide_package_.repository.IntermediaryRepository
+    private val repository: IntermediaryRepository
 ) : GetIntermediaryByIdService {
 
     override suspend fun get(intermediaryId: UUID, userId: UUID): IntermediaryModel {

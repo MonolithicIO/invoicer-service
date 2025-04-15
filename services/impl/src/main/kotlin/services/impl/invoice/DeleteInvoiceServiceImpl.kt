@@ -1,6 +1,6 @@
 package services.impl.invoice
 
-import repository.api.InvoiceRepository
+import repository.InvoiceRepository
 import services.api.services.invoice.DeleteInvoiceService
 import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.user.GetUserByIdService
