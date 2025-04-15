@@ -1,6 +1,6 @@
 package services.impl.beneficiary
 
-import repository.api.repository.BeneficiaryRepository
+import repository.api.BeneficiaryRepository
 import services.api.services.beneficiary.CheckBeneficiarySwiftAvailableService
 import java.util.*
 

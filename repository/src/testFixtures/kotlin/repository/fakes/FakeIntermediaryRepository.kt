@@ -1,14 +1,14 @@
-package repository.api.fakes
+package repository.fakes
 
 import models.fixtures.intermediaryModelFixture
 import models.fixtures.userIntermediariesFixture
 import models.intermediary.CreateIntermediaryModel
 import models.intermediary.IntermediaryModel
 import models.intermediary.PartialUpdateIntermediaryModel
-import repository.api.repository.IntermediaryRepository
+import repository.IntermediaryRepository
 import java.util.*
 
-class FakeIntermediaryRepository : IntermediaryRepository {
+class FakeIntermediaryRepository : _root_ide_package_.repository.IntermediaryRepository {
 
     var getBySwiftResponse: suspend () -> IntermediaryModel? = { null }
     var getByIdResponse: suspend () -> IntermediaryModel? = { intermediaryModelFixture }

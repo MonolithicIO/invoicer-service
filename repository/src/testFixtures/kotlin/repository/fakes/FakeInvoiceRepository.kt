@@ -1,4 +1,4 @@
-package repository.api.fakes
+package repository.fakes
 
 import models.InvoiceModel
 import models.createinvoice.CreateInvoiceModel
@@ -8,7 +8,7 @@ import models.fixtures.invoiceModelFixture
 import models.getinvoices.GetInvoicesFilterModel
 import models.getinvoices.InvoiceListItemModel
 import models.getinvoices.InvoiceListModel
-import repository.api.repository.InvoiceRepository
+import repository.InvoiceRepository
 import java.util.*
 
 class FakeInvoiceRepository : InvoiceRepository {

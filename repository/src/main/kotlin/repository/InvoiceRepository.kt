@@ -1,4 +1,4 @@
-package repository.api.repository
+package repository
 
 import datasource.api.database.InvoiceDatabaseSource
 import datasource.api.model.invoice.CreateInvoiceActivityData

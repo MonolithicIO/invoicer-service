@@ -3,7 +3,7 @@ package services.impl.intermediary
 import utils.exceptions.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import models.fixtures.intermediaryModelFixture
-import repository.api.fakes.FakeIntermediaryRepository
+import repository.fakes.FakeIntermediaryRepository
 import utils.exceptions.http.HttpError
 import java.util.*
 import kotlin.test.BeforeTest

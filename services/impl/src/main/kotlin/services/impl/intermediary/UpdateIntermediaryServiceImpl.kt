@@ -5,7 +5,7 @@ import io.github.alaksion.invoicer.utils.validation.SwiftValidator
 import models.intermediary.IntermediaryModel
 import models.intermediary.PartialUpdateIntermediaryModel
 import models.intermediary.UpdateIntermediaryModel
-import repository.api.repository.IntermediaryRepository
+import repository.IntermediaryRepository
 import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
 import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.intermediary.UpdateIntermediaryService
@@ -19,7 +19,7 @@ internal class UpdateIntermediaryServiceImpl(
     private val getUserByIdService: GetUserByIdService,
     private val getIntermediaryByIdService: GetIntermediaryByIdService,
     private val checkIntermediarySwiftAlreadyUsedService: CheckIntermediarySwiftAvailableService,
-    private val intermediaryRepository: IntermediaryRepository,
+    private val intermediaryRepository: _root_ide_package_.repository.IntermediaryRepository,
     private val swiftValidator: SwiftValidator,
     private val ibanValidator: IbanValidator
 ) : UpdateIntermediaryService {

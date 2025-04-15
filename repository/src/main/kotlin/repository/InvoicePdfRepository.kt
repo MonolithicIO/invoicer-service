@@ -1,4 +1,4 @@
-package repository.api.repository
+package repository
 
 import datasource.api.database.InvoicePdfDatabaseSource
 import datasource.api.model.pdf.CreatePdfData

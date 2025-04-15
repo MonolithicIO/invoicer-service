@@ -1,9 +1,10 @@
-package repository.api.di
+package repository.di
 
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
-import repository.api.repository.*
+import repository.*
+
 
 val repositoryModule = DI.Module("invocer-repository") {
 

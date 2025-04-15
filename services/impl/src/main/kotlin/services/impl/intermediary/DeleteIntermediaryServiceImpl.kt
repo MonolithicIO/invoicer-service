@@ -1,7 +1,7 @@
 package services.impl.intermediary
 
-import repository.api.repository.IntermediaryRepository
-import repository.api.repository.InvoiceRepository
+import repository.IntermediaryRepository
+import repository.api.InvoiceRepository
 import services.api.services.intermediary.DeleteIntermediaryService
 import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.user.GetUserByIdService
@@ -11,7 +11,7 @@ import java.util.*
 
 internal class DeleteIntermediaryServiceImpl(
     private val getIntermediaryByIdService: GetIntermediaryByIdService,
-    private val intermediaryRepo: IntermediaryRepository,
+    private val intermediaryRepo: _root_ide_package_.repository.IntermediaryRepository,
     private val getUserByIdUseCase: GetUserByIdService,
     private val invoiceRepository: InvoiceRepository
 ) : DeleteIntermediaryService {

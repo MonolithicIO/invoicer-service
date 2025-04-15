@@ -3,7 +3,7 @@ package services.impl.beneficiary
 import utils.exceptions.http.HttpCode
 import kotlinx.coroutines.test.runTest
 import models.fixtures.beneficiaryModelFixture
-import repository.api.fakes.FakeBeneficiaryRepository
+import repository.fakes.FakeBeneficiaryRepository
 import utils.exceptions.http.HttpError
 import java.util.*
 import kotlin.test.BeforeTest

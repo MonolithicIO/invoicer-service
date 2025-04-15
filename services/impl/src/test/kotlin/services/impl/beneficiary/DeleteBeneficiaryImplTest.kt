@@ -3,8 +3,8 @@ package services.impl.beneficiary
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.getinvoices.InvoiceListItemModel
-import repository.api.fakes.FakeBeneficiaryRepository
-import repository.api.fakes.FakeInvoiceRepository
+import repository.fakes.FakeBeneficiaryRepository
+import repository.fakes.FakeInvoiceRepository
 import services.api.fakes.beneficiary.FakeGetBeneficiaryByIdService
 import services.api.fakes.user.FakeGetUserByIdService
 import utils.exceptions.http.HttpCode

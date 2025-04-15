@@ -1,7 +1,7 @@
 package services.impl.invoice
 
 import models.InvoiceModel
-import repository.api.repository.InvoiceRepository
+import repository.api.InvoiceRepository
 import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.http.HttpCode

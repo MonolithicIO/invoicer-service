@@ -1,14 +1,14 @@
 package services.impl.intermediary
 
 import models.intermediary.IntermediaryModel
-import repository.api.repository.IntermediaryRepository
+import repository.IntermediaryRepository
 import services.api.services.intermediary.GetUserIntermediariesService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.http.unauthorizedResourceError
 import java.util.*
 
 internal class GetUserIntermediariesServiceImpl(
-    private val repository: IntermediaryRepository,
+    private val repository: _root_ide_package_.repository.IntermediaryRepository,
     private val getUserByIdService: GetUserByIdService
 ) : GetUserIntermediariesService {
 

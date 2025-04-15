@@ -4,8 +4,8 @@ import io.github.alaksion.invoicer.utils.fakes.FakeIbanValidator
 import io.github.alaksion.invoicer.utils.fakes.FakeSwiftValidator
 import kotlinx.coroutines.test.runTest
 import models.beneficiary.CreateBeneficiaryModel
-import repository.api.fakes.FakeBeneficiaryRepository
-import repository.api.fakes.FakeUserRepository
+import repository.fakes.FakeBeneficiaryRepository
+import repository.fakes.FakeUserRepository
 import services.api.fakes.beneficiary.FakeCheckBeneficiarySwiftAvailableService
 import services.api.fakes.user.FakeGetUserByIdService
 import utils.exceptions.http.HttpCode

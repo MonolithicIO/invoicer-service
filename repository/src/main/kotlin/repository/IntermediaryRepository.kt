@@ -1,4 +1,4 @@
-package repository.api.repository
+package repository
 
 import datasource.api.database.IntermediaryDatabaseSource
 import datasource.api.model.intermediary.CreateIntermediaryData

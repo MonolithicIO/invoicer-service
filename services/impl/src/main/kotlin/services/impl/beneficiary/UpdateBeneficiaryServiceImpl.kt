@@ -1,12 +1,11 @@
 package services.impl.beneficiary
 
-import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.github.alaksion.invoicer.utils.validation.IbanValidator
 import io.github.alaksion.invoicer.utils.validation.SwiftValidator
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.PartialUpdateBeneficiaryModel
 import models.beneficiary.UpdateBeneficiaryModel
-import repository.api.repository.BeneficiaryRepository
+import repository.api.BeneficiaryRepository
 import services.api.services.beneficiary.CheckBeneficiarySwiftAvailableService
 import services.api.services.beneficiary.GetBeneficiaryByIdService
 import services.api.services.beneficiary.UpdateBeneficiaryService

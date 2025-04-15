@@ -7,7 +7,7 @@ import io.github.alaksion.invoicer.utils.fakes.FakeEmailValidator
 import kotlinx.coroutines.test.runTest
 import models.fixtures.userModelFixture
 import models.user.CreateUserModel
-import repository.api.fakes.FakeUserRepository
+import repository.fakes.FakeUserRepository
 import services.api.fakes.user.FakeGetUserByEmailService
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError

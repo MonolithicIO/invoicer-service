@@ -19,4 +19,11 @@ dependencies {
 
     // Fixtures
     testFixturesImplementation(testFixtures(projects.models))
+
+    // Test
+    testImplementation(kotlin("test"))
+    testImplementation(testFixtures(projects.datasource.api))
+    testImplementation(testFixtures(projects.foundation.cache))
+    testImplementation(libs.kotlin.coroutines.test)
+    testImplementation(testFixtures(projects.models))
 }

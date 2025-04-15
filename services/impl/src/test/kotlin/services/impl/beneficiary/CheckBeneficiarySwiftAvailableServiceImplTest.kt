@@ -2,7 +2,7 @@ package services.impl.beneficiary
 
 import kotlinx.coroutines.test.runTest
 import models.fixtures.beneficiaryModelFixture
-import repository.api.fakes.FakeBeneficiaryRepository
+import repository.fakes.FakeBeneficiaryRepository
 import java.util.*
 import kotlin.test.BeforeTest
 import kotlin.test.Test

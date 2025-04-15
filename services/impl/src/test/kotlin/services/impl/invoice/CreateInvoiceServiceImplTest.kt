@@ -11,7 +11,7 @@ import models.fixtures.invoiceModelFixture
 import models.fixtures.userModelFixture
 import org.junit.Before
 import org.junit.Test
-import repository.api.fakes.FakeInvoiceRepository
+import repository.fakes.FakeInvoiceRepository
 import services.api.fakes.beneficiary.FakeGetBeneficiaryByIdService
 import services.api.fakes.intermediary.FakeGetIntermediaryByIdService
 import services.api.fakes.user.FakeGetUserByIdService

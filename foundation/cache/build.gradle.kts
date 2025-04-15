@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.serialization)
+    `java-test-fixtures`
 }
 
 // Move to build plugin
@@ -20,6 +21,9 @@ dependencies {
     implementation(projects.foundation.exceptions)
     implementation(projects.foundation.secrets)
     implementation(projects.foundation.log)
+
+    // Fixtures
+    testFixturesImplementation(libs.kotlin.serialization)
 
     // Test
     testImplementation(libs.kotlin.test)
