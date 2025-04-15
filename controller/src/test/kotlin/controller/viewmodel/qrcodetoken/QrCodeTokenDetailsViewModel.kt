@@ -1,44 +1,38 @@
 package controller.viewmodel.qrcodetoken
 
 import kotlinx.datetime.Instant
-import kotlinx.serialization.Serializable
 import models.qrcodetoken.QrCodeTokenModel
 import models.qrcodetoken.QrCodeTokenStatusModel
+import java.util.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-@Serializable
-internal data class QrCodeTokenDetailsViewModel(
-    val id: String,
-    val agent: String,
-    val base64Content: String,
-    val rawContent: String,
-    val ipAddress: String,
-    val status: QrCodeTokenStatusViewModel,
-    val createdAt: Instant,
-    val updatedAt: Instant,
-    val expiresAt: Instant
-)
+class QrCodeTokenDetailsViewModelTest {
 
-@Serializable
-internal enum class QrCodeTokenStatusViewModel {
-    GENERATED,
-    CONSUMED,
-    EXPIRED
-}
+    @Test
+    fun `converts QrCodeTokenModel to QrCodeTokenDetailsViewModel`() {
+        val qrCodeTokenModel = QrCodeTokenModel(
+            id = UUID.fromString("123e4567-e89b-12d3-a456-426614174000"),
+            agent = "Test Agent",
+            base64Content = "dGVzdA==",
+            rawContent = "test",
+            ipAddress = "192.168.1.1",
+            status = QrCodeTokenStatusModel.GENERATED,
+            createdAt = Instant.parse("2023-01-01T00:00:00Z"),
+            updatedAt = Instant.parse("2023-01-02T00:00:00Z"),
+            expiresAt = Instant.parse("2023-01-03T00:00:00Z")
+        )
 
-internal fun QrCodeTokenModel.toTokenDetailsViewModel(): QrCodeTokenDetailsViewModel {
-    return QrCodeTokenDetailsViewModel(
-        id = id.toString(),
-        agent = agent,
-        base64Content = base64Content,
-        rawContent = rawContent,
-        status = when (status) {
-            QrCodeTokenStatusModel.GENERATED -> QrCodeTokenStatusViewModel.GENERATED
-            QrCodeTokenStatusModel.CONSUMED -> QrCodeTokenStatusViewModel.CONSUMED
-            QrCodeTokenStatusModel.EXPIRED -> QrCodeTokenStatusViewModel.EXPIRED
-        },
-        createdAt = createdAt,
-        updatedAt = updatedAt,
-        expiresAt = expiresAt,
-        ipAddress = ipAddress
-    )
+        val result = qrCodeTokenModel.toTokenDetailsViewModel()
+
+        assertEquals("123e4567-e89b-12d3-a456-426614174000", result.id)
+        assertEquals("Test Agent", result.agent)
+        assertEquals("dGVzdA==", result.base64Content)
+        assertEquals("test", result.rawContent)
+        assertEquals("192.168.1.1", result.ipAddress)
+        assertEquals(QrCodeTokenStatusViewModel.GENERATED, result.status)
+        assertEquals(Instant.parse("2023-01-01T00:00:00Z"), result.createdAt)
+        assertEquals(Instant.parse("2023-01-02T00:00:00Z"), result.updatedAt)
+        assertEquals(Instant.parse("2023-01-03T00:00:00Z"), result.expiresAt)
+    }
 }
