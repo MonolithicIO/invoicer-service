@@ -13,6 +13,7 @@ class FakeUserRepository : UserRepository {
     var createUserResponse: suspend () -> String = { userModelFixture.id.toString() }
 
     var createUserCallStack = mutableListOf<CreateUserModel>()
+    var deleteUserCallStack = mutableListOf<UUID>()
 
     override suspend fun getUserByEmail(email: String): UserModel? {
         return getByEmailResponse()
@@ -27,5 +28,7 @@ class FakeUserRepository : UserRepository {
         return createUserResponse()
     }
 
-    override suspend fun deleteUser(id: UUID) = Unit
+    override suspend fun deleteUser(id: UUID) {
+        deleteUserCallStack.add(id)
+    }
 }
