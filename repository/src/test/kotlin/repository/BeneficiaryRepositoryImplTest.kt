@@ -181,6 +181,21 @@ class BeneficiaryRepositoryImplTest {
     }
 
     @Test
+    fun `should not store beneficiary into cache when get by id returns null`() = runTest {
+        cache.getCacheResponse = null
+        datasource.getBydIdResponse = { null }
+
+        repository.getById(
+            beneficiaryId = beneficiaryModelFixture.id
+        )
+
+        assertEquals(
+            expected = 0,
+            actual = cache.setCallStack.size
+        )
+    }
+
+    @Test
     fun `should call datasource to create beneficiary`() = runTest {
         val userId = UUID.randomUUID()
         val createBeneficiaryModel = beneficiaryModelFixture
