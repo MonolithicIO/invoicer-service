@@ -12,6 +12,8 @@ class FakeUserRepository : UserRepository {
     var getByEmailResponse: suspend () -> UserModel? = { userModelFixture }
     var createUserResponse: suspend () -> String = { userModelFixture.id.toString() }
 
+    var createUserCallStack = mutableListOf<CreateUserModel>()
+
     override suspend fun getUserByEmail(email: String): UserModel? {
         return getByEmailResponse()
     }
@@ -21,6 +23,7 @@ class FakeUserRepository : UserRepository {
     }
 
     override suspend fun createUser(data: CreateUserModel): String {
+        createUserCallStack.add(data)
         return createUserResponse()
     }
 
