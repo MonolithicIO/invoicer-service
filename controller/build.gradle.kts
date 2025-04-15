@@ -17,4 +17,7 @@ dependencies {
     implementation(projects.models)
     implementation(projects.foundation.exceptions)
     implementation(projects.utils)
+
+    testImplementation(kotlin("test"))
+    testImplementation(testFixtures(projects.models))
 }
