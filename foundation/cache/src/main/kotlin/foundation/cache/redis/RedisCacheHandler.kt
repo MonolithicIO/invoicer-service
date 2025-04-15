@@ -1,11 +1,14 @@
 package foundation.cache.redis
 
 import foundation.cache.CacheHandler
+import io.github.alaksion.invoicer.foundation.log.LogLevel
+import io.github.alaksion.invoicer.foundation.log.Logger
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 
 internal class RedisCacheHandler(
-    private val redisInstance: RedisInstance
+    private val redisInstance: RedisInstance,
+    private val logger: Logger
 ) : CacheHandler {
 
     override suspend fun <T> set(
@@ -24,7 +27,12 @@ internal class RedisCacheHandler(
                 value = encoded
             )
         }.onFailure {
-            // Log error
+            logger.log(
+                type = RedisCacheHandler::class,
+                message = it.message ?: "Failed to encode data with ${serializer::class.simpleName}",
+                throwable = it,
+                level = LogLevel.Error
+            )
         }
     }
 
@@ -41,7 +49,12 @@ internal class RedisCacheHandler(
             }.fold(
                 onSuccess = { it },
                 onFailure = {
-                    // Log error
+                    logger.log(
+                        type = RedisCacheHandler::class,
+                        message = it.message ?: "Failed to decode data with ${serializer::class.simpleName}",
+                        throwable = it,
+                        level = LogLevel.Error
+                    )
                     null
                 }
             )

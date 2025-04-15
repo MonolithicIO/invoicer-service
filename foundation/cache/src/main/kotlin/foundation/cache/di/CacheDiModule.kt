@@ -13,7 +13,8 @@ import org.kodein.di.instance
 val cacheDiModule = DI.Module("cacheDiModule") {
     bindProvider<CacheHandler> {
         RedisCacheHandler(
-            redisInstance = instance()
+            redisInstance = instance(),
+            logger = instance()
         )
     }
 
