@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.ktor)
     alias(libs.plugins.serialization)
-    alias(libs.plugins.detekt)
+    `java-test-fixtures`
 }
 
 group = "io.github.alaksion.invoicer.foundation.env.impl"

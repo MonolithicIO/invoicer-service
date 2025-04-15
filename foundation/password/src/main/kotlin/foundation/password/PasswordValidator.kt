@@ -28,5 +28,4 @@ internal class PasswordValidatorImpl : PasswordValidator {
             else -> PasswordStrength.STRONG
         }
     }
-
 }
