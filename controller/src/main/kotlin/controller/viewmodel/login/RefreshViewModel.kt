@@ -6,9 +6,3 @@ import kotlinx.serialization.Serializable
 internal data class RefreshAuthRequest(
     val refreshToken: String? = null
 )
-
-@Serializable
-internal data class RefreshAuthResponse(
-    val refreshToken: String,
-    val accessToken: String,
-)
