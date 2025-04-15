@@ -87,10 +87,10 @@ internal fun Routing.beneficiaryController() {
         jwtProtected {
             get("/{id}") {
                 val beneficiaryId = call.parameters["id"]!!
-                val useCase by closestDI().instance<GetBeneficiaryDetailsService>()
+                val useCase by closestDI().instance<GetBeneficiaryByIdService>()
                 call.respond(
                     status = HttpStatusCode.OK,
-                    message = useCase.getBeneficiaryDetails(
+                    message = useCase.get(
                         userId = parseUuid(jwtUserId()),
                         beneficiaryId = parseUuid(beneficiaryId)
                     ).toViewModel()

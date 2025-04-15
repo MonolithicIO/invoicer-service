@@ -12,8 +12,8 @@ import services.api.services.invoice.GetUserInvoicesService
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
 import services.api.services.login.StoreRefreshTokenService
-import services.api.services.pdf.InvoicePdfSecureLinkService
 import services.api.services.pdf.GenerateInvoicePdfService
+import services.api.services.pdf.InvoicePdfSecureLinkService
 import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
 import services.api.services.qrcodetoken.GetQrCodeTokenByContentIdService
 import services.api.services.qrcodetoken.RequestQrCodeTokenService
@@ -29,8 +29,8 @@ import services.impl.invoice.GetUserInvoicesServiceImpl
 import services.impl.login.LoginServiceImpl
 import services.impl.login.RefreshLoginServiceImpl
 import services.impl.login.StoreRefreshTokenServiceImpl
-import services.impl.pdf.InvoicePdfSecureLinkServiceImpl
 import services.impl.pdf.GenerateInvoicePdfServiceImpl
+import services.impl.pdf.InvoicePdfSecureLinkServiceImpl
 import services.impl.pdf.pdfwriter.InvoicePdfWriter
 import services.impl.pdf.pdfwriter.itext.ItextInvoiceWriter
 import services.impl.qrcodetoken.ConsumeQrCodeTokenServiceImpl
@@ -98,13 +98,6 @@ private fun DI.Builder.beneficiaryServices() {
             ibanValidator = instance()
         )
     }
-
-    bindProvider<GetBeneficiaryDetailsService> {
-        GetBeneficiaryDetailsServiceServiceImpl(
-            repository = instance(),
-            getUserService = instance()
-        )
-    }
 }
 
 private fun DI.Builder.intermediaryServices() {
@@ -153,13 +146,6 @@ private fun DI.Builder.intermediaryServices() {
     bindProvider<GetUserIntermediariesService> {
         GetUserIntermediariesServiceImpl(
             repository = instance(),
-            getUserByIdService = instance()
-        )
-    }
-
-    bindProvider<GetIntermediaryDetailsService> {
-        GetIntermediaryDetailsServiceImpl(
-            intermediaryRepository = instance(),
             getUserByIdService = instance()
         )
     }
