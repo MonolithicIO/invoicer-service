@@ -11,4 +11,7 @@ dependencies {
     implementation(libs.kodein.server)
     implementation(libs.dotenv)
     implementation(projects.foundation.env)
+
+    testImplementation(kotlin("test"))
+    testImplementation(testFixtures(projects.foundation.env))
 }
