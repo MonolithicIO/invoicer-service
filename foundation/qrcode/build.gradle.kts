@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin)
+    `java-test-fixtures`
 }
 
 // Move to build plugin

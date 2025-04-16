@@ -37,6 +37,9 @@ dependencies {
     testImplementation(testFixtures(projects.foundation.password))
     testImplementation(testFixtures(projects.foundation.messaging))
     testImplementation(testFixtures(projects.services.api))
+    testImplementation(testFixtures(projects.foundation.cache))
+    testImplementation(testFixtures(projects.foundation.log))
+    testImplementation(testFixtures(projects.foundation.qrcode))
 
     // Unit Tests
     testImplementation(libs.kotlin.test)
