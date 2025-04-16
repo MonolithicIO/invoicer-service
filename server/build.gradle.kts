@@ -85,6 +85,7 @@ kover {
                 packages("**.di")
                 packages("**.fakes")
                 packages("**.fixtures")
+                packages("**.pdfwriter.itext")
                 annotatedBy("IgnoreCoverage")
             }
         }

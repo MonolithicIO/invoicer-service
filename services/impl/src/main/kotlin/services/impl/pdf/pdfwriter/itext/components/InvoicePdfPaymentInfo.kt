@@ -1,4 +1,3 @@
-@file:IgnoreCoverage
 package services.impl.pdf.pdfwriter.itext.components
 
 import com.itextpdf.kernel.font.PdfFont
@@ -7,7 +6,6 @@ import com.itextpdf.layout.element.Cell
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.UnitValue
-import io.github.alaksion.invoicer.utils.annotations.IgnoreCoverage
 import models.beneficiary.BeneficiaryModel
 import models.intermediary.IntermediaryModel
 

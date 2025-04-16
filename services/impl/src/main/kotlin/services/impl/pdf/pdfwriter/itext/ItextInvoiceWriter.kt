@@ -7,7 +7,6 @@ import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Paragraph
-import io.github.alaksion.invoicer.utils.annotations.IgnoreCoverage
 import models.InvoiceModel
 import services.impl.pdf.pdfwriter.InvoicePdfWriter
 import services.impl.pdf.pdfwriter.itext.components.*
@@ -18,7 +17,6 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-@IgnoreCoverage
 internal class ItextInvoiceWriter : InvoicePdfWriter {
 
     override suspend fun write(invoice: InvoiceModel, outputPath: String) {
