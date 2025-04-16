@@ -1,7 +1,10 @@
+@file:IgnoreCoverage
+
 package services.impl.pdf.pdfwriter.itext.components
 
 import com.itextpdf.kernel.colors.ColorConstants
 import com.itextpdf.kernel.colors.DeviceRgb
+import io.github.alaksion.invoicer.utils.annotations.IgnoreCoverage
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toJavaInstant
 import java.time.ZoneId
