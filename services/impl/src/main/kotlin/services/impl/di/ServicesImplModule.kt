@@ -263,7 +263,8 @@ private fun DI.Builder.loginServices() {
         PollAuthorizedTokenServiceImpl(
             cacheHandler = instance(),
             getTokenService = instance(),
-            dispatcher = Dispatchers.IO
+            dispatcher = Dispatchers.IO,
+            logger = instance()
         )
     }
 }

@@ -24,6 +24,7 @@ dependencies {
     implementation(projects.foundation.authentication)
     implementation(projects.foundation.password)
     implementation(projects.foundation.qrcode)
+    implementation(projects.foundation.log)
     implementation(projects.utils)
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kotlin.serialization)
