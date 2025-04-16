@@ -1,4 +1,4 @@
-package repository.api.repository
+package repository
 
 import datasource.api.database.BeneficiaryDatabaseSource
 import datasource.api.model.beneficiary.CreateBeneficiaryData
@@ -62,7 +62,7 @@ internal class BeneficiaryRepositoryImpl(
     }
 
     override suspend fun delete(userId: UUID, beneficiaryId: UUID) {
-        return databaseSource.delete(
+        databaseSource.delete(
             userId = userId,
             beneficiaryId = beneficiaryId
         ).also {

@@ -4,7 +4,7 @@ import foundation.authentication.fakes.FakeAuthTokenManager
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.login.RefreshTokenModel
-import repository.api.fakes.FakeRefreshTokenRepository
+import repository.fakes.FakeRefreshTokenRepository
 import services.api.fakes.refreshtoken.FakeStoreRefreshTokenService
 import services.api.fakes.user.FakeGetUserByIdService
 import utils.exceptions.http.HttpCode

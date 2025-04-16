@@ -3,7 +3,7 @@ package services.impl.intermediary
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.intermediary.IntermediaryModel
-import repository.api.fakes.FakeIntermediaryRepository
+import repository.fakes.FakeIntermediaryRepository
 import services.api.fakes.user.FakeGetUserByIdService
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError

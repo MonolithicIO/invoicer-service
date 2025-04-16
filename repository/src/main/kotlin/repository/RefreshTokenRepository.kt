@@ -1,4 +1,4 @@
-package repository.api.repository
+package repository
 
 import datasource.api.database.RefreshTokenDatabaseSource
 import models.login.RefreshTokenModel

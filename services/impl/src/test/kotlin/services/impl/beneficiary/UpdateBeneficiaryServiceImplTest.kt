@@ -6,7 +6,7 @@ import kotlinx.coroutines.test.runTest
 import models.beneficiary.UpdateBeneficiaryModel
 import models.fixtures.beneficiaryModelFixture
 import models.fixtures.updateBeneficiaryModelFixture
-import repository.api.fakes.FakeBeneficiaryRepository
+import repository.fakes.FakeBeneficiaryRepository
 import services.api.fakes.beneficiary.FakeCheckBeneficiarySwiftAvailableService
 import services.api.fakes.beneficiary.FakeGetBeneficiaryByIdService
 import services.api.fakes.user.FakeGetUserByIdService

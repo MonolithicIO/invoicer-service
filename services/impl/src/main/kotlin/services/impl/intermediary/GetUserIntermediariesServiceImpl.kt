@@ -1,7 +1,7 @@
 package services.impl.intermediary
 
 import models.intermediary.IntermediaryModel
-import repository.api.repository.IntermediaryRepository
+import repository.IntermediaryRepository
 import services.api.services.intermediary.GetUserIntermediariesService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.http.unauthorizedResourceError

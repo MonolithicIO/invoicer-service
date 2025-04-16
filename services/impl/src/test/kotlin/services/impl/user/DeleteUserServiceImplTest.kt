@@ -2,7 +2,7 @@ package services.impl.user
 
 import kotlinx.coroutines.test.runTest
 import models.fixtures.userModelFixture
-import repository.api.fakes.FakeUserRepository
+import repository.fakes.FakeUserRepository
 import services.api.fakes.user.FakeGetUserByIdService
 import java.util.*
 import kotlin.test.BeforeTest

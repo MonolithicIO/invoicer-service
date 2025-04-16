@@ -1,4 +1,4 @@
-package repository.api.fakes
+package repository.fakes
 
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.CreateBeneficiaryModel
@@ -6,7 +6,7 @@ import models.beneficiary.PartialUpdateBeneficiaryModel
 import models.beneficiary.UserBeneficiaries
 import models.fixtures.beneficiaryModelFixture
 import models.fixtures.userBeneficiariesFixture
-import repository.api.repository.BeneficiaryRepository
+import repository.BeneficiaryRepository
 import java.util.*
 
 class FakeBeneficiaryRepository : BeneficiaryRepository {

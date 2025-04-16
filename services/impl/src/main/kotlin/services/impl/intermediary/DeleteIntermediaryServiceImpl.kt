@@ -1,7 +1,7 @@
 package services.impl.intermediary
 
-import repository.api.repository.IntermediaryRepository
-import repository.api.repository.InvoiceRepository
+import repository.IntermediaryRepository
+import repository.InvoiceRepository
 import services.api.services.intermediary.DeleteIntermediaryService
 import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.user.GetUserByIdService

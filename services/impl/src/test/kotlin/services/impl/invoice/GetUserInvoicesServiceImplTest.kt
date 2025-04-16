@@ -5,7 +5,7 @@ import kotlinx.datetime.Instant
 import models.fixtures.invoiceListModelFixture
 import models.fixtures.userModelFixture
 import models.getinvoices.GetInvoicesFilterModel
-import repository.api.fakes.FakeInvoiceRepository
+import repository.fakes.FakeInvoiceRepository
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
 import kotlin.test.BeforeTest

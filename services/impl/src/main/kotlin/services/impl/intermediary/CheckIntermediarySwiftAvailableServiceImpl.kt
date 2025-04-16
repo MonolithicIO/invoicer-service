@@ -1,6 +1,6 @@
 package services.impl.intermediary
 
-import repository.api.repository.IntermediaryRepository
+import repository.IntermediaryRepository
 import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
 import java.util.*
 

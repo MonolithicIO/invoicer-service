@@ -3,7 +3,7 @@ package services.impl.invoice
 import kotlinx.coroutines.test.runTest
 import models.fixtures.invoiceModelFixture
 import models.fixtures.userModelFixture
-import repository.api.fakes.FakeInvoiceRepository
+import repository.fakes.FakeInvoiceRepository
 import services.api.fakes.invoice.FakeGetUserInvoiceByIdService
 import services.api.fakes.user.FakeGetUserByIdService
 import utils.exceptions.http.HttpCode

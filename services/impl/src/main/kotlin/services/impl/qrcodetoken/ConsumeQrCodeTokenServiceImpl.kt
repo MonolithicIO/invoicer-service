@@ -6,7 +6,7 @@ import io.github.alaksion.invoicer.utils.events.QrCodeLoginEvent
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import models.qrcodetoken.QrCodeTokenStatusModel
-import repository.api.repository.QrCodeTokenRepository
+import repository.QrCodeTokenRepository
 import services.api.services.login.StoreRefreshTokenService
 import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
 import services.api.services.user.GetUserByIdService

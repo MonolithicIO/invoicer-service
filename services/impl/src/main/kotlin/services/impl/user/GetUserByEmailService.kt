@@ -1,7 +1,7 @@
 package services.impl.user
 
 import models.user.UserModel
-import repository.api.repository.UserRepository
+import repository.UserRepository
 import services.api.services.user.GetUserByEmailService
 
 internal class GetUserByEmailServiceImpl(

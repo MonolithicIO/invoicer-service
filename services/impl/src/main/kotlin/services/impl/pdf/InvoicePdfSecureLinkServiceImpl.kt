@@ -2,12 +2,12 @@ package services.impl.pdf
 
 import io.github.alaksion.invoicer.foundation.storage.remote.SecureFileLinkGenerator
 import models.invoicepdf.InvoicePdfStatus
-import repository.api.repository.InvoicePdfRepository
+import repository.InvoicePdfRepository
 import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.pdf.InvoicePdfSecureLinkService
 import utils.exceptions.http.badRequestError
 import utils.exceptions.http.notFoundError
-import java.util.UUID
+import java.util.*
 
 internal class InvoicePdfSecureLinkServiceImpl(
     private val secureFileLinkGenerator: SecureFileLinkGenerator,

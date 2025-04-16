@@ -1,7 +1,7 @@
 package services.impl.beneficiary
 
 import models.beneficiary.UserBeneficiaries
-import repository.api.repository.BeneficiaryRepository
+import repository.BeneficiaryRepository
 import services.api.services.beneficiary.GetUserBeneficiariesService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.http.unauthorizedResourceError

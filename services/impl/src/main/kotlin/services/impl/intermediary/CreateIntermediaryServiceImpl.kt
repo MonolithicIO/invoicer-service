@@ -3,7 +3,7 @@ package services.impl.intermediary
 import io.github.alaksion.invoicer.utils.validation.IbanValidator
 import io.github.alaksion.invoicer.utils.validation.SwiftValidator
 import models.intermediary.CreateIntermediaryModel
-import repository.api.repository.IntermediaryRepository
+import repository.IntermediaryRepository
 import services.api.services.intermediary.CheckIntermediarySwiftAvailableService
 import services.api.services.intermediary.CreateIntermediaryService
 import services.api.services.user.GetUserByIdService

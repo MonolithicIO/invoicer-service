@@ -1,6 +1,6 @@
 package services.impl.user
 
-import repository.api.repository.UserRepository
+import repository.UserRepository
 import services.api.services.user.DeleteUserService
 import services.api.services.user.GetUserByIdService
 import java.util.UUID

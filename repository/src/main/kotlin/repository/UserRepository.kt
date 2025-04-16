@@ -1,4 +1,4 @@
-package repository.api.repository
+package repository
 
 import datasource.api.database.UserDatabaseSource
 import datasource.api.model.user.CreateUserData

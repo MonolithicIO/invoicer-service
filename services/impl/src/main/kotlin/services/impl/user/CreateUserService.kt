@@ -3,7 +3,7 @@ package services.impl.user
 import utils.exceptions.http.HttpCode
 import io.github.alaksion.invoicer.utils.validation.EmailValidator
 import models.user.CreateUserModel
-import repository.api.repository.UserRepository
+import repository.UserRepository
 import services.api.services.user.CreateUserService
 import services.api.services.user.GetUserByEmailService
 import utils.exceptions.http.badRequestError

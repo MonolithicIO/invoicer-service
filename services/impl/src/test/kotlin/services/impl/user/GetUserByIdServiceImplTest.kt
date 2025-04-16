@@ -2,7 +2,7 @@ package services.impl.user
 
 import kotlinx.coroutines.test.runTest
 import models.fixtures.userModelFixture
-import repository.api.fakes.FakeUserRepository
+import repository.fakes.FakeUserRepository
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
 import java.util.*

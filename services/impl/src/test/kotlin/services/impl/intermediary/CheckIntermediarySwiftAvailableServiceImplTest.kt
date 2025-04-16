@@ -2,7 +2,7 @@ package services.impl.intermediary
 
 import kotlinx.coroutines.test.runTest
 import models.fixtures.intermediaryModelFixture
-import repository.api.fakes.FakeIntermediaryRepository
+import repository.fakes.FakeIntermediaryRepository
 import java.util.*
 import kotlin.test.BeforeTest
 import kotlin.test.Test

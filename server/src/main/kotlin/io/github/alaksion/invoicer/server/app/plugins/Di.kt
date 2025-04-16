@@ -14,7 +14,7 @@ import io.github.alaksion.invoicer.foundation.storage.di.storageDiModule
 import io.github.alaksion.invoicer.utils.di.utilDiModule
 import io.ktor.server.application.*
 import org.kodein.di.ktor.di
-import repository.api.di.repositoryModule
+import repository.di.repositoryModule
 import services.impl.di.servicesImplModule
 
 fun Application.installDi() {

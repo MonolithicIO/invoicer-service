@@ -16,15 +16,26 @@ class FakeIntermediaryDatabaseSource : IntermediaryDatabaseSource {
     var getAllResponse: suspend () -> List<IntermediaryModel> = { userIntermediariesFixture }
     var updateResponse: suspend () -> IntermediaryModel = { intermediaryModelFixture }
 
+    var updateCalls = 0
+        private set
+    var deleteCalls = 0
+        private set
+    var getByIdCalls = 0
+    var createCalls = 0
+        private set
+
     override suspend fun create(userId: UUID, model: CreateIntermediaryData): String {
+        createCalls++
         return createResponse()
     }
 
     override suspend fun delete(userId: UUID, intermediaryId: UUID) {
+        deleteCalls++
         return deleteResponse()
     }
 
     override suspend fun getById(intermediaryId: UUID): IntermediaryModel? {
+        getByIdCalls++
         return getByIdResponse()
     }
 
@@ -37,6 +48,7 @@ class FakeIntermediaryDatabaseSource : IntermediaryDatabaseSource {
     }
 
     override suspend fun update(userId: UUID, intermediaryId: UUID, model: UpdateIntermediaryData): IntermediaryModel {
+        updateCalls++
         return updateResponse()
     }
 

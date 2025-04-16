@@ -1,7 +1,7 @@
 package services.impl.beneficiary
 
 import models.beneficiary.BeneficiaryModel
-import repository.api.repository.BeneficiaryRepository
+import repository.BeneficiaryRepository
 import services.api.services.beneficiary.GetBeneficiaryByIdService
 import utils.exceptions.http.notFoundError
 import utils.exceptions.http.unauthorizedResourceError

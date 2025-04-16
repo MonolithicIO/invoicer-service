@@ -1,9 +1,9 @@
-package repository.api.fakes
+package repository.fakes
 
 import models.fixtures.userModelFixture
 import models.user.CreateUserModel
 import models.user.UserModel
-import repository.api.repository.UserRepository
+import repository.UserRepository
 import java.util.*
 
 class FakeUserRepository : UserRepository {

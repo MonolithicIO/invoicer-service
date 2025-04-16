@@ -1,7 +1,7 @@
-package repository.api.fakes
+package repository.fakes
 
 import models.login.RefreshTokenModel
-import repository.api.repository.RefreshTokenRepository
+import repository.RefreshTokenRepository
 import java.util.*
 
 class FakeRefreshTokenRepository : RefreshTokenRepository {

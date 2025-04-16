@@ -17,16 +17,26 @@ class FakeBeneficiaryDatabaseSource : BeneficiaryDatabaseSource {
     var getAllResponse: suspend () -> UserBeneficiaries = { userBeneficiariesFixture }
     var updateBeneficiaryResponse: suspend () -> BeneficiaryModel = { beneficiaryModelFixture }
 
+    var updateCalls = 0
+        private set
+    var deleteCalls = 0
+        private set
+    var getByIdCalls = 0
+    var createCalls = 0
+        private set
 
     override suspend fun create(userId: UUID, model: CreateBeneficiaryData): String {
+        createCalls++
         return createResponse()
     }
 
     override suspend fun delete(userId: UUID, beneficiaryId: UUID) {
+        deleteCalls++
         return deleteResponse()
     }
 
     override suspend fun getById(beneficiaryId: UUID): BeneficiaryModel? {
+        getByIdCalls++
         return getBydIdResponse()
     }
 
@@ -43,6 +53,7 @@ class FakeBeneficiaryDatabaseSource : BeneficiaryDatabaseSource {
         beneficiaryId: UUID,
         model: UpdateBeneficiaryData
     ): BeneficiaryModel {
+        updateCalls++
         return updateBeneficiaryResponse()
     }
 
