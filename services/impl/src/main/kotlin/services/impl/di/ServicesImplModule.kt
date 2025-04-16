@@ -1,5 +1,6 @@
 package services.impl.di
 
+import kotlinx.coroutines.Dispatchers
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
@@ -14,8 +15,9 @@ import services.api.services.login.RefreshLoginService
 import services.api.services.login.StoreRefreshTokenService
 import services.api.services.pdf.GenerateInvoicePdfService
 import services.api.services.pdf.InvoicePdfSecureLinkService
-import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
+import services.api.services.qrcodetoken.AuthorizeQrCodeTokenService
 import services.api.services.qrcodetoken.GetQrCodeTokenByContentIdService
+import services.api.services.qrcodetoken.PollAuthorizedTokenService
 import services.api.services.qrcodetoken.RequestQrCodeTokenService
 import services.api.services.user.CreateUserService
 import services.api.services.user.DeleteUserService
@@ -33,8 +35,9 @@ import services.impl.pdf.GenerateInvoicePdfServiceImpl
 import services.impl.pdf.InvoicePdfSecureLinkServiceImpl
 import services.impl.pdf.pdfwriter.InvoicePdfWriter
 import services.impl.pdf.pdfwriter.itext.ItextInvoiceWriter
-import services.impl.qrcodetoken.ConsumeQrCodeTokenServiceImpl
+import services.impl.qrcodetoken.AuthorizeQrCodeTokenServiceImpl
 import services.impl.qrcodetoken.GetQrCodeTokenByContentIdServiceImpl
+import services.impl.qrcodetoken.PollAuthorizedTokenServiceImpl
 import services.impl.qrcodetoken.RequestQrCodeTokenServiceImpl
 import services.impl.user.CreateUserServiceImpl
 import services.impl.user.DeleteUserServiceImpl
@@ -239,20 +242,28 @@ private fun DI.Builder.loginServices() {
         )
     }
 
-    bindProvider<ConsumeQrCodeTokenService> {
-        ConsumeQrCodeTokenServiceImpl(
+    bindProvider<AuthorizeQrCodeTokenService> {
+        AuthorizeQrCodeTokenServiceImpl(
             qrCodeTokenRepository = instance(),
             clock = instance(),
             getUserByIdService = instance(),
             authTokenManager = instance(),
             storeRefreshTokenService = instance(),
-            qrCodeTokenStream = instance(),
+            cacheHandler = instance(),
         )
     }
 
     bindProvider<GetQrCodeTokenByContentIdService> {
         GetQrCodeTokenByContentIdServiceImpl(
             qrCodeTokenRepository = instance()
+        )
+    }
+
+    bindProvider<PollAuthorizedTokenService> {
+        PollAuthorizedTokenServiceImpl(
+            cacheHandler = instance(),
+            getTokenService = instance(),
+            dispatcher = Dispatchers.IO
         )
     }
 }

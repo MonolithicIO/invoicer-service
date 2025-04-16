@@ -1,27 +1,27 @@
 package services.impl.qrcodetoken
 
 import foundation.authentication.impl.AuthTokenManager
-import io.github.alaksion.invoicer.utils.events.QrCodeEventHandler
-import io.github.alaksion.invoicer.utils.events.QrCodeLoginEvent
+import foundation.cache.CacheHandler
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import models.qrcodetoken.AuthorizedQrCodeToken
 import models.qrcodetoken.QrCodeTokenStatusModel
 import repository.QrCodeTokenRepository
 import services.api.services.login.StoreRefreshTokenService
-import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
+import services.api.services.qrcodetoken.AuthorizeQrCodeTokenService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.http.goneError
 import utils.exceptions.http.notFoundError
 import java.util.*
 
-internal class ConsumeQrCodeTokenServiceImpl(
+internal class AuthorizeQrCodeTokenServiceImpl(
     private val authTokenManager: AuthTokenManager,
     private val storeRefreshTokenService: StoreRefreshTokenService,
-    private val qrCodeTokenStream: QrCodeEventHandler,
     private val qrCodeTokenRepository: QrCodeTokenRepository,
     private val clock: Clock,
-    private val getUserByIdService: GetUserByIdService
-) : ConsumeQrCodeTokenService {
+    private val getUserByIdService: GetUserByIdService,
+    private val cacheHandler: CacheHandler
+) : AuthorizeQrCodeTokenService {
 
     override suspend fun consume(
         contentId: String,
@@ -50,12 +50,14 @@ internal class ConsumeQrCodeTokenServiceImpl(
             userId = userUuid
         )
 
-        qrCodeTokenStream.publishEvent(
-            event = QrCodeLoginEvent(
-                contentId = token.rawContent,
+        cacheHandler.set(
+            key = contentId,
+            value = AuthorizedQrCodeToken(
                 refreshToken = refreshToken,
-                accessToken = accessToken
-            )
+                accessToken = accessToken,
+                rawContent = token.rawContent
+            ),
+            serializer = AuthorizedQrCodeToken.serializer()
         )
     }
 
