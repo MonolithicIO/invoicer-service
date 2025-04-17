@@ -249,7 +249,6 @@ private fun DI.Builder.loginServices() {
             getUserByIdService = instance(),
             authTokenManager = instance(),
             storeRefreshTokenService = instance(),
-            cacheHandler = instance(),
         )
     }
 
@@ -261,7 +260,7 @@ private fun DI.Builder.loginServices() {
 
     bindProvider<PollAuthorizedTokenService> {
         PollAuthorizedTokenServiceImpl(
-            cacheHandler = instance(),
+            qrCodeTokenRepository = instance(),
             getTokenService = instance(),
             dispatcher = Dispatchers.IO,
             logger = instance()

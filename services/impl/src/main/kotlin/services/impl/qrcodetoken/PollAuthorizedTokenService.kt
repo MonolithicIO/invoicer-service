@@ -1,6 +1,5 @@
 package services.impl.qrcodetoken
 
-import foundation.cache.CacheHandler
 import io.github.alaksion.invoicer.foundation.log.LogLevel
 import io.github.alaksion.invoicer.foundation.log.Logger
 import kotlinx.coroutines.CoroutineDispatcher
@@ -8,14 +7,14 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.selects.select
-import models.qrcodetoken.AuthorizedQrCodeToken
+import repository.QrCodeTokenRepository
 import services.api.services.qrcodetoken.GetQrCodeTokenByContentIdService
 import services.api.services.qrcodetoken.PollAuthorizedTokenService
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
 internal class PollAuthorizedTokenServiceImpl(
-    private val cacheHandler: CacheHandler,
+    private val qrCodeTokenRepository: QrCodeTokenRepository,
     private val getTokenService: GetQrCodeTokenByContentIdService,
     private val dispatcher: CoroutineDispatcher,
     private val logger: Logger
@@ -54,14 +53,14 @@ internal class PollAuthorizedTokenServiceImpl(
     private suspend fun pollToken(
         contentId: String
     ): PollAuthorizedTokenService.Response {
-        val authData = cacheHandler.get(key = contentId, serializer = AuthorizedQrCodeToken.serializer())
+        val authData = qrCodeTokenRepository.getAuthorizedToken(contentId = contentId)
         if (authData != null) {
             logger.log(
                 type = PollAuthorizedTokenServiceImpl::class,
                 message = "Authorized QrToken found in cache, deleting it.",
                 level = LogLevel.Debug
             )
-            cacheHandler.delete(contentId)
+            qrCodeTokenRepository.clearAuthorizedToken(contentId)
             return PollAuthorizedTokenService.Response.Success(authData)
         } else {
             logger.log(

@@ -1,7 +1,6 @@
 package services.impl.qrcodetoken
 
 import foundation.authentication.impl.AuthTokenManager
-import foundation.cache.CacheHandler
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import models.qrcodetoken.AuthorizedQrCodeToken
@@ -20,7 +19,6 @@ internal class AuthorizeQrCodeTokenServiceImpl(
     private val qrCodeTokenRepository: QrCodeTokenRepository,
     private val clock: Clock,
     private val getUserByIdService: GetUserByIdService,
-    private val cacheHandler: CacheHandler
 ) : AuthorizeQrCodeTokenService {
 
     override suspend fun consume(
@@ -50,14 +48,13 @@ internal class AuthorizeQrCodeTokenServiceImpl(
             userId = userUuid
         )
 
-        cacheHandler.set(
-            key = contentId,
-            value = AuthorizedQrCodeToken(
+        qrCodeTokenRepository.storeAuthorizedToken(
+            contentId = contentId,
+            token = AuthorizedQrCodeToken(
+                rawContent = token.rawContent,
                 refreshToken = refreshToken,
-                accessToken = accessToken,
-                rawContent = token.rawContent
-            ),
-            serializer = AuthorizedQrCodeToken.serializer()
+                accessToken = accessToken
+            )
         )
     }
 

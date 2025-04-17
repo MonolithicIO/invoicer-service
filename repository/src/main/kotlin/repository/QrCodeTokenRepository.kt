@@ -1,6 +1,8 @@
 package repository
 
 import datasource.api.database.QrCodeTokenDatabaseSource
+import foundation.cache.CacheHandler
+import models.qrcodetoken.AuthorizedQrCodeToken
 import models.qrcodetoken.QrCodeTokenModel
 import java.util.*
 
@@ -27,10 +29,24 @@ interface QrCodeTokenRepository {
     suspend fun getQrCodeByTokenId(
         contentId: String,
     ): QrCodeTokenModel?
+
+    suspend fun storeAuthorizedToken(
+        contentId: String,
+        token: AuthorizedQrCodeToken
+    )
+
+    suspend fun getAuthorizedToken(
+        contentId: String
+    ): AuthorizedQrCodeToken?
+
+    suspend fun clearAuthorizedToken(
+        contentId: String
+    )
 }
 
 internal class QrCodeTokenRepositoryImpl(
-    private val databaseSource: QrCodeTokenDatabaseSource
+    private val databaseSource: QrCodeTokenDatabaseSource,
+    private val cacheHandler: CacheHandler,
 ) : QrCodeTokenRepository {
 
     override suspend fun createQrCodeToken(
@@ -61,5 +77,33 @@ internal class QrCodeTokenRepositoryImpl(
 
     override suspend fun getQrCodeByTokenId(contentId: String): QrCodeTokenModel? {
         return databaseSource.getQrCodeTokenByContentId(contentId = contentId)
+    }
+
+    override suspend fun storeAuthorizedToken(
+        contentId: String,
+        token: AuthorizedQrCodeToken
+    ) {
+        cacheHandler.set(
+            key = token.rawContent,
+            value = AuthorizedQrCodeToken(
+                refreshToken = token.refreshToken,
+                accessToken = token.accessToken,
+                rawContent = token.rawContent
+            ),
+            serializer = AuthorizedQrCodeToken.serializer()
+        )
+    }
+
+    override suspend fun getAuthorizedToken(contentId: String): AuthorizedQrCodeToken? {
+        return cacheHandler.get(
+            contentId,
+            serializer = AuthorizedQrCodeToken.serializer()
+        )
+    }
+
+    override suspend fun clearAuthorizedToken(contentId: String) {
+        cacheHandler.delete(
+            key = contentId,
+        )
     }
 }

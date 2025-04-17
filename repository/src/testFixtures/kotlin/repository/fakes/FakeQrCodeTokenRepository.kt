@@ -1,6 +1,7 @@
 package repository.fakes
 
 import models.fixtures.qrCodeTokenModelFixture
+import models.qrcodetoken.AuthorizedQrCodeToken
 import models.qrcodetoken.QrCodeTokenModel
 import repository.QrCodeTokenRepository
 import java.util.*
@@ -11,6 +12,7 @@ class FakeQrCodeTokenRepository : QrCodeTokenRepository {
     var getQrCodeTokenByUUIDResponse: suspend () -> QrCodeTokenModel? = { null }
     var consumeQrCodeTokenResponse: suspend () -> QrCodeTokenModel? = { null }
     var getQrCodeTokenByIdResponse: suspend () -> QrCodeTokenModel? = { null }
+    var getAuthorizedQrCodeToken: suspend () -> AuthorizedQrCodeToken? = { null }
 
 
     override suspend fun createQrCodeToken(
@@ -35,4 +37,12 @@ class FakeQrCodeTokenRepository : QrCodeTokenRepository {
     override suspend fun getQrCodeByTokenId(contentId: String): QrCodeTokenModel? {
         return getQrCodeTokenByIdResponse()
     }
+
+    override suspend fun storeAuthorizedToken(contentId: String, token: AuthorizedQrCodeToken) = Unit
+
+    override suspend fun getAuthorizedToken(contentId: String): AuthorizedQrCodeToken? {
+        return getAuthorizedQrCodeToken()
+    }
+
+    override suspend fun clearAuthorizedToken(contentId: String) = Unit
 }
