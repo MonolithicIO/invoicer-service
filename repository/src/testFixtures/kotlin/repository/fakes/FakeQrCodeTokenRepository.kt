@@ -17,9 +17,8 @@ class FakeQrCodeTokenRepository : QrCodeTokenRepository {
     var consumeCalls = 0
         private set
 
-    var storeAuthorizedTokenCallstack = mutableListOf<Pair<String, AuthorizedQrCodeToken>>()
-        private set
-
+    val storeAuthorizedTokenCallstack = mutableListOf<Pair<String, AuthorizedQrCodeToken>>()
+    val getByContentIdCallstack = mutableListOf<String>()
 
     override suspend fun createQrCodeToken(
         ipAddress: String,
@@ -42,6 +41,7 @@ class FakeQrCodeTokenRepository : QrCodeTokenRepository {
     override suspend fun expireQrCodeToken(tokenId: UUID) = Unit
 
     override suspend fun getQrCodeByTokenId(contentId: String): QrCodeTokenModel? {
+        getByContentIdCallstack.add(contentId)
         return getQrCodeTokenByIdResponse()
     }
 
