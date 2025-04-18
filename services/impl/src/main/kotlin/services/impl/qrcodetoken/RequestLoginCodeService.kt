@@ -17,7 +17,7 @@ internal class RequestQrCodeTokenServiceImpl(
         request: RequestLoginCodeModel
     ): QrCodeTokenModel {
 
-        if (request.size < 0) {
+        if (request.size < 1) {
             badRequestError("Size must be greater than 0")
         }
 

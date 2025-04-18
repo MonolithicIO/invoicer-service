@@ -17,7 +17,6 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-
 internal class ItextInvoiceWriter : InvoicePdfWriter {
 
     override suspend fun write(invoice: InvoiceModel, outputPath: String) {

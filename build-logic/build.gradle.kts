@@ -11,7 +11,6 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.kover.gradle)
     implementation(libs.detekt.gradle)
 }
 

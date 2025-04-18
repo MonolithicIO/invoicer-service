@@ -7,7 +7,6 @@ import controller.viewmodel.qrcodetoken.toTokenDetailsViewModel
 import controller.viewmodel.qrcodetoken.toTokenResponseViewModel
 import foundation.authentication.impl.jwt.jwtProtected
 import foundation.authentication.impl.jwt.jwtUserId
-import io.github.alaksion.invoicer.utils.events.QrCodeEventHandler
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -17,25 +16,17 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
 import io.ktor.websocket.*
-import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.qrcodetoken.ConsumeQrCodeTokenService
+import services.api.services.qrcodetoken.AuthorizeQrCodeTokenService
 import services.api.services.qrcodetoken.GetQrCodeTokenByContentIdService
+import services.api.services.qrcodetoken.PollAuthorizedTokenService
 import services.api.services.qrcodetoken.RequestQrCodeTokenService
 import utils.exceptions.http.notFoundError
 import utils.exceptions.http.unauthorizedResourceError
-import java.util.concurrent.ConcurrentHashMap
+import kotlin.time.Duration.Companion.seconds
 
 internal fun Routing.loginCodeController() {
-    val qrCodeEventChannel by closestDI().instance<QrCodeEventHandler>()
-    val sessionMap = ConcurrentHashMap<String, WebSocketServerSession>()
-
     route("/v1/login_code") {
         post {
             val body = call.receive<RequestQrCodeTokenViewModel>()
@@ -56,7 +47,7 @@ internal fun Routing.loginCodeController() {
         jwtProtected {
             post("/{id}/consume") {
                 val qrCodeContentId = call.parameters["id"]!!
-                val service by closestDI().instance<ConsumeQrCodeTokenService>()
+                val service by closestDI().instance<AuthorizeQrCodeTokenService>()
                 service.consume(
                     contentId = qrCodeContentId,
                     userUuid = parseUuid(jwtUserId())
@@ -79,62 +70,31 @@ internal fun Routing.loginCodeController() {
 
         webSocket("/qrcode_socket/{contentId}") {
             val contentId = call.parameters["contentId"] ?: unauthorizedResourceError()
-            val findTokenService by closestDI().instance<GetQrCodeTokenByContentIdService>()
+            val findTokenService by closestDI().instance<PollAuthorizedTokenService>()
 
-            val token = findTokenService.find(contentId)
-            if (token == null) {
-                close(
-                    reason = CloseReason(
-                        code = 1000,
-                        message = "QrCode not found, closing connection"
+            val pollResult = findTokenService.poll(
+                contentId = contentId,
+                interval = 1.seconds
+            )
+
+            when (pollResult) {
+                is PollAuthorizedTokenService.Response.CloseConnection ->
+                    close(
+                        reason = CloseReason(
+                            code = 1000,
+                            message = pollResult.message
+                        )
                     )
-                )
-            }
 
-            val codeExpiration = token!!.expiresAt - Clock.System.now()
-            sessionMap[contentId] = this
-
-            val scanJob = launch {
-                qrCodeEventChannel
-                    .events
-                    .filter { it.contentId == contentId }
-                    .collect { event ->
-                        val matchingConnection = sessionMap[contentId]
-
-                        if (matchingConnection != null && matchingConnection.isActive) {
-                            matchingConnection.sendSerialized(
-                                LoginResponseViewModel(
-                                    token = event.accessToken,
-                                    refreshToken = event.refreshToken
-                                )
-                            )
-                            sessionMap.remove(contentId)
-                            matchingConnection.close(
-                                reason = CloseReason(CloseReason.Codes.NORMAL, "Authentication successful")
-                            )
-                        }
-                    }
-            }
-
-            val expirationJob = launch {
-                delay(codeExpiration)
-                scanJob.cancel()
-                close(
-                    reason = CloseReason(
-                        code = 1001,
-                        message = "QrCode expired, closing connection"
+                is PollAuthorizedTokenService.Response.Success -> {
+                    sendSerialized(
+                        LoginResponseViewModel(
+                            token = pollResult.token.accessToken,
+                            refreshToken = pollResult.token.refreshToken
+                        )
                     )
-                )
-            }
-
-            scanJob.invokeOnCompletion { expirationJob.cancel() }
-
-            runCatching {
-                incoming.consumeEach {
-                    // no op
+                    close(reason = CloseReason(CloseReason.Codes.NORMAL, "Authentication successful"))
                 }
-            }.onFailure {
-                scanJob.cancel()
             }
         }
     }
