@@ -16,6 +16,8 @@ class FakeQrCodeTokenRepository : QrCodeTokenRepository {
 
     var consumeCalls = 0
         private set
+    var createCalls = 0
+        private set
 
     val storeAuthorizedTokenCallstack = mutableListOf<Pair<String, AuthorizedQrCodeToken>>()
     val getByContentIdCallstack = mutableListOf<String>()
@@ -26,6 +28,7 @@ class FakeQrCodeTokenRepository : QrCodeTokenRepository {
         base64Content: String,
         content: String
     ): QrCodeTokenModel {
+        createCalls++
         return createQrCodeTokenResponse()
     }
 
