@@ -17,7 +17,6 @@ internal class EnvSecretsProvider(
             SecretKeys.JWT_REALM -> "jwt.realm"
             SecretKeys.REDIS_HOST -> "redis.host"
             SecretKeys.REDIS_PORT -> "redis.port"
-            SecretKeys.REDIS_TTL -> "redis.ttl"
             SecretKeys.MIN_IO_KEY -> "minIO.key"
             SecretKeys.MIN_IO_SECRET_KEY -> "minIO.secret"
             SecretKeys.MIN_IO_URL -> "minIO.url"
