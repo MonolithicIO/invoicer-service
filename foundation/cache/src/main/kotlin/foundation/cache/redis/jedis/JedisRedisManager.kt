@@ -43,17 +43,16 @@ internal class JedisRedisManager(
                     currentReconnectDelay = BASE_REDIS_HEALTH_CHECK_INTERVAL
                     reconnectionAttempts = 0
                 } else {
+                    reconnectionAttempts++
+                    val delayInSecs = currentReconnectDelay.inWholeSeconds
+                    currentReconnectDelay = (delayInSecs * reconnectionMultiplier).seconds
                     logger.log(
                         type = JedisRedisManager::class,
                         message = "Redis is unhealthy. Launching reconnect process in $currentReconnectDelay",
                         level = LogLevel.Error
                     )
-                    reconnectionAttempts++
-                    val delayInSecs = currentReconnectDelay.inWholeSeconds
-
-                    currentReconnectDelay = (delayInSecs * reconnectionMultiplier).toLong().seconds
                 }
-                delay(BASE_REDIS_HEALTH_CHECK_INTERVAL)
+                delay(currentReconnectDelay)
             }
         }
     }
