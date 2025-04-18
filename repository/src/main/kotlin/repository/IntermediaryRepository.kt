@@ -83,7 +83,8 @@ internal class IntermediaryRepositoryImpl(
             cacheHandler.set(
                 key = intermediaryId.toString(),
                 value = it,
-                serializer = IntermediaryModel.serializer()
+                serializer = IntermediaryModel.serializer(),
+                ttlSeconds = CACHE_TTL_SECONDS
             )
         }
     }
@@ -125,5 +126,9 @@ internal class IntermediaryRepositoryImpl(
         ).also {
             cacheHandler.delete(intermediaryId.toString())
         }
+    }
+
+    companion object {
+        const val CACHE_TTL_SECONDS = 600L
     }
 }

@@ -84,7 +84,8 @@ internal class BeneficiaryRepositoryImpl(
             cacheHandler.set(
                 key = it.id.toString(),
                 value = it,
-                serializer = BeneficiaryModel.serializer()
+                serializer = BeneficiaryModel.serializer(),
+                ttlSeconds = CACHE_TTL_SECONDS
             )
         }
     }
@@ -130,5 +131,9 @@ internal class BeneficiaryRepositoryImpl(
                 bankAddress = model.bankAddress
             )
         ).also { cacheHandler.delete(beneficiaryId.toString()) }
+    }
+
+    companion object {
+        const val CACHE_TTL_SECONDS = 600L
     }
 }

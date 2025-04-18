@@ -93,7 +93,8 @@ internal class InvoiceRepositoryImpl(
             cacheHandler.set(
                 key = it.id.toString(),
                 serializer = InvoiceModel.serializer(),
-                value = it
+                value = it,
+                ttlSeconds = CACHE_TTL_SECONDS
             )
         }
     }
@@ -161,5 +162,9 @@ internal class InvoiceRepositoryImpl(
             intermediaryId = intermediaryId,
             userId = userId
         )
+    }
+
+    companion object {
+        const val CACHE_TTL_SECONDS = 600L
     }
 }

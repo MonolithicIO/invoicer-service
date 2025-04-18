@@ -90,7 +90,8 @@ internal class QrCodeTokenRepositoryImpl(
                 accessToken = token.accessToken,
                 rawContent = token.rawContent
             ),
-            serializer = AuthorizedQrCodeToken.serializer()
+            serializer = AuthorizedQrCodeToken.serializer(),
+            ttlSeconds = CACHE_TTL_SECONDS
         )
     }
 
@@ -105,5 +106,9 @@ internal class QrCodeTokenRepositoryImpl(
         cacheHandler.delete(
             key = contentId,
         )
+    }
+
+    companion object {
+        const val CACHE_TTL_SECONDS = 60L
     }
 }
