@@ -22,6 +22,10 @@ internal class JedisRedisManager(
     private var healthJob: Job? = null
     private var pool: JedisPool? = createNewPool()
 
+    private var currentReconnectDelay = BASE_REDIS_HEALTH_CHECK_INTERVAL
+    private var reconnectionAttempts = 0
+    private val reconnectionMultiplier = 2
+
     init {
         healthJob = CoroutineScope(dispatcher).launch {
             while (true) {
@@ -36,14 +40,20 @@ internal class JedisRedisManager(
                         message = "Redis is healthy",
                         level = LogLevel.Debug
                     )
+                    currentReconnectDelay = BASE_REDIS_HEALTH_CHECK_INTERVAL
+                    reconnectionAttempts = 0
                 } else {
                     logger.log(
                         type = JedisRedisManager::class,
-                        message = "Redis is unhealthy. Launching reconnect process in $REDIS_HEALTH_CHECK_INTERVAL",
+                        message = "Redis is unhealthy. Launching reconnect process in $currentReconnectDelay",
                         level = LogLevel.Error
                     )
+                    reconnectionAttempts++
+                    val delayInSecs = currentReconnectDelay.inWholeSeconds
+
+                    currentReconnectDelay = (delayInSecs * reconnectionMultiplier).toLong().seconds
                 }
-                delay(REDIS_HEALTH_CHECK_INTERVAL)
+                delay(BASE_REDIS_HEALTH_CHECK_INTERVAL)
             }
         }
     }
@@ -201,6 +211,6 @@ internal class JedisRedisManager(
     }
 
     companion object {
-        val REDIS_HEALTH_CHECK_INTERVAL = 5.seconds
+        val BASE_REDIS_HEALTH_CHECK_INTERVAL = 5.seconds
     }
 }
