@@ -14,6 +14,12 @@ class FakeQrCodeTokenRepository : QrCodeTokenRepository {
     var getQrCodeTokenByIdResponse: suspend () -> QrCodeTokenModel? = { null }
     var getAuthorizedQrCodeToken: suspend () -> AuthorizedQrCodeToken? = { null }
 
+    var consumeCalls = 0
+        private set
+
+    var storeAuthorizedTokenCallstack = mutableListOf<Pair<String, AuthorizedQrCodeToken>>()
+        private set
+
 
     override suspend fun createQrCodeToken(
         ipAddress: String,
@@ -29,6 +35,7 @@ class FakeQrCodeTokenRepository : QrCodeTokenRepository {
     }
 
     override suspend fun consumeQrCodeToken(tokenId: UUID): QrCodeTokenModel? {
+        consumeCalls++
         return consumeQrCodeTokenResponse()
     }
 
@@ -38,7 +45,9 @@ class FakeQrCodeTokenRepository : QrCodeTokenRepository {
         return getQrCodeTokenByIdResponse()
     }
 
-    override suspend fun storeAuthorizedToken(contentId: String, token: AuthorizedQrCodeToken) = Unit
+    override suspend fun storeAuthorizedToken(contentId: String, token: AuthorizedQrCodeToken) {
+        storeAuthorizedTokenCallstack.add(Pair(contentId, token))
+    }
 
     override suspend fun getAuthorizedToken(contentId: String): AuthorizedQrCodeToken? {
         return getAuthorizedQrCodeToken()
