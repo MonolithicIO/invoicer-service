@@ -71,12 +71,6 @@ class EnvSecretsProviderTest {
     }
 
     @Test
-    fun retrievesRedisTtl() {
-        provider.getSecret(SecretKeys.REDIS_TTL)
-        assertEquals(expected = listOf("redis.ttl"), actual = env.callStack)
-    }
-
-    @Test
     fun retrievesMinIOKey() {
         provider.getSecret(SecretKeys.MIN_IO_KEY)
         assertEquals(expected = listOf("minIO.key"), actual = env.callStack)

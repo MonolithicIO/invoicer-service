@@ -14,7 +14,6 @@ enum class SecretKeys {
     JWT_REALM,
     REDIS_HOST,
     REDIS_PORT,
-    REDIS_TTL,
     MIN_IO_KEY,
     MIN_IO_SECRET_KEY,
     MIN_IO_URL,
