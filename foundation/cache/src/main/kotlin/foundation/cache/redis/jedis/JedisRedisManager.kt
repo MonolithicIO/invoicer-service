@@ -22,38 +22,32 @@ internal class JedisRedisManager(
     private var healthJob: Job? = null
     private var pool: JedisPool? = createNewPool()
 
+    private var currentReconnectDelay = BASE_REDIS_HEALTH_CHECK_INTERVAL
+    private var reconnectionAttempts = 0
+    private val reconnectionMultiplier = 2
+
     init {
         healthJob = CoroutineScope(dispatcher).launch {
             while (true) {
-                logger.log(
-                    type = JedisRedisManager::class,
-                    message = "Starting Redis Health check",
-                    level = LogLevel.Debug
-                )
                 if (reconnectIfNeeded()) {
-                    logger.log(
-                        type = JedisRedisManager::class,
-                        message = "Redis is healthy",
-                        level = LogLevel.Debug
-                    )
+                    currentReconnectDelay = BASE_REDIS_HEALTH_CHECK_INTERVAL
+                    reconnectionAttempts = 0
                 } else {
-                    logger.log(
-                        type = JedisRedisManager::class,
-                        message = "Redis is unhealthy. Launching reconnect process in $REDIS_HEALTH_CHECK_INTERVAL",
-                        level = LogLevel.Error
-                    )
+                    reconnectionAttempts++
+                    val delayInSecs = currentReconnectDelay.inWholeSeconds
+                    currentReconnectDelay = (delayInSecs * reconnectionMultiplier).seconds
                 }
-                delay(REDIS_HEALTH_CHECK_INTERVAL)
+                delay(currentReconnectDelay)
             }
         }
     }
 
-    override fun setKey(key: String, value: String) {
+    override fun setKey(key: String, value: String, ttlSeconds: Long) {
         launchRedisQuery(queryType = "insert") { connection ->
             connection.set(
                 key,
                 value,
-                SetParams().ex(secrets.getSecret(SecretKeys.REDIS_TTL).toLong())
+                SetParams().ex(ttlSeconds)
             )
         }
     }
@@ -62,8 +56,12 @@ internal class JedisRedisManager(
         return launchRedisQuery(queryType = "get") { connection -> connection.get(key) }
     }
 
-    override fun clearKey(key: String) {
-        launchRedisQuery(queryType = "delete") { connection ->
+    override fun clearKey(
+        key: String,
+    ) {
+        launchRedisQuery(
+            queryType = "delete",
+        ) { connection ->
             connection.del(key)
         }
     }
@@ -90,7 +88,7 @@ internal class JedisRedisManager(
             onFailure = {
                 logger.log(
                     type = this::class,
-                    message = "Failed to launch Redis Query: $queryType. Pool connection failed or timed out",
+                    message = "Failed to launch Redis Query: $queryType: ${it.message ?: "Pool connection failed or timed out"}",
                     level = LogLevel.Error
                 )
                 null
@@ -138,6 +136,12 @@ internal class JedisRedisManager(
 
     private fun reconnectIfNeeded(): Boolean {
         pool?.let { safePool ->
+            logger.log(
+                type = JedisRedisManager::class,
+                message = "Starting Redis Health check",
+                level = LogLevel.Debug
+            )
+
             if (healthCheck(safePool)) return true
             else {
                 logger.log(
@@ -178,8 +182,22 @@ internal class JedisRedisManager(
                 jedis?.ping() == "PONG"
             }
         }.fold(
-            onSuccess = { true },
-            onFailure = { false }
+            onSuccess = {
+                logger.log(
+                    type = JedisRedisManager::class,
+                    message = "Redis healthcheck: healthy",
+                    level = LogLevel.Debug
+                )
+                true
+            },
+            onFailure = {
+                logger.log(
+                    type = JedisRedisManager::class,
+                    message = "Redis healthcheck: unhealthy: ${it.message}",
+                    level = LogLevel.Error
+                )
+                false
+            }
         )
     }
 
@@ -201,6 +219,6 @@ internal class JedisRedisManager(
     }
 
     companion object {
-        val REDIS_HEALTH_CHECK_INTERVAL = 5.seconds
+        val BASE_REDIS_HEALTH_CHECK_INTERVAL = 5.seconds
     }
 }
