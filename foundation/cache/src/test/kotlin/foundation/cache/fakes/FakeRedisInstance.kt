@@ -9,7 +9,7 @@ class FakeRedisInstance : RedisInstance {
     val getCallStack = mutableListOf<String>()
     val clearCallStack = mutableListOf<String>()
 
-    override fun setKey(key: String, value: String) {
+    override fun setKey(key: String, value: String, ttlSeconds: Long) {
         setCallStack.add(Pair(key, value))
     }
 

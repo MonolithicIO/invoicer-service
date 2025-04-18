@@ -14,7 +14,8 @@ internal class RedisCacheHandler(
     override suspend fun <T> set(
         key: String,
         value: T,
-        serializer: KSerializer<T>
+        serializer: KSerializer<T>,
+        ttlSeconds: Long,
     ) {
         runCatching {
             val encoded = Json.encodeToString(
@@ -24,7 +25,8 @@ internal class RedisCacheHandler(
 
             redisInstance.setKey(
                 key = key,
-                value = encoded
+                value = encoded,
+                ttlSeconds = ttlSeconds
             )
         }.onFailure {
             logger.log(

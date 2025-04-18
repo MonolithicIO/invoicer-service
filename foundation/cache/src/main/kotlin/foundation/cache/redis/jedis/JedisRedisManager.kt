@@ -48,12 +48,12 @@ internal class JedisRedisManager(
         }
     }
 
-    override fun setKey(key: String, value: String) {
+    override fun setKey(key: String, value: String, ttlSeconds: Long) {
         launchRedisQuery(queryType = "insert") { connection ->
             connection.set(
                 key,
                 value,
-                SetParams().ex(secrets.getSecret(SecretKeys.REDIS_TTL).toLong())
+                SetParams().ex(ttlSeconds)
             )
         }
     }

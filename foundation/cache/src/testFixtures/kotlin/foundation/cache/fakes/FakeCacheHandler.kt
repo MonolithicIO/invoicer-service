@@ -13,7 +13,7 @@ class FakeCacheHandler : CacheHandler {
     val deleteCallStack = mutableListOf<String>()
     val setCallStack = mutableListOf<Pair<String, Any>>()
 
-    override suspend fun <T> set(key: String, value: T, serializer: KSerializer<T>) {
+    override suspend fun <T> set(key: String, value: T, serializer: KSerializer<T>, ttlSeconds: Long) {
         setCallStack.add(Pair(key, value as Any))
     }
 
