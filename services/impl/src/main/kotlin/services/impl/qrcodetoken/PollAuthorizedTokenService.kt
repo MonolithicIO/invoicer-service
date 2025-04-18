@@ -38,7 +38,7 @@ internal class PollAuthorizedTokenServiceImpl(
                 PollAuthorizedTokenService.Response.CloseConnection("Connection timed out")
             }
 
-            val poll = async(dispatcher) { pollToken(contentId) }
+            val poll = async(dispatcher) { pollToken(contentId, interval) }
 
             select {
                 cancellation.onAwait { it }
@@ -51,7 +51,8 @@ internal class PollAuthorizedTokenServiceImpl(
     }
 
     private suspend fun pollToken(
-        contentId: String
+        contentId: String,
+        interval: Duration
     ): PollAuthorizedTokenService.Response {
         val authData = qrCodeTokenRepository.getAuthorizedToken(contentId = contentId)
         if (authData != null) {
@@ -68,8 +69,8 @@ internal class PollAuthorizedTokenServiceImpl(
                 message = "Authorized QrToken not found in cache, waiting 1sec before another poll.",
                 level = LogLevel.Debug
             )
-            delay(1.seconds)
-            return pollToken(contentId)
+            delay(interval)
+            return pollToken(contentId, interval)
         }
     }
 }
