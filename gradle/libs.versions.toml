@@ -23,6 +23,7 @@ zxing = "3.5.3"
 pdf = "9.1.0"
 minIO = "8.5.17"
 kafka = "3.6.1"
+loki = "1.4.0"
 
 [libraries]
 kodein-server = { module = "org.kodein.di:kodein-di-framework-ktor-server-jvm", version.ref = "kodein" }
@@ -42,9 +43,10 @@ jedis = { module = "redis.clients:jedis", version.ref = "jedis" }
 postgres = { module = "org.postgresql:postgresql", version.ref = "postgres" }
 h2 = { module = "com.h2database:h2", version.ref = "h2" }
 
-# Logback
+# Log
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-classic" }
 logback-encoder = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logback-encoder" }
+loki = { module = "com.github.loki4j:loki-logback-appender", version.ref = "loki" }
 
 # Kotlin
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime-jvm", version.ref = "datetime" }
@@ -96,6 +98,7 @@ minIO = { module = "io.minio:minio", version.ref = "minIO" }
 
 # Kafka
 kafka = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
+
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt-plugin" }
