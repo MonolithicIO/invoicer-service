@@ -13,6 +13,7 @@ dependencies {
 
     implementation(projects.foundation.secrets)
     implementation(projects.foundation.log)
+    implementation(projects.utils)
 
     testImplementation(libs.kotlin.coroutines.test)
     testImplementation(libs.kotlin.test)
