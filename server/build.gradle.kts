@@ -88,7 +88,7 @@ kover {
                 packages("**.fakes")
                 packages("**.fixtures")
                 packages("**.pdfwriter.itext")
-                annotatedBy("IgnoreCoverage")
+                annotatedBy("io.github.alaksion.invoicer.utils.annotations.IgnoreCoverage")
             }
         }
     }
