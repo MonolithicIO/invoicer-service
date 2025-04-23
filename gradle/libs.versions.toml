@@ -24,6 +24,8 @@ pdf = "9.1.0"
 minIO = "8.5.17"
 kafka = "3.6.1"
 loki = "1.4.0"
+firebase-admin = "9.4.3"
+
 
 [libraries]
 kodein-server = { module = "org.kodein.di:kodein-di-framework-ktor-server-jvm", version.ref = "kodein" }
@@ -99,6 +101,8 @@ minIO = { module = "io.minio:minio", version.ref = "minIO" }
 # Kafka
 kafka = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
 
+# Firebase
+firebase-admin = { module = "com.google.firebase:firebase-admin", version.ref = "firebase-admin" }
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt-plugin" }
