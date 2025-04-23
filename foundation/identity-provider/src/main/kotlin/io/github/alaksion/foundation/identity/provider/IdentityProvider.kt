@@ -1,7 +1,18 @@
 package io.github.alaksion.foundation.identity.provider
 
 interface IdentityProvider {
+    /**
+     * Retrieves user e-mail from the identity provider using the provided token.
+     *
+     * @param token The token to be used for authentication.
+     * */
     suspend fun extractEmail(token: String): IdentityProviderResult
+
+    /**
+     * Initializes the identity provider. This method should be called before using the identity provider.
+     * Depending on the SDK being used this might be a non-op.
+     * */
+    fun initialize()
 }
 
 sealed interface IdentityProviderResult {

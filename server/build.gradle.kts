@@ -46,6 +46,7 @@ dependencies {
     implementation(projects.foundation.storage)
     implementation(projects.foundation.messaging)
     implementation(projects.foundation.log)
+    implementation(projects.foundation.identityProvider)
     implementation(projects.utils)
     implementation(projects.consumers)
 
