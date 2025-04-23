@@ -30,6 +30,7 @@ dependencies {
     implementation(libs.bundles.ktor)
     implementation("org.webjars:jquery:3.2.1")
     implementation(libs.swagger)
+    implementation(libs.loki)
 
     // Micrometer
     implementation(libs.micrometer.prometheus)

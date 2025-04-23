@@ -1,37 +1,43 @@
 <configuration>
-
-    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <!-- Variável de ambiente LOGSTASH_HOST com fallback -->
-        <destination>${INVOICER_LOGSTASH}</destination>
-
-        <!-- Opcional: tempo de reconexão -->
-        <reconnectionDelay>10000</reconnectionDelay>
-
-        <!-- Keep alive para manter a conexão ativa -->
-        <keepAliveDuration>5 minutes</keepAliveDuration>
-
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
-            <customFields>{"app":"my-ktor-app","environment":"${ENV:-dev}"}</customFields>
-        </encoder>
-    </appender>
-
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{YYYY-MM-dd HH:mm:ss.SSS} [%thread] %X{call-id} %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <root level="trace">
-        <appender-ref ref="STDOUT"/>
-    </root>
+    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+        <http>
+            <url>${LOKI_URL}</url>
+        </http>
+        <format>
+            <label>
+                <pattern>app=invoicer-service,host=invoicer,level=%level</pattern>
+            </label>
+            <message>
+                <pattern>{
+                    "time": "%date{ISO8601}",
+                    "level": "%level",
+                    "thread": "%thread",
+                    "logger": "%logger",
+                    "message": "%message",
+                    "exception": "%exception"
+                    }</pattern>
+            </message>
+            <sortByTime>true</sortByTime>
+        </format>
+        <batch>
+            <maxItems>100</maxItems>
+            <maxBytes>4194304</maxBytes> <!-- 4MB -->
+            <timeout>5</timeout> <!-- 5 seconds -->
+        </batch>
+    </appender>
 
     <root level="trace">
-        <appender-ref ref="LOGSTASH"/>
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="LOKI"/>
     </root>
 
     <logger name="org.eclipse.jetty" level="WARN"/>
     <logger name="io.netty" level="WARN"/>
-    <logger name="org.apache.kafka" level="WARN"/>
-    <logger name="redis.clients.jedis.JedisFactory" level="WARN"/>
 
 </configuration>
