@@ -17,17 +17,20 @@ internal class FirebaseIdentityProvider(
     private val logger: Logger
 ) : IdentityProvider {
 
-    override suspend fun extractEmail(token: String): IdentityProviderResult {
+    override suspend fun getGoogleIdentity(token: String): IdentityProviderResult {
         return runCatching {
             firebaseAuth.verifyIdToken(token)
         }.fold(
-            onSuccess = {
+            onSuccess = { account ->
                 logger.log(
                     type = FirebaseIdentityProvider::class,
                     message = "Firebase Token verified successfully",
                     level = LogLevel.Debug
                 )
-                IdentityProviderResult.Success(it.email)
+                IdentityProviderResult.Success(
+                    email = account.email,
+                    providerUuid = account.uid
+                )
             },
             onFailure = { error ->
                 logger.log(

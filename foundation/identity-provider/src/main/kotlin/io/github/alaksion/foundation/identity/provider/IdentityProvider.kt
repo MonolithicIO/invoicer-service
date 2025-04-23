@@ -2,11 +2,11 @@ package io.github.alaksion.foundation.identity.provider
 
 interface IdentityProvider {
     /**
-     * Retrieves user e-mail from the identity provider using the provided token.
+     * Retrieves Google account from the identity provider using the provided token.
      *
      * @param token The token to be used for authentication.
      * */
-    suspend fun extractEmail(token: String): IdentityProviderResult
+    suspend fun getGoogleIdentity(token: String): IdentityProviderResult
 
     /**
      * Initializes the identity provider. This method should be called before using the identity provider.
@@ -16,7 +16,7 @@ interface IdentityProvider {
 }
 
 sealed interface IdentityProviderResult {
-    data class Success(val email: String) : IdentityProviderResult
+    data class Success(val email: String, val providerUuid: String) : IdentityProviderResult
     data class Error(val error: IdentityProviderError) : IdentityProviderResult
 }
 
