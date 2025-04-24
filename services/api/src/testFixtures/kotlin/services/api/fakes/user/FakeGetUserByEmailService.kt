@@ -20,7 +20,8 @@ class FakeGetUserByEmailService : GetUserByEmailService {
             verified = true,
             email = "luccab.souza@gmail.com",
             createdAt = Instant.parse("2000-06-19T00:00:00Z"),
-            updatedAt = Instant.parse("2000-06-19T00:00:00Z")
+            updatedAt = Instant.parse("2000-06-19T00:00:00Z"),
+            identityProviderUuid = null
         )
     }
 }

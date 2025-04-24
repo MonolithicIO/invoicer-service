@@ -10,5 +10,6 @@ val userModelFixture = UserModel(
     verified = true,
     email = "example@example.com",
     createdAt = Instant.parse("2023-01-01T00:00:00Z"),
-    updatedAt = Instant.parse("2023-01-01T00:00:00Z")
+    updatedAt = Instant.parse("2023-01-01T00:00:00Z"),
+    identityProviderUuid = null
 )

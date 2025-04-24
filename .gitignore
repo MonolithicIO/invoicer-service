@@ -39,3 +39,4 @@ out/
 .kotlin
 
 temp/*
+etc/*

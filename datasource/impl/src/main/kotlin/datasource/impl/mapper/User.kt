@@ -10,5 +10,6 @@ internal fun UserEntity.toModel(): UserModel = UserModel(
     verified = this.verified,
     email = this.email,
     createdAt = this.createdAt,
-    updatedAt = this.updatedAt
+    updatedAt = this.updatedAt,
+    identityProviderUuid = this.identityProviderUuid,
 )

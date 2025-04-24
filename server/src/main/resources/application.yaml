@@ -24,3 +24,5 @@ minIO:
   bucket: $INVOICER_MIN_IO_BUCKET
 kafka:
   bootstrap_servers: $INVOICER_KAFKA_BOOTSTRAP_SERVERS
+firebase:
+  project_id: $INVOICER_FIREBASE_PROJECT_ID

@@ -10,6 +10,7 @@ import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.DeleteInvoiceService
 import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.invoice.GetUserInvoicesService
+import services.api.services.login.GoogleLoginService
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
 import services.api.services.login.StoreRefreshTokenService
@@ -28,6 +29,7 @@ import services.impl.invoice.CreateInvoiceServiceImpl
 import services.impl.invoice.DeleteInvoiceServiceImpl
 import services.impl.invoice.GetUserInvoiceByIdServiceImpl
 import services.impl.invoice.GetUserInvoicesServiceImpl
+import services.impl.login.GoogleLoginServiceImpl
 import services.impl.login.LoginServiceImpl
 import services.impl.login.RefreshLoginServiceImpl
 import services.impl.login.StoreRefreshTokenServiceImpl
@@ -264,6 +266,16 @@ private fun DI.Builder.loginServices() {
             getTokenService = instance(),
             dispatcher = Dispatchers.IO,
             logger = instance()
+        )
+    }
+
+    bindProvider<GoogleLoginService> {
+        GoogleLoginServiceImpl(
+            identityProvider = instance(),
+            getUserByEmailServiceImpl = instance(),
+            userRepository = instance(),
+            authTokenManager = instance(),
+            storeRefreshTokenService = instance()
         )
     }
 }

@@ -19,5 +19,6 @@ enum class SecretKeys {
     MIN_IO_URL,
     MIN_IO_BUCKET,
     KAFKA_BOOTSTRAP,
+    FIREBASE_ID
 }
 

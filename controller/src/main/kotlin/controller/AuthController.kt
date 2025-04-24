@@ -1,9 +1,6 @@
 package controller
 
-import controller.viewmodel.login.LoginViewModel
-import controller.viewmodel.login.RefreshAuthRequest
-import controller.viewmodel.login.toDomainModel
-import controller.viewmodel.login.toViewModel
+import controller.viewmodel.login.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -11,8 +8,10 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
+import services.api.services.login.GoogleLoginService
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
+import utils.exceptions.http.badRequestError
 import utils.exceptions.http.unauthorizedResourceError
 
 internal fun Routing.authController() {
@@ -36,6 +35,18 @@ internal fun Routing.authController() {
                 message = refreshService.refreshLogin(
                     refreshToken = body.refreshToken ?: unauthorizedResourceError(),
                 ).toViewModel(),
+            )
+        }
+
+        post("/google") {
+            val body = call.receive<GoogleSignInViewModel>()
+            val googleLoginService by closestDI().instance<GoogleLoginService>()
+
+            call.respond(
+                status = HttpStatusCode.OK,
+                message = googleLoginService.login(
+                    token = body.token ?: badRequestError("Token is required")
+                ).toViewModel()
             )
         }
     }

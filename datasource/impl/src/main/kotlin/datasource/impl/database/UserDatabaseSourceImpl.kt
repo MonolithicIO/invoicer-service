@@ -37,6 +37,7 @@ internal class UserDatabaseSourceImpl(
                 it[password] = data.password
                 it[updatedAt] = clock.now()
                 it[createdAt] = clock.now()
+                it[identityProviderUuid] = data.identityProviderUuid
             }.value.toString()
         }
     }

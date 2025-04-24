@@ -35,7 +35,8 @@ val invoiceModelFixture = InvoiceModel(
         password = "1234",
         verified = true,
         createdAt = Instant.parse("2023-01-01T00:00:00Z"),
-        updatedAt = Instant.parse("2023-01-01T00:00:00Z")
+        updatedAt = Instant.parse("2023-01-01T00:00:00Z"),
+        identityProviderUuid = null
     ),
     beneficiary = BeneficiaryModel(
         name = "John Doe",
