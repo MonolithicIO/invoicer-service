@@ -39,4 +39,4 @@ out/
 .kotlin
 
 temp/*
-certs/*
+etc/*

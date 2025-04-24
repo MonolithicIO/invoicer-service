@@ -60,7 +60,7 @@ internal class FirebaseIdentityProvider(
 
     override fun initialize() {
         val projectId = secretsProvider.getSecret(SecretKeys.FIREBASE_ID)
-        val configFilePath = Path("").toAbsolutePath().toString() + "/certs/firebase-credentials.json"
+        val configFilePath = Path("").toAbsolutePath().toString() + "/etc/invoicer/configs/firebase-credentials.json"
 
         val configFile = FileInputStream(configFilePath)
 
