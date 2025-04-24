@@ -12,7 +12,9 @@ val identityProviderDiModule = DI.Module("identity-provider") {
     bindSingleton<IdentityProvider> {
         FirebaseIdentityProvider(
             logger = instance(),
-            firebaseAuth = FirebaseAuth.getInstance()
+            firebaseAuth = FirebaseAuth.getInstance(),
+
+            secretsProvider = instance()
         )
     }
 }
