@@ -19,10 +19,13 @@ import kotlin.io.path.Path
 
 @IgnoreCoverage
 internal class FirebaseIdentityProvider(
-    private val firebaseAuth: FirebaseAuth,
     private val logger: Logger,
     private val secretsProvider: SecretsProvider
 ) : IdentityProvider {
+
+    private val firebaseAuth: FirebaseAuth by lazy {
+        FirebaseAuth.getInstance()
+    }
 
     override suspend fun getGoogleIdentity(token: String): IdentityProviderResult {
         return runCatching {

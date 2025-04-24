@@ -1,6 +1,5 @@
 package io.github.alaksion.foundation.identity.provider.di
 
-import com.google.firebase.auth.FirebaseAuth
 import io.github.alaksion.foundation.identity.provider.IdentityProvider
 import io.github.alaksion.foundation.identity.provider.firebase.FirebaseIdentityProvider
 import org.kodein.di.DI
@@ -12,8 +11,6 @@ val identityProviderDiModule = DI.Module("identity-provider") {
     bindSingleton<IdentityProvider> {
         FirebaseIdentityProvider(
             logger = instance(),
-            firebaseAuth = FirebaseAuth.getInstance(),
-
             secretsProvider = instance()
         )
     }
