@@ -10,14 +10,14 @@ import models.user.UserModel
 import repository.UserRepository
 import services.api.services.login.GoogleLoginService
 import services.api.services.login.StoreRefreshTokenService
-import services.impl.user.GetUserByEmailServiceImpl
+import services.api.services.user.GetUserByEmailService
 import utils.exceptions.http.badRequestError
 import utils.exceptions.http.conflictError
 import java.util.*
 
 internal class GoogleLoginServiceImpl(
     private val identityProvider: IdentityProvider,
-    private val getUserByEmailServiceImpl: GetUserByEmailServiceImpl,
+    private val getUserByEmailServiceImpl: GetUserByEmailService,
     private val userRepository: UserRepository,
     private val authTokenManager: AuthTokenManager,
     private val storeRefreshTokenService: StoreRefreshTokenService
