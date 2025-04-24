@@ -20,5 +20,7 @@ fun unAuthorizedError(message: String): Nothing =
 
 fun goneError(message: String): Nothing = httpError(message = message, code = HttpCode.Gone)
 
+fun conflictError(message: String): Nothing = httpError(message = message, code = HttpCode.Conflict)
+
 fun serverException(): Nothing =
     httpError(message = "Internal server error", code = HttpCode.ServerError)

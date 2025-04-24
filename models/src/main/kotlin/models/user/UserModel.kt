@@ -12,5 +12,6 @@ data class UserModel(
     val verified: Boolean,
     val email: String,
     val createdAt: Instant,
-    val updatedAt: Instant
+    val updatedAt: Instant,
+    val identityProviderUuid: String?
 )

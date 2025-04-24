@@ -32,7 +32,7 @@ internal class UserRepositoryImpl(
             data = CreateUserData(
                 email = data.email,
                 password = data.password,
-                confirmEmail = data.confirmEmail
+                identityProviderUuid = data.identityProviderUuid
             )
         )
     }
