@@ -8,8 +8,10 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
+import services.api.services.login.GoogleLoginService
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
+import utils.exceptions.http.badRequestError
 import utils.exceptions.http.unauthorizedResourceError
 
 internal fun Routing.authController() {
@@ -38,8 +40,14 @@ internal fun Routing.authController() {
 
         post("/google") {
             val body = call.receive<GoogleSignInViewModel>()
+            val googleLoginService by closestDI().instance<GoogleLoginService>()
 
-            call.respond(HttpStatusCode.OK)
+            call.respond(
+                status = HttpStatusCode.OK,
+                message = googleLoginService.login(
+                    token = body.token ?: badRequestError("Token is required")
+                ).toViewModel()
+            )
         }
     }
 }
