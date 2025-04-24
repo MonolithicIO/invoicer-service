@@ -275,7 +275,8 @@ private fun DI.Builder.loginServices() {
             getUserByEmailServiceImpl = instance(),
             userRepository = instance(),
             authTokenManager = instance(),
-            storeRefreshTokenService = instance()
+            storeRefreshTokenService = instance(),
+            passwordEncryption = instance()
         )
     }
 }

@@ -1,6 +1,7 @@
 package services.impl.login
 
 import foundation.authentication.fakes.FakeAuthTokenManager
+import foundation.password.fakes.FakePasswordEncryption
 import io.github.alaksion.foundation.identity.provider.IdentityProviderError
 import io.github.alaksion.foundation.identity.provider.IdentityProviderResult
 import io.github.alaksion.foundation.identity.provider.fakes.FakeIdentityProvider
@@ -24,6 +25,7 @@ class GoogleLoginServiceImplTest {
     private lateinit var authTokenManager: FakeAuthTokenManager
     private lateinit var storeRefreshTokenService: FakeStoreRefreshTokenService
     private lateinit var getUserByEmailService: FakeGetUserByEmailService
+    private lateinit var passwordEncryption: FakePasswordEncryption
 
     @BeforeTest
     fun setUp() {
@@ -32,13 +34,15 @@ class GoogleLoginServiceImplTest {
         authTokenManager = FakeAuthTokenManager()
         storeRefreshTokenService = FakeStoreRefreshTokenService()
         getUserByEmailService = FakeGetUserByEmailService()
+        passwordEncryption = FakePasswordEncryption()
 
         service = GoogleLoginServiceImpl(
             identityProvider = identityProvider,
             getUserByEmailServiceImpl = getUserByEmailService,
             userRepository = userRepository,
             authTokenManager = authTokenManager,
-            storeRefreshTokenService = storeRefreshTokenService
+            storeRefreshTokenService = storeRefreshTokenService,
+            passwordEncryption = passwordEncryption
         )
     }
 

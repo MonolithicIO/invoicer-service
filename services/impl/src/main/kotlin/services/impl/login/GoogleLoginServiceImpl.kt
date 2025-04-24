@@ -1,6 +1,7 @@
 package services.impl.login
 
 import foundation.authentication.impl.AuthTokenManager
+import foundation.password.PasswordEncryption
 import io.github.alaksion.foundation.identity.provider.IdentityProvider
 import io.github.alaksion.foundation.identity.provider.IdentityProviderResult
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
@@ -20,7 +21,8 @@ internal class GoogleLoginServiceImpl(
     private val getUserByEmailServiceImpl: GetUserByEmailService,
     private val userRepository: UserRepository,
     private val authTokenManager: AuthTokenManager,
-    private val storeRefreshTokenService: StoreRefreshTokenService
+    private val storeRefreshTokenService: StoreRefreshTokenService,
+    private val passwordEncryption: PasswordEncryption
 ) : GoogleLoginService {
     override suspend fun login(token: String): AuthTokenModel {
 
@@ -91,7 +93,7 @@ internal class GoogleLoginServiceImpl(
                     email = email,
                     confirmEmail = email,
                     identityProviderUuid = providerUuid,
-                    password = UUID.randomUUID().toString()
+                    password = passwordEncryption.encryptPassword(UUID.randomUUID().toString())
                 )
             )
         )
