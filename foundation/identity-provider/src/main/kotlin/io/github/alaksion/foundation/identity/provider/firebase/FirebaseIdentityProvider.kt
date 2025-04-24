@@ -1,20 +1,27 @@
 package io.github.alaksion.foundation.identity.provider.firebase
 
+import com.google.auth.oauth2.GoogleCredentials
 import com.google.firebase.FirebaseApp
+import com.google.firebase.FirebaseOptions
 import com.google.firebase.auth.AuthErrorCode
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
+import foundation.secrets.SecretKeys
+import foundation.secrets.SecretsProvider
 import io.github.alaksion.foundation.identity.provider.IdentityProvider
 import io.github.alaksion.foundation.identity.provider.IdentityProviderError
 import io.github.alaksion.foundation.identity.provider.IdentityProviderResult
 import io.github.alaksion.invoicer.foundation.log.LogLevel
 import io.github.alaksion.invoicer.foundation.log.Logger
 import io.github.alaksion.invoicer.utils.annotations.IgnoreCoverage
+import java.io.FileInputStream
+import kotlin.io.path.Path
 
 @IgnoreCoverage
 internal class FirebaseIdentityProvider(
     private val firebaseAuth: FirebaseAuth,
-    private val logger: Logger
+    private val logger: Logger,
+    private val secretsProvider: SecretsProvider
 ) : IdentityProvider {
 
     override suspend fun getGoogleIdentity(token: String): IdentityProviderResult {
@@ -49,7 +56,17 @@ internal class FirebaseIdentityProvider(
     }
 
     override fun initialize() {
-        FirebaseApp.initializeApp()
+        val projectId = secretsProvider.getSecret(SecretKeys.FIREBASE_ID)
+        val configFilePath = Path("").toAbsolutePath().toString() + "/certs/firebase-credentials.json"
+
+        val configFile = FileInputStream(configFilePath)
+
+        val options = FirebaseOptions.Builder()
+            .setCredentials(GoogleCredentials.fromStream(configFile))
+            .setDatabaseUrl("https://${projectId}.firebaseio.com/")
+            .build()
+
+        FirebaseApp.initializeApp(options)
     }
 
     private fun getError(throwable: FirebaseAuthException): IdentityProviderError {

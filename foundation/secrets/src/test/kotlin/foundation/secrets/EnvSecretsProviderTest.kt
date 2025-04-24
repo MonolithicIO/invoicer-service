@@ -101,6 +101,12 @@ class EnvSecretsProviderTest {
     }
 
     @Test
+    fun retrievesFirebaseId() {
+        provider.getSecret(SecretKeys.FIREBASE_ID)
+        assertEquals(expected = listOf("firebase.project_id"), actual = env.callStack)
+    }
+
+    @Test
     fun `should return empty string when environment variable is not set`() {
         env.response = null
         val result = provider.getSecret(SecretKeys.DB_PASSWORD)

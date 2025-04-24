@@ -22,6 +22,7 @@ internal class EnvSecretsProvider(
             SecretKeys.MIN_IO_URL -> "minIO.url"
             SecretKeys.MIN_IO_BUCKET -> "minIO.bucket"
             SecretKeys.KAFKA_BOOTSTRAP -> "kafka.bootstrap_servers"
+            SecretKeys.FIREBASE_ID -> "firebase.project_id"
         }
 
         return environment.getVariable(path).orEmpty()
