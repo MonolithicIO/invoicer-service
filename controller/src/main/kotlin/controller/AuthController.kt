@@ -1,9 +1,6 @@
 package controller
 
-import controller.viewmodel.login.LoginViewModel
-import controller.viewmodel.login.RefreshAuthRequest
-import controller.viewmodel.login.toDomainModel
-import controller.viewmodel.login.toViewModel
+import controller.viewmodel.login.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -37,6 +34,12 @@ internal fun Routing.authController() {
                     refreshToken = body.refreshToken ?: unauthorizedResourceError(),
                 ).toViewModel(),
             )
+        }
+
+        post("/google") {
+            val body = call.receive<GoogleSignInViewModel>()
+
+            call.respond(HttpStatusCode.OK)
         }
     }
 }
