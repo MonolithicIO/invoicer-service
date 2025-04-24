@@ -59,17 +59,27 @@ internal class FirebaseIdentityProvider(
     }
 
     override fun initialize() {
-        val projectId = secretsProvider.getSecret(SecretKeys.FIREBASE_ID)
-        val configFilePath = Path("").toAbsolutePath().toString() + "/etc/invoicer/configs/firebase-credentials.json"
+        runCatching {
+            val projectId = secretsProvider.getSecret(SecretKeys.FIREBASE_ID)
+            val configFilePath =
+                Path("").toAbsolutePath().toString() + "/etc/invoicer/configs/firebase-credentials.json"
 
-        val configFile = FileInputStream(configFilePath)
+            val configFile = FileInputStream(configFilePath)
 
-        val options = FirebaseOptions.Builder()
-            .setCredentials(GoogleCredentials.fromStream(configFile))
-            .setDatabaseUrl("https://${projectId}.firebaseio.com/")
-            .build()
+            val options = FirebaseOptions.Builder()
+                .setCredentials(GoogleCredentials.fromStream(configFile))
+                .setDatabaseUrl("https://${projectId}.firebaseio.com/")
+                .build()
 
-        FirebaseApp.initializeApp(options)
+            FirebaseApp.initializeApp(options)
+        }.onFailure {
+            logger.log(
+                type = FirebaseIdentityProvider::class,
+                message = "Firebase Admin SDK initialization failed, expect Firebase features to not work",
+                throwable = it,
+                level = LogLevel.Error
+            )
+        }
     }
 
     private fun getError(throwable: FirebaseAuthException): IdentityProviderError {
