@@ -46,6 +46,7 @@ dependencies {
     implementation(projects.foundation.storage)
     implementation(projects.foundation.messaging)
     implementation(projects.foundation.log)
+    implementation(projects.foundation.identityProvider)
     implementation(projects.utils)
     implementation(projects.consumers)
 
@@ -87,7 +88,7 @@ kover {
                 packages("**.fakes")
                 packages("**.fixtures")
                 packages("**.pdfwriter.itext")
-                annotatedBy("IgnoreCoverage")
+                annotatedBy("io.github.alaksion.invoicer.utils.annotations.IgnoreCoverage")
             }
         }
     }
