@@ -8,7 +8,7 @@ import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import java.util.UUID
 
-internal object PaymentAccountTable: UUIDTable("t_payment_account") {
+internal object PaymentAccountTable: UUIDTable("t_company_pay_account") {
     val iban = varchar("iban", 1000)
     val swift = varchar("swift", 11)
     val bankName = varchar("bank_name", 1000)
