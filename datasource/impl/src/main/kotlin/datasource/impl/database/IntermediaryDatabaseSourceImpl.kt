@@ -3,8 +3,8 @@ package datasource.impl.database
 import datasource.api.database.IntermediaryDatabaseSource
 import datasource.api.model.intermediary.CreateIntermediaryData
 import datasource.api.model.intermediary.UpdateIntermediaryData
-import datasource.impl.entities.IntermediaryEntity
-import datasource.impl.entities.IntermediaryTable
+import datasource.impl.entities.legacy.IntermediaryEntity
+import datasource.impl.entities.legacy.IntermediaryTable
 import datasource.impl.mapper.toModel
 import kotlinx.datetime.Clock
 import models.intermediary.IntermediaryModel

@@ -1,7 +1,7 @@
 package datasource.impl.mapper
 
-import datasource.impl.entities.InvoicePdfEntity
-import datasource.impl.entities.InvoicePdfStatusEntity
+import datasource.impl.entities.legacy.InvoicePdfEntity
+import datasource.impl.entities.legacy.InvoicePdfStatusEntity
 import models.invoicepdf.InvoicePdfModel
 
 internal fun InvoicePdfEntity.toModel(): InvoicePdfModel = InvoicePdfModel(

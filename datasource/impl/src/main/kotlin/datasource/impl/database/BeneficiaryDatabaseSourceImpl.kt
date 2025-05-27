@@ -3,8 +3,8 @@ package datasource.impl.database
 import datasource.api.database.BeneficiaryDatabaseSource
 import datasource.api.model.beneficiary.CreateBeneficiaryData
 import datasource.api.model.beneficiary.UpdateBeneficiaryData
-import datasource.impl.entities.BeneficiaryEntity
-import datasource.impl.entities.BeneficiaryTable
+import datasource.impl.entities.legacy.BeneficiaryEntity
+import datasource.impl.entities.legacy.BeneficiaryTable
 import datasource.impl.mapper.toModel
 import kotlinx.datetime.Clock
 import models.beneficiary.BeneficiaryModel

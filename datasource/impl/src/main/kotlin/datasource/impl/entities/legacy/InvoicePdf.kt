@@ -1,4 +1,4 @@
-package datasource.impl.entities
+package datasource.impl.entities.legacy
 
 import models.invoicepdf.InvoicePdfStatus
 import org.jetbrains.exposed.dao.UUIDEntity

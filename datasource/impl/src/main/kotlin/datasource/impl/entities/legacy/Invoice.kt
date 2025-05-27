@@ -1,5 +1,7 @@
-package datasource.impl.entities
+package datasource.impl.entities.legacy
 
+import datasource.impl.entities.UserEntity
+import datasource.impl.entities.UserTable
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -38,8 +40,8 @@ internal class InvoiceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var createdAt by InvoiceTable.createdAt
     var updatedAt by InvoiceTable.updatedAt
     var isDeleted by InvoiceTable.isDeleted
-    val activities by InvoiceActivityEntity referrersOn InvoiceActivityTable.invoice
-    var user by UserEntity referencedOn InvoiceTable.user
+    val activities by InvoiceActivityEntity.Companion referrersOn InvoiceActivityTable.invoice
+    var user by UserEntity.Companion referencedOn InvoiceTable.user
     var beneficiary by BeneficiaryEntity referencedOn InvoiceTable.beneficiary
     var intermediary by IntermediaryEntity optionalReferencedOn InvoiceTable.intermediary
 }

@@ -2,9 +2,9 @@ package datasource.impl.database
 
 import datasource.api.database.InvoicePdfDatabaseSource
 import datasource.api.model.pdf.CreatePdfData
-import datasource.impl.entities.InvoicePdfEntity
-import datasource.impl.entities.InvoicePdfStatusEntity
-import datasource.impl.entities.InvoicePdfTable
+import datasource.impl.entities.legacy.InvoicePdfEntity
+import datasource.impl.entities.legacy.InvoicePdfStatusEntity
+import datasource.impl.entities.legacy.InvoicePdfTable
 import datasource.impl.mapper.toModel
 import kotlinx.datetime.Clock
 import models.invoicepdf.InvoicePdfModel
