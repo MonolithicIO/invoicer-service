@@ -1,5 +1,7 @@
-package datasource.impl.entities
+package datasource.impl.entities.legacy
 
+import datasource.impl.entities.UserEntity
+import datasource.impl.entities.UserTable
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -31,5 +33,5 @@ internal class BeneficiaryEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var isDeleted by BeneficiaryTable.isDeleted
     var updatedAt by BeneficiaryTable.updatedAt
     val createdAt by BeneficiaryTable.createdAt
-    val user by UserEntity referencedOn BeneficiaryTable.user
+    val user by UserEntity.Companion referencedOn BeneficiaryTable.user
 }

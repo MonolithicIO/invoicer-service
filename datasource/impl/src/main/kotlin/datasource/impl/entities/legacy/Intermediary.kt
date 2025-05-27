@@ -1,11 +1,12 @@
-package datasource.impl.entities
+package datasource.impl.entities.legacy
 
+import datasource.impl.entities.UserEntity
+import datasource.impl.entities.UserTable
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.ReferenceOption
-import org.jetbrains.exposed.sql.kotlin.datetime.date
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import java.util.UUID
 
@@ -32,5 +33,5 @@ internal class IntermediaryEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var isDeleted by IntermediaryTable.isDeleted
     var updatedAt by IntermediaryTable.updatedAt
     val createdAt by IntermediaryTable.createdAt
-    val user by UserEntity referencedOn IntermediaryTable.user
+    val user by UserEntity.Companion referencedOn IntermediaryTable.user
 }

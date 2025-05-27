@@ -3,9 +3,9 @@ package datasource.impl.database
 import datasource.api.database.InvoiceDatabaseSource
 import datasource.api.model.invoice.CreateInvoiceData
 import datasource.api.model.invoice.GetInvoicesFilterData
-import datasource.impl.entities.InvoiceActivityTable
-import datasource.impl.entities.InvoiceEntity
-import datasource.impl.entities.InvoiceTable
+import datasource.impl.entities.legacy.InvoiceActivityTable
+import datasource.impl.entities.legacy.InvoiceEntity
+import datasource.impl.entities.legacy.InvoiceTable
 import datasource.impl.mapper.toListItemModel
 import datasource.impl.mapper.toModel
 import kotlinx.datetime.Clock

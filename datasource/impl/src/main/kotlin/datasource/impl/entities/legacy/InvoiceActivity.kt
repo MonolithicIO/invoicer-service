@@ -1,13 +1,11 @@
-    package datasource.impl.entities
+package datasource.impl.entities.legacy
 
 import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDate
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.ReferenceOption
-import org.jetbrains.exposed.sql.kotlin.datetime.date
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import java.util.*
 
