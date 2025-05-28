@@ -14,6 +14,7 @@ import services.api.services.login.GoogleLoginService
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
 import services.api.services.login.StoreRefreshTokenService
+import services.api.services.payaccount.CheckPayAccountDocumentInUseService
 import services.api.services.pdf.GenerateInvoicePdfService
 import services.api.services.pdf.InvoicePdfSecureLinkService
 import services.api.services.qrcodetoken.AuthorizeQrCodeTokenService
@@ -33,6 +34,7 @@ import services.impl.login.GoogleLoginServiceImpl
 import services.impl.login.LoginServiceImpl
 import services.impl.login.RefreshLoginServiceImpl
 import services.impl.login.StoreRefreshTokenServiceImpl
+import services.impl.payaccount.CheckPayAccountDocumentInUseServiceImpl
 import services.impl.pdf.GenerateInvoicePdfServiceImpl
 import services.impl.pdf.InvoicePdfSecureLinkServiceImpl
 import services.impl.pdf.pdfwriter.InvoicePdfWriter
@@ -52,6 +54,7 @@ val servicesImplModule = DI.Module("invoicer-services") {
     invoiceServices()
     loginServices()
     userServices()
+    payAccountServices()
 }
 
 private fun DI.Builder.beneficiaryServices() {
@@ -308,6 +311,14 @@ private fun DI.Builder.userServices() {
     bindProvider<GetUserByIdServiceImpl> {
         GetUserByIdServiceImpl(
             userRepository = instance()
+        )
+    }
+}
+
+private fun DI.Builder.payAccountServices() {
+    bindProvider<CheckPayAccountDocumentInUseService> {
+        CheckPayAccountDocumentInUseServiceImpl(
+            paymentAccountRepository = instance()
         )
     }
 }
