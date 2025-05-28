@@ -1,6 +1,6 @@
 package controller.viewmodel.invoice
 
-import io.github.alaksion.invoicer.server.validation.requireFilledString
+import controller.validation.requireFilledString
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
