@@ -51,4 +51,6 @@ val datasourceModule = DI.Module("datasourceModule") {
             clock = instance()
         )
     }
+
+    bindProvider<PaymentAccountDatabaseSource> { PaymentAccountDatabaseSourceImpl() }
 }

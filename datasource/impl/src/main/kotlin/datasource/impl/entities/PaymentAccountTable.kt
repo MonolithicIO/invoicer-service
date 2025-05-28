@@ -1,14 +1,16 @@
 package datasource.impl.entities
 
+import models.paymentaccount.PaymentAccountModel
+import models.paymentaccount.PaymentAccountTypeModel
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
-import java.util.UUID
+import java.util.*
 
-internal object PaymentAccountTable: UUIDTable("t_company_pay_account") {
+internal object PaymentAccountTable : UUIDTable("t_company_pay_account") {
     val iban = varchar("iban", 1000)
     val swift = varchar("swift", 11)
     val bankName = varchar("bank_name", 1000)
@@ -35,3 +37,18 @@ internal class PaymentAccountEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var createdAt by PaymentAccountTable.createdAt
     var updatedAt by PaymentAccountTable.updatedAt
 }
+
+internal fun PaymentAccountEntity.toModel() = PaymentAccountModel(
+    iban = iban,
+    swift = swift,
+    bankName = bankName,
+    bankAddress = bankAddress,
+    type = when(type) {
+        "primary" -> PaymentAccountTypeModel.Primary
+        "intermediary" -> PaymentAccountTypeModel.Intermediary
+        else -> throw IllegalArgumentException("Unknown payment account type: $type")
+    },
+    isDeleted = isDeleted,
+    createdAt = createdAt,
+    updatedAt = updatedAt
+)
