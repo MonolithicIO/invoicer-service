@@ -1,6 +1,9 @@
 package datasource.api.model.company
 
+import java.util.*
+
 data class CreateCompanyData(
+    val userId: UUID,
     val name: String,
     val document: String,
     val address: CreateCompanyAddressData,

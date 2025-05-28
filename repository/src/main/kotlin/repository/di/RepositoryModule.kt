@@ -55,4 +55,6 @@ val repositoryModule = DI.Module("invocer-repository") {
             databaseSource = instance()
         )
     }
+
+    bindProvider<UserCompanyRepository> { UserCompanyRepositoryImpl(dataSource = instance()) }
 }

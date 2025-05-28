@@ -5,6 +5,7 @@ import io.github.alaksion.invoicer.utils.validation.IbanValidator
 import io.github.alaksion.invoicer.utils.validation.SwiftValidator
 import models.company.CreateCompanyAddressModel
 import models.company.CreateCompanyModel
+import repository.UserCompanyRepository
 import services.api.services.company.CreateCompanyService
 import services.api.services.payaccount.CheckPayAccountDocumentInUseService
 import utils.exceptions.http.badRequestError
@@ -15,10 +16,13 @@ internal class CreateCompanyServiceImpl(
     private val ibanValidator: IbanValidator,
     private val countryCodeValidator: CountryCodeValidator,
     private val checkPayAccountDocumentService: CheckPayAccountDocumentInUseService,
-    private val userCompanyRepo
+    private val userCompanyRepository: UserCompanyRepository
 ) : CreateCompanyService {
 
-    override suspend fun createCompany(data: CreateCompanyModel, userId: UUID): String {
+    override suspend fun createCompany(
+        data: CreateCompanyModel,
+        userId: UUID
+    ): String {
         checkAccountDocumentConflict(
             primarySwift = data.paymentAccount.swift,
             intermediarySwift = data.intermediaryAccount?.swift,
@@ -43,6 +47,10 @@ internal class CreateCompanyServiceImpl(
             name = data.name
         )
 
+        return userCompanyRepository.createCompany(
+            data = data,
+            userId = userId
+        )
     }
 
     private suspend fun validateIbanCodes(
