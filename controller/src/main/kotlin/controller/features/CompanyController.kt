@@ -1,4 +1,4 @@
-package controller
+package controller.features
 
 import controller.viewmodel.beneficiary.CreateBeneficiaryResponseViewModel
 import controller.viewmodel.company.CreateCompanyViewModel

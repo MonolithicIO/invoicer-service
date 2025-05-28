@@ -1,4 +1,4 @@
-package controller
+package controller.features
 
 import controller.viewmodel.intermediary.*
 import foundation.authentication.impl.jwt.jwtProtected

@@ -1,4 +1,4 @@
-package controller
+package controller.features
 
 import controller.viewmodel.invoice.*
 import foundation.authentication.impl.jwt.jwtProtected

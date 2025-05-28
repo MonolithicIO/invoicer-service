@@ -1,4 +1,4 @@
-package controller
+package controller.features
 
 import controller.viewmodel.createuser.CreateUserRequestViewModel
 import controller.viewmodel.createuser.CreateUserResponseViewModel
