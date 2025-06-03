@@ -4,6 +4,7 @@ import datasource.api.database.CompanyDatabaseSource
 import datasource.api.model.company.CreateCompanyAddressData
 import datasource.api.model.company.CreateCompanyData
 import datasource.api.model.company.CreateCompanyPaymentAccountData
+import models.company.CompanyList
 import models.company.CreateCompanyModel
 import java.util.*
 
@@ -12,6 +13,12 @@ interface UserCompanyRepository {
         data: CreateCompanyModel,
         userId: UUID,
     ): String
+
+    suspend fun getCompaniesByUserId(
+        userId: UUID,
+        page: Int,
+        limit: Int
+    ): CompanyList
 }
 
 internal class UserCompanyRepositoryImpl(
@@ -52,5 +59,17 @@ internal class UserCompanyRepositoryImpl(
             )
         )
         return result
+    }
+
+    override suspend fun getCompaniesByUserId(
+        userId: UUID,
+        page: Int,
+        limit: Int
+    ): CompanyList {
+        return dataSource.getUserCompanies(
+            userId = userId,
+            page = page,
+            limit = limit
+        )
     }
 }
