@@ -23,6 +23,7 @@ internal class CompanyDatabaseSourceImpl(
                 entry[isDeleted] = false
                 entry[createdAt] = clock.now()
                 entry[updatedAt] = clock.now()
+                entry[user] = data.userId
             }
 
             CompanyAddressTable.insert { addressEntry ->
@@ -52,10 +53,10 @@ internal class CompanyDatabaseSourceImpl(
 
             data.intermediaryAccount?.let { intermediaryAccount ->
                 PaymentAccountTable.insert { intermediaryAccountEntry ->
-                    intermediaryAccountEntry[iban] = data.paymentAccount.iban
-                    intermediaryAccountEntry[swift] = data.paymentAccount.swift
-                    intermediaryAccountEntry[bankName] = data.paymentAccount.bankName
-                    intermediaryAccountEntry[bankAddress] = data.paymentAccount.bankAddress
+                    intermediaryAccountEntry[iban] = intermediaryAccount.iban
+                    intermediaryAccountEntry[swift] = intermediaryAccount.swift
+                    intermediaryAccountEntry[bankName] = intermediaryAccount.bankName
+                    intermediaryAccountEntry[bankAddress] = intermediaryAccount.bankAddress
                     intermediaryAccountEntry[type] = PaymentAccountType.Intermediary.descriptor
                     intermediaryAccountEntry[company] = companyId
                     intermediaryAccountEntry[isDeleted] = false

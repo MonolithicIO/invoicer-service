@@ -11,8 +11,8 @@ import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import java.util.*
 
 internal object PaymentAccountTable : UUIDTable("t_company_pay_account") {
-    val iban = varchar("iban", 1000)
-    val swift = varchar("swift", 11)
+    val iban = varchar("iban_code", 1000)
+    val swift = varchar("swift_code", 11)
     val bankName = varchar("bank_name", 1000)
     val bankAddress = varchar("bank_address", 1000)
     val company = reference("company_id", foreign = UserCompanyTable, onDelete = ReferenceOption.CASCADE)

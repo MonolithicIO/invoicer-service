@@ -9,10 +9,11 @@ import java.util.*
 
 internal object UserCompanyTable : UUIDTable("t_user_company") {
     val name = varchar("name", 1000)
-    val document = varchar("document", 1000)
+    val document = varchar("registration_document", 1000)
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
     val isDeleted = bool("is_deleted")
+    val user = reference("user_id", foreign = UserTable)
 }
 
 internal class UserCompanyEntity(id: EntityID<UUID>) : UUIDEntity(id) {
