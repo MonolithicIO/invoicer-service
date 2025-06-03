@@ -38,7 +38,7 @@ internal fun Routing.companyController() {
         }
 
         jwtProtected {
-            get("/v1/company") {
+            get {
                 val page = call.request.queryParameters["page"]?.toLongOrNull() ?: 0
                 val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 10
                 val service by closestDI().instance<GetCompaniesService>()

@@ -7,7 +7,7 @@ import models.company.CompanyList
 internal data class CompanyListViewModel(
     val companies: List<GetCompanyItemViewModel>,
     val total: Long,
-    val next: Long?
+    val nextPageIndex: Long?
 )
 
 @Serializable
@@ -25,6 +25,6 @@ internal fun CompanyList.toViewModel(): CompanyListViewModel {
             )
         },
         total = totalCount,
-        next = nextPage
+        nextPageIndex = nextPage
     )
 }
