@@ -5,6 +5,7 @@ import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
 import services.api.services.beneficiary.*
+import services.api.services.company.CreateCompanyService
 import services.api.services.intermediary.*
 import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.DeleteInvoiceService
@@ -14,6 +15,7 @@ import services.api.services.login.GoogleLoginService
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
 import services.api.services.login.StoreRefreshTokenService
+import services.api.services.payaccount.CheckPayAccountDocumentInUseService
 import services.api.services.pdf.GenerateInvoicePdfService
 import services.api.services.pdf.InvoicePdfSecureLinkService
 import services.api.services.qrcodetoken.AuthorizeQrCodeTokenService
@@ -24,6 +26,7 @@ import services.api.services.user.CreateUserService
 import services.api.services.user.DeleteUserService
 import services.api.services.user.GetUserByEmailService
 import services.impl.beneficiary.*
+import services.impl.company.CreateCompanyServiceImpl
 import services.impl.intermediary.*
 import services.impl.invoice.CreateInvoiceServiceImpl
 import services.impl.invoice.DeleteInvoiceServiceImpl
@@ -33,6 +36,7 @@ import services.impl.login.GoogleLoginServiceImpl
 import services.impl.login.LoginServiceImpl
 import services.impl.login.RefreshLoginServiceImpl
 import services.impl.login.StoreRefreshTokenServiceImpl
+import services.impl.payaccount.CheckPayAccountDocumentInUseServiceImpl
 import services.impl.pdf.GenerateInvoicePdfServiceImpl
 import services.impl.pdf.InvoicePdfSecureLinkServiceImpl
 import services.impl.pdf.pdfwriter.InvoicePdfWriter
@@ -52,6 +56,8 @@ val servicesImplModule = DI.Module("invoicer-services") {
     invoiceServices()
     loginServices()
     userServices()
+    payAccountServices()
+    companyServices()
 }
 
 private fun DI.Builder.beneficiaryServices() {
@@ -308,6 +314,26 @@ private fun DI.Builder.userServices() {
     bindProvider<GetUserByIdServiceImpl> {
         GetUserByIdServiceImpl(
             userRepository = instance()
+        )
+    }
+}
+
+private fun DI.Builder.payAccountServices() {
+    bindProvider<CheckPayAccountDocumentInUseService> {
+        CheckPayAccountDocumentInUseServiceImpl(
+            paymentAccountRepository = instance()
+        )
+    }
+}
+
+private fun DI.Builder.companyServices() {
+    bindProvider<CreateCompanyService> {
+        CreateCompanyServiceImpl(
+            swiftValidator = instance(),
+            ibanValidator = instance(),
+            countryCodeValidator = instance(),
+            checkPayAccountDocumentService = instance(),
+            userCompanyRepository = instance()
         )
     }
 }

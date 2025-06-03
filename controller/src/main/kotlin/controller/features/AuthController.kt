@@ -1,4 +1,4 @@
-package controller
+package controller.features
 
 import controller.viewmodel.login.*
 import io.ktor.http.*

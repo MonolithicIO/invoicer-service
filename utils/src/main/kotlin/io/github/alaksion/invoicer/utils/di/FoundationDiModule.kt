@@ -14,4 +14,5 @@ val utilDiModule = DI.Module("foundationDiModule") {
     bindProvider<EmailValidator> { EmailValidatorImpl }
     bindProvider<SwiftValidator> { SwiftValidatorImpl }
     bindProvider<IbanValidator> { IbanValidatorImpl }
+    bindProvider<CountryCodeValidator> { CountryCodeValidatorImpl() }
 }
