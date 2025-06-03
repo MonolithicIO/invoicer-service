@@ -6,6 +6,7 @@ import org.kodein.di.bindProvider
 import org.kodein.di.instance
 import services.api.services.beneficiary.*
 import services.api.services.company.CreateCompanyService
+import services.api.services.company.GetCompaniesService
 import services.api.services.intermediary.*
 import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.DeleteInvoiceService
@@ -27,6 +28,7 @@ import services.api.services.user.DeleteUserService
 import services.api.services.user.GetUserByEmailService
 import services.impl.beneficiary.*
 import services.impl.company.CreateCompanyServiceImpl
+import services.impl.company.GetCompaniesServiceImpl
 import services.impl.intermediary.*
 import services.impl.invoice.CreateInvoiceServiceImpl
 import services.impl.invoice.DeleteInvoiceServiceImpl
@@ -334,6 +336,13 @@ private fun DI.Builder.companyServices() {
             countryCodeValidator = instance(),
             checkPayAccountDocumentService = instance(),
             userCompanyRepository = instance()
+        )
+    }
+
+    bindProvider<GetCompaniesService> {
+        GetCompaniesServiceImpl(
+            repository = instance(),
+            getUserByIdService = instance()
         )
     }
 }
