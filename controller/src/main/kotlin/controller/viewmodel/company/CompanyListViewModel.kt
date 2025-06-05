@@ -13,7 +13,8 @@ internal data class CompanyListViewModel(
 @Serializable
 internal data class GetCompanyItemViewModel(
     val document: String,
-    val name: String
+    val name: String,
+    val id: String,
 )
 
 internal fun CompanyList.toViewModel(): CompanyListViewModel {
@@ -21,7 +22,8 @@ internal fun CompanyList.toViewModel(): CompanyListViewModel {
         companies = items.map {
             GetCompanyItemViewModel(
                 document = it.document,
-                name = it.name
+                name = it.name,
+                id = it.id.toString()
             )
         },
         total = totalCount,

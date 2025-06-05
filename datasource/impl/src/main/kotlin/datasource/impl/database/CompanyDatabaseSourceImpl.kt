@@ -105,7 +105,8 @@ internal class CompanyDatabaseSourceImpl(
                 .map {
                     CompanyListItem(
                         name = it.name,
-                        document = it.document
+                        document = it.document,
+                        id = it.id.value
                     )
                 }
 

@@ -1,5 +1,7 @@
 package models.company
 
+import java.util.UUID
+
 data class CompanyList(
     val items: List<CompanyListItem>,
     val totalCount: Long,
@@ -7,6 +9,7 @@ data class CompanyList(
 )
 
 data class CompanyListItem(
+    val id: UUID,
     val name: String,
     val document: String
 )
