@@ -5,12 +5,11 @@ import io.ktor.serialization.kotlinx.*
 import io.ktor.server.application.*
 import io.ktor.server.websocket.*
 import kotlin.time.Duration.Companion.seconds
-import kotlin.time.toJavaDuration
 
 internal fun Application.installWebSocket() {
     install(WebSockets) {
-        pingPeriod = 30.seconds.toJavaDuration()
-        timeout = 60.seconds.toJavaDuration()
+        pingPeriod = 30.seconds
+        timeout = 60.seconds
         maxFrameSize = Long.MAX_VALUE
         masking = false
 

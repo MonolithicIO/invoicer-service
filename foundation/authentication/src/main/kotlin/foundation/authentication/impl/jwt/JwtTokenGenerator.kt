@@ -96,7 +96,7 @@ fun Route.jwtProtected(
     }
 }
 
-fun PipelineContext<Unit, ApplicationCall>.jwtUserId(): String {
+fun RoutingContext.jwtUserId(): String {
     val principal = call.principal<JWTPrincipal>()
 
     val id = principal?.payload?.getClaim(JwtConfig.USER_ID_CLAIM)?.asString()
