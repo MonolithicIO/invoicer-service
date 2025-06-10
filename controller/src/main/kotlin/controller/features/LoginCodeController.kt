@@ -9,7 +9,6 @@ import foundation.authentication.impl.jwt.jwtProtected
 import foundation.authentication.impl.jwt.jwtUserId
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.ktor.http.*
-import io.ktor.server.application.*
 import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*

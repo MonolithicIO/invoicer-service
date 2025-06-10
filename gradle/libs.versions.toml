@@ -1,11 +1,11 @@
 [versions]
-kodein = "7.22.0"
+kodein = "7.25.0"
 open-pdf = "2.0.2"
 dotenv = "6.4.1"
 exposed = "0.51.1"
 datetime = "0.6.0"
 detekt-plugin = "1.23.3"
-ktor = "2.3.11"
+ktor = "3.1.3"
 kotlin = "2.1.10"
 logback-classic = "1.4.14"
 logback-encoder = "7.2"
@@ -25,7 +25,6 @@ minIO = "8.5.17"
 kafka = "3.6.1"
 loki = "1.4.0"
 firebase-admin = "9.4.3"
-
 
 [libraries]
 kodein-server = { module = "org.kodein.di:kodein-di-framework-ktor-server-jvm", version.ref = "kodein" }
@@ -73,7 +72,6 @@ ktor-server-resources-jvm = { module = "io.ktor:ktor-server-resources-jvm" }
 ktor-server-webjars-jvm = { module = "io.ktor:ktor-server-webjars-jvm" }
 ktor-server-netty-jvm = { module = "io.ktor:ktor-server-netty-jvm" }
 ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml" }
-ktor-server-tests-jvm = { module = "io.ktor:ktor-server-tests-jvm" }
 ktor-server-auth-core = { module = "io.ktor:ktor-server-auth" }
 ktor-server-auth-jwt = { module = 'io.ktor:ktor-server-auth-jwt' }
 ktor-server-metrics-micrometer = { module = "io.ktor:ktor-server-metrics-micrometer" }

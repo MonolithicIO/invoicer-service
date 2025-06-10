@@ -65,7 +65,6 @@ dependencies {
     // Controller
     implementation(projects.controller)
 
-    testImplementation(libs.ktor.server.tests.jvm)
     testImplementation(libs.kotlin.test)
 
     // Include all projects into test report
