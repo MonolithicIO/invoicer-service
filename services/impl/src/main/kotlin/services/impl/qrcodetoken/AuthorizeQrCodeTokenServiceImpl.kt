@@ -25,7 +25,7 @@ internal class AuthorizeQrCodeTokenServiceImpl(
         contentId: String,
         userUuid: UUID
     ) {
-        val token = qrCodeTokenRepository.getQrCodeByTokenId(
+        val token = qrCodeTokenRepository.getQrCodeByContentId(
             contentId = contentId
         ) ?: notFoundError("Qr Code Token not found")
 

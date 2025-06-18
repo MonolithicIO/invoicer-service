@@ -1,13 +1,16 @@
 package repository
 
-import datasource.api.database.BeneficiaryDatabaseSource
-import datasource.api.model.beneficiary.CreateBeneficiaryData
-import datasource.api.model.beneficiary.UpdateBeneficiaryData
 import foundation.cache.CacheHandler
+import kotlinx.datetime.Clock
 import models.beneficiary.BeneficiaryModel
 import models.beneficiary.CreateBeneficiaryModel
 import models.beneficiary.PartialUpdateBeneficiaryModel
 import models.beneficiary.UserBeneficiaries
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import repository.entities.legacy.BeneficiaryEntity
+import repository.entities.legacy.BeneficiaryTable
+import repository.mapper.toModel
 import java.util.*
 
 interface BeneficiaryRepository {
@@ -44,29 +47,34 @@ interface BeneficiaryRepository {
 }
 
 internal class BeneficiaryRepositoryImpl(
-    private val databaseSource: BeneficiaryDatabaseSource,
-    private val cacheHandler: CacheHandler
+    private val cacheHandler: CacheHandler,
+    private val clock: Clock,
 ) : BeneficiaryRepository {
 
     override suspend fun create(userId: UUID, model: CreateBeneficiaryModel): String {
-        return databaseSource.create(
-            userId = userId,
-            model = CreateBeneficiaryData(
-                name = model.name,
-                iban = model.iban,
-                swift = model.swift,
-                bankName = model.bankName,
-                bankAddress = model.bankAddress
-            )
-        )
+        return newSuspendedTransaction {
+            BeneficiaryTable.insertAndGetId { table ->
+                table[name] = model.name
+                table[iban] = model.iban
+                table[swift] = model.swift
+                table[bankName] = model.bankName
+                table[bankAddress] = model.bankAddress
+                table[user] = userId
+                table[createdAt] = clock.now()
+                table[updatedAt] = clock.now()
+            }.value.toString()
+        }
     }
 
     override suspend fun delete(userId: UUID, beneficiaryId: UUID) {
-        databaseSource.delete(
-            userId = userId,
-            beneficiaryId = beneficiaryId
-        ).also {
-            cacheHandler.delete(beneficiaryId.toString())
+        return newSuspendedTransaction {
+            BeneficiaryTable.update(
+                where = {
+                    BeneficiaryTable.user.eq(userId).and(BeneficiaryTable.id eq beneficiaryId)
+                }
+            ) {
+                it[isDeleted] = true
+            }
         }
     }
 
@@ -78,9 +86,11 @@ internal class BeneficiaryRepositoryImpl(
 
         if (cached != null) return cached
 
-        return databaseSource.getById(
-            beneficiaryId = beneficiaryId
-        )?.also {
+        return newSuspendedTransaction {
+            BeneficiaryEntity.find {
+                (BeneficiaryTable.id eq beneficiaryId) and (BeneficiaryTable.isDeleted eq false)
+            }.firstOrNull()?.toModel()
+        }?.also {
             cacheHandler.set(
                 key = it.id.toString(),
                 value = it,
@@ -91,10 +101,11 @@ internal class BeneficiaryRepositoryImpl(
     }
 
     override suspend fun getBySwift(userId: UUID, swift: String): BeneficiaryModel? {
-        return databaseSource.getBySwift(
-            userId = userId,
-            swift = swift
-        )
+        return newSuspendedTransaction {
+            BeneficiaryEntity.find {
+                (BeneficiaryTable.user eq userId).and(BeneficiaryTable.swift eq swift) and (BeneficiaryTable.isDeleted eq false)
+            }.firstOrNull()?.toModel()
+        }
     }
 
     override suspend fun getAll(
@@ -102,17 +113,33 @@ internal class BeneficiaryRepositoryImpl(
         page: Long,
         limit: Int,
     ): UserBeneficiaries {
-        val response = databaseSource.getAll(
-            userId = userId,
-            page = page,
-            limit = limit
-        )
+        return newSuspendedTransaction {
+            val query = BeneficiaryTable
+                .selectAll()
+                .where {
+                    BeneficiaryTable.user eq userId and (BeneficiaryTable.isDeleted eq false)
+                }
+                .limit(n = limit, offset = page * limit)
 
-        return UserBeneficiaries(
-            items = response.items,
-            nextPage = response.nextPage,
-            itemCount = response.itemCount
-        )
+            val count = query.count()
+            val currentOffset = page * limit
+
+            val nextPage = if (count > currentOffset) {
+                (count - currentOffset) / limit
+            } else {
+                null
+            }
+
+            val result = BeneficiaryEntity.wrapRows(query)
+                .toList()
+                .map { it.toModel() }
+
+            UserBeneficiaries(
+                items = result,
+                nextPage = nextPage,
+                itemCount = count
+            )
+        }
     }
 
     override suspend fun update(
@@ -120,17 +147,25 @@ internal class BeneficiaryRepositoryImpl(
         beneficiaryId: UUID,
         model: PartialUpdateBeneficiaryModel
     ): BeneficiaryModel {
-        return databaseSource.update(
-            userId = userId,
-            beneficiaryId = beneficiaryId,
-            model = UpdateBeneficiaryData(
-                name = model.name,
-                iban = model.iban,
-                swift = model.swift,
-                bankName = model.bankName,
-                bankAddress = model.bankAddress
-            )
-        ).also { cacheHandler.delete(beneficiaryId.toString()) }
+        return newSuspendedTransaction {
+            BeneficiaryTable.updateReturning(
+                where = {
+                    BeneficiaryTable.user eq userId
+                    BeneficiaryTable.id eq beneficiaryId
+                }
+            ) { table ->
+                model.name?.let { table[name] = it }
+                model.iban?.let { table[iban] = it }
+                model.swift?.let { table[swift] = it }
+                model.bankName?.let { table[bankName] = it }
+                model.bankAddress?.let { table[bankAddress] = it }
+                table[updatedAt] = clock.now()
+            }.map {
+                BeneficiaryEntity.wrapRow(it).toModel()
+            }.first()
+        }.also {
+            cacheHandler.delete(beneficiaryId.toString())
+        }
     }
 
     companion object {

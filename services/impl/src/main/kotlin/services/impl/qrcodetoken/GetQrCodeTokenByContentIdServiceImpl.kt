@@ -8,6 +8,6 @@ internal class GetQrCodeTokenByContentIdServiceImpl(
     private val qrCodeTokenRepository: QrCodeTokenRepository
 ) : GetQrCodeTokenByContentIdService {
     override suspend fun find(contentId: String): QrCodeTokenModel? {
-        return qrCodeTokenRepository.getQrCodeByTokenId(contentId = contentId)
+        return qrCodeTokenRepository.getQrCodeByContentId(contentId = contentId)
     }
 }

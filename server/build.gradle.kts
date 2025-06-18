@@ -50,9 +50,6 @@ dependencies {
     implementation(projects.utils)
     implementation(projects.consumers)
 
-    // Datasource
-    implementation(projects.datasource.impl)
-
     // Repository
     implementation(projects.repository)
 

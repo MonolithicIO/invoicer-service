@@ -1,6 +1,5 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
-import datasource.impl.di.datasourceModule
 import foundation.authentication.impl.di.utilsAuthenticationModule
 import foundation.cache.di.cacheDiModule
 import foundation.env.invoicerEnvironmentDiModule
@@ -27,7 +26,6 @@ fun Application.installDi() {
         import(repositoryModule)
         import(invoicerEnvironmentDiModule)
         import(cacheDiModule)
-        import(datasourceModule)
         import(qrCodeModule)
         import(utilDiModule)
         import(storageDiModule)
