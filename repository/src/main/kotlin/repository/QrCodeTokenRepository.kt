@@ -1,10 +1,18 @@
 package repository
 
-import datasource.api.database.QrCodeTokenDatabaseSource
 import foundation.cache.CacheHandler
+import kotlinx.datetime.Clock
 import models.qrcodetoken.AuthorizedQrCodeToken
 import models.qrcodetoken.QrCodeTokenModel
+import org.jetbrains.exposed.sql.insertReturning
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.updateReturning
+import repository.entities.QrCodeTokenEntity
+import repository.entities.QrCodeTokenStatus
+import repository.entities.QrCodeTokensTable
+import repository.mapper.toModel
 import java.util.*
+import kotlin.time.Duration.Companion.seconds
 
 interface QrCodeTokenRepository {
     suspend fun createQrCodeToken(
@@ -26,7 +34,7 @@ interface QrCodeTokenRepository {
         tokenId: UUID
     )
 
-    suspend fun getQrCodeByTokenId(
+    suspend fun getQrCodeByContentId(
         contentId: String,
     ): QrCodeTokenModel?
 
@@ -45,8 +53,8 @@ interface QrCodeTokenRepository {
 }
 
 internal class QrCodeTokenRepositoryImpl(
-    private val databaseSource: QrCodeTokenDatabaseSource,
     private val cacheHandler: CacheHandler,
+    private val clock: Clock
 ) : QrCodeTokenRepository {
 
     override suspend fun createQrCodeToken(
@@ -55,28 +63,64 @@ internal class QrCodeTokenRepositoryImpl(
         base64Content: String,
         content: String,
     ): QrCodeTokenModel {
-        return databaseSource.createQrCodeToken(
-            ipAddress = ipAddress,
-            agent = agent,
-            base64Content = base64Content,
-            content = content
-        )
+        return newSuspendedTransaction {
+            QrCodeTokensTable.insertReturning {
+                it[QrCodeTokensTable.ipAddress] = ipAddress
+                it[QrCodeTokensTable.agent] = agent
+                it[QrCodeTokensTable.base64Content] = base64Content
+                it[QrCodeTokensTable.content] = content
+                it[status] = QrCodeTokenStatus.GENERATED.value
+                it[createdAt] = clock.now()
+                it[updatedAt] = clock.now()
+                it[expiresAt] = clock.now().plus(60.seconds)
+            }.map {
+                QrCodeTokenEntity.wrapRow(it)
+            }.first().toModel()
+        }
     }
 
     override suspend fun getQrCodeTokenByUUID(tokenId: UUID): QrCodeTokenModel? {
-        return getQrCodeTokenByUUID(tokenId = tokenId)
+        return newSuspendedTransaction {
+            QrCodeTokenEntity.find { QrCodeTokensTable.id eq tokenId }
+                .firstOrNull()
+                ?.toModel()
+        }
     }
 
     override suspend fun consumeQrCodeToken(tokenId: UUID): QrCodeTokenModel? {
-        return databaseSource.consumeQrCodeToken(tokenId = tokenId)
+        return newSuspendedTransaction {
+            QrCodeTokensTable.updateReturning(
+                where = {
+                    QrCodeTokensTable.id eq tokenId
+                }
+            ) {
+                it[status] = QrCodeTokenStatus.CONSUMED.value
+                it[updatedAt] = clock.now()
+            }.map {
+                QrCodeTokenEntity.wrapRow(it).toModel()
+            }.first()
+        }
     }
 
     override suspend fun expireQrCodeToken(tokenId: UUID) {
-        databaseSource.expireQrCodeToken(tokenId = tokenId)
+        return newSuspendedTransaction {
+            QrCodeTokensTable.updateReturning(
+                where = {
+                    QrCodeTokensTable.id eq tokenId
+                }
+            ) {
+                it[status] = QrCodeTokenStatus.EXPIRED.value
+                it[updatedAt] = clock.now()
+            }
+        }
     }
 
-    override suspend fun getQrCodeByTokenId(contentId: String): QrCodeTokenModel? {
-        return databaseSource.getQrCodeTokenByContentId(contentId = contentId)
+    override suspend fun getQrCodeByContentId(contentId: String): QrCodeTokenModel? {
+        return newSuspendedTransaction {
+            QrCodeTokenEntity.find { QrCodeTokensTable.content eq contentId }
+                .firstOrNull()
+                ?.toModel()
+        }
     }
 
     override suspend fun storeAuthorizedToken(

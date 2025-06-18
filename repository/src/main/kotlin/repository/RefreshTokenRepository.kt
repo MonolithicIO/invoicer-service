@@ -1,7 +1,13 @@
 package repository
 
-import datasource.api.database.RefreshTokenDatabaseSource
+import kotlinx.datetime.Clock
 import models.login.RefreshTokenModel
+import org.jetbrains.exposed.sql.and
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.update
+import repository.entities.RefreshTokenEntity
+import repository.entities.RefreshTokensTable
 import java.util.*
 
 interface RefreshTokenRepository {
@@ -27,38 +33,67 @@ interface RefreshTokenRepository {
 }
 
 internal class RefreshTokenRepositoryImpl(
-    private val databaseSource: RefreshTokenDatabaseSource
+    private val dateProvider: Clock
 ) : RefreshTokenRepository {
 
     override suspend fun createRefreshToken(token: String, userId: UUID) {
-        return databaseSource.createRefreshToken(
-            token = token,
-            userId = userId
-        )
+        return newSuspendedTransaction {
+            RefreshTokensTable.insert {
+                it[refreshToken] = token
+                it[user] = userId
+                it[enabled] = true
+                it[createdAt] = dateProvider.now()
+                it[updatedAt] = dateProvider.now()
+            }
+        }
     }
 
     override suspend fun invalidateToken(
         userId: UUID,
         token: String,
     ) {
-        return databaseSource.invalidateToken(
-            userId = userId,
-            token = token
-        )
+        return newSuspendedTransaction {
+            RefreshTokensTable.update(
+                where = {
+                    (RefreshTokensTable.refreshToken eq token) and
+                            (RefreshTokensTable.user eq userId)
+                }
+            ) {
+                it[enabled] = false
+                it[updatedAt] = dateProvider.now()
+            }
+        }
     }
 
     override suspend fun invalidateAllUserTokens(userId: UUID) {
-        return databaseSource.invalidateAllUserTokens(
-            userId = userId
-        )
+        return newSuspendedTransaction {
+            RefreshTokensTable.update(
+                where = {
+                    (RefreshTokensTable.user eq userId)
+                }
+            ) {
+                it[enabled] = false
+                it[updatedAt] = dateProvider.now()
+            }
+        }
     }
 
     override suspend fun findUserToken(userId: UUID, token: String): RefreshTokenModel? {
-        val response = databaseSource.findUserToken(
-            userId = userId,
-            token = token
-        )
+        return newSuspendedTransaction {
+            val data = RefreshTokenEntity.find {
+                (RefreshTokensTable.refreshToken eq token) and
+                        (RefreshTokensTable.user eq userId)
+            }.firstOrNull()
 
-        return response
+            data?.let {
+                RefreshTokenModel(
+                    token = it.refreshToken,
+                    userId = it.user.id.value,
+                    enabled = it.enabled,
+                    createdAt = it.createdAt,
+                    updatedAt = it.updatedAt
+                )
+            }
+        }
     }
 }

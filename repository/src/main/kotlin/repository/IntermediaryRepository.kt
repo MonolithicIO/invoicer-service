@@ -1,12 +1,15 @@
 package repository
 
-import datasource.api.database.IntermediaryDatabaseSource
-import datasource.api.model.intermediary.CreateIntermediaryData
-import datasource.api.model.intermediary.UpdateIntermediaryData
 import foundation.cache.CacheHandler
+import kotlinx.datetime.Clock
 import models.intermediary.CreateIntermediaryModel
 import models.intermediary.IntermediaryModel
 import models.intermediary.PartialUpdateIntermediaryModel
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import repository.entities.legacy.IntermediaryEntity
+import repository.entities.legacy.IntermediaryTable
+import repository.mapper.toModel
 import java.util.*
 
 interface IntermediaryRepository {
@@ -43,28 +46,35 @@ interface IntermediaryRepository {
 }
 
 internal class IntermediaryRepositoryImpl(
-    private val databaseSource: IntermediaryDatabaseSource,
+    private val clock: Clock,
     private val cacheHandler: CacheHandler
 ) : IntermediaryRepository {
 
     override suspend fun create(userId: UUID, model: CreateIntermediaryModel): String {
-        return databaseSource.create(
-            userId = userId,
-            model = CreateIntermediaryData(
-                name = model.name,
-                iban = model.iban,
-                swift = model.swift,
-                bankName = model.bankName,
-                bankAddress = model.bankAddress
-            )
-        )
+        return newSuspendedTransaction {
+            IntermediaryTable.insertAndGetId { table ->
+                table[name] = model.name
+                table[iban] = model.iban
+                table[swift] = model.swift
+                table[bankName] = model.bankName
+                table[bankAddress] = model.bankAddress
+                table[user] = userId
+                table[createdAt] = clock.now()
+                table[updatedAt] = clock.now()
+            }.value.toString()
+        }
     }
 
     override suspend fun delete(userId: UUID, intermediaryId: UUID) {
-        return databaseSource.delete(
-            userId = userId,
-            intermediaryId = intermediaryId
-        ).also {
+        newSuspendedTransaction {
+            IntermediaryTable.update(
+                where = {
+                    IntermediaryTable.user.eq(userId).and(IntermediaryTable.id eq intermediaryId)
+                }
+            ) {
+                it[isDeleted] = true
+            }
+        }.also {
             cacheHandler.delete(intermediaryId.toString())
         }
     }
@@ -77,7 +87,11 @@ internal class IntermediaryRepositoryImpl(
 
         if (cached != null) return cached
 
-        val databaseResult = databaseSource.getById(intermediaryId)
+        val databaseResult = newSuspendedTransaction {
+            IntermediaryEntity.find {
+                (IntermediaryTable.id eq intermediaryId) and (IntermediaryTable.isDeleted eq false)
+            }.firstOrNull()?.toModel()
+        }
 
         return databaseResult?.also {
             cacheHandler.set(
@@ -90,10 +104,11 @@ internal class IntermediaryRepositoryImpl(
     }
 
     override suspend fun getBySwift(userId: UUID, swift: String): IntermediaryModel? {
-        return databaseSource.getBySwift(
-            userId = userId,
-            swift = swift
-        )
+        return newSuspendedTransaction {
+            IntermediaryEntity.find {
+                (IntermediaryTable.user eq userId).and(IntermediaryTable.swift eq swift) and (IntermediaryTable.isDeleted eq false)
+            }.firstOrNull()?.toModel()
+        }
     }
 
     override suspend fun getAll(
@@ -101,11 +116,18 @@ internal class IntermediaryRepositoryImpl(
         page: Long,
         limit: Int
     ): List<IntermediaryModel> {
-        return databaseSource.getAll(
-            userId = userId,
-            page = page,
-            limit = limit
-        )
+        return newSuspendedTransaction {
+            val query = IntermediaryTable
+                .selectAll()
+                .where {
+                    IntermediaryTable.user eq userId and (IntermediaryTable.isDeleted eq false)
+                }
+                .limit(n = limit, offset = page * limit)
+
+            IntermediaryEntity.wrapRows(query)
+                .toList()
+                .map { it.toModel() }
+        }
     }
 
     override suspend fun update(
@@ -113,17 +135,23 @@ internal class IntermediaryRepositoryImpl(
         intermediaryId: UUID,
         model: PartialUpdateIntermediaryModel
     ): IntermediaryModel {
-        return databaseSource.update(
-            userId = userId,
-            intermediaryId = intermediaryId,
-            model = UpdateIntermediaryData(
-                name = model.name,
-                iban = model.iban,
-                swift = model.swift,
-                bankName = model.bankName,
-                bankAddress = model.bankAddress
-            )
-        ).also {
+        return newSuspendedTransaction {
+            IntermediaryTable.updateReturning(
+                where = {
+                    IntermediaryTable.user eq userId
+                    IntermediaryTable.id eq intermediaryId
+                }
+            ) { table ->
+                model.name?.let { table[name] = it }
+                model.iban?.let { table[iban] = it }
+                model.swift?.let { table[swift] = it }
+                model.bankName?.let { table[bankName] = it }
+                model.bankAddress?.let { table[bankAddress] = it }
+                table[updatedAt] = clock.now()
+            }.map {
+                IntermediaryEntity.wrapRow(it).toModel()
+            }.first()
+        }.also {
             cacheHandler.delete(intermediaryId.toString())
         }
     }

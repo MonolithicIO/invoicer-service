@@ -10,51 +10,49 @@ val repositoryModule = DI.Module("invocer-repository") {
 
     bindProvider<BeneficiaryRepository> {
         BeneficiaryRepositoryImpl(
-            databaseSource = instance(),
+            clock = instance(),
             cacheHandler = instance()
         )
     }
 
     bindProvider<IntermediaryRepository> {
         IntermediaryRepositoryImpl(
-            databaseSource = instance(),
+            clock = instance(),
             cacheHandler = instance()
         )
     }
 
     bindProvider<InvoiceRepository> {
         InvoiceRepositoryImpl(
-            databaseSource = instance(),
+            clock = instance(),
             cacheHandler = instance()
         )
     }
 
     bindProvider<UserRepository> {
         UserRepositoryImpl(
-            databaseSource = instance()
+            clock = instance(),
         )
     }
 
     bindProvider<RefreshTokenRepository> {
         RefreshTokenRepositoryImpl(
-            databaseSource = instance()
+            dateProvider = instance(),
         )
     }
 
     bindProvider<QrCodeTokenRepository> {
         QrCodeTokenRepositoryImpl(
-            databaseSource = instance(),
+            clock = instance(),
             cacheHandler = instance()
         )
     }
 
-    bindProvider<InvoicePdfRepository> { InvoicePdfRepositoryImpl(databaseSource = instance()) }
-
-    bindProvider<PaymentAccountRepository> {
-        PaymentAccountRepositoryImpl(
-            databaseSource = instance()
-        )
+    bindProvider<InvoicePdfRepository> {
+        InvoicePdfRepositoryImpl(clock = instance())
     }
 
-    bindProvider<UserCompanyRepository> { UserCompanyRepositoryImpl(dataSource = instance()) }
+    bindProvider<PaymentAccountRepository> { PaymentAccountRepositoryImpl() }
+
+    bindProvider<UserCompanyRepository> { UserCompanyRepositoryImpl(clock = instance()) }
 }

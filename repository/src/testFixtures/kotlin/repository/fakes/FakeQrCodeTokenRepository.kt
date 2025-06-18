@@ -43,7 +43,7 @@ class FakeQrCodeTokenRepository : QrCodeTokenRepository {
 
     override suspend fun expireQrCodeToken(tokenId: UUID) = Unit
 
-    override suspend fun getQrCodeByTokenId(contentId: String): QrCodeTokenModel? {
+    override suspend fun getQrCodeByContentId(contentId: String): QrCodeTokenModel? {
         getByContentIdCallstack.add(contentId)
         return getQrCodeTokenByIdResponse()
     }
