@@ -1,6 +1,5 @@
 package repository
 
-import datasource.api.model.paymentaccount.PaymentAccountType
 import kotlinx.datetime.Clock
 import models.company.CompanyList
 import models.company.CompanyListItem
@@ -10,10 +9,7 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import repository.entities.CompanyAddressTable
-import repository.entities.PaymentAccountTable
-import repository.entities.UserCompanyEntity
-import repository.entities.UserCompanyTable
+import repository.entities.*
 import java.util.*
 
 interface UserCompanyRepository {

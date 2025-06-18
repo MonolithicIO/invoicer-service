@@ -1,7 +1,5 @@
 package repository.entities
 
-import models.paymentaccount.PaymentAccountModel
-import models.paymentaccount.PaymentAccountTypeModel
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -38,17 +36,9 @@ internal class PaymentAccountEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var updatedAt by PaymentAccountTable.updatedAt
 }
 
-internal fun PaymentAccountEntity.toModel() = PaymentAccountModel(
-    iban = iban,
-    swift = swift,
-    bankName = bankName,
-    bankAddress = bankAddress,
-    type = when(type) {
-        "primary" -> PaymentAccountTypeModel.Primary
-        "intermediary" -> PaymentAccountTypeModel.Intermediary
-        else -> throw IllegalArgumentException("Unknown payment account type: $type")
-    },
-    isDeleted = isDeleted,
-    createdAt = createdAt,
-    updatedAt = updatedAt
-)
+internal enum class PaymentAccountType(
+    val descriptor: String
+) {
+    Primary("primary"),
+    Intermediary("intermediary")
+}

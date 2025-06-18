@@ -4,7 +4,7 @@ import models.paymentaccount.PaymentAccountModel
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import repository.entities.PaymentAccountEntity
 import repository.entities.PaymentAccountTable
-import repository.entities.toModel
+import repository.mapper.toModel
 
 interface PaymentAccountRepository {
     suspend fun getBySwift(swift: String): PaymentAccountModel?
