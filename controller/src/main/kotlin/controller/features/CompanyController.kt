@@ -7,6 +7,7 @@ import controller.viewmodel.company.toViewModel
 import controller.viewmodel.customer.CreateCustomerResponseViewModel
 import controller.viewmodel.customer.CreateCustomerViewModel
 import controller.viewmodel.customer.toModel
+import controller.viewmodel.customer.toViewModel
 import foundation.authentication.impl.jwt.jwtProtected
 import foundation.authentication.impl.jwt.jwtUserId
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
@@ -19,6 +20,7 @@ import org.kodein.di.ktor.closestDI
 import services.api.services.company.CreateCompanyService
 import services.api.services.company.GetCompaniesService
 import services.api.services.customer.CreateCustomerService
+import services.api.services.customer.ListCustomersService
 
 internal fun Routing.companyController() {
     route("/v1/company") {
@@ -71,6 +73,25 @@ internal fun Routing.companyController() {
                             data = body.toModel(companyId)
                         )
                     )
+                )
+            }
+        }
+
+        jwtProtected {
+            get("/{companyId}/customers") {
+                val companyId = call.parameters["companyId"]!!
+                val page = call.request.queryParameters["page"]?.toLongOrNull() ?: 0
+                val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 10
+                val service by closestDI().instance<ListCustomersService>()
+
+                call.respond(
+                    status = HttpStatusCode.Created,
+                    message = service.list(
+                        userId = parseUuid(jwtUserId()),
+                        page = page,
+                        limit = limit,
+                        companyId = parseUuid(companyId),
+                    ).toViewModel()
                 )
             }
         }
