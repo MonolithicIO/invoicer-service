@@ -23,7 +23,7 @@ internal class CustomerEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var name by CustomerTable.name
     var email by CustomerTable.email
     var phone by CustomerTable.phone
-    var company by UserCompanyEntity.Companion referencedOn CompanyAddressTable.company
+    var company by UserCompanyEntity.Companion referencedOn CustomerTable.company
     var createdAt by CustomerTable.createdAt
     var updatedAt by CustomerTable.updatedAt
     var isDeleted by CustomerTable.isDeleted
