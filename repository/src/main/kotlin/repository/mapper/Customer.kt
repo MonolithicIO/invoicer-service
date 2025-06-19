@@ -18,11 +18,11 @@ internal fun CustomerEntity.toListItem(): CustomerListItem {
 
 internal fun CustomerEntity.toModel(): CustomerModel {
     return CustomerModel(
-        id = this.id.value.toString(),
+        id = this.id.value,
         name = this.name,
         email = this.email,
         phone = this.phone,
-        companyId = this.company.id.value.toString(),
+        companyId = this.company.id.value,
         createdAt = this.createdAt,
         updatedAt = this.updatedAt
     )

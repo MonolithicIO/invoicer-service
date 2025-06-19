@@ -7,6 +7,7 @@ import repository.UserCompanyRepository
 import services.api.services.customer.CreateCustomerService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.http.badRequestError
+import utils.exceptions.http.conflictError
 import utils.exceptions.http.forbiddenError
 import utils.exceptions.http.notFoundError
 import java.util.*
@@ -29,6 +30,14 @@ internal class CreateCustomerServiceImpl(
             ?: notFoundError("Company not found")
 
         if (user.id != company.userId) forbiddenError()
+
+        if (customerRepository.findByCompanyIdAndEmail(
+                companyId = data.companyId,
+                email = data.email
+            ) != null
+        ) {
+            conflictError("Customer with this email already exists")
+        }
 
         return customerRepository.createCustomer(
             data = data

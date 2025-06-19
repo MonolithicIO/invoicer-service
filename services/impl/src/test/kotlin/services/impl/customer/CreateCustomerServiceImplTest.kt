@@ -5,6 +5,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.company.CompanyModel
 import models.customer.CreateCustomerModel
+import models.customer.CustomerModel
 import repository.fakes.FakeCustomerRepository
 import repository.fakes.FakeUserCompanyRepository
 import services.api.fakes.user.FakeGetUserByIdService
@@ -141,6 +142,36 @@ class CreateCustomerServiceImplTest {
     }
 
     @Test
+    fun `should fail if customer with same email already exists`() = runTest {
+        userCompanyRepository.getCompanyByIdResponse = { company }
+
+        getUserByIdService.response = {
+            FakeGetUserByIdService.DEFAULT_RESPONSE.copy(
+                id = USER_ID
+            )
+        }
+
+        customerRepository.findByCompanyIdAndEmailResponse = { existingCustomerModel }
+
+        val error = assertFailsWith<HttpError> {
+            service.createCustomer(
+                userId = USER_ID,
+                data = CreateCustomerModel(
+                    name = "adwda",
+                    email = "awdwa@gmail.com",
+                    phone = null,
+                    companyId = company.id
+                )
+            )
+        }
+
+        assertEquals(
+            expected = HttpCode.Conflict,
+            actual = error.statusCode
+        )
+    }
+
+    @Test
     fun `should successfully create customer`() = runTest {
         userCompanyRepository.getCompanyByIdResponse = { company }
 
@@ -175,6 +206,16 @@ class CreateCustomerServiceImplTest {
             createdAt = Instant.parse("2023-01-01T00:00:00Z"),
             updatedAt = Instant.parse("2023-01-01T00:00:00Z"),
             isDeleted = false,
+        )
+
+        val existingCustomerModel = CustomerModel(
+            id = UUID.fromString("123e4567-e89b-12d3-a456-426614174002"),
+            name = "customer",
+            email = "email@adwad.com",
+            phone = null,
+            companyId = UUID.fromString("123e4567-e89b-12d3-a456-426614174001"),
+            createdAt = Instant.parse("2023-01-01T00:00:00Z"),
+            updatedAt = Instant.parse("2023-01-01T00:00:00Z"),
         )
     }
 }

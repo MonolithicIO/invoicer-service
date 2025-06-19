@@ -1,13 +1,14 @@
 package models.customer
 
 import kotlinx.datetime.Instant
+import java.util.*
 
 data class CustomerModel(
-    val id: String,
+    val id: UUID,
     val name: String,
     val email: String,
     val phone: String? = null,
-    val companyId: String,
+    val companyId: UUID,
     val createdAt: Instant,
     val updatedAt: Instant
 )
