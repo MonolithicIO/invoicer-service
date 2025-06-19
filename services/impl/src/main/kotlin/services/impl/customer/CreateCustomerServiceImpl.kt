@@ -17,6 +17,7 @@ internal class CreateCustomerServiceImpl(
     private val customerRepository: CustomerRepository,
     private val emailValidator: EmailValidator
 ) : CreateCustomerService {
+
     override suspend fun createCustomer(
         userId: UUID,
         data: CreateCustomerModel
