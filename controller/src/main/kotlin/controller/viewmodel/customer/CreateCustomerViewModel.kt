@@ -12,6 +12,11 @@ internal data class CreateCustomerViewModel(
     val phone: String? = null,
 )
 
+@Serializable
+internal data class CreateCustomerResponseViewModel(
+    val id: String,
+)
+
 internal fun CreateCustomerViewModel.toModel(
     companyId: String
 ) = CreateCustomerModel(

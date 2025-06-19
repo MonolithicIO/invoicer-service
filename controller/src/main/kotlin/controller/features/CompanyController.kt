@@ -4,6 +4,7 @@ import controller.viewmodel.beneficiary.CreateBeneficiaryResponseViewModel
 import controller.viewmodel.company.CreateCompanyViewModel
 import controller.viewmodel.company.toModel
 import controller.viewmodel.company.toViewModel
+import controller.viewmodel.customer.CreateCustomerResponseViewModel
 import controller.viewmodel.customer.CreateCustomerViewModel
 import controller.viewmodel.customer.toModel
 import foundation.authentication.impl.jwt.jwtProtected
@@ -64,9 +65,11 @@ internal fun Routing.companyController() {
 
                 call.respond(
                     status = HttpStatusCode.Created,
-                    message = service.createCustomer(
-                        userId = parseUuid(jwtUserId()),
-                        data = body.toModel(companyId)
+                    message = CreateCustomerResponseViewModel(
+                        service.createCustomer(
+                            userId = parseUuid(jwtUserId()),
+                            data = body.toModel(companyId)
+                        )
                     )
                 )
             }
