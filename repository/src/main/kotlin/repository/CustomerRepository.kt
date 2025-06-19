@@ -3,6 +3,7 @@ package repository
 import kotlinx.datetime.Clock
 import models.customer.CreateCustomerModel
 import models.customer.CustomerList
+import models.customer.CustomerModel
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.selectAll
@@ -10,6 +11,7 @@ import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransacti
 import repository.entities.CustomerEntity
 import repository.entities.CustomerTable
 import repository.mapper.toListItem
+import repository.mapper.toModel
 import java.util.*
 
 interface CustomerRepository {
@@ -20,6 +22,11 @@ interface CustomerRepository {
         page: Long,
         limit: Int
     ): CustomerList
+
+    suspend fun findByCompanyIdAndEmail(
+        companyId: UUID,
+        email: String
+    ): CustomerModel?
 }
 
 internal class CustomerRepositoryImpl(
@@ -71,6 +78,18 @@ internal class CustomerRepositoryImpl(
                 nextPage = nextPage,
                 itemCount = count
             )
+        }
+    }
+
+    override suspend fun findByCompanyIdAndEmail(
+        companyId: UUID,
+        email: String
+    ): CustomerModel? {
+        return newSuspendedTransaction {
+            CustomerEntity.find {
+                (CustomerTable.company eq companyId) and
+                        (CustomerTable.email eq email)
+            }.firstOrNull()?.toModel()
         }
     }
 }

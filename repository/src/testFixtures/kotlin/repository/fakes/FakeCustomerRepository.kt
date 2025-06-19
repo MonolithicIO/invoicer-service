@@ -2,6 +2,7 @@ package repository.fakes
 
 import models.customer.CreateCustomerModel
 import models.customer.CustomerList
+import models.customer.CustomerModel
 import repository.CustomerRepository
 import java.util.*
 
@@ -15,6 +16,7 @@ class FakeCustomerRepository : CustomerRepository {
             nextPage = null
         )
     }
+    var findByCompanyIdAndEmailResponse: () -> CustomerModel? = { null }
 
     override suspend fun createCustomer(data: CreateCustomerModel): UUID {
         return createCustomerResponse()
@@ -26,5 +28,12 @@ class FakeCustomerRepository : CustomerRepository {
         limit: Int
     ): CustomerList {
         return listCustomersResponse()
+    }
+
+    override suspend fun findByCompanyIdAndEmail(
+        companyId: UUID,
+        email: String
+    ): CustomerModel? {
+        return findByCompanyIdAndEmailResponse()
     }
 }
