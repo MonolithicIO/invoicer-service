@@ -8,6 +8,7 @@ import services.api.services.beneficiary.*
 import services.api.services.company.CreateCompanyService
 import services.api.services.company.GetCompaniesService
 import services.api.services.customer.CreateCustomerService
+import services.api.services.customer.ListCustomersService
 import services.api.services.intermediary.*
 import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.DeleteInvoiceService
@@ -31,6 +32,7 @@ import services.impl.beneficiary.*
 import services.impl.company.CreateCompanyServiceImpl
 import services.impl.company.GetCompaniesServiceImpl
 import services.impl.customer.CreateCustomerServiceImpl
+import services.impl.customer.ListCustomerServiceImpl
 import services.impl.intermediary.*
 import services.impl.invoice.CreateInvoiceServiceImpl
 import services.impl.invoice.DeleteInvoiceServiceImpl
@@ -357,6 +359,13 @@ private fun DI.Builder.customerServices() {
             userCompanyRepository = instance(),
             customerRepository = instance(),
             emailValidator = instance()
+        )
+    }
+
+    bindProvider<ListCustomersService> {
+        ListCustomerServiceImpl(
+            customerRepository = instance(),
+            getUserByIdService = instance()
         )
     }
 }
