@@ -24,4 +24,5 @@ internal class UserCompanyEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var createdAt by UserCompanyTable.createdAt
     var updatedAt by UserCompanyTable.updatedAt
     var isDeleted by UserCompanyTable.isDeleted
+    val user by UserEntity referencedOn UserCompanyTable.user
 }

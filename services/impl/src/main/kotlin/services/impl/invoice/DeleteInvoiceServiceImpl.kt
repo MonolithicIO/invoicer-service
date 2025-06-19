@@ -4,7 +4,7 @@ import repository.InvoiceRepository
 import services.api.services.invoice.DeleteInvoiceService
 import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.http.unauthorizedResourceError
+import utils.exceptions.http.forbiddenError
 import java.util.*
 
 internal class DeleteInvoiceServiceImpl(
@@ -21,7 +21,7 @@ internal class DeleteInvoiceServiceImpl(
         )
 
         if (user.id != invoice.user.id) {
-            unauthorizedResourceError()
+            forbiddenError()
         }
 
         repository.delete(invoiceId)

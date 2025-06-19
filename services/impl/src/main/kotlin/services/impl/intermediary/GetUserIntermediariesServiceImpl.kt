@@ -4,7 +4,7 @@ import models.intermediary.IntermediaryModel
 import repository.IntermediaryRepository
 import services.api.services.intermediary.GetUserIntermediariesService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.http.unauthorizedResourceError
+import utils.exceptions.http.forbiddenError
 import java.util.*
 
 internal class GetUserIntermediariesServiceImpl(
@@ -26,7 +26,7 @@ internal class GetUserIntermediariesServiceImpl(
         )
 
         if (intermediaries.any { it.userId != userId }) {
-            unauthorizedResourceError()
+            forbiddenError()
         }
 
         return intermediaries

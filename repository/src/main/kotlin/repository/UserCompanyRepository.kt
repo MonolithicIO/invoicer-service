@@ -3,6 +3,7 @@ package repository
 import kotlinx.datetime.Clock
 import models.company.CompanyList
 import models.company.CompanyListItem
+import models.company.CompanyModel
 import models.company.CreateCompanyModel
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
@@ -23,6 +24,10 @@ interface UserCompanyRepository {
         page: Int,
         limit: Int
     ): CompanyList
+
+    suspend fun getCompanyById(
+        companyId: UUID
+    ): CompanyModel?
 }
 
 internal class UserCompanyRepositoryImpl(
@@ -126,6 +131,22 @@ internal class UserCompanyRepositoryImpl(
                 nextPage = nextPage,
                 totalCount = itemCount
             )
+        }
+    }
+
+    override suspend fun getCompanyById(companyId: UUID): CompanyModel? {
+        return newSuspendedTransaction {
+            UserCompanyEntity.findById(companyId)?.let {
+                CompanyModel(
+                    name = it.name,
+                    document = it.document,
+                    createdAt = it.createdAt,
+                    updatedAt = it.updatedAt,
+                    isDeleted = it.isDeleted,
+                    id = it.id.value,
+                    userId = it.user.id.value
+                )
+            }
         }
     }
 }

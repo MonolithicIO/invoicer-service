@@ -6,7 +6,7 @@ import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
-import utils.exceptions.http.unauthorizedResourceError
+import utils.exceptions.http.forbiddenError
 import java.util.*
 
 internal class GetUserInvoiceByIdServiceImpl(
@@ -22,7 +22,7 @@ internal class GetUserInvoiceByIdServiceImpl(
         )
 
         if (user.id != invoice.user.id) {
-            unauthorizedResourceError()
+            forbiddenError()
         }
 
         return invoice

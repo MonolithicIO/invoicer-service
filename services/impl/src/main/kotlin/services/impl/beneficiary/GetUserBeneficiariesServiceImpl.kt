@@ -4,7 +4,7 @@ import models.beneficiary.UserBeneficiaries
 import repository.BeneficiaryRepository
 import services.api.services.beneficiary.GetUserBeneficiariesService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.http.unauthorizedResourceError
+import utils.exceptions.http.forbiddenError
 import java.util.*
 
 internal class GetUserBeneficiariesServiceImpl(
@@ -29,7 +29,7 @@ internal class GetUserBeneficiariesServiceImpl(
                 beneficiary.userId != userId
             }
         ) {
-            unauthorizedResourceError()
+            forbiddenError()
         }
 
         return beneficiaries
