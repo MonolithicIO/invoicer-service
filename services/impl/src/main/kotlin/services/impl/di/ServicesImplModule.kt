@@ -7,6 +7,7 @@ import org.kodein.di.instance
 import services.api.services.beneficiary.*
 import services.api.services.company.CreateCompanyService
 import services.api.services.company.GetCompaniesService
+import services.api.services.customer.CreateCustomerService
 import services.api.services.intermediary.*
 import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.DeleteInvoiceService
@@ -29,6 +30,7 @@ import services.api.services.user.GetUserByEmailService
 import services.impl.beneficiary.*
 import services.impl.company.CreateCompanyServiceImpl
 import services.impl.company.GetCompaniesServiceImpl
+import services.impl.customer.CreateCustomerServiceImpl
 import services.impl.intermediary.*
 import services.impl.invoice.CreateInvoiceServiceImpl
 import services.impl.invoice.DeleteInvoiceServiceImpl
@@ -60,6 +62,7 @@ val servicesImplModule = DI.Module("invoicer-services") {
     userServices()
     payAccountServices()
     companyServices()
+    customerServices()
 }
 
 private fun DI.Builder.beneficiaryServices() {
@@ -343,6 +346,17 @@ private fun DI.Builder.companyServices() {
         GetCompaniesServiceImpl(
             repository = instance(),
             getUserByIdService = instance()
+        )
+    }
+}
+
+private fun DI.Builder.customerServices() {
+    bindProvider<CreateCustomerService> {
+        CreateCustomerServiceImpl(
+            getUserByIdService = instance(),
+            userCompanyRepository = instance(),
+            customerRepository = instance(),
+            emailValidator = instance()
         )
     }
 }

@@ -4,7 +4,7 @@ import models.beneficiary.BeneficiaryModel
 import repository.BeneficiaryRepository
 import services.api.services.beneficiary.GetBeneficiaryByIdService
 import utils.exceptions.http.notFoundError
-import utils.exceptions.http.unauthorizedResourceError
+import utils.exceptions.http.forbiddenError
 import java.util.*
 
 internal class GetBeneficiaryByIdServiceImpl(
@@ -18,7 +18,7 @@ internal class GetBeneficiaryByIdServiceImpl(
 
         if (beneficiary == null) notFoundError("Beneficiary not found")
 
-        if (beneficiary.userId != userId) unauthorizedResourceError()
+        if (beneficiary.userId != userId) forbiddenError()
 
         return beneficiary
     }

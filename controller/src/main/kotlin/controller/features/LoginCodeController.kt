@@ -22,7 +22,7 @@ import services.api.services.qrcodetoken.GetQrCodeTokenByContentIdService
 import services.api.services.qrcodetoken.PollAuthorizedTokenService
 import services.api.services.qrcodetoken.RequestQrCodeTokenService
 import utils.exceptions.http.notFoundError
-import utils.exceptions.http.unauthorizedResourceError
+import utils.exceptions.http.forbiddenError
 import kotlin.time.Duration.Companion.seconds
 
 internal fun Routing.loginCodeController() {
@@ -57,7 +57,7 @@ internal fun Routing.loginCodeController() {
 
         jwtProtected {
             get("/{contentId}") {
-                val contentId = call.parameters["contentId"] ?: unauthorizedResourceError()
+                val contentId = call.parameters["contentId"] ?: forbiddenError()
                 val service by closestDI().instance<GetQrCodeTokenByContentIdService>()
                 val result = service.find(contentId) ?: notFoundError("QrCode not found")
                 call.respond(
@@ -68,7 +68,7 @@ internal fun Routing.loginCodeController() {
         }
 
         webSocket("/qrcode_socket/{contentId}") {
-            val contentId = call.parameters["contentId"] ?: unauthorizedResourceError()
+            val contentId = call.parameters["contentId"] ?: forbiddenError()
             val findTokenService by closestDI().instance<PollAuthorizedTokenService>()
 
             val pollResult = findTokenService.poll(

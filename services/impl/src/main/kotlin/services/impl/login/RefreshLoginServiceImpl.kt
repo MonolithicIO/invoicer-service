@@ -8,7 +8,7 @@ import services.api.services.login.RefreshLoginService
 import services.api.services.login.StoreRefreshTokenService
 import services.api.services.user.GetUserByIdService
 import utils.exceptions.http.unAuthorizedError
-import utils.exceptions.http.unauthorizedResourceError
+import utils.exceptions.http.forbiddenError
 
 internal class RefreshLoginServiceImpl(
     private val tokenManager: AuthTokenManager,
@@ -30,7 +30,7 @@ internal class RefreshLoginServiceImpl(
             )
 
         if (findToken.enabled.not()) {
-            unauthorizedResourceError()
+            forbiddenError()
         }
 
         val authResponse = AuthTokenModel(

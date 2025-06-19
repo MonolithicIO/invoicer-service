@@ -2,7 +2,6 @@ package controller.features
 
 import controller.viewmodel.login.*
 import io.ktor.http.*
-import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -12,7 +11,7 @@ import services.api.services.login.GoogleLoginService
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
 import utils.exceptions.http.badRequestError
-import utils.exceptions.http.unauthorizedResourceError
+import utils.exceptions.http.forbiddenError
 
 internal fun Routing.authController() {
     route("/v1/auth") {
@@ -33,7 +32,7 @@ internal fun Routing.authController() {
 
             call.respond(
                 message = refreshService.refreshLogin(
-                    refreshToken = body.refreshToken ?: unauthorizedResourceError(),
+                    refreshToken = body.refreshToken ?: forbiddenError(),
                 ).toViewModel(),
             )
         }
