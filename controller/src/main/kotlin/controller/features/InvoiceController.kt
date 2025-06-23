@@ -65,24 +65,6 @@ internal fun Routing.invoiceController() {
         }
 
         jwtProtected {
-            post {
-                val body = call.receive<CreateInvoiceViewModel>()
-                val createService by closestDI().instance<CreateInvoiceService>()
-                val response = createService.createInvoice(
-                    model = body.toModel(),
-                    userId = parseUuid(jwtUserId())
-                )
-                call.respond(
-                    message = CreateInvoiceResponseViewModel(
-                        externalInvoiceId = response.externalInvoiceId,
-                        invoiceId = response.invoiceId.toString()
-                    ),
-                    status = HttpStatusCode.Created
-                )
-            }
-        }
-
-        jwtProtected {
             delete("/{id}") {
                 val invoiceId = call.parameters["id"]!!
                 val deleteUseCase by closestDI().instance<DeleteInvoiceService>()

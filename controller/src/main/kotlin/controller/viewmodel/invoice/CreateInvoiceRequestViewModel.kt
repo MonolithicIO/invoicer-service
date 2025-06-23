@@ -12,6 +12,7 @@ import utils.exceptions.http.badRequestError
 data class CreateInvoiceViewModel(
     val invoicerNumber: String? = null,
     val issueDate: Instant? = null,
+    val customerId: String? = null,
     val dueDate: Instant? = null,
     val activities: List<CreateInvoiceActivityViewModel> = listOf(),
 )
@@ -25,7 +26,6 @@ data class CreateInvoiceActivityViewModel(
 )
 
 fun CreateInvoiceViewModel.toModel(
-    customerId: String? = null,
     companyId: String? = null
 ): CreateInvoiceDTO {
     return CreateInvoiceDTO(
