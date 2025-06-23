@@ -17,6 +17,19 @@ internal object InvoiceTable : UUIDTable("t_invoice") {
     val company = reference("company_id", UserCompanyTable)
     val customer = reference("customer_id", CustomerTable)
 
+    // Company
+    val companyName = varchar("company_name", 100)
+    val companyDocument = varchar("company_document", 50)
+    val companyAddressLine1 = varchar("company_address_line1", 500)
+    val companyAddressLine2 = varchar("company_address_line2", 500).nullable()
+    val companyCity = varchar("company_city", 100)
+    val companyZipCode = varchar("company_zip_code", 20)
+    val companyState = varchar("company_state", 500)
+    val countryCode = varchar("country_code", 20)
+
+    // Customer
+    val customerName = varchar("customer_name", 100)
+
     // Payment details must be consistent. Once the document is created, the payment details should not change.
     val primarySwift = varchar("primary_swift_id", 50)
     val primaryIban = varchar("primary_iban_id", 50)
