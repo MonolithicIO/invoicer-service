@@ -8,8 +8,6 @@ import com.itextpdf.layout.properties.UnitValue
 
 internal fun invoicePdfRecipient(
     recipientCompanyName: String,
-    recipientCompanyAddress: String,
-    regularFont: PdfFont,
     boldFont: PdfFont
 ): Table {
     val recipientTable = Table(1).apply {
@@ -19,8 +17,6 @@ internal fun invoicePdfRecipient(
     recipientTable.addCell(
         recipientCell(
             recipientCompanyName = recipientCompanyName,
-            recipientCompanyAddress = recipientCompanyAddress,
-            regularFont = regularFont,
             boldFont = boldFont
         )
     )
@@ -29,8 +25,6 @@ internal fun invoicePdfRecipient(
 
 private fun recipientCell(
     recipientCompanyName: String,
-    recipientCompanyAddress: String,
-    regularFont: PdfFont,
     boldFont: PdfFont
 ) =
     Cell()
@@ -41,5 +35,3 @@ private fun recipientCell(
                 .setFontColor(PdfStyle.Color.Primary)
         )
         .add(Paragraph(recipientCompanyName).setFont(boldFont).setFontSize(PdfStyle.FontSize.Medium))
-        .add(Paragraph(recipientCompanyAddress).setFont(regularFont).setFontSize(PdfStyle.FontSize.Small))
-        .setBorder(null)

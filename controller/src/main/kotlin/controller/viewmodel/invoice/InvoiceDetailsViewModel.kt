@@ -27,7 +27,7 @@ internal data class InvoiceDetailsActivityViewModel(
 internal fun InvoiceModel.toViewModel(): InvoiceDetailsViewModel {
     return InvoiceDetailsViewModel(
         id = id.toString(),
-        invoiceNumber = invoicerNumber,
+        invoiceNumber = invoiceNumber,
         createdAt = createdAt,
         updatedAt = updatedAt,
         issueDate = issueDate,

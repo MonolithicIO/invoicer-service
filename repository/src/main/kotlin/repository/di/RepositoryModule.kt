@@ -8,20 +8,6 @@ import repository.*
 
 val repositoryModule = DI.Module("invocer-repository") {
 
-    bindProvider<BeneficiaryRepository> {
-        BeneficiaryRepositoryImpl(
-            clock = instance(),
-            cacheHandler = instance()
-        )
-    }
-
-    bindProvider<IntermediaryRepository> {
-        IntermediaryRepositoryImpl(
-            clock = instance(),
-            cacheHandler = instance()
-        )
-    }
-
     bindProvider<InvoiceRepository> {
         InvoiceRepositoryImpl(
             clock = instance(),

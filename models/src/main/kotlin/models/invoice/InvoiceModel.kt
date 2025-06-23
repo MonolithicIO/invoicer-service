@@ -9,7 +9,7 @@ import java.util.*
 data class InvoiceModel(
     @Serializable(with = JavaUUIDSerializer::class)
     val id: UUID,
-    val invoicerNumber: String,
+    val invoiceNumber: String,
     val issueDate: Instant,
     val dueDate: Instant,
     val createdAt: Instant,
@@ -19,7 +19,7 @@ data class InvoiceModel(
     val customer: InvoiceCustomerModel,
     val primaryAccount: InvoicePayAccountModel,
     val intermediaryAccount: InvoicePayAccountModel?,
-    val activities: List<InvoiceModelActivityModel>
+    val activities: List<InvoiceModelActivityModel>,
 )
 
 @Serializable
@@ -41,7 +41,8 @@ data class InvoiceCompanyModel(
     val city: String,
     val zipCode: String,
     val state: String,
-    val countryCode: String
+    val countryCode: String,
+    val email: String
 )
 
 @Serializable
