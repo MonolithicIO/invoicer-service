@@ -12,6 +12,7 @@ dependencies {
     implementation(projects.models)
     implementation(projects.foundation.cache)
     implementation(libs.kotlin.serialization)
+    implementation(libs.kotlin.datetime)
     implementation(libs.bundles.exposed)
     implementation(libs.postgres)
 
@@ -20,6 +21,7 @@ dependencies {
 
     // Fixtures
     testFixturesImplementation(testFixtures(projects.models))
+    testFixturesImplementation(libs.kotlin.datetime)
 
     // Test
     testImplementation(kotlin("test"))

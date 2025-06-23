@@ -5,15 +5,17 @@ import io.github.alaksion.invoicer.messaging.fakes.FakeMessageProducer
 import io.github.alaksion.invoicer.utils.fakes.FakeClock
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
-import models.invoice.CreateInvoiceActivityModel
-import models.invoice.CreateInvoiceModel
-import models.fixtures.invoiceModelLegacyFixture
+import models.customer.CustomerModel
+import models.fixtures.companyDetailsFixture
+import models.fixtures.invoiceModelFixture
 import models.fixtures.userModelFixture
+import models.invoice.CreateInvoiceActivityModel
+import models.invoice.CreateInvoiceDTO
 import org.junit.Before
 import org.junit.Test
 import repository.fakes.FakeInvoiceRepository
-import services.api.fakes.beneficiary.FakeGetBeneficiaryByIdService
-import services.api.fakes.intermediary.FakeGetIntermediaryByIdService
+import services.api.fakes.company.FakeGetCompanyDetailsService
+import services.api.fakes.customer.FakeCustomerByIdService
 import services.api.fakes.user.FakeGetUserByIdService
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
@@ -28,26 +30,26 @@ class CreateInvoiceServiceImplTest {
     private lateinit var invoiceRepository: FakeInvoiceRepository
     private lateinit var clock: FakeClock
     private lateinit var getUserByIdService: FakeGetUserByIdService
-    private lateinit var getBeneficiaryByIdService: FakeGetBeneficiaryByIdService
-    private lateinit var getIntermediaryByIdService: FakeGetIntermediaryByIdService
     private lateinit var messageProducer: FakeMessageProducer
+    private lateinit var getCompanyDetailsService: FakeGetCompanyDetailsService
+    private lateinit var customerByIdService: FakeCustomerByIdService
 
     @Before
     fun setUp() {
         invoiceRepository = FakeInvoiceRepository()
         clock = FakeClock()
         getUserByIdService = FakeGetUserByIdService()
-        getBeneficiaryByIdService = FakeGetBeneficiaryByIdService()
-        getIntermediaryByIdService = FakeGetIntermediaryByIdService()
+        getCompanyDetailsService = FakeGetCompanyDetailsService()
         messageProducer = FakeMessageProducer()
+        customerByIdService = FakeCustomerByIdService()
 
         service = CreateInvoiceServiceImpl(
             invoiceRepository = invoiceRepository,
             clock = clock,
             getUserByIdService = getUserByIdService,
-            getBeneficiaryByIdService = getBeneficiaryByIdService,
-            getIntermediaryByIdService = getIntermediaryByIdService,
-            messageProducer = messageProducer
+            messageProducer = messageProducer,
+            getCompanyDetailsService = getCompanyDetailsService,
+            getCustomerByIdService = customerByIdService,
         )
     }
 
@@ -57,6 +59,10 @@ class CreateInvoiceServiceImplTest {
         val invoiceResponse = "fed3e1ac-c755-4048-9315-356054c4da11"
 
         clock.nowResponse = today
+
+        getCompanyDetailsService.response = company
+        customerByIdService.response = customer(company.id)
+
         invoiceRepository.createInvoiceResponse = { invoiceResponse }
         getUserByIdService.response = { userModelFixture }
         invoiceRepository.getInvoiceByExternalIdResponse = { null }
@@ -77,42 +83,21 @@ class CreateInvoiceServiceImplTest {
     }
 
     @Test
-    fun `should create invoice without intermediary successfully`() = runTest {
-        val today = Instant.parse("2000-06-19T00:00:00Z")
-        val invoiceResponse = "fed3e1ac-c755-4048-9315-356054c4da11"
-
-        clock.nowResponse = today
-        invoiceRepository.createInvoiceResponse = { invoiceResponse }
-        getUserByIdService.response = { userModelFixture }
-        invoiceRepository.getInvoiceByExternalIdResponse = { null }
-
-        service.createInvoice(
-            BASE_INPUT.copy(intermediaryId = null),
-            userId = userModelFixture.id
-        )
-
-        assertEquals(
-            expected = 1,
-            actual = invoiceRepository.createCallStack.size
-        )
-        assertEquals(
-            expected = invoiceResponse,
-            actual = invoiceRepository.createCallStack[0]
-        )
-    }
-
-    @Test
     fun `should send PDF message on create success`() = runTest {
         val today = Instant.parse("2000-06-19T00:00:00Z")
         val invoiceResponse = "fed3e1ac-c755-4048-9315-356054c4da11"
 
         clock.nowResponse = today
+
+        getCompanyDetailsService.response = company
+        customerByIdService.response = customer(company.id)
+
         invoiceRepository.createInvoiceResponse = { invoiceResponse }
         getUserByIdService.response = { userModelFixture }
         invoiceRepository.getInvoiceByExternalIdResponse = { null }
 
         val response = service.createInvoice(
-            BASE_INPUT.copy(intermediaryId = null),
+            BASE_INPUT,
             userId = userModelFixture.id
         )
 
@@ -202,14 +187,23 @@ class CreateInvoiceServiceImplTest {
         val today = Instant.parse("2000-06-19T00:00:00Z")
         val invoiceResponse = "fed3e1ac-c755-4048-9315-356054c4da11"
 
+        clock.nowResponse = today
+
+        getCompanyDetailsService.response = company
+        customerByIdService.response = customer(company.id)
+
+        invoiceRepository.createInvoiceResponse = { invoiceResponse }
+        getUserByIdService.response = { userModelFixture }
+        invoiceRepository.getInvoiceByExternalIdResponse = { invoiceModelFixture }
+
         val error = assertFailsWith<HttpError> {
             clock.nowResponse = today
             invoiceRepository.createInvoiceResponse = { invoiceResponse }
             getUserByIdService.response = { userModelFixture }
-            invoiceRepository.getInvoiceByExternalIdResponse = { invoiceModelLegacyFixture }
+            invoiceRepository.getInvoiceByExternalIdResponse = { invoiceModelFixture }
 
             service.createInvoice(
-                BASE_INPUT.copy(intermediaryId = null),
+                BASE_INPUT,
                 userId = userModelFixture.id
             )
         }
@@ -321,23 +315,33 @@ class CreateInvoiceServiceImplTest {
     }
 
     companion object {
-        val BASE_INPUT = CreateInvoiceModel(
-            externalId = "1234",
-            senderCompanyAddress = "Sender Company Address",
-            senderCompanyName = "Sender Company name",
-            recipientCompanyName = "Recipient Company name",
-            recipientCompanyAddress = "Recipient Company Address",
+        val company = companyDetailsFixture.copy(
+            user = userModelFixture
+        )
+
+        val BASE_INPUT = CreateInvoiceDTO(
+            invoicerNumber = "1234",
             issueDate = Instant.parse("2000-06-19T00:00:00Z"),
             dueDate = Instant.parse("2000-06-20T00:00:00Z"),
-            beneficiaryId = UUID.fromString("b2db44e1-af93-48cf-94fe-7484fd8045ef"),
-            intermediaryId = UUID.fromString("02cac010-bc14-4192-872f-103f27afa1ed"),
             activities = listOf(
                 CreateInvoiceActivityModel(
                     description = "Description",
                     unitPrice = 10L,
                     quantity = 1
                 )
-            )
+            ),
+            customerId = customer(company.id).id,
+            companyId = company.id,
+        )
+
+        fun customer(companyId: UUID) = CustomerModel(
+            id = UUID.fromString("fed3e1ac-c755-4048-9315-356054c4da11"),
+            name = "Test Customer",
+            email = "adawdwadaw@gmail.com",
+            phone = "awdadwa",
+            companyId = companyId,
+            createdAt = Instant.parse("2000-06-19T00:00:00Z"),
+            updatedAt = Instant.parse("2000-06-19T00:00:00Z")
         )
     }
 }

@@ -17,6 +17,7 @@ class FakeCustomerRepository : CustomerRepository {
         )
     }
     var findByCompanyIdAndEmailResponse: () -> CustomerModel? = { null }
+    var findByIdResponse: () -> CustomerModel? = { null }
 
     override suspend fun createCustomer(data: CreateCustomerModel): UUID {
         return createCustomerResponse()
@@ -35,5 +36,9 @@ class FakeCustomerRepository : CustomerRepository {
         email: String
     ): CustomerModel? {
         return findByCompanyIdAndEmailResponse()
+    }
+
+    override suspend fun getById(customerId: UUID): CustomerModel? {
+        return findByIdResponse()
     }
 }

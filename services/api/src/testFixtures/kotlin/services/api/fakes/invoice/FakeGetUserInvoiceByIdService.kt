@@ -1,15 +1,15 @@
 package services.api.fakes.invoice
 
-import models.InvoiceModelLegacy
-import models.fixtures.invoiceModelLegacyFixture
+import models.fixtures.invoiceModelFixture
+import models.invoice.InvoiceModel
 import services.api.services.invoice.GetUserInvoiceByIdService
 import java.util.*
 
 class FakeGetUserInvoiceByIdService : GetUserInvoiceByIdService {
 
-    var response: suspend () -> InvoiceModelLegacy = { invoiceModelLegacyFixture }
+    var response: suspend () -> InvoiceModel? = { invoiceModelFixture }
 
-    override suspend fun get(invoiceId: UUID, userId: UUID): InvoiceModelLegacy {
+    override suspend fun get(invoiceId: UUID): InvoiceModel? {
         return response()
     }
 }

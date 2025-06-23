@@ -1,8 +1,7 @@
 package services.impl.invoice
 
 import kotlinx.datetime.Instant
-import models.getinvoices.GetInvoicesFilterModel
-import models.getinvoices.InvoiceListModelLegacy
+import models.invoice.GetInvoicesFilterModel
 import models.invoice.InvoiceListModel
 import repository.InvoiceRepository
 import services.api.services.invoice.GetUserInvoicesService

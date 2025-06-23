@@ -1,17 +1,14 @@
 package services.impl.invoice
 
 import kotlinx.coroutines.test.runTest
-import models.fixtures.invoiceModelLegacyFixture
+import models.fixtures.invoiceModelFixture
 import models.fixtures.userModelFixture
 import repository.fakes.FakeInvoiceRepository
 import services.api.fakes.user.FakeGetUserByIdService
-import utils.exceptions.http.HttpCode
-import utils.exceptions.http.HttpError
-import java.util.*
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
+import kotlin.test.assertNull
 
 class GetUserInvoiceByIdServiceImplTest {
 
@@ -24,24 +21,18 @@ class GetUserInvoiceByIdServiceImplTest {
     fun setUp() {
         repository = FakeInvoiceRepository()
         getUserByIdService = FakeGetUserByIdService()
-        service = GetUserInvoiceByIdServiceImpl(
-            repository = repository,
-            getUserByIdUseCase = getUserByIdService
-        )
+        service = GetUserInvoiceByIdServiceImpl(repository = repository)
     }
 
     @Test
     fun `should successfully return invoice`() = runTest {
-        val invoice = invoiceModelLegacyFixture.copy(
-            user = userModelFixture
-        )
+        val invoice = invoiceModelFixture
 
         repository.getInvoiceByIdResponse = { invoice }
         getUserByIdService.response = { userModelFixture }
 
         val result = service.get(
-            invoiceId = invoiceModelLegacyFixture.id,
-            userId = userModelFixture.id
+            invoiceId = invoiceModelFixture.id,
         )
 
         assertEquals(
@@ -51,43 +42,13 @@ class GetUserInvoiceByIdServiceImplTest {
     }
 
     @Test
-    fun `should throw error if invoice does not exist`() = runTest {
-        val error = assertFailsWith<HttpError> {
-            repository.getInvoiceByIdResponse = { null }
+    fun `should return null if invoice does not exist`() = runTest {
+
+        repository.getInvoiceByIdResponse = { null }
+        assertNull(
             service.get(
-                invoiceId = invoiceModelLegacyFixture.id,
-                userId = userModelFixture.id
+                invoiceId = invoiceModelFixture.id,
             )
-        }
-
-        assertEquals(
-            expected = HttpCode.NotFound,
-            actual = error.statusCode
-        )
-    }
-
-    @Test
-    fun `should throw error if user is not invoice owner`() = runTest {
-        val error = assertFailsWith<HttpError> {
-
-            val invoice = invoiceModelLegacyFixture.copy(
-                user = userModelFixture.copy(
-                    id = UUID.fromString("7956749e-9d8b-4ab7-abd1-29f0b7ecb9b8")
-                )
-            )
-
-            repository.getInvoiceByIdResponse = { invoice }
-            getUserByIdService.response = { userModelFixture }
-
-            service.get(
-                invoiceId = invoiceModelLegacyFixture.id,
-                userId = userModelFixture.id
-            )
-        }
-
-        assertEquals(
-            expected = HttpCode.Forbidden,
-            actual = error.statusCode
         )
     }
 }

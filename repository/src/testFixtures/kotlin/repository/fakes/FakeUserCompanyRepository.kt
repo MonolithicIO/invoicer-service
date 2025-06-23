@@ -1,8 +1,10 @@
 package repository.fakes
 
-import models.company.CompanyList
-import models.company.CompanyModel
-import models.company.CreateCompanyModel
+import kotlinx.datetime.Instant
+import models.company.*
+import models.fixtures.userModelFixture
+import models.paymentaccount.PaymentAccountModel
+import models.paymentaccount.PaymentAccountTypeModel
 import repository.UserCompanyRepository
 import java.util.*
 
@@ -14,6 +16,37 @@ class FakeUserCompanyRepository : UserCompanyRepository {
             items = listOf(),
             totalCount = 0,
             nextPage = null
+        )
+    }
+    var detailsResponse: () -> CompanyDetailsModel? = {
+        CompanyDetailsModel(
+            name = "Test Company",
+            document = "123456789",
+            createdAt = Instant.parse("2023-01-01T00:00:00Z"),
+            updatedAt = Instant.parse("2023-01-02T00:00:00Z"),
+            isDeleted = false,
+            userId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000"),
+            id = UUID.fromString("123e4567-e89b-12d3-a456-426614174001"),
+            address = CompanyAddressModel(
+                addressLine1 = "123 Test St",
+                addressLine2 = null,
+                city = "Test City",
+                state = "Test State",
+                postalCode = "12345",
+                countryCode = "US"
+            ),
+            paymentAccount = PaymentAccountModel(
+                swift = "ABCDEF12",
+                iban = "DE89370400440532013000",
+                bankName = "Bank of Beneficiary",
+                bankAddress = "789 Bank St",
+                type = PaymentAccountTypeModel.Primary,
+                isDeleted = false,
+                createdAt = Instant.parse("2023-01-01T00:00:00Z"),
+                updatedAt = Instant.parse("2023-01-02T00:00:00Z"),
+            ),
+            intermediaryAccount = null,
+            user = userModelFixture
         )
     }
 
@@ -29,5 +62,9 @@ class FakeUserCompanyRepository : UserCompanyRepository {
 
     override suspend fun getCompanyById(companyId: UUID): CompanyModel? {
         return getCompanyByIdResponse()
+    }
+
+    override suspend fun getCompanyDetails(companyId: UUID): CompanyDetailsModel? {
+        return detailsResponse()
     }
 }
