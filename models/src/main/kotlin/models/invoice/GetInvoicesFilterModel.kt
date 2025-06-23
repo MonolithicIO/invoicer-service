@@ -1,7 +1,7 @@
-package models.getinvoices
+package models.invoice
 
 import kotlinx.datetime.Instant
-import java.util.*
+import java.util.UUID
 
 data class GetInvoicesFilterModel(
     val minIssueDate: Instant?,

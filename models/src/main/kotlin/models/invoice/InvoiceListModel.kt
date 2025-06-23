@@ -12,7 +12,6 @@ data class InvoiceListModel(
 data class InvoiceListItemModel(
     val id: UUID,
     val invoiceNumber: String,
-    val amount: Long,
     val companyName: String,
     val customerName: String,
     val issueDate: Instant,

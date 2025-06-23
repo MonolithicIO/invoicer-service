@@ -50,7 +50,6 @@ internal fun InvoiceEntity.toListItemModel(): InvoiceListItemModel {
         id = id.value,
         invoiceNumber = invoicerNumber,
         // TODO - Calculate invoice items
-        amount = 0,
         companyName = companyName,
         customerName = customerName,
         issueDate = issueDate,

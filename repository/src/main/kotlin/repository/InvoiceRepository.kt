@@ -2,7 +2,7 @@ package repository
 
 import foundation.cache.CacheHandler
 import kotlinx.datetime.Clock
-import models.getinvoices.GetInvoicesFilterModel
+import models.invoice.GetInvoicesFilterModel
 import models.invoice.CreateInvoiceModel
 import models.invoice.InvoiceListModel
 import models.invoice.InvoiceModel

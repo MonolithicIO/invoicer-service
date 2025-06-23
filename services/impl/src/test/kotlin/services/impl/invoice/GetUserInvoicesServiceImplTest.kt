@@ -2,9 +2,9 @@ package services.impl.invoice
 
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
-import models.fixtures.invoiceListModelLegacyFixture
+import models.fixtures.invoiceListFixture
 import models.fixtures.userModelFixture
-import models.getinvoices.GetInvoicesFilterModel
+import models.invoice.GetInvoicesFilterModel
 import repository.fakes.FakeInvoiceRepository
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
@@ -26,15 +26,13 @@ class GetUserInvoicesServiceImplTest {
 
     @Test
     fun `should return invoices`() = runTest {
-        repository.getInvoicesResponse = { invoiceListModelLegacyFixture }
+        repository.getInvoicesResponse = { invoiceListFixture }
 
         val filters = GetInvoicesFilterModel(
             minIssueDate = Instant.parse("2000-06-19T00:00:00Z"),
             maxIssueDate = Instant.parse("2000-06-20T00:00:00Z"),
             minDueDate = null,
             maxDueDate = null,
-            senderCompanyName = null,
-            recipientCompanyName = null
         )
 
         val page = 1L
@@ -43,22 +41,20 @@ class GetUserInvoicesServiceImplTest {
         val result = service.get(filters, page, limit, userModelFixture.id)
 
         assertEquals(
-            expected = invoiceListModelLegacyFixture,
+            expected = invoiceListFixture,
             actual = result
         )
     }
 
     @Test
     fun `should return invoices filtered by date`() = runTest {
-        repository.getInvoicesResponse = { invoiceListModelLegacyFixture }
+        repository.getInvoicesResponse = { invoiceListFixture }
 
         val filters = GetInvoicesFilterModel(
             minIssueDate = null,
             maxIssueDate = null,
             minDueDate = null,
             maxDueDate = null,
-            senderCompanyName = null,
-            recipientCompanyName = null
         )
 
         val page = 1L
@@ -67,7 +63,7 @@ class GetUserInvoicesServiceImplTest {
         val result = service.get(filters, page, limit, userModelFixture.id)
 
         assertEquals(
-            expected = invoiceListModelLegacyFixture,
+            expected = invoiceListFixture,
             actual = result
         )
     }
@@ -75,15 +71,13 @@ class GetUserInvoicesServiceImplTest {
     @Test
     fun `should throw error if min date filter is present but max date is not`() = runTest {
         val error = assertFailsWith<HttpError> {
-            repository.getInvoicesResponse = { invoiceListModelLegacyFixture }
+            repository.getInvoicesResponse = { invoiceListFixture }
 
             val filters = GetInvoicesFilterModel(
                 minIssueDate = Instant.parse("2000-06-19T00:00:00Z"),
                 maxIssueDate = null,
                 minDueDate = null,
                 maxDueDate = null,
-                senderCompanyName = null,
-                recipientCompanyName = null
             )
 
             val page = 1L
@@ -100,15 +94,13 @@ class GetUserInvoicesServiceImplTest {
     @Test
     fun `should throw error if max date filter is present but min date is not`() = runTest {
         val error = assertFailsWith<HttpError> {
-            repository.getInvoicesResponse = { invoiceListModelLegacyFixture }
+            repository.getInvoicesResponse = { invoiceListFixture }
 
             val filters = GetInvoicesFilterModel(
                 minIssueDate = null,
                 maxIssueDate = Instant.parse("2000-06-19T00:00:00Z"),
                 minDueDate = null,
                 maxDueDate = null,
-                senderCompanyName = null,
-                recipientCompanyName = null
             )
 
             val page = 1L
@@ -125,15 +117,13 @@ class GetUserInvoicesServiceImplTest {
     @Test
     fun `should throw error if min filter is greater than max filter`() = runTest {
         val error = assertFailsWith<HttpError> {
-            repository.getInvoicesResponse = { invoiceListModelLegacyFixture }
+            repository.getInvoicesResponse = { invoiceListFixture }
 
             val filters = GetInvoicesFilterModel(
                 minIssueDate = Instant.parse("2000-06-20T00:00:00Z"),
                 maxIssueDate = Instant.parse("2000-06-19T00:00:00Z"),
                 minDueDate = null,
                 maxDueDate = null,
-                senderCompanyName = null,
-                recipientCompanyName = null
             )
 
             val page = 1L

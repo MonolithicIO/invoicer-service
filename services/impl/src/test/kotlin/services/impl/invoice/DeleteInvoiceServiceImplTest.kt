@@ -1,9 +1,10 @@
 package services.impl.invoice
 
 import kotlinx.coroutines.test.runTest
-import models.fixtures.invoiceModelLegacyFixture
+import models.fixtures.invoiceModelFixture
 import models.fixtures.userModelFixture
 import repository.fakes.FakeInvoiceRepository
+import services.api.fakes.company.FakeGetCompanyDetailsService
 import services.api.fakes.invoice.FakeGetUserInvoiceByIdService
 import services.api.fakes.user.FakeGetUserByIdService
 import utils.exceptions.http.HttpCode
@@ -21,27 +22,30 @@ class DeleteInvoiceServiceImplTest {
     private lateinit var getUserService: FakeGetUserByIdService
     private lateinit var getInvoiceService: FakeGetUserInvoiceByIdService
     private lateinit var repository: FakeInvoiceRepository
+    private lateinit var getCompanyDetailsService: FakeGetCompanyDetailsService
 
     @BeforeTest
     fun setUp() {
         getUserService = FakeGetUserByIdService()
         repository = FakeInvoiceRepository()
         getInvoiceService = FakeGetUserInvoiceByIdService()
+        getCompanyDetailsService = FakeGetCompanyDetailsService()
 
         service = DeleteInvoiceServiceImpl(
             getUserInvoiceByIdService = getInvoiceService,
             getUserByIdUseCase = getUserService,
-            repository = repository
+            repository = repository,
+            getCompanyByIdService = getCompanyDetailsService
         )
     }
 
     @Test
     fun `should delete invoice successfully`() = runTest {
-        getInvoiceService.response = { invoiceModelLegacyFixture }
+        getInvoiceService.response = { invoiceModelFixture }
         getUserService.response = { userModelFixture }
 
         service.delete(
-            invoiceId = invoiceModelLegacyFixture.id,
+            invoiceId = invoiceModelFixture.id,
             userId = userModelFixture.id
         )
 
@@ -51,7 +55,7 @@ class DeleteInvoiceServiceImplTest {
         )
 
         assertEquals(
-            expected = invoiceModelLegacyFixture.id,
+            expected = invoiceModelFixture.id,
             actual = repository.deleteCallStack[0]
         )
     }
@@ -59,7 +63,7 @@ class DeleteInvoiceServiceImplTest {
     @Test
     fun `should throw error if user is not owner of invoice`() = runTest {
         val error = assertFailsWith<HttpError> {
-            getInvoiceService.response = { invoiceModelLegacyFixture }
+            getInvoiceService.response = { invoiceModelFixture }
             getUserService.response = {
                 userModelFixture.copy(
                     id = UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6")
@@ -67,7 +71,7 @@ class DeleteInvoiceServiceImplTest {
             }
 
             service.delete(
-                invoiceId = invoiceModelLegacyFixture.id,
+                invoiceId = invoiceModelFixture.id,
                 userId = userModelFixture.id
             )
         }
