@@ -11,8 +11,6 @@ internal data class GetInvoicesFilterViewModel(
     val maxIssueDate: String?,
     val minDueDate: String?,
     val maxDueDate: String?,
-    val senderCompanyName: String?,
-    val recipientCompanyName: String?,
 )
 
 
@@ -25,8 +23,6 @@ internal fun receiveGetInvoicesFilterViewModel(
         maxIssueDate = parseDate(model.maxIssueDate, "Invalid date format: maxIssueDate"),
         minDueDate = parseDate(model.minDueDate, "Invalid date format: minDueDate"),
         maxDueDate = parseDate(model.maxDueDate, "Invalid date format: maxDueDate"),
-        senderCompanyName = model.senderCompanyName,
-        recipientCompanyName = model.recipientCompanyName,
     )
 }
 

@@ -189,14 +189,8 @@ private fun DI.Builder.invoiceServices() {
         DeleteInvoiceServiceImpl(
             getUserByIdUseCase = instance(),
             getUserInvoiceByIdService = instance(),
-            repository = instance()
-        )
-    }
-
-    bindProvider<GetUserInvoiceByIdService> {
-        GetUserInvoiceByIdServiceImpl(
             repository = instance(),
-            getUserByIdUseCase = instance()
+            getCompanyByIdService = instance()
         )
     }
 
@@ -225,6 +219,10 @@ private fun DI.Builder.invoiceServices() {
             invoicePdfRepository = instance(),
             secureFileLinkGenerator = instance()
         )
+    }
+
+    bindProvider<GetUserInvoiceByIdService> {
+        GetUserInvoiceByIdServiceImpl(repository = instance())
     }
 }
 

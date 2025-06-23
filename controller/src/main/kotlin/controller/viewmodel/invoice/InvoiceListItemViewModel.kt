@@ -1,7 +1,8 @@
 package controller.viewmodel.invoice
 
+import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import models.getinvoices.InvoiceListModelLegacy
+import models.invoice.InvoiceListModel
 
 @Serializable
 internal data class InvoiceListViewModel(
@@ -14,31 +15,31 @@ internal data class InvoiceListViewModel(
 internal data class InvoiceListItemViewModel(
     val id: String,
     val externalId: String,
-    val senderCompany: String,
-    val recipientCompany: String,
-    val issueDate: String,
-    val dueDate: String,
-    val createdAt: String,
-    val updatedAt: String,
+    val issueDate: Instant,
+    val dueDate: Instant,
+    val createdAt: Instant,
+    val updatedAt: Instant,
     val totalAmount: Long,
+    val companyName: String,
+    val customerName: String
 )
 
-internal fun InvoiceListModelLegacy.toViewModel(): InvoiceListViewModel {
+internal fun InvoiceListModel.toViewModel(): InvoiceListViewModel {
     return InvoiceListViewModel(
         items = items.map {
             InvoiceListItemViewModel(
                 id = it.id.toString(),
-                externalId = it.externalId,
-                senderCompany = it.senderCompany,
-                recipientCompany = it.recipientCompany,
-                issueDate = it.issueDate.toString(),
-                dueDate = it.dueDate.toString(),
-                createdAt = it.createdAt.toString(),
-                updatedAt = it.updatedAt.toString(),
+                externalId = it.invoiceNumber,
+                companyName = it.companyName,
+                customerName = it.customerName,
+                issueDate = it.issueDate,
+                dueDate = it.dueDate,
+                createdAt = it.createdAt,
+                updatedAt = it.updatedAt,
                 totalAmount = it.totalAmount,
             )
         },
-        totalItemCount = totalResults,
+        totalItemCount = totalCount,
         nextPage = nextPage
     )
 }

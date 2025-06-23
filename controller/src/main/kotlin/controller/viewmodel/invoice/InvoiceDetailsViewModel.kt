@@ -1,37 +1,19 @@
 package controller.viewmodel.invoice
 
+import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import models.InvoiceModelLegacy
-import models.InvoiceModelActivityModelLegacy
+import models.invoice.InvoiceModel
+import models.invoice.InvoiceModelActivityModel
 
 @Serializable
 internal data class InvoiceDetailsViewModel(
     val id: String,
-    val externalId: String,
-    val senderCompany: InvoiceDetailsCompanyViewModel,
-    val recipientCompany: InvoiceDetailsCompanyViewModel,
-    val issueDate: String,
-    val dueDate: String,
-    val beneficiary: InvoiceDetailsTransactionAccountViewModel,
-    val intermediary: InvoiceDetailsTransactionAccountViewModel?,
-    val createdAt: String,
-    val updatedAt: String,
+    val invoiceNumber: String,
+    val createdAt: Instant,
+    val updatedAt: Instant,
+    val issueDate: Instant,
+    val dueDate: Instant,
     val activities: List<InvoiceDetailsActivityViewModel>
-)
-
-@Serializable
-internal data class InvoiceDetailsCompanyViewModel(
-    val name: String,
-    val address: String
-)
-
-@Serializable
-internal data class InvoiceDetailsTransactionAccountViewModel(
-    val name: String?,
-    val iban: String,
-    val swift: String,
-    val bankName: String,
-    val bankAddress: String,
 )
 
 @Serializable
@@ -42,43 +24,19 @@ internal data class InvoiceDetailsActivityViewModel(
     val quantity: Int
 )
 
-internal fun InvoiceModelLegacy.toViewModel(): InvoiceDetailsViewModel {
+internal fun InvoiceModel.toViewModel(): InvoiceDetailsViewModel {
     return InvoiceDetailsViewModel(
-        id = this.id.toString(),
-        externalId = this.externalId,
-        senderCompany = InvoiceDetailsCompanyViewModel(
-            name = this.senderCompanyName,
-            address = this.senderCompanyAddress
-        ),
-        recipientCompany = InvoiceDetailsCompanyViewModel(
-            name = this.recipientCompanyName,
-            address = this.recipientCompanyAddress
-        ),
-        issueDate = this.issueDate.toString(),
-        dueDate = this.dueDate.toString(),
-        beneficiary = InvoiceDetailsTransactionAccountViewModel(
-            name = this.beneficiary.name,
-            bankName = this.beneficiary.bankName,
-            bankAddress = this.beneficiary.bankAddress,
-            swift = this.beneficiary.swift,
-            iban = this.beneficiary.iban
-        ),
-        intermediary = this.intermediary?.let {
-            InvoiceDetailsTransactionAccountViewModel(
-                name = it.name,
-                bankName = it.bankName,
-                bankAddress = it.bankAddress,
-                swift = it.swift,
-                iban = it.iban
-            )
-        },
-        activities = makeActivities(this.activities.toList()),
-        createdAt = this.createdAt.toString(),
-        updatedAt = this.updatedAt.toString()
+        id = id.toString(),
+        invoiceNumber = invoicerNumber,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+        issueDate = issueDate,
+        dueDate = dueDate,
+        activities = makeActivities(activities)
     )
 }
 
-private fun makeActivities(activities: List<InvoiceModelActivityModelLegacy>): List<InvoiceDetailsActivityViewModel> {
+private fun makeActivities(activities: List<InvoiceModelActivityModel>): List<InvoiceDetailsActivityViewModel> {
     return activities.map {
         InvoiceDetailsActivityViewModel(
             id = it.id.toString(),

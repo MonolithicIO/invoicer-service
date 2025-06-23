@@ -8,10 +8,9 @@ import models.invoice.InvoiceListModel
 import models.invoice.InvoiceModel
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import repository.entities.InvoiceActivityTable
 import repository.entities.InvoiceEntity
 import repository.entities.InvoiceTable
-import repository.entities.InvoiceActivityTable
-import repository.entities.legacy.InvoiceTableLegacy
 import repository.mapper.toListItemModel
 import repository.mapper.toModel
 import java.util.*
@@ -116,7 +115,7 @@ internal class InvoiceRepositoryImpl(
     override suspend fun getByInvoiceNumber(invoiceNumber: String): InvoiceModel? {
         return newSuspendedTransaction {
             InvoiceEntity.find {
-                (InvoiceTableLegacy.externalId eq invoiceNumber) and (InvoiceTableLegacy.isDeleted eq false)
+                (InvoiceTable.invoicerNumber eq invoiceNumber) and (InvoiceTable.isDeleted eq false)
             }.firstOrNull()?.toModel()
         }
     }
@@ -170,9 +169,9 @@ internal class InvoiceRepositoryImpl(
         id: UUID
     ) {
         newSuspendedTransaction {
-            InvoiceTableLegacy.update(
+            InvoiceTable.update(
                 where = {
-                    InvoiceTableLegacy.id eq id
+                    InvoiceTable.id eq id
                 }
             ) {
                 it[isDeleted] = true

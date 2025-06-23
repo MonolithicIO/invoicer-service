@@ -2,6 +2,7 @@ package services.api.services.invoice
 
 import models.getinvoices.GetInvoicesFilterModel
 import models.getinvoices.InvoiceListModelLegacy
+import models.invoice.InvoiceListModel
 import java.util.*
 
 interface GetUserInvoicesService {
@@ -10,5 +11,5 @@ interface GetUserInvoicesService {
         page: Long,
         limit: Int,
         userId: UUID,
-    ): InvoiceListModelLegacy
+    ): InvoiceListModel
 }

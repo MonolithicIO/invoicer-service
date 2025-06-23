@@ -17,6 +17,7 @@ import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.invoice.GetUserInvoicesService
 import services.api.services.pdf.GenerateInvoicePdfService
 import services.api.services.pdf.InvoicePdfSecureLinkService
+import utils.exceptions.http.notFoundError
 
 internal fun Routing.invoiceController() {
     route("/v1/invoice") {
@@ -31,8 +32,7 @@ internal fun Routing.invoiceController() {
                     message =
                         findOneService.get(
                             invoiceId = parseUuid(invoiceId!!),
-                            userId = parseUuid(jwtUserId())
-                        ).toViewModel()
+                        )?.toViewModel() ?: notFoundError("Invoice not found")
                 )
             }
 
@@ -47,8 +47,6 @@ internal fun Routing.invoiceController() {
                     maxIssueDate = call.request.queryParameters["maxIssueDate"],
                     minDueDate = call.request.queryParameters["minDueDate"],
                     maxDueDate = call.request.queryParameters["maxDueDate"],
-                    senderCompanyName = call.request.queryParameters["senderCompanyName"],
-                    recipientCompanyName = call.request.queryParameters["recipientCompanyName"],
                 )
                 val findService by closestDI().instance<GetUserInvoicesService>()
 

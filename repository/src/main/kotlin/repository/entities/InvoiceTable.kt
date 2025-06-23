@@ -66,6 +66,7 @@ internal class InvoiceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var intermediaryBankAddress by InvoiceTable.intermediaryBankAddress
 
     // Company
+    val companyId by InvoiceTable.company
     val companyName by InvoiceTable.companyName
     val companyDocument by InvoiceTable.companyDocument
     val companyAddressLine1 by InvoiceTable.companyAddressLine1
@@ -77,4 +78,7 @@ internal class InvoiceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
 
     // Customer
     val customerName by InvoiceTable.customerName
+
+    // Activities
+    val activities by InvoiceActivityEntity referrersOn InvoiceActivityTable.invoice
 }

@@ -20,47 +20,46 @@ internal class GenerateInvoicePdfServiceImpl(
 ) : GenerateInvoicePdfService {
 
     override suspend fun generate(invoiceId: UUID, userId: UUID) {
-        getUserByIdService.get(userId)
-
-        val invoice = getUserInvoiceByIdService.get(
-            userId = userId,
-            invoiceId = invoiceId
-        )
-
-        localStorage.createDirectory("/temp/pdfs")
-
-        invoicePdfRepository.createInvoicePdf(invoiceId)
-
-        val outputPath = localStorage.getRootPath() + "/temp/pdfs" + "/invoice-${invoice.id}.pdf"
-
-        writer.write(
-            invoice = invoice,
-            outputPath = outputPath
-        )
-
-        runCatching {
-            fileUploader.uploadFile(
-                localFilePath = outputPath,
-                fileName = "user/$userId/$invoiceId.pdf"
-            )
-        }.fold(
-            onFailure = {
-                invoicePdfRepository.updateInvoicePdfState(
-                    invoiceId = invoiceId,
-                    status = InvoicePdfStatus.Failed,
-                    filePath = ""
-                )
-                throw it
-            },
-            onSuccess = { fileKey ->
-                invoicePdfRepository.updateInvoicePdfState(
-                    invoiceId = invoiceId,
-                    status = InvoicePdfStatus.Success,
-                    filePath = fileKey
-                )
-            }
-        )
-
-        localStorage.deleteFile(outputPath)
+//        getUserByIdService.get(userId)
+//
+//        val invoice = getUserInvoiceByIdService.get(
+//            invoiceId = invoiceId
+//        ) ?: throw IllegalArgumentException("Invoice not found")
+//
+//        localStorage.createDirectory("/temp/pdfs")
+//
+//        invoicePdfRepository.createInvoicePdf(invoiceId)
+//
+//        val outputPath = localStorage.getRootPath() + "/temp/pdfs" + "/invoice-${invoice.id}.pdf"
+//
+//        writer.write(
+//            invoice = invoice,
+//            outputPath = outputPath
+//        )
+//
+//        runCatching {
+//            fileUploader.uploadFile(
+//                localFilePath = outputPath,
+//                fileName = "user/$userId/$invoiceId.pdf"
+//            )
+//        }.fold(
+//            onFailure = {
+//                invoicePdfRepository.updateInvoicePdfState(
+//                    invoiceId = invoiceId,
+//                    status = InvoicePdfStatus.Failed,
+//                    filePath = ""
+//                )
+//                throw it
+//            },
+//            onSuccess = { fileKey ->
+//                invoicePdfRepository.updateInvoicePdfState(
+//                    invoiceId = invoiceId,
+//                    status = InvoicePdfStatus.Success,
+//                    filePath = fileKey
+//                )
+//            }
+//        )
+//
+//        localStorage.deleteFile(outputPath)
     }
 }

@@ -20,7 +20,8 @@ internal fun InvoiceEntity.toModel(): InvoiceModel {
             city = companyCity,
             zipCode = companyZipCode,
             state = companyState,
-            countryCode = companyCountryCode
+            countryCode = companyCountryCode,
+            id = companyId.value // Assuming the company ID is the same as the invoice ID
         ),
         primaryAccount = InvoicePayAccountModel(
             swift = primarySwift,
@@ -32,6 +33,14 @@ internal fun InvoiceEntity.toModel(): InvoiceModel {
         customer = InvoiceCustomerModel(
             name = customerName
         ),
+        activities = activities.map {
+            InvoiceModelActivityModel(
+                id = it.id.value,
+                quantity = it.quantity,
+                unitPrice = it.unitPrice,
+                name = it.description,
+            )
+        }
     )
 }
 
@@ -40,7 +49,14 @@ internal fun InvoiceEntity.toListItemModel(): InvoiceListItemModel {
         id = id.value,
         invoiceNumber = invoicerNumber,
         // TODO - Calculate invoice items
-        amount = 0
+        amount = 0,
+        companyName = companyName,
+        customerName = customerName,
+        issueDate = issueDate,
+        dueDate = dueDate,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+        totalAmount = 0 // TODO - Calculate total amount
     )
 }
 

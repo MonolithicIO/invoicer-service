@@ -18,7 +18,8 @@ data class InvoiceModel(
     val company: InvoiceCompanyModel,
     val customer: InvoiceCustomerModel,
     val primaryAccount: InvoicePayAccountModel,
-    val intermediaryAccount: InvoicePayAccountModel?
+    val intermediaryAccount: InvoicePayAccountModel?,
+    val activities: List<InvoiceModelActivityModel>
 )
 
 @Serializable
@@ -31,6 +32,8 @@ data class InvoicePayAccountModel(
 
 @Serializable
 data class InvoiceCompanyModel(
+    @Serializable(with = JavaUUIDSerializer::class)
+    val id: UUID,
     val name: String,
     val document: String,
     val addressLine1: String,
@@ -44,4 +47,12 @@ data class InvoiceCompanyModel(
 @Serializable
 data class InvoiceCustomerModel(
     val name: String,
+)
+
+@Serializable
+data class InvoiceModelActivityModel(
+    @Serializable(with = JavaUUIDSerializer::class) val id: UUID,
+    val name: String,
+    val unitPrice: Long,
+    val quantity: Int
 )
