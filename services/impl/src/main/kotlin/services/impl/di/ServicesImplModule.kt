@@ -4,14 +4,12 @@ import kotlinx.coroutines.Dispatchers
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
-import services.api.services.beneficiary.*
 import services.api.services.company.CreateCompanyService
 import services.api.services.company.GetCompaniesService
 import services.api.services.company.GetCompanyDetailsService
 import services.api.services.customer.CreateCustomerService
 import services.api.services.customer.GetCustomerByIdService
 import services.api.services.customer.ListCustomersService
-import services.api.services.intermediary.*
 import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.DeleteInvoiceService
 import services.api.services.invoice.GetUserInvoiceByIdService
@@ -30,14 +28,12 @@ import services.api.services.qrcodetoken.RequestQrCodeTokenService
 import services.api.services.user.CreateUserService
 import services.api.services.user.DeleteUserService
 import services.api.services.user.GetUserByEmailService
-import services.impl.beneficiary.*
 import services.impl.company.CreateCompanyServiceImpl
 import services.impl.company.GetCompaniesServiceImpl
 import services.impl.company.GetCompanyDetailsServiceImpl
 import services.impl.customer.CreateCustomerServiceImpl
 import services.impl.customer.GetCustomerByIdServiceImpl
 import services.impl.customer.ListCustomerServiceImpl
-import services.impl.intermediary.*
 import services.impl.invoice.CreateInvoiceServiceImpl
 import services.impl.invoice.DeleteInvoiceServiceImpl
 import services.impl.invoice.GetUserInvoiceByIdServiceImpl
@@ -61,116 +57,12 @@ import services.impl.user.GetUserByEmailServiceImpl
 import services.impl.user.GetUserByIdServiceImpl
 
 val servicesImplModule = DI.Module("invoicer-services") {
-    beneficiaryServices()
-    intermediaryServices()
     invoiceServices()
     loginServices()
     userServices()
     payAccountServices()
     companyServices()
     customerServices()
-}
-
-private fun DI.Builder.beneficiaryServices() {
-    bindProvider<CheckBeneficiarySwiftAvailableService> {
-        CheckBeneficiarySwiftAvailableServiceImpl(
-            repository = instance()
-        )
-    }
-
-    bindProvider<CreateBeneficiaryService> {
-        CreateBeneficiaryServiceImpl(
-            repository = instance(),
-            getUserByIdService = instance(),
-            checkSwiftService = instance(),
-            swiftValidator = instance(),
-            ibanValidator = instance()
-        )
-    }
-
-    bindProvider<DeleteBeneficiaryService> {
-        DeleteBeneficiaryServiceImpl(
-            getBeneficiaryByIdService = instance(),
-            beneficiaryRepository = instance(),
-            getUserByIdService = instance(),
-            invoiceRepository = instance()
-        )
-    }
-
-    bindProvider<GetBeneficiaryByIdService> {
-        GetBeneficiaryByIdServiceImpl(
-            repository = instance(),
-        )
-    }
-
-    bindProvider<GetUserBeneficiariesService> {
-        GetUserBeneficiariesServiceImpl(
-            repository = instance(),
-            getUserByIdUseCase = instance()
-        )
-    }
-
-    bindProvider<UpdateBeneficiaryService> {
-        UpdateBeneficiaryServiceImpl(
-            swiftValidator = instance(),
-            getBeneficiaryByIdService = instance(),
-            beneficiaryRepository = instance(),
-            getUserByIdService = instance(),
-            checkBeneficiarySwiftAvailableService = instance(),
-            ibanValidator = instance()
-        )
-    }
-}
-
-private fun DI.Builder.intermediaryServices() {
-    bindProvider<CheckIntermediarySwiftAvailableService> {
-        CheckIntermediarySwiftAvailableServiceImpl(
-            repository = instance()
-        )
-    }
-
-    bindProvider<CreateIntermediaryService> {
-        CreateIntermediaryServiceImpl(
-            repository = instance(),
-            swiftValidator = instance(),
-            getUserByIdService = instance(),
-            checkIntermediarySwiftAlreadyUsedService = instance(),
-            ibanValidator = instance()
-        )
-    }
-
-    bindProvider<DeleteIntermediaryService> {
-        DeleteIntermediaryServiceImpl(
-            getIntermediaryByIdService = instance(),
-            intermediaryRepo = instance(),
-            getUserByIdUseCase = instance(),
-            invoiceRepository = instance()
-        )
-    }
-
-    bindProvider<GetIntermediaryByIdService> {
-        GetIntermediaryByIdServiceImpl(
-            repository = instance(),
-        )
-    }
-
-    bindProvider<UpdateIntermediaryService> {
-        UpdateIntermediaryServiceImpl(
-            swiftValidator = instance(),
-            getIntermediaryByIdService = instance(),
-            intermediaryRepository = instance(),
-            getUserByIdService = instance(),
-            checkIntermediarySwiftAlreadyUsedService = instance(),
-            ibanValidator = instance()
-        )
-    }
-
-    bindProvider<GetUserIntermediariesService> {
-        GetUserIntermediariesServiceImpl(
-            repository = instance(),
-            getUserByIdService = instance()
-        )
-    }
 }
 
 private fun DI.Builder.invoiceServices() {

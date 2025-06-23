@@ -6,12 +6,11 @@ import com.itextpdf.layout.element.Cell
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.UnitValue
-import models.beneficiary.BeneficiaryModel
-import models.intermediary.IntermediaryModel
+import models.invoice.InvoicePayAccountModel
 
 internal fun invoicePdfPaymentInfo(
-    beneficiary: BeneficiaryModel,
-    intermediary: IntermediaryModel?,
+    primary: InvoicePayAccountModel,
+    intermediary: InvoicePayAccountModel?,
     regularFont: PdfFont,
     boldFont: PdfFont
 ): Table {
@@ -21,7 +20,7 @@ internal fun invoicePdfPaymentInfo(
 
     paymentTable.addCell(
         paymentCell(
-            beneficiary = beneficiary,
+            primary = primary,
             intermediary = intermediary,
             regularFont = regularFont,
             boldFont = boldFont
@@ -32,8 +31,8 @@ internal fun invoicePdfPaymentInfo(
 }
 
 private fun paymentCell(
-    beneficiary: BeneficiaryModel,
-    intermediary: IntermediaryModel?,
+    primary: InvoicePayAccountModel,
+    intermediary: InvoicePayAccountModel?,
     regularFont: PdfFont,
     boldFont: PdfFont
 ): Cell {
@@ -50,12 +49,11 @@ private fun paymentCell(
     cell.add(Paragraph("\n"))
 
     cell.addPaymentInfo(
-        label = "Beneficiary",
-        name = beneficiary.name,
-        iban = beneficiary.iban,
-        swift = beneficiary.swift,
-        bankName = beneficiary.bankName,
-        bankAddress = beneficiary.bankAddress,
+        label = "Pay Account",
+        iban = primary.iban,
+        swift = primary.swift,
+        bankName = primary.bankName,
+        bankAddress = primary.bankAddress,
         regularFont = regularFont,
         boldFont = boldFont
     )
@@ -66,7 +64,6 @@ private fun paymentCell(
     intermediary?.let {
         cell.addPaymentInfo(
             label = "Intermediary",
-            name = it.name,
             iban = it.iban,
             swift = it.swift,
             bankName = it.bankName,
@@ -81,7 +78,6 @@ private fun paymentCell(
 
 private fun Cell.addPaymentInfo(
     label: String,
-    name: String,
     iban: String,
     swift: String,
     bankName: String,
@@ -90,7 +86,6 @@ private fun Cell.addPaymentInfo(
     boldFont: PdfFont
 ) {
     add(Paragraph("$label:").setFont(boldFont).setFontSize(PdfStyle.FontSize.Small))
-    add(Paragraph("Name: $name").setFont(regularFont).setFontSize(PdfStyle.FontSize.Small))
     add(Paragraph("Iban: $iban").setFont(regularFont).setFontSize(PdfStyle.FontSize.Small))
     add(Paragraph("Swift: $swift").setFont(regularFont).setFontSize(PdfStyle.FontSize.Small))
     add(Paragraph("Bank Name: $bankName").setFont(regularFont).setFontSize(PdfStyle.FontSize.Small))

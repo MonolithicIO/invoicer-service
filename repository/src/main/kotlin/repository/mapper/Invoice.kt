@@ -6,7 +6,7 @@ import repository.entities.InvoiceEntity
 internal fun InvoiceEntity.toModel(): InvoiceModel {
     return InvoiceModel(
         id = id.value,
-        invoicerNumber = invoicerNumber,
+        invoiceNumber = invoicerNumber,
         issueDate = issueDate,
         dueDate = dueDate,
         createdAt = createdAt,
@@ -21,7 +21,8 @@ internal fun InvoiceEntity.toModel(): InvoiceModel {
             zipCode = companyZipCode,
             state = companyState,
             countryCode = companyCountryCode,
-            id = companyId.value // Assuming the company ID is the same as the invoice ID
+            id = companyId.value,
+            email = companyEmail
         ),
         primaryAccount = InvoicePayAccountModel(
             swift = primarySwift,

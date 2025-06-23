@@ -7,7 +7,7 @@ import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Paragraph
-import models.InvoiceModelLegacy
+import models.invoice.InvoiceModel
 import services.impl.pdf.pdfwriter.InvoicePdfWriter
 import services.impl.pdf.pdfwriter.itext.components.*
 import services.impl.pdf.pdfwriter.itext.components.PdfStyle.formatDate
@@ -19,7 +19,7 @@ import kotlin.coroutines.suspendCoroutine
 
 internal class ItextInvoiceWriter : InvoicePdfWriter {
 
-    override suspend fun write(invoice: InvoiceModelLegacy, outputPath: String) {
+    override suspend fun write(invoice: InvoiceModel, outputPath: String) {
         return suspendCoroutine { continuation ->
             runCatching {
                 generateInvoicePdf(
@@ -39,7 +39,7 @@ internal class ItextInvoiceWriter : InvoicePdfWriter {
         }
     }
 
-    private fun generateInvoicePdf(invoice: InvoiceModelLegacy, outputPath: String) {
+    private fun generateInvoicePdf(invoice: InvoiceModel, outputPath: String) {
         // Configura o documento PDF
         val writer = PdfWriter(FileOutputStream(File(outputPath)))
         val pdf = PdfDocument(writer)
@@ -56,9 +56,9 @@ internal class ItextInvoiceWriter : InvoicePdfWriter {
         )
 
         val headerTable = buildHeader(
-            senderCompanyName = invoice.senderCompanyName,
-            senderCompanyAddress = invoice.senderCompanyAddress,
-            externalId = invoice.externalId,
+            senderCompanyName = invoice.company.name,
+            senderCompanyAddress = invoice.company.addressLine1,
+            externalId = invoice.invoiceNumber,
             id = invoice.id.toString(),
             dueDate = formatDate(invoice.dueDate),
             issueDate = formatDate(invoice.issueDate),
@@ -70,10 +70,8 @@ internal class ItextInvoiceWriter : InvoicePdfWriter {
         document.add(Paragraph("\n"))
 
         val recipientTable = invoicePdfRecipient(
-            recipientCompanyAddress = invoice.recipientCompanyAddress,
-            recipientCompanyName = invoice.recipientCompanyName,
+            recipientCompanyName = invoice.customer.name,
             boldFont = bold,
-            regularFont = regular
         )
         document.add(recipientTable)
 
@@ -89,8 +87,8 @@ internal class ItextInvoiceWriter : InvoicePdfWriter {
         document.add(Paragraph("\n"))
 
         val paymentTable = invoicePdfPaymentInfo(
-            beneficiary = invoice.beneficiary,
-            intermediary = invoice.intermediary,
+            primary = invoice.primaryAccount,
+            intermediary = invoice.intermediaryAccount,
             boldFont = bold,
             regularFont = regular
         )
@@ -102,7 +100,7 @@ internal class ItextInvoiceWriter : InvoicePdfWriter {
         val footerTable = invoicePdfFooter(
             updatedAt = invoice.updatedAt,
             createdAt = invoice.createdAt,
-            userEmail = invoice.user.email,
+            userEmail = invoice.company.email,
             regularFont = regular
         )
         document.add(footerTable)
