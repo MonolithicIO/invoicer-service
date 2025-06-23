@@ -2,54 +2,44 @@ package repository
 
 import foundation.cache.CacheHandler
 import kotlinx.datetime.Clock
-import models.InvoiceModelLegacy
-import models.createinvoice.CreateInvoiceModel
 import models.getinvoices.GetInvoicesFilterModel
-import models.getinvoices.InvoiceListItemModel
-import models.getinvoices.InvoiceListModel
+import models.invoice.CreateInvoiceModel
+import models.invoice.InvoiceListModel
+import models.invoice.InvoiceModel
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import repository.entities.InvoiceEntity
+import repository.entities.InvoiceTable
 import repository.entities.legacy.InvoiceActivityTable
-import repository.entities.legacy.InvoiceEntityLegacy
 import repository.entities.legacy.InvoiceTableLegacy
 import repository.mapper.toListItemModel
 import repository.mapper.toModel
 import java.util.*
 
 interface InvoiceRepository {
-    suspend fun createInvoice(
+    suspend fun create(
         data: CreateInvoiceModel,
         userId: UUID,
     ): String
 
-    suspend fun getInvoiceByUUID(
+    suspend fun getById(
         id: UUID
-    ): InvoiceModelLegacy?
+    ): InvoiceModel?
 
-    suspend fun getInvoiceByExternalId(
-        externalId: String
-    ): InvoiceModelLegacy?
+    suspend fun getByInvoiceNumber(
+        invoiceNumber: String
+    ): InvoiceModel?
 
-    suspend fun getInvoices(
+    suspend fun getAll(
         filters: GetInvoicesFilterModel,
         page: Long,
         limit: Int,
-        userId: UUID,
+        companyId: UUID,
     ): InvoiceListModel
 
     suspend fun delete(
         id: UUID
     )
-
-    suspend fun getInvoicesByBeneficiaryId(
-        beneficiaryId: UUID,
-        userId: UUID,
-    ): List<InvoiceListItemModel>
-
-    suspend fun getInvoicesByIntermediaryId(
-        intermediaryId: UUID,
-        userId: UUID,
-    ): List<InvoiceListItemModel>
 }
 
 
@@ -58,25 +48,33 @@ internal class InvoiceRepositoryImpl(
     private val cacheHandler: CacheHandler
 ) : InvoiceRepository {
 
-    override suspend fun createInvoice(
+    override suspend fun create(
         data: CreateInvoiceModel,
         userId: UUID,
     ): String {
         return newSuspendedTransaction {
-            val newInvoice = InvoiceTableLegacy.insertAndGetId {
-                it[externalId] = data.externalId
-                it[externalId] = data.externalId
-                it[senderCompanyName] = data.senderCompanyName
-                it[senderCompanyAddress] = data.senderCompanyAddress
-                it[recipientCompanyName] = data.recipientCompanyName
-                it[recipientCompanyAddress] = data.recipientCompanyAddress
+            val newInvoice = InvoiceTable.insertAndGetId {
+                // Company
+                it[companyName] = data.company.name
+                it[companyDocument] = data.company.document
+                it[company] = data.company.id
+                it[companyAddressLine1] = data.company.address.addressLine1
+                it[companyAddressLine2] = data.company.address.addressLine2
+                it[companyState] = data.company.address.state
+                it[companyCity] = data.company.address.city
+                it[companyZipCode] = data.company.address.postalCode
+                it[companyCountryCode] = data.company.address.countryCode
+                // Customer
+                it[customer] = data.customer.id
+                it[customerName] = data.customer.name
+                // Invoice
+                it[invoicerNumber] = data.invoicerNumber
                 it[issueDate] = data.issueDate
                 it[dueDate] = data.dueDate
-                it[beneficiary] = data.beneficiaryId
-                it[intermediary] = data.intermediaryId
+                // General
                 it[createdAt] = clock.now()
                 it[updatedAt] = clock.now()
-                it[user] = userId
+                it[isDeleted] = false
             }
             val createdInvoiceId = newInvoice.value
 
@@ -93,68 +91,59 @@ internal class InvoiceRepositoryImpl(
         }
     }
 
-    override suspend fun getInvoiceByUUID(id: UUID): InvoiceModelLegacy? {
+    override suspend fun getById(id: UUID): InvoiceModel? {
         val cached = cacheHandler.get(
             key = id.toString(),
-            serializer = InvoiceModelLegacy.serializer()
+            serializer = InvoiceModel.serializer()
         )
 
         if (cached != null) return cached
 
         return newSuspendedTransaction {
-            InvoiceEntityLegacy.find {
-                (InvoiceTableLegacy.id eq id) and (InvoiceTableLegacy.isDeleted eq false)
+            InvoiceEntity.find {
+                (InvoiceTable.id eq id) and (InvoiceTable.isDeleted eq false)
             }.firstOrNull()?.toModel()
         }?.also {
             cacheHandler.set(
                 key = it.id.toString(),
-                serializer = InvoiceModelLegacy.serializer(),
+                serializer = InvoiceModel.serializer(),
                 value = it,
                 ttlSeconds = CACHE_TTL_SECONDS
             )
         }
     }
 
-    override suspend fun getInvoiceByExternalId(externalId: String): InvoiceModelLegacy? {
+    override suspend fun getByInvoiceNumber(invoiceNumber: String): InvoiceModel? {
         return newSuspendedTransaction {
-            InvoiceEntityLegacy.find {
-                (InvoiceTableLegacy.externalId eq externalId) and (InvoiceTableLegacy.isDeleted eq false)
+            InvoiceEntity.find {
+                (InvoiceTableLegacy.externalId eq invoiceNumber) and (InvoiceTableLegacy.isDeleted eq false)
             }.firstOrNull()?.toModel()
         }
     }
 
-    override suspend fun getInvoices(
+    override suspend fun getAll(
         filters: GetInvoicesFilterModel,
         page: Long,
         limit: Int,
-        userId: UUID,
+        companyId: UUID,
     ): InvoiceListModel {
         return newSuspendedTransaction {
-            val query = InvoiceTableLegacy
+            val query = InvoiceTable
                 .selectAll()
                 .where {
-                    InvoiceTableLegacy.user eq userId and (InvoiceTableLegacy.isDeleted eq false)
+                    InvoiceTable.company eq companyId and (InvoiceTable.isDeleted eq false)
                 }
-
-            filters.senderCompanyName?.let { senderCompany ->
-                if (senderCompany.isNotBlank()) query.andWhere {
-                    InvoiceTableLegacy.senderCompanyName like "%$senderCompany%"
-                }
-
-            }
-
-            filters.recipientCompanyName?.let { recipientCompany ->
-                if (recipientCompany.isNotBlank()) query.andWhere {
-                    InvoiceTableLegacy.recipientCompanyName like "%$recipientCompany%"
-                }
-            }
 
             if (filters.maxDueDate != null && filters.minDueDate != null) query.andWhere {
-                InvoiceTableLegacy.issueDate.between(filters.minDueDate, filters.maxDueDate)
+                InvoiceTable.issueDate.between(filters.minDueDate, filters.maxDueDate)
             }
 
             if (filters.maxIssueDate != null && filters.minIssueDate != null) query.andWhere {
-                InvoiceTableLegacy.issueDate.between(filters.minIssueDate, filters.maxIssueDate)
+                InvoiceTable.issueDate.between(filters.minIssueDate, filters.maxIssueDate)
+            }
+
+            if (filters.customerId != null) query.andWhere {
+                InvoiceTable.customer eq filters.customerId
             }
 
             val count = query.count()
@@ -166,13 +155,13 @@ internal class InvoiceRepositoryImpl(
                 null
             }
 
-            val result = InvoiceEntityLegacy.wrapRows(query.limit(n = limit, offset = currentOffset))
+            val result = InvoiceEntity.wrapRows(query.limit(n = limit, offset = currentOffset))
                 .toList().map { it.toListItemModel() }
 
             InvoiceListModel(
                 items = result,
                 nextPage = nextPage,
-                totalResults = count
+                totalCount = count
             )
         }
     }
@@ -193,28 +182,6 @@ internal class InvoiceRepositoryImpl(
             cacheHandler.delete(
                 key = id.toString(),
             )
-        }
-    }
-
-    override suspend fun getInvoicesByBeneficiaryId(
-        beneficiaryId: UUID,
-        userId: UUID
-    ): List<InvoiceListItemModel> {
-        return newSuspendedTransaction {
-            InvoiceEntityLegacy.find {
-                (InvoiceTableLegacy.beneficiary eq beneficiaryId) and (InvoiceTableLegacy.user eq userId) and (InvoiceTableLegacy.isDeleted eq false)
-            }.toList().map { it.toListItemModel() }
-        }
-    }
-
-    override suspend fun getInvoicesByIntermediaryId(
-        intermediaryId: UUID,
-        userId: UUID
-    ): List<InvoiceListItemModel> {
-        return newSuspendedTransaction {
-            InvoiceEntityLegacy.find {
-                (InvoiceTableLegacy.intermediary eq intermediaryId) and (InvoiceTableLegacy.user eq userId) and (InvoiceTableLegacy.isDeleted eq false)
-            }.toList().map { it.toListItemModel() }
         }
     }
 

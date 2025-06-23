@@ -1,7 +1,7 @@
 package controller.viewmodel.invoice
 
 import kotlinx.serialization.Serializable
-import models.getinvoices.InvoiceListModel
+import models.getinvoices.InvoiceListModelLegacy
 
 @Serializable
 internal data class InvoiceListViewModel(
@@ -23,7 +23,7 @@ internal data class InvoiceListItemViewModel(
     val totalAmount: Long,
 )
 
-internal fun InvoiceListModel.toViewModel(): InvoiceListViewModel {
+internal fun InvoiceListModelLegacy.toViewModel(): InvoiceListViewModel {
     return InvoiceListViewModel(
         items = items.map {
             InvoiceListItemViewModel(

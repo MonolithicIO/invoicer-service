@@ -3,7 +3,7 @@ package models.getinvoices
 import kotlinx.datetime.Instant
 import java.util.*
 
-data class InvoiceListItemModel(
+data class InvoiceListItemModelLegacy(
     val id: UUID,
     val externalId: String,
     val senderCompany: String,
@@ -15,8 +15,8 @@ data class InvoiceListItemModel(
     val totalAmount: Long,
 )
 
-data class InvoiceListModel(
-    val items: List<InvoiceListItemModel>,
+data class InvoiceListModelLegacy(
+    val items: List<InvoiceListItemModelLegacy>,
     val totalResults: Long,
     val nextPage: Long?
 )

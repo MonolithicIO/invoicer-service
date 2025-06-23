@@ -1,6 +1,6 @@
 package services.api.services.invoice
 
-import models.createinvoice.CreateInvoiceModel
+import models.invoice.CreateInvoiceModel
 import models.createinvoice.CreateInvoiceResponseModel
 import java.util.*
 

@@ -16,7 +16,7 @@ internal class GetUserInvoiceByIdServiceImpl(
 
     override suspend fun get(invoiceId: UUID, userId: UUID): InvoiceModelLegacy {
         val user = getUserByIdUseCase.get(userId)
-        val invoice = repository.getInvoiceByUUID(id = invoiceId) ?: throw HttpError(
+        val invoice = repository.getById(id = invoiceId) ?: throw HttpError(
             statusCode = HttpCode.NotFound,
             message = "Invoice with id $invoiceId not found"
         )

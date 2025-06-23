@@ -2,7 +2,7 @@ package services.impl.beneficiary
 
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
-import models.getinvoices.InvoiceListItemModel
+import models.getinvoices.InvoiceListItemModelLegacy
 import repository.fakes.FakeBeneficiaryRepository
 import repository.fakes.FakeInvoiceRepository
 import services.api.fakes.beneficiary.FakeGetBeneficiaryByIdService
@@ -57,7 +57,7 @@ class DeleteBeneficiaryImplTest {
         val error = assertFailsWith<HttpError> {
             invoiceRepository.getInvoicesByBeneficiaryIdResponse = {
                 listOf(
-                    InvoiceListItemModel(
+                    InvoiceListItemModelLegacy(
                         id = UUID.fromString("b0a7e0bc-044a-42d1-9cc9-f0b63f7f3f36"),
                         externalId = "123",
                         senderCompany = "Sender company",

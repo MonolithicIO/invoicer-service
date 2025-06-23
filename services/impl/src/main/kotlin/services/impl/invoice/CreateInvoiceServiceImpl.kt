@@ -5,8 +5,8 @@ import io.github.alaksion.invoicer.foundation.messaging.MessageTopic
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import models.createinvoice.CreateInvoiceActivityModel
-import models.createinvoice.CreateInvoiceModel
+import models.invoice.CreateInvoiceActivityModel
+import models.invoice.CreateInvoiceModel
 import models.createinvoice.CreateInvoiceResponseModel
 import repository.InvoiceRepository
 import services.api.services.beneficiary.GetBeneficiaryByIdService
@@ -53,7 +53,7 @@ internal class CreateInvoiceServiceImpl(
 
         getUserByIdService.get(userId)
 
-        if (invoiceRepository.getInvoiceByExternalId(externalId = model.externalId) != null) {
+        if (invoiceRepository.getByInvoiceNumber(invoiceNumber = model.externalId) != null) {
             throw HttpError(
                 message = "Invoice with externalId: ${model.externalId} already exists",
                 statusCode = HttpCode.Conflict
@@ -61,7 +61,7 @@ internal class CreateInvoiceServiceImpl(
         }
 
         val response =
-            invoiceRepository.createInvoice(data = model, userId = userId)
+            invoiceRepository.create(data = model, userId = userId)
 
         messageProducer.produceMessage(
             topic = MessageTopic.INVOICE_PDF,

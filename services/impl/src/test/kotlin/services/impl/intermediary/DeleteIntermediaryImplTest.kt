@@ -2,7 +2,7 @@ package services.impl.intermediary
 
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
-import models.getinvoices.InvoiceListItemModel
+import models.getinvoices.InvoiceListItemModelLegacy
 import repository.fakes.FakeIntermediaryRepository
 import repository.fakes.FakeInvoiceRepository
 import services.api.fakes.intermediary.FakeGetIntermediaryByIdService
@@ -57,7 +57,7 @@ class DeleteIntermediaryImplTest {
         val error = assertFailsWith<HttpError> {
             invoiceRepository.getInvoicesByIntermediaryIdResponse = {
                 listOf(
-                    InvoiceListItemModel(
+                    InvoiceListItemModelLegacy(
                         id = UUID.fromString("b0a7e0bc-044a-42d1-9cc9-f0b63f7f3f36"),
                         externalId = "123",
                         senderCompany = "Sender company",

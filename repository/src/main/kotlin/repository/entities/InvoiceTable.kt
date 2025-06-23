@@ -25,7 +25,7 @@ internal object InvoiceTable : UUIDTable("t_invoice") {
     val companyCity = varchar("company_city", 100)
     val companyZipCode = varchar("company_zip_code", 20)
     val companyState = varchar("company_state", 500)
-    val countryCode = varchar("country_code", 20)
+    val companyCountryCode = varchar("company_country_code", 20)
 
     // Customer
     val customerName = varchar("customer_name", 100)
@@ -52,8 +52,6 @@ internal class InvoiceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var createdAt by InvoiceTable.createdAt
     var updatedAt by InvoiceTable.updatedAt
     var isDeleted by InvoiceTable.isDeleted
-    var company by UserCompanyEntity referencedOn InvoiceTable.company
-    var customer by CustomerEntity referencedOn InvoiceTable.customer
 
     // Payment details must be consistent. Once the document is created, the payment details should not change.
     var primarySwift by InvoiceTable.primarySwift
@@ -66,4 +64,17 @@ internal class InvoiceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var intermediaryIban by InvoiceTable.intermediaryIban
     var intermediaryBankName by InvoiceTable.intermediaryBankName
     var intermediaryBankAddress by InvoiceTable.intermediaryBankAddress
+
+    // Company
+    val companyName by InvoiceTable.companyName
+    val companyDocument by InvoiceTable.companyDocument
+    val companyAddressLine1 by InvoiceTable.companyAddressLine1
+    val companyAddressLine2 by InvoiceTable.companyAddressLine2
+    val companyCity by InvoiceTable.companyCity
+    val companyZipCode by InvoiceTable.companyZipCode
+    val companyState by InvoiceTable.companyState
+    val companyCountryCode by InvoiceTable.companyCountryCode
+
+    // Customer
+    val customerName by InvoiceTable.customerName
 }

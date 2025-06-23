@@ -5,8 +5,8 @@ import io.github.alaksion.invoicer.messaging.fakes.FakeMessageProducer
 import io.github.alaksion.invoicer.utils.fakes.FakeClock
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
-import models.createinvoice.CreateInvoiceActivityModel
-import models.createinvoice.CreateInvoiceModel
+import models.invoice.CreateInvoiceActivityModel
+import models.invoice.CreateInvoiceModel
 import models.fixtures.invoiceModelLegacyFixture
 import models.fixtures.userModelFixture
 import org.junit.Before

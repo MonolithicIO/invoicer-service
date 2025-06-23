@@ -4,8 +4,8 @@ import kotlinx.datetime.Instant
 import models.InvoiceModelLegacy
 import models.InvoiceModelActivityModelLegacy
 import models.beneficiary.BeneficiaryModel
-import models.getinvoices.InvoiceListItemModel
-import models.getinvoices.InvoiceListModel
+import models.getinvoices.InvoiceListItemModelLegacy
+import models.getinvoices.InvoiceListModelLegacy
 import models.intermediary.IntermediaryModel
 import models.user.UserModel
 import java.util.*
@@ -62,7 +62,7 @@ val invoiceModelLegacyFixture = InvoiceModelLegacy(
     )
 )
 
-val invoiceListItemModelFixture = InvoiceListItemModel(
+val invoiceListItemModelLegacyFixture = InvoiceListItemModelLegacy(
     id = UUID.fromString("5d4c54df-fcec-4155-baf7-652aa378071b"),
     externalId = "INV-123456",
     senderCompany = "Sender Company Ltd.",
@@ -74,9 +74,9 @@ val invoiceListItemModelFixture = InvoiceListItemModel(
     totalAmount = 20000L
 )
 
-val invoiceListModelFixture = InvoiceListModel(
+val invoiceListModelLegacyFixture = InvoiceListModelLegacy(
     items = listOf(
-        InvoiceListItemModel(
+        InvoiceListItemModelLegacy(
             id = UUID.fromString("5d4c54df-fcec-4155-baf7-652aa378071b"),
             externalId = "INV-123456",
             senderCompany = "Sender Company Ltd.",

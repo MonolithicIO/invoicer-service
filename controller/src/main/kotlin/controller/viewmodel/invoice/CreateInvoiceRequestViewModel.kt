@@ -4,8 +4,8 @@ import controller.validation.requireFilledString
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import models.createinvoice.CreateInvoiceActivityModel
-import models.createinvoice.CreateInvoiceModel
+import models.invoice.CreateInvoiceActivityModel
+import models.invoice.CreateInvoiceModel
 import utils.exceptions.http.badRequestError
 
 @Serializable

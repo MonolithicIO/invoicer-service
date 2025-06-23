@@ -2,7 +2,7 @@ package services.impl.invoice
 
 import kotlinx.datetime.Instant
 import models.getinvoices.GetInvoicesFilterModel
-import models.getinvoices.InvoiceListModel
+import models.getinvoices.InvoiceListModelLegacy
 import repository.InvoiceRepository
 import services.api.services.invoice.GetUserInvoicesService
 import utils.exceptions.http.HttpCode
@@ -18,7 +18,7 @@ internal class GetUserInvoicesServiceImpl(
         page: Long,
         limit: Int,
         userId: UUID,
-    ): InvoiceListModel {
+    ): InvoiceListModelLegacy {
         validateDateFilter(
             min = filters.minIssueDate,
             max = filters.maxIssueDate
@@ -28,11 +28,11 @@ internal class GetUserInvoicesServiceImpl(
             min = filters.minDueDate,
             max = filters.maxDueDate
         )
-        return repository.getInvoices(
+        return repository.getAll(
             filters = filters,
             page = page,
             limit = limit,
-            userId = userId
+            companyId = userId
         )
     }
 

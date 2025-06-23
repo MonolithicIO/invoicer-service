@@ -1,8 +1,8 @@
 package controller.viewmodel.invoice
 
 import kotlinx.datetime.Instant
-import models.getinvoices.InvoiceListItemModel
-import models.getinvoices.InvoiceListModel
+import models.getinvoices.InvoiceListItemModelLegacy
+import models.getinvoices.InvoiceListModelLegacy
 import java.util.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -11,9 +11,9 @@ class InvoiceListViewModelTest {
 
     @Test
     fun `converts InvoiceListModel to InvoiceListViewModel`() {
-        val invoiceListModel = InvoiceListModel(
+        val invoiceListModelLegacy = InvoiceListModelLegacy(
             items = listOf(
-                InvoiceListItemModel(
+                InvoiceListItemModelLegacy(
                     id = UUID.fromString("123e4567-e89b-12d3-a456-426614174000"),
                     externalId = "INV-001",
                     senderCompany = "Sender Company",
@@ -29,7 +29,7 @@ class InvoiceListViewModelTest {
             nextPage = null
         )
 
-        val result = invoiceListModel.toViewModel()
+        val result = invoiceListModelLegacy.toViewModel()
 
         assertEquals(1, result.items.size)
         assertEquals("123e4567-e89b-12d3-a456-426614174000", result.items[0].id)
@@ -47,13 +47,13 @@ class InvoiceListViewModelTest {
 
     @Test
     fun `handles empty InvoiceListModel`() {
-        val invoiceListModel = InvoiceListModel(
+        val invoiceListModelLegacy = InvoiceListModelLegacy(
             items = listOf(),
             totalResults = 0,
             nextPage = null
         )
 
-        val result = invoiceListModel.toViewModel()
+        val result = invoiceListModelLegacy.toViewModel()
 
         assertEquals(0, result.items.size)
         assertEquals(0, result.totalItemCount)
