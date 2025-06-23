@@ -65,17 +65,17 @@ internal class CreateInvoiceServiceImpl(
                 userId = userId
             )
 
-//        messageProducer.produceMessage(
-//            topic = MessageTopic.INVOICE_PDF,
-//            key = response,
-//            value = """
-//                {
-//                    "invoiceId": "$response",
-//                    "userId": "$userId",
-//                    "type": "generate_pdf"
-//                }
-//            """.trimIndent()
-//        )
+        messageProducer.produceMessage(
+            topic = MessageTopic.INVOICE_PDF,
+            key = response,
+            value = """
+                {
+                    "invoiceId": "$response",
+                    "userId": "$userId",
+                    "type": "generate_pdf"
+                }
+            """.trimIndent()
+        )
 
         return CreateInvoiceResponseModel(
             externalInvoiceId = model.invoicerNumber,
