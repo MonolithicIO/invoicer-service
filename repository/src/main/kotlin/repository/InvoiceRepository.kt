@@ -10,7 +10,7 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import repository.entities.InvoiceEntity
 import repository.entities.InvoiceTable
-import repository.entities.legacy.InvoiceActivityTable
+import repository.entities.InvoiceActivityTable
 import repository.entities.legacy.InvoiceTableLegacy
 import repository.mapper.toListItemModel
 import repository.mapper.toModel

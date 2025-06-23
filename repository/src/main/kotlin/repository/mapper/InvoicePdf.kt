@@ -1,8 +1,8 @@
 package repository.mapper
 
 import models.invoicepdf.InvoicePdfModel
-import repository.entities.legacy.InvoicePdfEntity
-import repository.entities.legacy.InvoicePdfStatusEntity
+import repository.entities.InvoicePdfEntity
+import repository.entities.InvoicePdfStatusEntity
 
 internal fun InvoicePdfEntity.toModel(): InvoicePdfModel = InvoicePdfModel(
     id = id.value,

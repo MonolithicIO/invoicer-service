@@ -7,7 +7,9 @@ import org.kodein.di.instance
 import services.api.services.beneficiary.*
 import services.api.services.company.CreateCompanyService
 import services.api.services.company.GetCompaniesService
+import services.api.services.company.GetCompanyDetailsService
 import services.api.services.customer.CreateCustomerService
+import services.api.services.customer.GetCustomerByIdService
 import services.api.services.customer.ListCustomersService
 import services.api.services.intermediary.*
 import services.api.services.invoice.CreateInvoiceService
@@ -31,7 +33,9 @@ import services.api.services.user.GetUserByEmailService
 import services.impl.beneficiary.*
 import services.impl.company.CreateCompanyServiceImpl
 import services.impl.company.GetCompaniesServiceImpl
+import services.impl.company.GetCompanyDetailsServiceImpl
 import services.impl.customer.CreateCustomerServiceImpl
+import services.impl.customer.GetCustomerByIdServiceImpl
 import services.impl.customer.ListCustomerServiceImpl
 import services.impl.intermediary.*
 import services.impl.invoice.CreateInvoiceServiceImpl
@@ -175,9 +179,9 @@ private fun DI.Builder.invoiceServices() {
             invoiceRepository = instance(),
             clock = instance(),
             getUserByIdService = instance(),
-            getBeneficiaryByIdService = instance(),
-            getIntermediaryByIdService = instance(),
-            messageProducer = instance()
+            messageProducer = instance(),
+            getCompanyDetailsService = instance(),
+            getCustomerByIdService = instance()
         )
     }
 
@@ -350,6 +354,12 @@ private fun DI.Builder.companyServices() {
             getUserByIdService = instance()
         )
     }
+
+    bindProvider<GetCompanyDetailsService> {
+        GetCompanyDetailsServiceImpl(
+            companyRepository = instance()
+        )
+    }
 }
 
 private fun DI.Builder.customerServices() {
@@ -366,6 +376,12 @@ private fun DI.Builder.customerServices() {
         ListCustomerServiceImpl(
             customerRepository = instance(),
             getUserByIdService = instance()
+        )
+    }
+
+    bindProvider<GetCustomerByIdService> {
+        GetCustomerByIdServiceImpl(
+            customerRepository = instance()
         )
     }
 }

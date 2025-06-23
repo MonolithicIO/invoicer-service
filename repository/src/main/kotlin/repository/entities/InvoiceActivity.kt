@@ -1,4 +1,4 @@
-package repository.entities.legacy
+package repository.entities
 
 import kotlinx.datetime.Instant
 import org.jetbrains.exposed.dao.UUIDEntity
@@ -7,8 +7,6 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
-import repository.entities.InvoiceEntity
-import repository.entities.InvoiceTable
 import java.util.*
 
 internal object InvoiceActivityTable : UUIDTable("t_invoice_activity") {

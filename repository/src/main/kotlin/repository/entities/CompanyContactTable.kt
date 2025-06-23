@@ -1,7 +1,6 @@
-package repository.entities.legacy
+package repository.entities
 
-import repository.entities.UserCompanyEntity
-import repository.entities.UserCompanyTable
+import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
@@ -17,7 +16,7 @@ internal object CompanyContactTable : UUIDTable("t_company_contact") {
     val updatedAt = timestamp("updated_at")
 }
 
-internal class CompanyContactEntity(id: EntityID<UUID>) : org.jetbrains.exposed.dao.UUIDEntity(id) {
+internal class CompanyContactEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     companion object : UUIDEntityClass<CompanyContactEntity>(CompanyContactTable)
 
     var contactEmail by CompanyContactTable.contactEmail

@@ -5,7 +5,7 @@ import repository.CustomerRepository
 import services.api.services.customer.GetCustomerByIdService
 import java.util.*
 
-internal class GetCustomerByIdService(
+internal class GetCustomerByIdServiceImpl(
     private val customerRepository: CustomerRepository
 ) : GetCustomerByIdService {
     override suspend fun get(customerId: UUID): CustomerModel? {

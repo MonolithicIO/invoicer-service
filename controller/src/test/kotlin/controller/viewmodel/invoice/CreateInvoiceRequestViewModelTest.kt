@@ -12,7 +12,7 @@ class CreateInvoiceViewModelTest {
     @Test
     fun `converts to CreateInvoiceModel when all fields are valid`() {
         val viewModel = CreateInvoiceViewModel(
-            externalId = "INV-001",
+            invoicerNumber = "INV-001",
             senderCompanyName = "Sender Company",
             senderCompanyAddress = "123 Sender St",
             recipientCompanyName = "Recipient Company",
@@ -73,7 +73,7 @@ class CreateInvoiceViewModelTest {
     @Test
     fun `throws HttpError when activities list is empty`() {
         val viewModel = CreateInvoiceViewModel(
-            externalId = "INV-001",
+            invoicerNumber = "INV-001",
             senderCompanyName = "Sender Company",
             senderCompanyAddress = "123 Sender St",
             recipientCompanyName = "Recipient Company",
@@ -91,7 +91,7 @@ class CreateInvoiceViewModelTest {
     @Test
     fun `throws HttpError when activity quantity is negative`() {
         val viewModel = CreateInvoiceViewModel(
-            externalId = "INV-001",
+            invoicerNumber = "INV-001",
             senderCompanyName = "Sender Company",
             senderCompanyAddress = "123 Sender St",
             recipientCompanyName = "Recipient Company",
@@ -115,7 +115,7 @@ class CreateInvoiceViewModelTest {
     @Test
     fun `throws HttpError when activity description is missing`() {
         val viewModel = CreateInvoiceViewModel(
-            externalId = "INV-001",
+            invoicerNumber = "INV-001",
             senderCompanyName = "Sender Company",
             senderCompanyAddress = "123 Sender St",
             recipientCompanyName = "Recipient Company",

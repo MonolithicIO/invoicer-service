@@ -1,12 +1,12 @@
 package services.api.services.invoice
 
-import models.invoice.CreateInvoiceModel
 import models.createinvoice.CreateInvoiceResponseModel
+import models.invoice.CreateInvoiceDTO
 import java.util.*
 
 interface CreateInvoiceService {
     suspend fun createInvoice(
-        model: CreateInvoiceModel,
+        model: CreateInvoiceDTO,
         userId: UUID
     ): CreateInvoiceResponseModel
 }
