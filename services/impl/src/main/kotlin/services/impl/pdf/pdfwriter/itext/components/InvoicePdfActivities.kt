@@ -6,11 +6,11 @@ import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.UnitValue
-import models.InvoiceModelActivityModel
+import models.InvoiceModelActivityModelLegacy
 import services.impl.pdf.pdfwriter.itext.components.PdfStyle.formatCurrency
 
 internal fun invoicePdfActivities(
-    activities: List<InvoiceModelActivityModel>,
+    activities: List<InvoiceModelActivityModelLegacy>,
     regularFont: PdfFont,
     boldFont: PdfFont
 ): Table {

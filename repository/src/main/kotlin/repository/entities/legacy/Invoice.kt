@@ -11,7 +11,7 @@ import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import java.util.*
 
 
-internal object InvoiceTable : UUIDTable("t_invoice") {
+internal object InvoiceTableLegacy : UUIDTable("t_invoice") {
     val externalId = varchar("external_id", 36)
     val senderCompanyName = varchar("sender_company_name", 500)
     val senderCompanyAddress = varchar("sender_company_address", 1000)
@@ -27,21 +27,21 @@ internal object InvoiceTable : UUIDTable("t_invoice") {
     val intermediary = optReference("intermediary_id", foreign = IntermediaryTable)
 }
 
-internal class InvoiceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
-    companion object : UUIDEntityClass<InvoiceEntity>(InvoiceTable)
+internal class InvoiceEntityLegacy(id: EntityID<UUID>) : UUIDEntity(id) {
+    companion object : UUIDEntityClass<InvoiceEntityLegacy>(InvoiceTableLegacy)
 
-    var externalId by InvoiceTable.externalId
-    var senderCompanyName by InvoiceTable.senderCompanyName
-    var senderCompanyAddress by InvoiceTable.senderCompanyAddress
-    var recipientCompanyAddress by InvoiceTable.recipientCompanyAddress
-    var recipientCompanyName by InvoiceTable.recipientCompanyName
-    var issueDate by InvoiceTable.issueDate
-    var dueDate by InvoiceTable.dueDate
-    var createdAt by InvoiceTable.createdAt
-    var updatedAt by InvoiceTable.updatedAt
-    var isDeleted by InvoiceTable.isDeleted
+    var externalId by InvoiceTableLegacy.externalId
+    var senderCompanyName by InvoiceTableLegacy.senderCompanyName
+    var senderCompanyAddress by InvoiceTableLegacy.senderCompanyAddress
+    var recipientCompanyAddress by InvoiceTableLegacy.recipientCompanyAddress
+    var recipientCompanyName by InvoiceTableLegacy.recipientCompanyName
+    var issueDate by InvoiceTableLegacy.issueDate
+    var dueDate by InvoiceTableLegacy.dueDate
+    var createdAt by InvoiceTableLegacy.createdAt
+    var updatedAt by InvoiceTableLegacy.updatedAt
+    var isDeleted by InvoiceTableLegacy.isDeleted
     val activities by InvoiceActivityEntity.Companion referrersOn InvoiceActivityTable.invoice
-    var user by UserEntity.Companion referencedOn InvoiceTable.user
-    var beneficiary by BeneficiaryEntity.Companion referencedOn InvoiceTable.beneficiary
-    var intermediary by IntermediaryEntity.Companion optionalReferencedOn InvoiceTable.intermediary
+    var user by UserEntity.Companion referencedOn InvoiceTableLegacy.user
+    var beneficiary by BeneficiaryEntity.Companion referencedOn InvoiceTableLegacy.beneficiary
+    var intermediary by IntermediaryEntity.Companion optionalReferencedOn InvoiceTableLegacy.intermediary
 }

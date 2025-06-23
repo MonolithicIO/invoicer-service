@@ -9,7 +9,7 @@ import models.user.UserModel
 import java.util.*
 
 @Serializable
-data class InvoiceModel(
+data class InvoiceModelLegacy(
     @Serializable(with = JavaUUIDSerializer::class) val id: UUID,
     val externalId: String,
     val senderCompanyName: String,
@@ -20,14 +20,14 @@ data class InvoiceModel(
     val dueDate: Instant,
     val createdAt: Instant,
     val updatedAt: Instant,
-    val activities: List<InvoiceModelActivityModel>,
+    val activities: List<InvoiceModelActivityModelLegacy>,
     val user: UserModel,
     val beneficiary: BeneficiaryModel,
     val intermediary: IntermediaryModel?
 )
 
 @Serializable
-data class InvoiceModelActivityModel(
+data class InvoiceModelActivityModelLegacy(
     @Serializable(with = JavaUUIDSerializer::class) val id: UUID,
     val name: String,
     val unitPrice: Long,

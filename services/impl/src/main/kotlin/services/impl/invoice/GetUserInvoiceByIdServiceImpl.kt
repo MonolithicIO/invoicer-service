@@ -1,6 +1,6 @@
 package services.impl.invoice
 
-import models.InvoiceModel
+import models.InvoiceModelLegacy
 import repository.InvoiceRepository
 import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.user.GetUserByIdService
@@ -14,7 +14,7 @@ internal class GetUserInvoiceByIdServiceImpl(
     private val getUserByIdUseCase: GetUserByIdService
 ) : GetUserInvoiceByIdService {
 
-    override suspend fun get(invoiceId: UUID, userId: UUID): InvoiceModel {
+    override suspend fun get(invoiceId: UUID, userId: UUID): InvoiceModelLegacy {
         val user = getUserByIdUseCase.get(userId)
         val invoice = repository.getInvoiceByUUID(id = invoiceId) ?: throw HttpError(
             statusCode = HttpCode.NotFound,

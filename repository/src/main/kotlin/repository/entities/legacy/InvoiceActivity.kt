@@ -15,7 +15,7 @@ internal object InvoiceActivityTable : UUIDTable("t_invoice_activity") {
     val unitPrice = long("unit_price")
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
-    val invoice = reference(name = "invoice_id", foreign = InvoiceTable, onDelete = ReferenceOption.CASCADE)
+    val invoice = reference(name = "invoice_id", foreign = InvoiceTableLegacy, onDelete = ReferenceOption.CASCADE)
 }
 
 internal class InvoiceActivityEntity(id: EntityID<UUID>) : UUIDEntity(id) {
@@ -26,5 +26,5 @@ internal class InvoiceActivityEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var unitPrice: Long by InvoiceActivityTable.unitPrice
     var createdAt: Instant by InvoiceActivityTable.createdAt
     var updatedAt: Instant by InvoiceActivityTable.updatedAt
-    var invoice by InvoiceEntity.Companion referencedOn InvoiceActivityTable.invoice
+    var invoice by InvoiceEntityLegacy.Companion referencedOn InvoiceActivityTable.invoice
 }

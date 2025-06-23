@@ -1,12 +1,12 @@
 package repository.mapper
 
-import models.InvoiceModel
-import models.InvoiceModelActivityModel
+import models.InvoiceModelLegacy
+import models.InvoiceModelActivityModelLegacy
 import models.getinvoices.InvoiceListItemModel
-import repository.entities.legacy.InvoiceEntity
+import repository.entities.legacy.InvoiceEntityLegacy
 
-internal fun InvoiceEntity.toModel(): InvoiceModel {
-    return InvoiceModel(
+internal fun InvoiceEntityLegacy.toModel(): InvoiceModelLegacy {
+    return InvoiceModelLegacy(
         id = this.id.value,
         externalId = this.externalId,
         senderCompanyName = this.senderCompanyName,
@@ -18,7 +18,7 @@ internal fun InvoiceEntity.toModel(): InvoiceModel {
         createdAt = this.createdAt,
         updatedAt = this.updatedAt,
         activities = this.activities.map {
-            InvoiceModelActivityModel(
+            InvoiceModelActivityModelLegacy(
                 name = it.description,
                 quantity = it.quantity,
                 unitPrice = it.unitPrice,
@@ -31,7 +31,7 @@ internal fun InvoiceEntity.toModel(): InvoiceModel {
     )
 }
 
-internal fun InvoiceEntity.toListItemModel(): InvoiceListItemModel {
+internal fun InvoiceEntityLegacy.toListItemModel(): InvoiceListItemModel {
     return InvoiceListItemModel(
         id = this.id.value,
         externalId = this.externalId,

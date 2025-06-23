@@ -21,7 +21,7 @@ internal object InvoicePdfTable : UUIDTable("t_invoice_pdf") {
     val filePath = varchar("file_path", Int.MAX_VALUE)
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
-    val invoice = reference(name = "invoice_id", foreign = InvoiceTable, onDelete = ReferenceOption.CASCADE)
+    val invoice = reference(name = "invoice_id", foreign = InvoiceTableLegacy, onDelete = ReferenceOption.CASCADE)
     val status = customEnumeration(
         "status",
         "invoice_pdf_status",
@@ -42,7 +42,7 @@ internal class InvoicePdfEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var createdAt by InvoicePdfTable.createdAt
     var updatedAt by InvoicePdfTable.updatedAt
     var status by InvoicePdfTable.status
-    val invoice by InvoiceEntity.Companion referencedOn InvoicePdfTable.invoice
+    val invoice by InvoiceEntityLegacy.Companion referencedOn InvoicePdfTable.invoice
 }
 
 internal enum class InvoicePdfStatusEntity {

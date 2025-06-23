@@ -1,8 +1,8 @@
 package controller.viewmodel.invoice
 
 import kotlinx.datetime.Instant
-import models.InvoiceModel
-import models.InvoiceModelActivityModel
+import models.InvoiceModelLegacy
+import models.InvoiceModelActivityModelLegacy
 import models.beneficiary.BeneficiaryModel
 import models.fixtures.beneficiaryModelFixture
 import models.fixtures.intermediaryModelFixture
@@ -16,7 +16,7 @@ class InvoiceDetailsViewModelTest {
 
     @Test
     fun `converts InvoiceModel to InvoiceDetailsViewModel`() {
-        val invoiceModel = InvoiceModel(
+        val invoiceModelLegacy = InvoiceModelLegacy(
             id = UUID.fromString("123e4567-e89b-12d3-a456-426614174000"),
             externalId = "INV-001",
             senderCompanyName = "Sender Company",
@@ -48,7 +48,7 @@ class InvoiceDetailsViewModelTest {
                 id = intermediaryModelFixture.id
             ),
             activities = listOf(
-                InvoiceModelActivityModel(
+                InvoiceModelActivityModelLegacy(
                     id = UUID.fromString("123e4567-e89b-12d3-a456-426614174001"),
                     name = "Service A",
                     unitPrice = 1000,
@@ -60,7 +60,7 @@ class InvoiceDetailsViewModelTest {
             user = userModelFixture
         )
 
-        val result = invoiceModel.toViewModel()
+        val result = invoiceModelLegacy.toViewModel()
 
         assertEquals("123e4567-e89b-12d3-a456-426614174000", result.id)
         assertEquals("INV-001", result.externalId)
@@ -91,7 +91,7 @@ class InvoiceDetailsViewModelTest {
 
     @Test
     fun `handles empty activities list`() {
-        val invoiceModel = InvoiceModel(
+        val invoiceModelLegacy = InvoiceModelLegacy(
             id = UUID.fromString("123e4567-e89b-12d3-a456-426614174000"),
             externalId = "INV-002",
             senderCompanyName = "Sender Company",
@@ -118,7 +118,7 @@ class InvoiceDetailsViewModelTest {
             user = userModelFixture
         )
 
-        val result = invoiceModel.toViewModel()
+        val result = invoiceModelLegacy.toViewModel()
 
         assertEquals(0, result.activities.size)
     }

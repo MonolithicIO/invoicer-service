@@ -1,8 +1,8 @@
 package models.fixtures
 
 import kotlinx.datetime.Instant
-import models.InvoiceModel
-import models.InvoiceModelActivityModel
+import models.InvoiceModelLegacy
+import models.InvoiceModelActivityModelLegacy
 import models.beneficiary.BeneficiaryModel
 import models.getinvoices.InvoiceListItemModel
 import models.getinvoices.InvoiceListModel
@@ -10,14 +10,14 @@ import models.intermediary.IntermediaryModel
 import models.user.UserModel
 import java.util.*
 
-val invoiceModelActivityModelFixture = InvoiceModelActivityModel(
+val invoiceModelActivityModelLegacyFixture = InvoiceModelActivityModelLegacy(
     id = UUID.fromString("5d4c54df-fcec-4155-baf7-652aa378071b"),
     name = "Consulting Service",
     unitPrice = 10000L,
     quantity = 2
 )
 
-val invoiceModelFixture = InvoiceModel(
+val invoiceModelLegacyFixture = InvoiceModelLegacy(
     id = UUID.fromString("37f3ef47-5651-49b9-890e-2bc5943bfae4"),
     externalId = "INV-123456",
     senderCompanyName = "Sender Company Ltd.",
@@ -28,7 +28,7 @@ val invoiceModelFixture = InvoiceModel(
     dueDate = Instant.parse("2023-01-31T00:00:00Z"),
     createdAt = Instant.parse("2023-01-01T00:00:00Z"),
     updatedAt = Instant.parse("2023-01-01T00:00:00Z"),
-    activities = listOf(invoiceModelActivityModelFixture),
+    activities = listOf(invoiceModelActivityModelLegacyFixture),
     user = UserModel(
         id = UUID.fromString("b23899e4-63b5-42a9-9016-4647d9ec2936"),
         email = "john.doe@example.com",

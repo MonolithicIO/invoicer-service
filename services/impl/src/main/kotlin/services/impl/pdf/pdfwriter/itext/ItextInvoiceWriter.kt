@@ -7,7 +7,7 @@ import com.itextpdf.kernel.pdf.PdfDocument
 import com.itextpdf.kernel.pdf.PdfWriter
 import com.itextpdf.layout.Document
 import com.itextpdf.layout.element.Paragraph
-import models.InvoiceModel
+import models.InvoiceModelLegacy
 import services.impl.pdf.pdfwriter.InvoicePdfWriter
 import services.impl.pdf.pdfwriter.itext.components.*
 import services.impl.pdf.pdfwriter.itext.components.PdfStyle.formatDate
@@ -19,7 +19,7 @@ import kotlin.coroutines.suspendCoroutine
 
 internal class ItextInvoiceWriter : InvoicePdfWriter {
 
-    override suspend fun write(invoice: InvoiceModel, outputPath: String) {
+    override suspend fun write(invoice: InvoiceModelLegacy, outputPath: String) {
         return suspendCoroutine { continuation ->
             runCatching {
                 generateInvoicePdf(
@@ -39,7 +39,7 @@ internal class ItextInvoiceWriter : InvoicePdfWriter {
         }
     }
 
-    private fun generateInvoicePdf(invoice: InvoiceModel, outputPath: String) {
+    private fun generateInvoicePdf(invoice: InvoiceModelLegacy, outputPath: String) {
         // Configura o documento PDF
         val writer = PdfWriter(FileOutputStream(File(outputPath)))
         val pdf = PdfDocument(writer)

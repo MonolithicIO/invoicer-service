@@ -1,8 +1,8 @@
 package controller.viewmodel.invoice
 
 import kotlinx.serialization.Serializable
-import models.InvoiceModel
-import models.InvoiceModelActivityModel
+import models.InvoiceModelLegacy
+import models.InvoiceModelActivityModelLegacy
 
 @Serializable
 internal data class InvoiceDetailsViewModel(
@@ -42,7 +42,7 @@ internal data class InvoiceDetailsActivityViewModel(
     val quantity: Int
 )
 
-internal fun InvoiceModel.toViewModel(): InvoiceDetailsViewModel {
+internal fun InvoiceModelLegacy.toViewModel(): InvoiceDetailsViewModel {
     return InvoiceDetailsViewModel(
         id = this.id.toString(),
         externalId = this.externalId,
@@ -78,7 +78,7 @@ internal fun InvoiceModel.toViewModel(): InvoiceDetailsViewModel {
     )
 }
 
-private fun makeActivities(activities: List<InvoiceModelActivityModel>): List<InvoiceDetailsActivityViewModel> {
+private fun makeActivities(activities: List<InvoiceModelActivityModelLegacy>): List<InvoiceDetailsActivityViewModel> {
     return activities.map {
         InvoiceDetailsActivityViewModel(
             id = it.id.toString(),

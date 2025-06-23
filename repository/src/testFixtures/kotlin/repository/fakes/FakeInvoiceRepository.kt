@@ -1,10 +1,10 @@
 package repository.fakes
 
-import models.InvoiceModel
+import models.InvoiceModelLegacy
 import models.createinvoice.CreateInvoiceModel
 import models.fixtures.invoiceListItemModelFixture
 import models.fixtures.invoiceListModelFixture
-import models.fixtures.invoiceModelFixture
+import models.fixtures.invoiceModelLegacyFixture
 import models.getinvoices.GetInvoicesFilterModel
 import models.getinvoices.InvoiceListItemModel
 import models.getinvoices.InvoiceListModel
@@ -15,8 +15,8 @@ class FakeInvoiceRepository : InvoiceRepository {
 
     var getInvoicesByBeneficiaryIdResponse: () -> List<InvoiceListItemModel> = { listOf(invoiceListItemModelFixture) }
     var getInvoicesByIntermediaryIdResponse: () -> List<InvoiceListItemModel> = { listOf(invoiceListItemModelFixture) }
-    var getInvoiceByExternalIdResponse: () -> InvoiceModel? = { invoiceModelFixture }
-    var getInvoiceByIdResponse: () -> InvoiceModel? = { invoiceModelFixture }
+    var getInvoiceByExternalIdResponse: () -> InvoiceModelLegacy? = { invoiceModelLegacyFixture }
+    var getInvoiceByIdResponse: () -> InvoiceModelLegacy? = { invoiceModelLegacyFixture }
     var getInvoicesResponse: () -> InvoiceListModel = { invoiceListModelFixture }
     var createInvoiceResponse: suspend () -> String = { DEFAULT_CREATE_RESPONSE }
     var deleteResponse: suspend () -> Unit = {}
@@ -30,11 +30,11 @@ class FakeInvoiceRepository : InvoiceRepository {
         return response
     }
 
-    override suspend fun getInvoiceByUUID(id: UUID): InvoiceModel? {
+    override suspend fun getInvoiceByUUID(id: UUID): InvoiceModelLegacy? {
         return getInvoiceByIdResponse()
     }
 
-    override suspend fun getInvoiceByExternalId(externalId: String): InvoiceModel? {
+    override suspend fun getInvoiceByExternalId(externalId: String): InvoiceModelLegacy? {
         return getInvoiceByExternalIdResponse()
     }
 
