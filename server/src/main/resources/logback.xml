@@ -39,5 +39,11 @@
 
     <logger name="org.eclipse.jetty" level="WARN"/>
     <logger name="io.netty" level="WARN"/>
+    <logger name="org.apache.kafka.clients.NetworkClient" level="OFF"/>
+    <logger name="org.apache.kafka.clients.ClientUtils" level="OFF"/>
+    <logger name="org.apache.kafka.common.network.Selector" level="OFF"/>
+    <logger name="org.apache.kafka.clients.consumer.KafkaConsumer" level="OFF"/>
+    <logger name="org.apache.kafka.clients.consumer.internals" level="OFF"/>
+    <logger name="org.apache.kafka.common.metrics" level="OFF"/>
 
 </configuration>

@@ -70,6 +70,16 @@ internal class InvoiceRepositoryImpl(
                 it[invoicerNumber] = data.invoicerNumber
                 it[issueDate] = data.issueDate
                 it[dueDate] = data.dueDate
+                // Primary payment details
+                it[primarySwift] = data.company.paymentAccount.swift
+                it[primaryIban] = data.company.paymentAccount.iban
+                it[primaryBankName] = data.company.paymentAccount.bankName
+                it[primaryBankAddress] = data.company.paymentAccount.bankName
+                // Intermediary payment details
+                it[intermediarySwift] = data.company.intermediaryAccount?.swift
+                it[intermediaryIban] = data.company.intermediaryAccount?.iban
+                it[intermediaryBankName] = data.company.intermediaryAccount?.bankName
+                it[intermediaryBankAddress] = data.company.intermediaryAccount?.bankAddress
                 // General
                 it[createdAt] = clock.now()
                 it[updatedAt] = clock.now()

@@ -10,7 +10,7 @@ import utils.exceptions.http.badRequestError
 
 @Serializable
 data class CreateInvoiceViewModel(
-    val invoicerNumber: String? = null,
+    val invoiceNumber: String? = null,
     val issueDate: Instant? = null,
     val customerId: String? = null,
     val dueDate: Instant? = null,
@@ -34,7 +34,7 @@ fun CreateInvoiceViewModel.toModel(
         activities = receiveActivities(activities),
         customerId = parseUuid(requiredString(customerId, "invalid customer id")),
         companyId = parseUuid(requiredString(companyId, "invalid customer id")),
-        invoicerNumber = requiredString(invoicerNumber, "Missing invoice number")
+        invoicerNumber = requiredString(invoiceNumber, "Missing invoice number")
     )
 }
 
