@@ -7,9 +7,9 @@ import java.util.*
 
 class FakeGetUserInvoiceByIdService : GetUserInvoiceByIdService {
 
-    var response: suspend () -> InvoiceModel = { invoiceModelFixture }
+    var response: suspend () -> InvoiceModel? = { invoiceModelFixture }
 
-    override suspend fun get(invoiceId: UUID): InvoiceModel {
+    override suspend fun get(invoiceId: UUID): InvoiceModel? {
         return response()
     }
 }

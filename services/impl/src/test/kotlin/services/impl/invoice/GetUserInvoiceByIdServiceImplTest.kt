@@ -5,12 +5,10 @@ import models.fixtures.invoiceModelFixture
 import models.fixtures.userModelFixture
 import repository.fakes.FakeInvoiceRepository
 import services.api.fakes.user.FakeGetUserByIdService
-import utils.exceptions.http.HttpCode
-import utils.exceptions.http.HttpError
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
+import kotlin.test.assertNull
 
 class GetUserInvoiceByIdServiceImplTest {
 
@@ -44,37 +42,13 @@ class GetUserInvoiceByIdServiceImplTest {
     }
 
     @Test
-    fun `should throw error if invoice does not exist`() = runTest {
-        val error = assertFailsWith<HttpError> {
-            repository.getInvoiceByIdResponse = { null }
+    fun `should return null if invoice does not exist`() = runTest {
+
+        repository.getInvoiceByIdResponse = { null }
+        assertNull(
             service.get(
                 invoiceId = invoiceModelFixture.id,
             )
-        }
-
-        assertEquals(
-            expected = HttpCode.NotFound,
-            actual = error.statusCode
-        )
-    }
-
-    @Test
-    fun `should throw error if user is not invoice owner`() = runTest {
-        val error = assertFailsWith<HttpError> {
-
-            val invoice = invoiceModelFixture
-
-            repository.getInvoiceByIdResponse = { invoice }
-            getUserByIdService.response = { userModelFixture }
-
-            service.get(
-                invoiceId = invoiceModelFixture.id,
-            )
-        }
-
-        assertEquals(
-            expected = HttpCode.Forbidden,
-            actual = error.statusCode
         )
     }
 }

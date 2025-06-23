@@ -5,6 +5,8 @@ import io.github.alaksion.invoicer.messaging.fakes.FakeMessageProducer
 import io.github.alaksion.invoicer.utils.fakes.FakeClock
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
+import models.customer.CustomerModel
+import models.fixtures.companyDetailsFixture
 import models.fixtures.invoiceModelFixture
 import models.fixtures.userModelFixture
 import models.invoice.CreateInvoiceActivityModel
@@ -57,6 +59,10 @@ class CreateInvoiceServiceImplTest {
         val invoiceResponse = "fed3e1ac-c755-4048-9315-356054c4da11"
 
         clock.nowResponse = today
+
+        getCompanyDetailsService.response = company
+        customerByIdService.response = customer(company.id)
+
         invoiceRepository.createInvoiceResponse = { invoiceResponse }
         getUserByIdService.response = { userModelFixture }
         invoiceRepository.getInvoiceByExternalIdResponse = { null }
@@ -82,6 +88,10 @@ class CreateInvoiceServiceImplTest {
         val invoiceResponse = "fed3e1ac-c755-4048-9315-356054c4da11"
 
         clock.nowResponse = today
+
+        getCompanyDetailsService.response = company
+        customerByIdService.response = customer(company.id)
+
         invoiceRepository.createInvoiceResponse = { invoiceResponse }
         getUserByIdService.response = { userModelFixture }
         invoiceRepository.getInvoiceByExternalIdResponse = { null }
@@ -176,6 +186,15 @@ class CreateInvoiceServiceImplTest {
     fun `should throw error if external id is already in use`() = runTest {
         val today = Instant.parse("2000-06-19T00:00:00Z")
         val invoiceResponse = "fed3e1ac-c755-4048-9315-356054c4da11"
+
+        clock.nowResponse = today
+
+        getCompanyDetailsService.response = company
+        customerByIdService.response = customer(company.id)
+
+        invoiceRepository.createInvoiceResponse = { invoiceResponse }
+        getUserByIdService.response = { userModelFixture }
+        invoiceRepository.getInvoiceByExternalIdResponse = { invoiceModelFixture }
 
         val error = assertFailsWith<HttpError> {
             clock.nowResponse = today
@@ -296,6 +315,10 @@ class CreateInvoiceServiceImplTest {
     }
 
     companion object {
+        val company = companyDetailsFixture.copy(
+            user = userModelFixture
+        )
+
         val BASE_INPUT = CreateInvoiceDTO(
             invoicerNumber = "1234",
             issueDate = Instant.parse("2000-06-19T00:00:00Z"),
@@ -307,8 +330,18 @@ class CreateInvoiceServiceImplTest {
                     quantity = 1
                 )
             ),
-            customerId = UUID.fromString("fed3e1ac-c755-4048-9315-356054c4da11"),
-            companyId = UUID.fromString("fed3e1ac-c755-4048-9315-356054c4da11"),
+            customerId = customer(company.id).id,
+            companyId = company.id,
+        )
+
+        fun customer(companyId: UUID) = CustomerModel(
+            id = UUID.fromString("fed3e1ac-c755-4048-9315-356054c4da11"),
+            name = "Test Customer",
+            email = "adawdwadaw@gmail.com",
+            phone = "awdadwa",
+            companyId = companyId,
+            createdAt = Instant.parse("2000-06-19T00:00:00Z"),
+            updatedAt = Instant.parse("2000-06-19T00:00:00Z")
         )
     }
 }

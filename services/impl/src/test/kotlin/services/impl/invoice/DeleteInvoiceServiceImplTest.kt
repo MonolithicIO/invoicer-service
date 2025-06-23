@@ -1,8 +1,10 @@
 package services.impl.invoice
 
 import kotlinx.coroutines.test.runTest
+import models.fixtures.companyDetailsFixture
 import models.fixtures.invoiceModelFixture
 import models.fixtures.userModelFixture
+import models.invoice.InvoiceCompanyModel
 import repository.fakes.FakeInvoiceRepository
 import services.api.fakes.company.FakeGetCompanyDetailsService
 import services.api.fakes.invoice.FakeGetUserInvoiceByIdService
@@ -41,8 +43,10 @@ class DeleteInvoiceServiceImplTest {
 
     @Test
     fun `should delete invoice successfully`() = runTest {
-        getInvoiceService.response = { invoiceModelFixture }
-        getUserService.response = { userModelFixture }
+
+        getInvoiceService.response = { invoice }
+        getUserService.response = { user }
+        getCompanyDetailsService.response = company
 
         service.delete(
             invoiceId = invoiceModelFixture.id,
@@ -61,9 +65,9 @@ class DeleteInvoiceServiceImplTest {
     }
 
     @Test
-    fun `should throw error if user is not owner of invoice`() = runTest {
+    fun `should throw error if invoice not exists`() = runTest {
         val error = assertFailsWith<HttpError> {
-            getInvoiceService.response = { invoiceModelFixture }
+            getInvoiceService.response = { null }
             getUserService.response = {
                 userModelFixture.copy(
                     id = UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6")
@@ -76,8 +80,73 @@ class DeleteInvoiceServiceImplTest {
             )
         }
         assertEquals(
+            expected = HttpCode.NotFound,
+            actual = error.statusCode
+        )
+    }
+
+    @Test
+    fun `should throw error if invoice company not exists`() = runTest {
+        val error = assertFailsWith<HttpError> {
+            getInvoiceService.response = { invoiceModelFixture }
+            getCompanyDetailsService.response = null
+
+            getUserService.response = {
+                userModelFixture.copy(
+                    id = UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6")
+                )
+            }
+
+            service.delete(
+                invoiceId = invoiceModelFixture.id,
+                userId = userModelFixture.id
+            )
+        }
+        assertEquals(
+            expected = HttpCode.NotFound,
+            actual = error.statusCode
+        )
+    }
+
+    @Test
+    fun `should throw error if invoice company does not belong to user`() = runTest {
+        val error = assertFailsWith<HttpError> {
+
+            getInvoiceService.response = { invoice }
+            getCompanyDetailsService.response = company.copy(
+                user = userModelFixture.copy(
+                    id = UUID.fromString("e143435a-67b7-4daf-9043-8e763877a9c6")
+                )
+            )
+            getUserService.response = { user }
+
+            service.delete(
+                invoiceId = invoiceModelFixture.id,
+                userId = userModelFixture.id
+            )
+        }
+        assertEquals(
             expected = HttpCode.Forbidden,
             actual = error.statusCode
+        )
+    }
+
+    companion object {
+        val user = userModelFixture
+        val company = companyDetailsFixture.copy(user = user)
+        val invoice = invoiceModelFixture.copy(
+            company = InvoiceCompanyModel(
+                id = company.id,
+                name = company.name,
+                document = company.document,
+                addressLine1 = company.address.addressLine1,
+                addressLine2 = company.address.addressLine2,
+                city = company.address.city,
+                zipCode = company.address.postalCode,
+                state = company.address.state,
+                countryCode = company.address.countryCode,
+                email = "12312312321",
+            )
         )
     }
 }

@@ -26,7 +26,7 @@ internal class DeleteInvoiceServiceImpl(
 
         val company = getCompanyByIdService.get(invoice.company.id) ?: notFoundError("Invoice company not found")
 
-        if (company.user.id != user) forbiddenError()
+        if (company.user.id != user.id) forbiddenError()
 
         repository.delete(invoiceId)
     }
