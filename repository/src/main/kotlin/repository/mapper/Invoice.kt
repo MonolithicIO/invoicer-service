@@ -1,48 +1,70 @@
 package repository.mapper
 
-import models.InvoiceModel
-import models.InvoiceModelActivityModel
-import models.getinvoices.InvoiceListItemModel
-import repository.entities.legacy.InvoiceEntity
+import models.invoice.*
+import repository.entities.InvoiceEntity
 
 internal fun InvoiceEntity.toModel(): InvoiceModel {
     return InvoiceModel(
-        id = this.id.value,
-        externalId = this.externalId,
-        senderCompanyName = this.senderCompanyName,
-        senderCompanyAddress = this.senderCompanyAddress,
-        recipientCompanyAddress = this.recipientCompanyAddress,
-        recipientCompanyName = this.recipientCompanyName,
-        issueDate = this.issueDate,
-        dueDate = this.dueDate,
-        createdAt = this.createdAt,
-        updatedAt = this.updatedAt,
-        activities = this.activities.map {
+        id = id.value,
+        invoicerNumber = invoicerNumber,
+        issueDate = issueDate,
+        dueDate = dueDate,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+        isDeleted = isDeleted,
+        company = InvoiceCompanyModel(
+            name = companyName,
+            document = companyDocument,
+            addressLine1 = companyAddressLine1,
+            addressLine2 = companyAddressLine2,
+            city = companyCity,
+            zipCode = companyZipCode,
+            state = companyState,
+            countryCode = companyCountryCode,
+            id = companyId.value // Assuming the company ID is the same as the invoice ID
+        ),
+        primaryAccount = InvoicePayAccountModel(
+            swift = primarySwift,
+            iban = primaryIban,
+            bankName = primaryBankName,
+            bankAddress = primaryBankAddress
+        ),
+        intermediaryAccount = getIntermediaryAccount(),
+        customer = InvoiceCustomerModel(
+            name = customerName
+        ),
+        activities = activities.map {
             InvoiceModelActivityModel(
-                name = it.description,
+                id = it.id.value,
                 quantity = it.quantity,
                 unitPrice = it.unitPrice,
-                id = it.id.value
+                name = it.description,
             )
-        },
-        user = this.user.toModel(),
-        intermediary = this.intermediary?.toModel(),
-        beneficiary = this.beneficiary.toModel()
+        }
     )
 }
 
 internal fun InvoiceEntity.toListItemModel(): InvoiceListItemModel {
     return InvoiceListItemModel(
-        id = this.id.value,
-        externalId = this.externalId,
-        senderCompany = this.senderCompanyName,
-        recipientCompany = this.recipientCompanyName,
-        issueDate = this.issueDate,
-        dueDate = this.dueDate,
-        createdAt = this.createdAt,
-        updatedAt = this.updatedAt,
-        totalAmount = this.activities
-            .map { it.quantity * it.unitPrice }
-            .reduce { acc, l -> acc + l },
+        id = id.value,
+        invoiceNumber = invoicerNumber,
+        // TODO - Calculate invoice items
+        amount = 0,
+        companyName = companyName,
+        customerName = customerName,
+        issueDate = issueDate,
+        dueDate = dueDate,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+        totalAmount = 0 // TODO - Calculate total amount
+    )
+}
+
+private fun InvoiceEntity.getIntermediaryAccount(): InvoicePayAccountModel? {
+    return InvoicePayAccountModel(
+        swift = intermediarySwift ?: return null,
+        iban = intermediaryIban ?: return null,
+        bankName = intermediaryBankName ?: return null,
+        bankAddress = intermediaryBankAddress ?: return null
     )
 }

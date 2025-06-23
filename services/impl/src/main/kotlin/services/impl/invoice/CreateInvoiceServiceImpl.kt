@@ -5,17 +5,16 @@ import io.github.alaksion.invoicer.foundation.messaging.MessageTopic
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-import models.createinvoice.CreateInvoiceActivityModel
-import models.createinvoice.CreateInvoiceModel
 import models.createinvoice.CreateInvoiceResponseModel
+import models.invoice.CreateInvoiceActivityModel
+import models.invoice.CreateInvoiceDTO
+import models.invoice.CreateInvoiceModel
 import repository.InvoiceRepository
-import services.api.services.beneficiary.GetBeneficiaryByIdService
-import services.api.services.intermediary.GetIntermediaryByIdService
+import services.api.services.company.GetCompanyDetailsService
+import services.api.services.customer.GetCustomerByIdService
 import services.api.services.invoice.CreateInvoiceService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.http.HttpCode
-import utils.exceptions.http.HttpError
-import utils.exceptions.http.httpError
+import utils.exceptions.http.*
 import java.util.*
 
 
@@ -23,13 +22,13 @@ internal class CreateInvoiceServiceImpl(
     private val invoiceRepository: InvoiceRepository,
     private val clock: Clock,
     private val getUserByIdService: GetUserByIdService,
-    private val getBeneficiaryByIdService: GetBeneficiaryByIdService,
-    private val getIntermediaryByIdService: GetIntermediaryByIdService,
-    private val messageProducer: MessageProducer
+    private val messageProducer: MessageProducer,
+    private val getCompanyDetailsService: GetCompanyDetailsService,
+    private val getCustomerByIdService: GetCustomerByIdService
 ) : CreateInvoiceService {
 
     override suspend fun createInvoice(
-        model: CreateInvoiceModel,
+        model: CreateInvoiceDTO,
         userId: UUID,
     ): CreateInvoiceResponseModel {
         validateActivities(model.activities)
@@ -39,29 +38,32 @@ internal class CreateInvoiceServiceImpl(
             dueDate = model.dueDate
         )
 
-        getBeneficiaryByIdService.get(
-            beneficiaryId = model.beneficiaryId,
-            userId = userId
-        )
+        val user = getUserByIdService.get(userId)
 
-        model.intermediaryId?.let {
-            getIntermediaryByIdService.get(
-                intermediaryId = it,
-                userId = userId
-            )
-        }
+        val companyDetails = getCompanyDetailsService.get(model.companyId) ?: notFoundError("Company not found")
 
-        getUserByIdService.get(userId)
+        if (user.id != companyDetails.user.id) forbiddenError()
 
-        if (invoiceRepository.getInvoiceByExternalId(externalId = model.externalId) != null) {
-            throw HttpError(
-                message = "Invoice with externalId: ${model.externalId} already exists",
-                statusCode = HttpCode.Conflict
-            )
+        val customer = getCustomerByIdService.get(model.customerId) ?: notFoundError("Customer not found")
+
+        if (customer.companyId != model.companyId) forbiddenError()
+
+        if (invoiceRepository.getByInvoiceNumber(invoiceNumber = model.invoicerNumber) != null) {
+            conflictError("Invoice with externalId: ${model.invoicerNumber} already exists")
         }
 
         val response =
-            invoiceRepository.createInvoice(data = model, userId = userId)
+            invoiceRepository.create(
+                data = CreateInvoiceModel(
+                    customer = customer,
+                    company = companyDetails,
+                    invoicerNumber = model.invoicerNumber,
+                    activities = model.activities,
+                    issueDate = model.issueDate,
+                    dueDate = model.dueDate
+                ),
+                userId = userId
+            )
 
         messageProducer.produceMessage(
             topic = MessageTopic.INVOICE_PDF,
@@ -76,7 +78,7 @@ internal class CreateInvoiceServiceImpl(
         )
 
         return CreateInvoiceResponseModel(
-            externalInvoiceId = model.externalId,
+            externalInvoiceId = model.invoicerNumber,
             invoiceId = parseUuid(response)
         )
     }

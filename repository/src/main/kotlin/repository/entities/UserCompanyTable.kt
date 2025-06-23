@@ -25,4 +25,7 @@ internal class UserCompanyEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var updatedAt by UserCompanyTable.updatedAt
     var isDeleted by UserCompanyTable.isDeleted
     val user by UserEntity referencedOn UserCompanyTable.user
+    val address by CompanyAddressEntity.Companion referrersOn CompanyAddressTable.company
+    val contact by CompanyContactEntity.Companion referrersOn CompanyContactTable.company
+    val payAccounts by PaymentAccountEntity.Companion referrersOn PaymentAccountTable.company
 }

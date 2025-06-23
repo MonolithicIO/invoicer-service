@@ -1,16 +1,14 @@
 package repository
 
 import kotlinx.datetime.Clock
-import models.company.CompanyList
-import models.company.CompanyListItem
-import models.company.CompanyModel
-import models.company.CreateCompanyModel
+import models.company.*
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import repository.entities.*
+import repository.mapper.toCompanyDetails
 import java.util.*
 
 interface UserCompanyRepository {
@@ -28,6 +26,10 @@ interface UserCompanyRepository {
     suspend fun getCompanyById(
         companyId: UUID
     ): CompanyModel?
+
+    suspend fun getCompanyDetails(
+        companyId: UUID
+    ): CompanyDetailsModel?
 }
 
 internal class UserCompanyRepositoryImpl(
@@ -147,6 +149,12 @@ internal class UserCompanyRepositoryImpl(
                     userId = it.user.id.value
                 )
             }
+        }
+    }
+
+    override suspend fun getCompanyDetails(companyId: UUID): CompanyDetailsModel? {
+        return newSuspendedTransaction {
+            UserCompanyEntity.findById(companyId)?.toCompanyDetails()
         }
     }
 }

@@ -6,9 +6,9 @@ import models.invoicepdf.InvoicePdfStatus
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.updateReturning
-import repository.entities.legacy.InvoicePdfEntity
-import repository.entities.legacy.InvoicePdfStatusEntity
-import repository.entities.legacy.InvoicePdfTable
+import repository.entities.InvoicePdfEntity
+import repository.entities.InvoicePdfStatusEntity
+import repository.entities.InvoicePdfTable
 import repository.mapper.toModel
 import java.util.*
 

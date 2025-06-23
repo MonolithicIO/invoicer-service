@@ -1,4 +1,4 @@
-package repository.entities.legacy
+package repository.entities
 
 import models.invoicepdf.InvoicePdfStatus
 import org.jetbrains.exposed.dao.UUIDEntity
@@ -10,7 +10,7 @@ import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import org.postgresql.util.PGobject
 import java.util.*
 
-private class PGEnum<T:Enum<T>>(enumTypeName: String, enumValue: T?) : PGobject() {
+private class PGEnum<T : Enum<T>>(enumTypeName: String, enumValue: T?) : PGobject() {
     init {
         value = enumValue?.name
         type = enumTypeName

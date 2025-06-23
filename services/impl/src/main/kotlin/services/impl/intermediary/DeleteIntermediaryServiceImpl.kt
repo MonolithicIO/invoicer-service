@@ -5,8 +5,6 @@ import repository.InvoiceRepository
 import services.api.services.intermediary.DeleteIntermediaryService
 import services.api.services.intermediary.GetIntermediaryByIdService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.http.HttpCode
-import utils.exceptions.http.httpError
 import java.util.*
 
 internal class DeleteIntermediaryServiceImpl(
@@ -23,14 +21,6 @@ internal class DeleteIntermediaryServiceImpl(
             intermediaryId = beneficiaryId,
             userId = userId
         )
-
-        if (invoiceRepository.getInvoicesByIntermediaryId(
-                intermediaryId = beneficiaryId,
-                userId = userId
-            ).isNotEmpty()
-        ) {
-            httpError(message = "Cannot delete intermediary with invoices associated", code = HttpCode.Conflict)
-        }
 
         intermediaryRepo.delete(
             intermediaryId = beneficiaryId,

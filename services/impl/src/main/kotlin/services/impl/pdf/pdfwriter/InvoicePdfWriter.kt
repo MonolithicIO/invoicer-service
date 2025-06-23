@@ -1,7 +1,7 @@
 package services.impl.pdf.pdfwriter
 
-import models.InvoiceModel
+import models.InvoiceModelLegacy
 
 internal interface InvoicePdfWriter {
-    suspend fun write(invoice: InvoiceModel, outputPath: String)
+    suspend fun write(invoice: InvoiceModelLegacy, outputPath: String)
 }

@@ -1,7 +1,8 @@
 package services.api.services.invoice
 
 import models.getinvoices.GetInvoicesFilterModel
-import models.getinvoices.InvoiceListModel
+import models.getinvoices.InvoiceListModelLegacy
+import models.invoice.InvoiceListModel
 import java.util.*
 
 interface GetUserInvoicesService {

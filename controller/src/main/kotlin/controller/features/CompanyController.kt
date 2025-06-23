@@ -8,6 +8,9 @@ import controller.viewmodel.customer.CreateCustomerResponseViewModel
 import controller.viewmodel.customer.CreateCustomerViewModel
 import controller.viewmodel.customer.toModel
 import controller.viewmodel.customer.toViewModel
+import controller.viewmodel.invoice.CreateInvoiceResponseViewModel
+import controller.viewmodel.invoice.CreateInvoiceViewModel
+import controller.viewmodel.invoice.toModel
 import foundation.authentication.impl.jwt.jwtProtected
 import foundation.authentication.impl.jwt.jwtUserId
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
@@ -21,6 +24,7 @@ import services.api.services.company.CreateCompanyService
 import services.api.services.company.GetCompaniesService
 import services.api.services.customer.CreateCustomerService
 import services.api.services.customer.ListCustomersService
+import services.api.services.invoice.CreateInvoiceService
 
 internal fun Routing.companyController() {
     route("/v1/company") {
@@ -92,6 +96,26 @@ internal fun Routing.companyController() {
                         limit = limit,
                         companyId = parseUuid(companyId),
                     ).toViewModel()
+                )
+            }
+        }
+
+        jwtProtected {
+            post("/{companyId}/invoice") {
+                val companyId = call.parameters["companyId"]!!
+                val body = call.receive<CreateInvoiceViewModel>()
+                val service by closestDI().instance<CreateInvoiceService>()
+                val result = service.createInvoice(
+                    model = body.toModel(companyId),
+                    userId = parseUuid(jwtUserId())
+                )
+
+                call.respond(
+                    status = HttpStatusCode.Created,
+                    message = CreateInvoiceResponseViewModel(
+                        invoiceId = result.invoiceId.toString(),
+                        externalInvoiceId = result.externalInvoiceId
+                    )
                 )
             }
         }

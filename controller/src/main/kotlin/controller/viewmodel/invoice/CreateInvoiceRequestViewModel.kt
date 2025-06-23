@@ -1,25 +1,20 @@
 package controller.viewmodel.invoice
 
-import controller.validation.requireFilledString
+import controller.validation.requiredString
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import models.createinvoice.CreateInvoiceActivityModel
-import models.createinvoice.CreateInvoiceModel
+import models.invoice.CreateInvoiceActivityModel
+import models.invoice.CreateInvoiceDTO
 import utils.exceptions.http.badRequestError
 
 @Serializable
 data class CreateInvoiceViewModel(
-    val externalId: String? = null,
-    val senderCompanyName: String? = null,
-    val senderCompanyAddress: String? = null,
-    val recipientCompanyName: String? = null,
-    val recipientCompanyAddress: String? = null,
+    val invoiceNumber: String? = null,
     val issueDate: Instant? = null,
+    val customerId: String? = null,
     val dueDate: Instant? = null,
-    val beneficiaryId: String? = null,
-    val intermediaryId: String? = null,
-    val activities: List<CreateInvoiceActivityViewModel> = listOf()
+    val activities: List<CreateInvoiceActivityViewModel> = listOf(),
 )
 
 
@@ -30,18 +25,16 @@ data class CreateInvoiceActivityViewModel(
     val quantity: Int? = null
 )
 
-fun CreateInvoiceViewModel.toModel(): CreateInvoiceModel {
-    return CreateInvoiceModel(
-        externalId = externalId.requireFilledString("Missing external Id"),
-        senderCompanyName = senderCompanyName.requireFilledString("Missing sender company name"),
-        senderCompanyAddress = senderCompanyAddress.requireFilledString("Missing sender company address"),
-        recipientCompanyName = recipientCompanyName.requireFilledString("Missing recipient company name"),
-        recipientCompanyAddress = recipientCompanyAddress.requireFilledString("Missing recipient company name"),
+fun CreateInvoiceViewModel.toModel(
+    companyId: String? = null
+): CreateInvoiceDTO {
+    return CreateInvoiceDTO(
         issueDate = issueDate ?: badRequestError("Missing issue date"),
         dueDate = dueDate ?: badRequestError("Missing issue date"),
-        beneficiaryId = parseUuid(beneficiaryId.requireFilledString("Missing beneficiary id")),
-        intermediaryId = intermediaryId?.let { parseUuid(it) },
         activities = receiveActivities(activities),
+        customerId = parseUuid(requiredString(customerId, "invalid customer id")),
+        companyId = parseUuid(requiredString(companyId, "invalid customer id")),
+        invoicerNumber = requiredString(invoiceNumber, "Missing invoice number")
     )
 }
 

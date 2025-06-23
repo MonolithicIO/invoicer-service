@@ -2,54 +2,43 @@ package repository
 
 import foundation.cache.CacheHandler
 import kotlinx.datetime.Clock
-import models.InvoiceModel
-import models.createinvoice.CreateInvoiceModel
 import models.getinvoices.GetInvoicesFilterModel
-import models.getinvoices.InvoiceListItemModel
-import models.getinvoices.InvoiceListModel
+import models.invoice.CreateInvoiceModel
+import models.invoice.InvoiceListModel
+import models.invoice.InvoiceModel
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import repository.entities.legacy.InvoiceActivityTable
-import repository.entities.legacy.InvoiceEntity
-import repository.entities.legacy.InvoiceTable
+import repository.entities.InvoiceActivityTable
+import repository.entities.InvoiceEntity
+import repository.entities.InvoiceTable
 import repository.mapper.toListItemModel
 import repository.mapper.toModel
 import java.util.*
 
 interface InvoiceRepository {
-    suspend fun createInvoice(
+    suspend fun create(
         data: CreateInvoiceModel,
         userId: UUID,
     ): String
 
-    suspend fun getInvoiceByUUID(
+    suspend fun getById(
         id: UUID
     ): InvoiceModel?
 
-    suspend fun getInvoiceByExternalId(
-        externalId: String
+    suspend fun getByInvoiceNumber(
+        invoiceNumber: String
     ): InvoiceModel?
 
-    suspend fun getInvoices(
+    suspend fun getAll(
         filters: GetInvoicesFilterModel,
         page: Long,
         limit: Int,
-        userId: UUID,
+        companyId: UUID,
     ): InvoiceListModel
 
     suspend fun delete(
         id: UUID
     )
-
-    suspend fun getInvoicesByBeneficiaryId(
-        beneficiaryId: UUID,
-        userId: UUID,
-    ): List<InvoiceListItemModel>
-
-    suspend fun getInvoicesByIntermediaryId(
-        intermediaryId: UUID,
-        userId: UUID,
-    ): List<InvoiceListItemModel>
 }
 
 
@@ -58,25 +47,43 @@ internal class InvoiceRepositoryImpl(
     private val cacheHandler: CacheHandler
 ) : InvoiceRepository {
 
-    override suspend fun createInvoice(
+    override suspend fun create(
         data: CreateInvoiceModel,
         userId: UUID,
     ): String {
         return newSuspendedTransaction {
             val newInvoice = InvoiceTable.insertAndGetId {
-                it[externalId] = data.externalId
-                it[externalId] = data.externalId
-                it[senderCompanyName] = data.senderCompanyName
-                it[senderCompanyAddress] = data.senderCompanyAddress
-                it[recipientCompanyName] = data.recipientCompanyName
-                it[recipientCompanyAddress] = data.recipientCompanyAddress
+                // Company
+                it[companyName] = data.company.name
+                it[companyDocument] = data.company.document
+                it[company] = data.company.id
+                it[companyAddressLine1] = data.company.address.addressLine1
+                it[companyAddressLine2] = data.company.address.addressLine2
+                it[companyState] = data.company.address.state
+                it[companyCity] = data.company.address.city
+                it[companyZipCode] = data.company.address.postalCode
+                it[companyCountryCode] = data.company.address.countryCode
+                // Customer
+                it[customer] = data.customer.id
+                it[customerName] = data.customer.name
+                // Invoice
+                it[invoicerNumber] = data.invoicerNumber
                 it[issueDate] = data.issueDate
                 it[dueDate] = data.dueDate
-                it[beneficiary] = data.beneficiaryId
-                it[intermediary] = data.intermediaryId
+                // Primary payment details
+                it[primarySwift] = data.company.paymentAccount.swift
+                it[primaryIban] = data.company.paymentAccount.iban
+                it[primaryBankName] = data.company.paymentAccount.bankName
+                it[primaryBankAddress] = data.company.paymentAccount.bankName
+                // Intermediary payment details
+                it[intermediarySwift] = data.company.intermediaryAccount?.swift
+                it[intermediaryIban] = data.company.intermediaryAccount?.iban
+                it[intermediaryBankName] = data.company.intermediaryAccount?.bankName
+                it[intermediaryBankAddress] = data.company.intermediaryAccount?.bankAddress
+                // General
                 it[createdAt] = clock.now()
                 it[updatedAt] = clock.now()
-                it[user] = userId
+                it[isDeleted] = false
             }
             val createdInvoiceId = newInvoice.value
 
@@ -93,7 +100,7 @@ internal class InvoiceRepositoryImpl(
         }
     }
 
-    override suspend fun getInvoiceByUUID(id: UUID): InvoiceModel? {
+    override suspend fun getById(id: UUID): InvoiceModel? {
         val cached = cacheHandler.get(
             key = id.toString(),
             serializer = InvoiceModel.serializer()
@@ -115,39 +122,26 @@ internal class InvoiceRepositoryImpl(
         }
     }
 
-    override suspend fun getInvoiceByExternalId(externalId: String): InvoiceModel? {
+    override suspend fun getByInvoiceNumber(invoiceNumber: String): InvoiceModel? {
         return newSuspendedTransaction {
             InvoiceEntity.find {
-                (InvoiceTable.externalId eq externalId) and (InvoiceTable.isDeleted eq false)
+                (InvoiceTable.invoicerNumber eq invoiceNumber) and (InvoiceTable.isDeleted eq false)
             }.firstOrNull()?.toModel()
         }
     }
 
-    override suspend fun getInvoices(
+    override suspend fun getAll(
         filters: GetInvoicesFilterModel,
         page: Long,
         limit: Int,
-        userId: UUID,
+        companyId: UUID,
     ): InvoiceListModel {
         return newSuspendedTransaction {
             val query = InvoiceTable
                 .selectAll()
                 .where {
-                    InvoiceTable.user eq userId and (InvoiceTable.isDeleted eq false)
+                    InvoiceTable.company eq companyId and (InvoiceTable.isDeleted eq false)
                 }
-
-            filters.senderCompanyName?.let { senderCompany ->
-                if (senderCompany.isNotBlank()) query.andWhere {
-                    InvoiceTable.senderCompanyName like "%$senderCompany%"
-                }
-
-            }
-
-            filters.recipientCompanyName?.let { recipientCompany ->
-                if (recipientCompany.isNotBlank()) query.andWhere {
-                    InvoiceTable.recipientCompanyName like "%$recipientCompany%"
-                }
-            }
 
             if (filters.maxDueDate != null && filters.minDueDate != null) query.andWhere {
                 InvoiceTable.issueDate.between(filters.minDueDate, filters.maxDueDate)
@@ -155,6 +149,10 @@ internal class InvoiceRepositoryImpl(
 
             if (filters.maxIssueDate != null && filters.minIssueDate != null) query.andWhere {
                 InvoiceTable.issueDate.between(filters.minIssueDate, filters.maxIssueDate)
+            }
+
+            if (filters.customerId != null) query.andWhere {
+                InvoiceTable.customer eq filters.customerId
             }
 
             val count = query.count()
@@ -172,7 +170,7 @@ internal class InvoiceRepositoryImpl(
             InvoiceListModel(
                 items = result,
                 nextPage = nextPage,
-                totalResults = count
+                totalCount = count
             )
         }
     }
@@ -193,28 +191,6 @@ internal class InvoiceRepositoryImpl(
             cacheHandler.delete(
                 key = id.toString(),
             )
-        }
-    }
-
-    override suspend fun getInvoicesByBeneficiaryId(
-        beneficiaryId: UUID,
-        userId: UUID
-    ): List<InvoiceListItemModel> {
-        return newSuspendedTransaction {
-            InvoiceEntity.find {
-                (InvoiceTable.beneficiary eq beneficiaryId) and (InvoiceTable.user eq userId) and (InvoiceTable.isDeleted eq false)
-            }.toList().map { it.toListItemModel() }
-        }
-    }
-
-    override suspend fun getInvoicesByIntermediaryId(
-        intermediaryId: UUID,
-        userId: UUID
-    ): List<InvoiceListItemModel> {
-        return newSuspendedTransaction {
-            InvoiceEntity.find {
-                (InvoiceTable.intermediary eq intermediaryId) and (InvoiceTable.user eq userId) and (InvoiceTable.isDeleted eq false)
-            }.toList().map { it.toListItemModel() }
         }
     }
 

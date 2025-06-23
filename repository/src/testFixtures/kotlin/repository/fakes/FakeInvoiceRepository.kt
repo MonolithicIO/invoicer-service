@@ -1,49 +1,49 @@
 package repository.fakes
 
-import models.InvoiceModel
-import models.createinvoice.CreateInvoiceModel
-import models.fixtures.invoiceListItemModelFixture
-import models.fixtures.invoiceListModelFixture
-import models.fixtures.invoiceModelFixture
+import models.InvoiceModelLegacy
+import models.invoice.CreateInvoiceModel
+import models.fixtures.invoiceListItemModelLegacyFixture
+import models.fixtures.invoiceListModelLegacyFixture
+import models.fixtures.invoiceModelLegacyFixture
 import models.getinvoices.GetInvoicesFilterModel
-import models.getinvoices.InvoiceListItemModel
-import models.getinvoices.InvoiceListModel
+import models.getinvoices.InvoiceListItemModelLegacy
+import models.getinvoices.InvoiceListModelLegacy
 import repository.InvoiceRepository
 import java.util.*
 
 class FakeInvoiceRepository : InvoiceRepository {
 
-    var getInvoicesByBeneficiaryIdResponse: () -> List<InvoiceListItemModel> = { listOf(invoiceListItemModelFixture) }
-    var getInvoicesByIntermediaryIdResponse: () -> List<InvoiceListItemModel> = { listOf(invoiceListItemModelFixture) }
-    var getInvoiceByExternalIdResponse: () -> InvoiceModel? = { invoiceModelFixture }
-    var getInvoiceByIdResponse: () -> InvoiceModel? = { invoiceModelFixture }
-    var getInvoicesResponse: () -> InvoiceListModel = { invoiceListModelFixture }
+    var getInvoicesByBeneficiaryIdResponse: () -> List<InvoiceListItemModelLegacy> = { listOf(invoiceListItemModelLegacyFixture) }
+    var getInvoicesByIntermediaryIdResponse: () -> List<InvoiceListItemModelLegacy> = { listOf(invoiceListItemModelLegacyFixture) }
+    var getInvoiceByExternalIdResponse: () -> InvoiceModelLegacy? = { invoiceModelLegacyFixture }
+    var getInvoiceByIdResponse: () -> InvoiceModelLegacy? = { invoiceModelLegacyFixture }
+    var getInvoicesResponse: () -> InvoiceListModelLegacy = { invoiceListModelLegacyFixture }
     var createInvoiceResponse: suspend () -> String = { DEFAULT_CREATE_RESPONSE }
     var deleteResponse: suspend () -> Unit = {}
 
     val deleteCallStack = mutableListOf<UUID>()
     val createCallStack = mutableListOf<String>()
 
-    override suspend fun createInvoice(data: CreateInvoiceModel, userId: UUID): String {
+    override suspend fun create(data: CreateInvoiceModel, userId: UUID): String {
         val response = createInvoiceResponse()
         createCallStack.add(response)
         return response
     }
 
-    override suspend fun getInvoiceByUUID(id: UUID): InvoiceModel? {
+    override suspend fun getById(id: UUID): InvoiceModelLegacy? {
         return getInvoiceByIdResponse()
     }
 
-    override suspend fun getInvoiceByExternalId(externalId: String): InvoiceModel? {
+    override suspend fun getByInvoiceNumber(invoiceNumber: String): InvoiceModelLegacy? {
         return getInvoiceByExternalIdResponse()
     }
 
-    override suspend fun getInvoices(
+    override suspend fun getAll(
         filters: GetInvoicesFilterModel,
         page: Long,
         limit: Int,
-        userId: UUID
-    ): InvoiceListModel {
+        companyId: UUID
+    ): InvoiceListModelLegacy {
         return getInvoicesResponse()
     }
 
@@ -52,11 +52,11 @@ class FakeInvoiceRepository : InvoiceRepository {
         return deleteResponse()
     }
 
-    override suspend fun getInvoicesByBeneficiaryId(beneficiaryId: UUID, userId: UUID): List<InvoiceListItemModel> {
+    override suspend fun getInvoicesByBeneficiaryId(beneficiaryId: UUID, userId: UUID): List<InvoiceListItemModelLegacy> {
         return getInvoicesByBeneficiaryIdResponse()
     }
 
-    override suspend fun getInvoicesByIntermediaryId(intermediaryId: UUID, userId: UUID): List<InvoiceListItemModel> {
+    override suspend fun getInvoicesByIntermediaryId(intermediaryId: UUID, userId: UUID): List<InvoiceListItemModelLegacy> {
         return getInvoicesByIntermediaryIdResponse()
     }
 

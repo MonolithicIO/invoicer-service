@@ -5,8 +5,6 @@ import repository.InvoiceRepository
 import services.api.services.beneficiary.DeleteBeneficiaryService
 import services.api.services.beneficiary.GetBeneficiaryByIdService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.http.HttpCode
-import utils.exceptions.http.httpError
 import java.util.*
 
 internal class DeleteBeneficiaryServiceImpl(
@@ -23,14 +21,6 @@ internal class DeleteBeneficiaryServiceImpl(
             beneficiaryId = beneficiaryId,
             userId = userId
         )
-
-        if (invoiceRepository.getInvoicesByBeneficiaryId(
-                beneficiaryId = beneficiaryId,
-                userId = userId
-            ).isNotEmpty()
-        ) {
-            httpError(message = "Cannot delete beneficiary with invoices associated", code = HttpCode.Conflict)
-        }
 
         beneficiaryRepository.delete(
             beneficiaryId = beneficiaryId,

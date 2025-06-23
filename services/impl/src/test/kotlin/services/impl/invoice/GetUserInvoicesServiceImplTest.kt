@@ -2,7 +2,7 @@ package services.impl.invoice
 
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
-import models.fixtures.invoiceListModelFixture
+import models.fixtures.invoiceListModelLegacyFixture
 import models.fixtures.userModelFixture
 import models.getinvoices.GetInvoicesFilterModel
 import repository.fakes.FakeInvoiceRepository
@@ -26,7 +26,7 @@ class GetUserInvoicesServiceImplTest {
 
     @Test
     fun `should return invoices`() = runTest {
-        repository.getInvoicesResponse = { invoiceListModelFixture }
+        repository.getInvoicesResponse = { invoiceListModelLegacyFixture }
 
         val filters = GetInvoicesFilterModel(
             minIssueDate = Instant.parse("2000-06-19T00:00:00Z"),
@@ -43,14 +43,14 @@ class GetUserInvoicesServiceImplTest {
         val result = service.get(filters, page, limit, userModelFixture.id)
 
         assertEquals(
-            expected = invoiceListModelFixture,
+            expected = invoiceListModelLegacyFixture,
             actual = result
         )
     }
 
     @Test
     fun `should return invoices filtered by date`() = runTest {
-        repository.getInvoicesResponse = { invoiceListModelFixture }
+        repository.getInvoicesResponse = { invoiceListModelLegacyFixture }
 
         val filters = GetInvoicesFilterModel(
             minIssueDate = null,
@@ -67,7 +67,7 @@ class GetUserInvoicesServiceImplTest {
         val result = service.get(filters, page, limit, userModelFixture.id)
 
         assertEquals(
-            expected = invoiceListModelFixture,
+            expected = invoiceListModelLegacyFixture,
             actual = result
         )
     }
@@ -75,7 +75,7 @@ class GetUserInvoicesServiceImplTest {
     @Test
     fun `should throw error if min date filter is present but max date is not`() = runTest {
         val error = assertFailsWith<HttpError> {
-            repository.getInvoicesResponse = { invoiceListModelFixture }
+            repository.getInvoicesResponse = { invoiceListModelLegacyFixture }
 
             val filters = GetInvoicesFilterModel(
                 minIssueDate = Instant.parse("2000-06-19T00:00:00Z"),
@@ -100,7 +100,7 @@ class GetUserInvoicesServiceImplTest {
     @Test
     fun `should throw error if max date filter is present but min date is not`() = runTest {
         val error = assertFailsWith<HttpError> {
-            repository.getInvoicesResponse = { invoiceListModelFixture }
+            repository.getInvoicesResponse = { invoiceListModelLegacyFixture }
 
             val filters = GetInvoicesFilterModel(
                 minIssueDate = null,
@@ -125,7 +125,7 @@ class GetUserInvoicesServiceImplTest {
     @Test
     fun `should throw error if min filter is greater than max filter`() = runTest {
         val error = assertFailsWith<HttpError> {
-            repository.getInvoicesResponse = { invoiceListModelFixture }
+            repository.getInvoicesResponse = { invoiceListModelLegacyFixture }
 
             val filters = GetInvoicesFilterModel(
                 minIssueDate = Instant.parse("2000-06-20T00:00:00Z"),

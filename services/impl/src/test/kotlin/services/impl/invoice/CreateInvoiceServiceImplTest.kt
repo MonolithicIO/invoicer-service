@@ -5,9 +5,9 @@ import io.github.alaksion.invoicer.messaging.fakes.FakeMessageProducer
 import io.github.alaksion.invoicer.utils.fakes.FakeClock
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
-import models.createinvoice.CreateInvoiceActivityModel
-import models.createinvoice.CreateInvoiceModel
-import models.fixtures.invoiceModelFixture
+import models.invoice.CreateInvoiceActivityModel
+import models.invoice.CreateInvoiceModel
+import models.fixtures.invoiceModelLegacyFixture
 import models.fixtures.userModelFixture
 import org.junit.Before
 import org.junit.Test
@@ -206,7 +206,7 @@ class CreateInvoiceServiceImplTest {
             clock.nowResponse = today
             invoiceRepository.createInvoiceResponse = { invoiceResponse }
             getUserByIdService.response = { userModelFixture }
-            invoiceRepository.getInvoiceByExternalIdResponse = { invoiceModelFixture }
+            invoiceRepository.getInvoiceByExternalIdResponse = { invoiceModelLegacyFixture }
 
             service.createInvoice(
                 BASE_INPUT.copy(intermediaryId = null),
