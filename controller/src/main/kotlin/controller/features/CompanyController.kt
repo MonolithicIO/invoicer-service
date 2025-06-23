@@ -1,6 +1,6 @@
 package controller.features
 
-import controller.viewmodel.beneficiary.CreateBeneficiaryResponseViewModel
+import controller.viewmodel.company.CreateCompanyResponseViewModel
 import controller.viewmodel.company.CreateCompanyViewModel
 import controller.viewmodel.company.toModel
 import controller.viewmodel.company.toViewModel
@@ -35,7 +35,7 @@ internal fun Routing.companyController() {
 
                 call.respond(
                     message =
-                        CreateBeneficiaryResponseViewModel(
+                        CreateCompanyResponseViewModel(
                             id = service.createCompany(
                                 data = body.toModel(),
                                 userId = parseUuid(jwtUserId())
