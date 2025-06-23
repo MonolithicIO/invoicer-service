@@ -27,6 +27,10 @@ interface CustomerRepository {
         companyId: UUID,
         email: String
     ): CustomerModel?
+
+    suspend fun getById(
+        customerId: UUID
+    ): CustomerModel?
 }
 
 internal class CustomerRepositoryImpl(
@@ -89,6 +93,14 @@ internal class CustomerRepositoryImpl(
             CustomerEntity.find {
                 (CustomerTable.company eq companyId) and
                         (CustomerTable.email eq email)
+            }.firstOrNull()?.toModel()
+        }
+    }
+
+    override suspend fun getById(customerId: UUID): CustomerModel? {
+        return newSuspendedTransaction {
+            CustomerEntity.find {
+                (CustomerTable.id eq customerId)
             }.firstOrNull()?.toModel()
         }
     }
