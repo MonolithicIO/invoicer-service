@@ -1,8 +1,11 @@
 package controller.viewmodel.invoice
 
+import io.ktor.http.*
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
+import models.invoice.GetInvoicesFilterModel
 import models.invoice.InvoiceListModel
+import utils.exceptions.http.badRequestError
 
 @Serializable
 internal data class InvoiceListViewModel(
@@ -42,4 +45,28 @@ internal fun InvoiceListModel.toViewModel(): InvoiceListViewModel {
         totalItemCount = totalCount,
         nextPage = nextPage
     )
+}
+
+internal fun getInvoiceFilters(params: Parameters): GetInvoicesFilterModel {
+    return GetInvoicesFilterModel(
+        minIssueDate = parseDate(params["minIssueDate"], "Invalid date format: minIssueDate"),
+        maxIssueDate = parseDate(params["maxIssueDate"], "Invalid date format: maxIssueDate"),
+        minDueDate = parseDate(params["minDueDate"], "Invalid date format: minDueDate"),
+        maxDueDate = parseDate(params["maxDueDate"], "Invalid date format: maxDueDate"),
+    )
+}
+
+private fun parseDate(rawString: String?, errorMessage: String): Instant? {
+    return rawString?.let {
+        runCatching {
+            Instant.parse(rawString)
+        }.fold(
+            onSuccess = {
+                it
+            },
+            onFailure = {
+                badRequestError(errorMessage)
+            }
+        )
+    }
 }
