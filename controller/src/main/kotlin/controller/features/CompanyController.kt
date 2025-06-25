@@ -10,7 +10,9 @@ import controller.viewmodel.customer.toModel
 import controller.viewmodel.customer.toViewModel
 import controller.viewmodel.invoice.CreateInvoiceResponseViewModel
 import controller.viewmodel.invoice.CreateInvoiceViewModel
+import controller.viewmodel.invoice.getInvoiceFilters
 import controller.viewmodel.invoice.toModel
+import controller.viewmodel.invoice.toViewModel
 import foundation.authentication.impl.jwt.jwtProtected
 import foundation.authentication.impl.jwt.jwtUserId
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
@@ -25,6 +27,8 @@ import services.api.services.company.GetCompaniesService
 import services.api.services.customer.CreateCustomerService
 import services.api.services.customer.ListCustomersService
 import services.api.services.invoice.CreateInvoiceService
+import services.api.services.invoice.GetCompanyInvoicesService
+import kotlin.getValue
 
 internal fun Routing.companyController() {
     route("/v1/company") {
@@ -116,6 +120,26 @@ internal fun Routing.companyController() {
                         invoiceId = result.invoiceId.toString(),
                         externalInvoiceId = result.externalInvoiceId
                     )
+                )
+            }
+        }
+
+        jwtProtected {
+            get("/{companyId}/invoices") {
+                val companyId = call.parameters["companyId"]!!
+                val page = call.request.queryParameters["page"]?.toLongOrNull() ?: 0
+                val limit = call.request.queryParameters["limit"]?.toIntOrNull() ?: 10
+                val service by closestDI().instance<GetCompanyInvoicesService>()
+
+                call.respond(
+                    message = service.get(
+                        filters = getInvoiceFilters(call.request.queryParameters),
+                        limit = limit,
+                        page = page,
+                        userId = parseUuid(jwtUserId()),
+                        companyId = parseUuid(companyId)
+                    ).toViewModel(),
+                    status = HttpStatusCode.OK
                 )
             }
         }

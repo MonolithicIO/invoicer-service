@@ -15,13 +15,13 @@ import kotlin.test.assertFailsWith
 
 class GetUserInvoicesServiceImplTest {
 
-    private lateinit var service: GetUserInvoicesServiceImpl
+    private lateinit var service: GetCompanyInvoicesServiceImpl
     private lateinit var repository: FakeInvoiceRepository
 
     @BeforeTest
     fun setUp() {
         repository = FakeInvoiceRepository()
-        service = GetUserInvoicesServiceImpl(repository)
+        service = GetCompanyInvoicesServiceImpl(repository)
     }
 
     @Test

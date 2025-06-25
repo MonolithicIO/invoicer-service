@@ -1,5 +1,7 @@
 package controller.viewmodel.invoice
 
+import controller.validation.requiredString
+import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.ktor.http.*
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
@@ -53,6 +55,7 @@ internal fun getInvoiceFilters(params: Parameters): GetInvoicesFilterModel {
         maxIssueDate = parseDate(params["maxIssueDate"], "Invalid date format: maxIssueDate"),
         minDueDate = parseDate(params["minDueDate"], "Invalid date format: minDueDate"),
         maxDueDate = parseDate(params["maxDueDate"], "Invalid date format: maxDueDate"),
+        customerId = params["customerId"]?.let { parseUuid(it) }
     )
 }
 

@@ -4,14 +4,14 @@ import kotlinx.datetime.Instant
 import models.invoice.GetInvoicesFilterModel
 import models.invoice.InvoiceListModel
 import repository.InvoiceRepository
-import services.api.services.invoice.GetUserInvoicesService
+import services.api.services.invoice.GetCompanyInvoicesService
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.httpError
 import java.util.*
 
-internal class GetUserInvoicesServiceImpl(
+internal class GetCompanyInvoicesServiceImpl(
     private val repository: InvoiceRepository
-) : GetUserInvoicesService {
+) : GetCompanyInvoicesService {
 
     override suspend fun get(
         filters: GetInvoicesFilterModel,
