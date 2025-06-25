@@ -4,13 +4,19 @@ import kotlinx.datetime.Instant
 import models.invoice.GetInvoicesFilterModel
 import models.invoice.InvoiceListModel
 import repository.InvoiceRepository
+import repository.UserCompanyRepository
 import services.api.services.invoice.GetCompanyInvoicesService
+import services.api.services.user.GetUserByIdService
 import utils.exceptions.http.HttpCode
+import utils.exceptions.http.forbiddenError
 import utils.exceptions.http.httpError
+import utils.exceptions.http.notFoundError
 import java.util.*
 
 internal class GetCompanyInvoicesServiceImpl(
-    private val repository: InvoiceRepository
+    private val repository: InvoiceRepository,
+    private val companyRepository: UserCompanyRepository,
+    private val getUserByIdService: GetUserByIdService
 ) : GetCompanyInvoicesService {
 
     override suspend fun get(
@@ -18,6 +24,7 @@ internal class GetCompanyInvoicesServiceImpl(
         page: Long,
         limit: Int,
         userId: UUID,
+        companyId: UUID
     ): InvoiceListModel {
         validateDateFilter(
             min = filters.minIssueDate,
@@ -28,11 +35,18 @@ internal class GetCompanyInvoicesServiceImpl(
             min = filters.minDueDate,
             max = filters.maxDueDate
         )
+
+        val user = getUserByIdService.get(userId)
+
+        val company = companyRepository.getCompanyById(companyId) ?: notFoundError("Company not found.")
+
+        if (company.userId != user.id) forbiddenError()
+
         return repository.getAll(
             filters = filters,
             page = page,
             limit = limit,
-            companyId = userId
+            companyId = companyId
         )
     }
 

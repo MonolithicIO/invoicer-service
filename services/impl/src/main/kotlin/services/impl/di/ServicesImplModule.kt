@@ -12,8 +12,8 @@ import services.api.services.customer.GetCustomerByIdService
 import services.api.services.customer.ListCustomersService
 import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.DeleteInvoiceService
-import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.invoice.GetCompanyInvoicesService
+import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.login.GoogleLoginService
 import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
@@ -36,8 +36,8 @@ import services.impl.customer.GetCustomerByIdServiceImpl
 import services.impl.customer.ListCustomerServiceImpl
 import services.impl.invoice.CreateInvoiceServiceImpl
 import services.impl.invoice.DeleteInvoiceServiceImpl
-import services.impl.invoice.GetUserInvoiceByIdServiceImpl
 import services.impl.invoice.GetCompanyInvoicesServiceImpl
+import services.impl.invoice.GetUserInvoiceByIdServiceImpl
 import services.impl.login.GoogleLoginServiceImpl
 import services.impl.login.LoginServiceImpl
 import services.impl.login.RefreshLoginServiceImpl
@@ -88,7 +88,9 @@ private fun DI.Builder.invoiceServices() {
 
     bindProvider<GetCompanyInvoicesService> {
         GetCompanyInvoicesServiceImpl(
-            repository = instance()
+            repository = instance(),
+            companyRepository = instance(),
+            getUserByIdService = instance()
         )
     }
 
