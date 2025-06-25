@@ -49,14 +49,13 @@ internal fun InvoiceEntity.toListItemModel(): InvoiceListItemModel {
     return InvoiceListItemModel(
         id = id.value,
         invoiceNumber = invoicerNumber,
-        // TODO - Calculate invoice items
         companyName = companyName,
         customerName = customerName,
         issueDate = issueDate,
         dueDate = dueDate,
         createdAt = createdAt,
         updatedAt = updatedAt,
-        totalAmount = 0 // TODO - Calculate total amount
+        totalAmount = activities.sumOf { it.quantity * it.unitPrice }
     )
 }
 
