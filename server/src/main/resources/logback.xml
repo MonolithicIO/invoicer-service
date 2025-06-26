@@ -7,7 +7,6 @@
 
     <root level="trace">
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="LOKI"/>
     </root>
 
     <logger name="org.eclipse.jetty" level="WARN"/>
