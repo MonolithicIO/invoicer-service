@@ -71,30 +71,6 @@ class EnvSecretsProviderTest {
     }
 
     @Test
-    fun retrievesMinIOKey() {
-        provider.getSecret(SecretKeys.MIN_IO_KEY)
-        assertEquals(expected = listOf("minIO.key"), actual = env.callStack)
-    }
-
-    @Test
-    fun retrievesMinIOSecretKey() {
-        provider.getSecret(SecretKeys.MIN_IO_SECRET_KEY)
-        assertEquals(expected = listOf("minIO.secret"), actual = env.callStack)
-    }
-
-    @Test
-    fun retrievesMinIOUrl() {
-        provider.getSecret(SecretKeys.MIN_IO_URL)
-        assertEquals(expected = listOf("minIO.url"), actual = env.callStack)
-    }
-
-    @Test
-    fun retrievesMinIOBucket() {
-        provider.getSecret(SecretKeys.MIN_IO_BUCKET)
-        assertEquals(expected = listOf("minIO.bucket"), actual = env.callStack)
-    }
-
-    @Test
     fun retrievesKafkaBootstrap() {
         provider.getSecret(SecretKeys.KAFKA_BOOTSTRAP)
         assertEquals(expected = listOf("kafka.bootstrap_servers"), actual = env.callStack)

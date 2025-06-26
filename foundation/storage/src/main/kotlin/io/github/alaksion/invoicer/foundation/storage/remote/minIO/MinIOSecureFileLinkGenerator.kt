@@ -15,17 +15,17 @@ internal class MinIOSecureFileLinkGenerator(
 
     override suspend fun generateLink(fileKey: String, durationInHours: Int): String {
         val client = MinioClient.builder()
-            .endpoint(secretsProvider.getSecret(SecretKeys.MIN_IO_URL))
+            .endpoint("")
             .credentials(
-                secretsProvider.getSecret(SecretKeys.MIN_IO_KEY),
-                secretsProvider.getSecret(SecretKeys.MIN_IO_SECRET_KEY)
+                "",
+                ""
             )
             .build()
 
         return client.getPresignedObjectUrl(
             GetPresignedObjectUrlArgs.builder()
                 .method(Method.GET)
-                .bucket(secretsProvider.getSecret(SecretKeys.MIN_IO_BUCKET))
+                .bucket("")
                 .`object`(fileKey)
                 .expiry(durationInHours, TimeUnit.HOURS)
                 .build()

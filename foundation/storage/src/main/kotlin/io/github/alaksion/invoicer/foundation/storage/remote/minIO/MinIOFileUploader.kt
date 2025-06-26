@@ -15,15 +15,15 @@ internal class MinIOFileUploader(
         fileName: String
     ): String {
         val client = MinioClient.builder()
-            .endpoint(secretsProvider.getSecret(SecretKeys.MIN_IO_URL))
+            .endpoint("")
             .credentials(
-                secretsProvider.getSecret(SecretKeys.MIN_IO_KEY),
-                secretsProvider.getSecret(SecretKeys.MIN_IO_SECRET_KEY)
+                "",
+                ""
             )
             .build()
 
         val uploadPayload = UploadObjectArgs.builder()
-            .bucket(secretsProvider.getSecret(SecretKeys.MIN_IO_BUCKET))
+            .bucket("")
             .`object`(fileName)
             .filename(localFilePath)
             .build()
