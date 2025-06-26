@@ -5,45 +5,11 @@
         </encoder>
     </appender>
 
-    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
-        <http>
-            <url>${LOKI_URL}</url>
-        </http>
-        <format>
-            <label>
-                <pattern>app=invoicer-service,host=invoicer,level=%level</pattern>
-            </label>
-            <message>
-                <pattern>{
-                    "time": "%date{ISO8601}",
-                    "level": "%level",
-                    "thread": "%thread",
-                    "logger": "%logger",
-                    "message": "%message",
-                    "exception": "%exception"
-                    }</pattern>
-            </message>
-            <sortByTime>true</sortByTime>
-        </format>
-        <batch>
-            <maxItems>100</maxItems>
-            <maxBytes>4194304</maxBytes> <!-- 4MB -->
-            <timeout>5</timeout> <!-- 5 seconds -->
-        </batch>
-    </appender>
-
     <root level="trace">
         <appender-ref ref="STDOUT"/>
-        <appender-ref ref="LOKI"/>
     </root>
 
     <logger name="org.eclipse.jetty" level="WARN"/>
     <logger name="io.netty" level="WARN"/>
-    <logger name="org.apache.kafka.clients.NetworkClient" level="OFF"/>
-    <logger name="org.apache.kafka.clients.ClientUtils" level="OFF"/>
-    <logger name="org.apache.kafka.common.network.Selector" level="OFF"/>
-    <logger name="org.apache.kafka.clients.consumer.KafkaConsumer" level="OFF"/>
-    <logger name="org.apache.kafka.clients.consumer.internals" level="OFF"/>
-    <logger name="org.apache.kafka.common.metrics" level="OFF"/>
 
 </configuration>

@@ -17,10 +17,10 @@ internal class MinIOFilerDownloader(
 
     override suspend fun downloadFile(fileKey: String): String {
         val client = MinioClient.builder()
-            .endpoint(secretsProvider.getSecret(SecretKeys.MIN_IO_URL))
+            .endpoint("")
             .credentials(
-                secretsProvider.getSecret(SecretKeys.MIN_IO_KEY),
-                secretsProvider.getSecret(SecretKeys.MIN_IO_SECRET_KEY)
+                "",
+                ""
             )
             .build()
 
@@ -35,7 +35,7 @@ internal class MinIOFilerDownloader(
 
         val downloadProps = DownloadObjectArgs.Builder()
             .`object`(fileKey)
-            .bucket(secretsProvider.getSecret(SecretKeys.MIN_IO_BUCKET))
+            .bucket("")
             .filename(path)
             .build()
 

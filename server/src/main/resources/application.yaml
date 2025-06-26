@@ -17,11 +17,6 @@ jwt:
 redis:
   port: $INVOICER_REDIS_PORT
   host: $INVOICER_REDIS_HOST
-minIO:
-  key: $INVOICER_MIN_IO_ACCESS_KEY
-  secret: $INVOICER_MIN_IO_SECRET_KEY
-  url: $INVOICER_MIN_IO_URL
-  bucket: $INVOICER_MIN_IO_BUCKET
 kafka:
   bootstrap_servers: $INVOICER_KAFKA_BOOTSTRAP_SERVERS
 firebase:

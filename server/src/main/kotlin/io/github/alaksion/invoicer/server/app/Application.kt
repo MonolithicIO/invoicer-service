@@ -2,11 +2,9 @@ package io.github.alaksion.invoicer.server.app
 
 import controller.rootController
 import io.github.alaksion.foundation.identity.provider.IdentityProvider
-import io.github.alaksion.invoicer.consumers.InvoicerMessageConsumer
 import io.github.alaksion.invoicer.server.app.database.connectDatabase
 import io.github.alaksion.invoicer.server.app.plugins.*
 import io.ktor.server.application.*
-import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
@@ -29,11 +27,6 @@ fun Application.module() {
     configureMonitoring()
     installWebSocket()
     rootController()
-
-    launch {
-        val consumer by closestDI().instance<InvoicerMessageConsumer>()
-        consumer.consume()
-    }
 
     val identity by closestDI().instance<IdentityProvider>()
     identity.initialize()
