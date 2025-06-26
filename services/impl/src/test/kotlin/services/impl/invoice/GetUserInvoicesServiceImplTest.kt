@@ -2,12 +2,16 @@ package services.impl.invoice
 
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
+import models.company.CompanyModel
 import models.fixtures.invoiceListFixture
 import models.fixtures.userModelFixture
 import models.invoice.GetInvoicesFilterModel
 import repository.fakes.FakeInvoiceRepository
+import repository.fakes.FakeUserCompanyRepository
+import services.api.fakes.user.FakeGetUserByIdService
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
+import java.util.*
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -15,18 +19,28 @@ import kotlin.test.assertFailsWith
 
 class GetUserInvoicesServiceImplTest {
 
-    private lateinit var service: GetUserInvoicesServiceImpl
+    private lateinit var service: GetCompanyInvoicesServiceImpl
     private lateinit var repository: FakeInvoiceRepository
+    private lateinit var companyRepository: FakeUserCompanyRepository
+    private lateinit var getuserByIdService: FakeGetUserByIdService
 
     @BeforeTest
     fun setUp() {
         repository = FakeInvoiceRepository()
-        service = GetUserInvoicesServiceImpl(repository)
+        companyRepository = FakeUserCompanyRepository()
+        getuserByIdService = FakeGetUserByIdService()
+        service = GetCompanyInvoicesServiceImpl(
+            repository = repository,
+            companyRepository = companyRepository,
+            getUserByIdService = getuserByIdService,
+        )
     }
 
     @Test
     fun `should return invoices`() = runTest {
         repository.getInvoicesResponse = { invoiceListFixture }
+        companyRepository.getCompanyByIdResponse = { company }
+        getuserByIdService.response = { userModelFixture }
 
         val filters = GetInvoicesFilterModel(
             minIssueDate = Instant.parse("2000-06-19T00:00:00Z"),
@@ -38,29 +52,9 @@ class GetUserInvoicesServiceImplTest {
         val page = 1L
         val limit = 10
 
-        val result = service.get(filters, page, limit, userModelFixture.id)
-
-        assertEquals(
-            expected = invoiceListFixture,
-            actual = result
+        val result = service.get(
+            filters, page, limit, userModelFixture.id, companyId
         )
-    }
-
-    @Test
-    fun `should return invoices filtered by date`() = runTest {
-        repository.getInvoicesResponse = { invoiceListFixture }
-
-        val filters = GetInvoicesFilterModel(
-            minIssueDate = null,
-            maxIssueDate = null,
-            minDueDate = null,
-            maxDueDate = null,
-        )
-
-        val page = 1L
-        val limit = 10
-
-        val result = service.get(filters, page, limit, userModelFixture.id)
 
         assertEquals(
             expected = invoiceListFixture,
@@ -83,7 +77,7 @@ class GetUserInvoicesServiceImplTest {
             val page = 1L
             val limit = 10
 
-            service.get(filters, page, limit, userModelFixture.id)
+            service.get(filters, page, limit, userModelFixture.id, companyId)
         }
         assertEquals(
             expected = HttpCode.BadRequest,
@@ -106,7 +100,7 @@ class GetUserInvoicesServiceImplTest {
             val page = 1L
             val limit = 10
 
-            service.get(filters, page, limit, userModelFixture.id)
+            service.get(filters, page, limit, userModelFixture.id, companyId)
         }
         assertEquals(
             expected = HttpCode.BadRequest,
@@ -129,7 +123,7 @@ class GetUserInvoicesServiceImplTest {
             val page = 1L
             val limit = 10
 
-            service.get(filters, page, limit, userModelFixture.id)
+            service.get(filters, page, limit, userModelFixture.id, companyId)
         }
         assertEquals(
             expected = HttpCode.BadRequest,
@@ -139,6 +133,74 @@ class GetUserInvoicesServiceImplTest {
         assertEquals(
             expected = "Min date filter must be less than max date filter.",
             actual = error.message
+        )
+    }
+
+    @Test
+    fun `should throw error if company does not exist`() = runTest {
+        repository.getInvoicesResponse = { invoiceListFixture }
+        companyRepository.getCompanyByIdResponse = { null }
+        getuserByIdService.response = { userModelFixture }
+
+        val filters = GetInvoicesFilterModel(
+            minIssueDate = null,
+            maxIssueDate = null,
+            minDueDate = null,
+            maxDueDate = null,
+        )
+
+        val error = assertFailsWith<HttpError> {
+            service.get(
+                filters, 0, 10, userModelFixture.id, companyId
+            )
+        }
+
+        assertEquals(
+            expected = HttpCode.NotFound,
+            actual = error.statusCode
+        )
+    }
+
+    @Test
+    fun `should throw error if company does not belong to user`() = runTest {
+        repository.getInvoicesResponse = { invoiceListFixture }
+        companyRepository.getCompanyByIdResponse = {
+            company.copy(
+                userId = UUID.randomUUID()
+            )
+        }
+        getuserByIdService.response = { userModelFixture }
+
+        val filters = GetInvoicesFilterModel(
+            minIssueDate = null,
+            maxIssueDate = null,
+            minDueDate = null,
+            maxDueDate = null,
+        )
+
+        val error = assertFailsWith<HttpError> {
+            service.get(
+                filters, 0, 10, userModelFixture.id, companyId
+            )
+        }
+
+        assertEquals(
+            expected = HttpCode.Forbidden,
+            actual = error.statusCode
+        )
+    }
+
+    companion object {
+        val companyId = UUID.fromString("123e4567-e89b-12d3-a456-426614174001")
+
+        val company = CompanyModel(
+            name = "some company",
+            document = "awdaw",
+            createdAt = Instant.parse("2023-01-01T00:00:00Z"),
+            updatedAt = Instant.parse("2023-01-01T00:00:00Z"),
+            isDeleted = false,
+            userId = userModelFixture.id,
+            id = companyId
         )
     }
 }

@@ -9,7 +9,7 @@ import models.invoice.CreateInvoiceDTO
 import utils.exceptions.http.badRequestError
 
 @Serializable
-data class CreateInvoiceViewModel(
+internal data class CreateInvoiceViewModel(
     val invoiceNumber: String? = null,
     val issueDate: Instant? = null,
     val customerId: String? = null,
@@ -17,15 +17,14 @@ data class CreateInvoiceViewModel(
     val activities: List<CreateInvoiceActivityViewModel> = listOf(),
 )
 
-
 @Serializable
-data class CreateInvoiceActivityViewModel(
+internal data class CreateInvoiceActivityViewModel(
     val description: String? = null,
     val unitPrice: Long? = null,
     val quantity: Int? = null
 )
 
-fun CreateInvoiceViewModel.toModel(
+internal fun CreateInvoiceViewModel.toModel(
     companyId: String? = null
 ): CreateInvoiceDTO {
     return CreateInvoiceDTO(
@@ -62,3 +61,9 @@ private fun receiveActivities(activities: List<CreateInvoiceActivityViewModel>):
         )
     }
 }
+
+@Serializable
+internal data class CreateInvoiceResponseViewModel(
+    val invoiceId: String,
+    val externalInvoiceId: String
+)
