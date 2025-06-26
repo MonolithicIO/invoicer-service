@@ -3,7 +3,6 @@ package services.impl.invoice
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.company.CompanyModel
-import models.fixtures.companyDetailsFixture
 import models.fixtures.invoiceListFixture
 import models.fixtures.userModelFixture
 import models.invoice.GetInvoicesFilterModel
@@ -17,7 +16,6 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertFalse
 
 class GetUserInvoicesServiceImplTest {
 
@@ -140,12 +138,56 @@ class GetUserInvoicesServiceImplTest {
 
     @Test
     fun `should throw error if company does not exist`() = runTest {
-        assertFalse { true }
+        repository.getInvoicesResponse = { invoiceListFixture }
+        companyRepository.getCompanyByIdResponse = { null }
+        getuserByIdService.response = { userModelFixture }
+
+        val filters = GetInvoicesFilterModel(
+            minIssueDate = null,
+            maxIssueDate = null,
+            minDueDate = null,
+            maxDueDate = null,
+        )
+
+        val error = assertFailsWith<HttpError> {
+            service.get(
+                filters, 0, 10, userModelFixture.id, companyId
+            )
+        }
+
+        assertEquals(
+            expected = HttpCode.NotFound,
+            actual = error.statusCode
+        )
     }
 
     @Test
     fun `should throw error if company does not belong to user`() = runTest {
-        assertFalse { true }
+        repository.getInvoicesResponse = { invoiceListFixture }
+        companyRepository.getCompanyByIdResponse = {
+            company.copy(
+                userId = UUID.randomUUID()
+            )
+        }
+        getuserByIdService.response = { userModelFixture }
+
+        val filters = GetInvoicesFilterModel(
+            minIssueDate = null,
+            maxIssueDate = null,
+            minDueDate = null,
+            maxDueDate = null,
+        )
+
+        val error = assertFailsWith<HttpError> {
+            service.get(
+                filters, 0, 10, userModelFixture.id, companyId
+            )
+        }
+
+        assertEquals(
+            expected = HttpCode.Forbidden,
+            actual = error.statusCode
+        )
     }
 
     companion object {
