@@ -145,7 +145,6 @@ class DeleteInvoiceServiceImplTest {
                 zipCode = company.address.postalCode,
                 state = company.address.state,
                 countryCode = company.address.countryCode,
-                email = "12312312321",
             )
         )
     }
