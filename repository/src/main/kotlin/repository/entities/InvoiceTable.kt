@@ -26,7 +26,6 @@ internal object InvoiceTable : UUIDTable("t_invoice") {
     val companyZipCode = varchar("company_zip_code", 20)
     val companyState = varchar("company_state", 500)
     val companyCountryCode = varchar("company_country_code", 20)
-    val companyEmail = varchar("company_email", 100)
 
     // Customer
     val customerName = varchar("customer_name", 100)
@@ -76,7 +75,6 @@ internal class InvoiceEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     val companyZipCode by InvoiceTable.companyZipCode
     val companyState by InvoiceTable.companyState
     val companyCountryCode by InvoiceTable.companyCountryCode
-    val companyEmail by InvoiceTable.companyEmail
 
     // Customer
     val customerName by InvoiceTable.customerName

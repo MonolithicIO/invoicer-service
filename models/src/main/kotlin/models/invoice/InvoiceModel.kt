@@ -42,7 +42,6 @@ data class InvoiceCompanyModel(
     val zipCode: String,
     val state: String,
     val countryCode: String,
-    val email: String
 )
 
 @Serializable

@@ -100,7 +100,6 @@ internal class ItextInvoiceWriter : InvoicePdfWriter {
         val footerTable = invoicePdfFooter(
             updatedAt = invoice.updatedAt,
             createdAt = invoice.createdAt,
-            userEmail = invoice.company.email,
             regularFont = regular
         )
         document.add(footerTable)
