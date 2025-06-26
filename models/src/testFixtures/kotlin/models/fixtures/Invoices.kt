@@ -28,7 +28,6 @@ val invoiceModelFixture = InvoiceModel(
         zipCode = "12345",
         state = "State",
         countryCode = "US",
-        email = "ada@gmail.com",
         id = UUID.fromString("b23899e4-63b5-42a9-9016-4647d9ec2936"),
         name = "Sender Company Ltd.",
     ),

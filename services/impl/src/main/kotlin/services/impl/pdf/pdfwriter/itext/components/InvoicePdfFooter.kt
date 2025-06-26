@@ -10,7 +10,6 @@ import kotlinx.datetime.Instant
 import services.impl.pdf.pdfwriter.itext.components.PdfStyle.formatDate
 
 internal fun invoicePdfFooter(
-    userEmail: String,
     createdAt: Instant,
     updatedAt: Instant,
     regularFont: PdfFont,
@@ -21,11 +20,6 @@ internal fun invoicePdfFooter(
 
     footerTable.addCell(
         Cell()
-            .add(
-                Paragraph("Created by: (${userEmail})")
-                    .setFont(regularFont)
-                    .setFontSize(PdfStyle.FontSize.Small)
-            )
             .add(
                 Paragraph("Created at: ${formatDate(createdAt)} - Last updated at: ${formatDate(updatedAt)}")
                     .setFont(regularFont)

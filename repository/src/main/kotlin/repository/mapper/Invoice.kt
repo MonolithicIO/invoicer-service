@@ -22,7 +22,6 @@ internal fun InvoiceEntity.toModel(): InvoiceModel {
             state = companyState,
             countryCode = companyCountryCode,
             id = companyId.value,
-            email = companyEmail
         ),
         primaryAccount = InvoicePayAccountModel(
             swift = primarySwift,
