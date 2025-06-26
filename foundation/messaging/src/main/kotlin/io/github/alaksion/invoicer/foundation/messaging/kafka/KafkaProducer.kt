@@ -21,13 +21,13 @@ internal class KafkaProducer(
     }
 
     override suspend fun produceMessage(topic: MessageTopic, key: String, value: String) {
-        val message = ProducerRecord(topic.topicId, key, value)
-        producer.send(message) { metadata, exception ->
-            if (exception != null) {
-                println("Failed to send message: ${exception.message}")
-            } else {
-                println("Message succeeded with metadata: $metadata")
-            }
-        }
+//        val message = ProducerRecord(topic.topicId, key, value)
+//        producer.send(message) { metadata, exception ->
+//            if (exception != null) {
+//                println("Failed to send message: ${exception.message}")
+//            } else {
+//                println("Message succeeded with metadata: $metadata")
+//            }
+//        }
     }
 }
