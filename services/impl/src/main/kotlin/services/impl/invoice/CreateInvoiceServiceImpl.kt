@@ -2,9 +2,10 @@ package services.impl.invoice
 
 import io.github.alaksion.invoicer.foundation.messaging.MessageProducer
 import io.github.alaksion.invoicer.foundation.messaging.MessageTopic
+import io.github.alaksion.invoicer.utils.date.toLocalDate
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import models.createinvoice.CreateInvoiceResponseModel
 import models.invoice.CreateInvoiceActivityModel
 import models.invoice.CreateInvoiceDTO
@@ -84,17 +85,17 @@ internal class CreateInvoiceServiceImpl(
     }
 
     private fun validateDateRange(
-        issueDate: Instant,
-        dueDate: Instant
+        issueDate: LocalDate,
+        dueDate: LocalDate
     ) {
-        if (clock.now() > issueDate) {
+        if (clock.now().toLocalDate() >= issueDate) {
             httpError(
                 message = "Issue date cannot be past date",
                 code = HttpCode.BadRequest
             )
         }
 
-        if (clock.now() > dueDate) {
+        if (clock.now().toLocalDate() >= dueDate) {
             httpError(
                 message = "Due date cannot be past date",
                 code = HttpCode.BadRequest

@@ -4,13 +4,14 @@ import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
+import org.jetbrains.exposed.sql.kotlin.datetime.date
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 import java.util.*
 
 internal object InvoiceTable : UUIDTable("t_invoice") {
     val invoicerNumber = varchar("invoicer_number", 36)
-    val issueDate = timestamp("issue_date")
-    val dueDate = timestamp("due_date")
+    val issueDate = date("issue_date")
+    val dueDate = date("due_date")
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
     val isDeleted = bool("is_deleted")

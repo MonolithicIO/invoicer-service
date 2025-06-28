@@ -2,7 +2,7 @@ package controller.viewmodel.invoice
 
 import controller.validation.requiredString
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
-import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import models.invoice.CreateInvoiceActivityModel
 import models.invoice.CreateInvoiceDTO
@@ -11,9 +11,9 @@ import utils.exceptions.http.badRequestError
 @Serializable
 internal data class CreateInvoiceViewModel(
     val invoiceNumber: String? = null,
-    val issueDate: Instant? = null,
+    val issueDate: LocalDate? = null,
     val customerId: String? = null,
-    val dueDate: Instant? = null,
+    val dueDate: LocalDate? = null,
     val activities: List<CreateInvoiceActivityViewModel> = listOf(),
 )
 
