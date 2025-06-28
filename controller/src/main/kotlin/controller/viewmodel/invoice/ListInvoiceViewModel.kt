@@ -1,9 +1,9 @@
 package controller.viewmodel.invoice
 
-import controller.validation.requiredString
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.ktor.http.*
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import models.invoice.GetInvoicesFilterModel
 import models.invoice.InvoiceListModel
@@ -20,8 +20,8 @@ internal data class InvoiceListViewModel(
 internal data class InvoiceListItemViewModel(
     val id: String,
     val externalId: String,
-    val issueDate: Instant,
-    val dueDate: Instant,
+    val issueDate: LocalDate,
+    val dueDate: LocalDate,
     val createdAt: Instant,
     val updatedAt: Instant,
     val totalAmount: Long,

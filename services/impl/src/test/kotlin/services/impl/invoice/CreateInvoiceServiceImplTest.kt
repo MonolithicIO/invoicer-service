@@ -5,6 +5,7 @@ import io.github.alaksion.invoicer.messaging.fakes.FakeMessageProducer
 import io.github.alaksion.invoicer.utils.fakes.FakeClock
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import models.customer.CustomerModel
 import models.fixtures.companyDetailsFixture
 import models.fixtures.invoiceModelFixture
@@ -129,7 +130,7 @@ class CreateInvoiceServiceImplTest {
         val error = assertFailsWith<HttpError> {
             service.createInvoice(
                 BASE_INPUT.copy(
-                    dueDate = today.minus(1.days)
+                    dueDate = LocalDate.parse("2000-06-18")
                 ),
                 userId = UUID.fromString("fed3e1ac-c755-4048-9315-356054c4da11")
             )
@@ -150,7 +151,7 @@ class CreateInvoiceServiceImplTest {
         val error = assertFailsWith<HttpError> {
             service.createInvoice(
                 BASE_INPUT.copy(
-                    issueDate = today.minus(1.days)
+                    issueDate = LocalDate.parse("2000-06-18")
                 ),
                 userId = UUID.fromString("fed3e1ac-c755-4048-9315-356054c4da11")
             )
@@ -164,13 +165,12 @@ class CreateInvoiceServiceImplTest {
 
     @Test
     fun `should throw error when issue date is after due date`() = runTest {
-        val today = Instant.parse("2000-06-19T00:00:00Z")
 
         val error = assertFailsWith<HttpError> {
             service.createInvoice(
                 BASE_INPUT.copy(
-                    dueDate = today,
-                    issueDate = today.plus(1.days)
+                    issueDate = LocalDate.parse("2000-06-19"),
+                    dueDate = LocalDate.parse("2000-06-18")
                 ),
                 userId = UUID.fromString("fed3e1ac-c755-4048-9315-356054c4da11")
             )
@@ -321,8 +321,8 @@ class CreateInvoiceServiceImplTest {
 
         val BASE_INPUT = CreateInvoiceDTO(
             invoicerNumber = "1234",
-            issueDate = Instant.parse("2000-06-19T00:00:00Z"),
-            dueDate = Instant.parse("2000-06-20T00:00:00Z"),
+            issueDate = LocalDate.parse("2000-06-19"),
+            dueDate = LocalDate.parse("2000-06-20"),
             activities = listOf(
                 CreateInvoiceActivityModel(
                     description = "Description",

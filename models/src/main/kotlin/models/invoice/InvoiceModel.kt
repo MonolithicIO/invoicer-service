@@ -2,6 +2,7 @@ package models.invoice
 
 import io.github.alaksion.invoicer.utils.serialization.JavaUUIDSerializer
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import java.util.*
 
@@ -10,8 +11,8 @@ data class InvoiceModel(
     @Serializable(with = JavaUUIDSerializer::class)
     val id: UUID,
     val invoiceNumber: String,
-    val issueDate: Instant,
-    val dueDate: Instant,
+    val issueDate: LocalDate,
+    val dueDate: LocalDate,
     val createdAt: Instant,
     val updatedAt: Instant,
     val isDeleted: Boolean,

@@ -1,6 +1,7 @@
 package models.fixtures
 
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import models.invoice.*
 import java.util.*
 
@@ -14,8 +15,8 @@ val invoiceModelActivityFixture = InvoiceModelActivityModel(
 val invoiceModelFixture = InvoiceModel(
     id = UUID.fromString("37f3ef47-5651-49b9-890e-2bc5943bfae4"),
     invoiceNumber = "INV-123456",
-    issueDate = Instant.parse("2023-01-01T00:00:00Z"),
-    dueDate = Instant.parse("2023-01-31T00:00:00Z"),
+    issueDate = LocalDate.parse("2023-01-01"),
+    dueDate = LocalDate.parse("2023-01-31"),
     createdAt = Instant.parse("2023-01-01T00:00:00Z"),
     updatedAt = Instant.parse("2023-01-01T00:00:00Z"),
     activities = listOf(invoiceModelActivityFixture),
@@ -48,8 +49,8 @@ val invoiceListItemModel = InvoiceListItemModel(
     invoiceNumber = "INV-123456",
     companyName = "Sender Company Ltd.",
     customerName = "Recipient Company Ltd.",
-    issueDate = Instant.parse("2023-01-01T00:00:00Z"),
-    dueDate = Instant.parse("2023-01-31T00:00:00Z"),
+    issueDate = LocalDate.parse("2023-01-01"),
+    dueDate = LocalDate.parse("2023-01-31"),
     createdAt = Instant.parse("2023-01-01T00:00:00Z"),
     updatedAt = Instant.parse("2023-01-01T00:00:00Z"),
     totalAmount = 20000L
@@ -62,8 +63,8 @@ val invoiceListFixture = InvoiceListModel(
             invoiceNumber = "INV-123456",
             companyName = "Sender Company Ltd.",
             customerName = "Recipient Company Ltd.",
-            issueDate = Instant.parse("2023-01-01T00:00:00Z"),
-            dueDate = Instant.parse("2023-01-31T00:00:00Z"),
+            issueDate = LocalDate.parse("2023-01-01"),
+            dueDate = LocalDate.parse("2023-01-31"),
             createdAt = Instant.parse("2023-01-01T00:00:00Z"),
             updatedAt = Instant.parse("2023-01-01T00:00:00Z"),
             totalAmount = 20000L

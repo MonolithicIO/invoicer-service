@@ -7,6 +7,7 @@ import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.UnitValue
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import services.impl.pdf.pdfwriter.itext.components.PdfStyle.formatDate
 
 internal fun invoicePdfFooter(

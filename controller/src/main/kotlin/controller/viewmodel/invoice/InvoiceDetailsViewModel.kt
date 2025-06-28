@@ -1,6 +1,7 @@
 package controller.viewmodel.invoice
 
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 import models.invoice.InvoiceModel
 import models.invoice.InvoiceModelActivityModel
@@ -11,8 +12,8 @@ internal data class InvoiceDetailsViewModel(
     val invoiceNumber: String,
     val createdAt: Instant,
     val updatedAt: Instant,
-    val issueDate: Instant,
-    val dueDate: Instant,
+    val issueDate: LocalDate,
+    val dueDate: LocalDate,
     val activities: List<InvoiceDetailsActivityViewModel>,
     val primaryAccount: InvoiceDetailsPayAccountViewModel,
     val intermediaryAccount: InvoiceDetailsPayAccountViewModel?,

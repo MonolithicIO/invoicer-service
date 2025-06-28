@@ -3,6 +3,7 @@ package services.impl.pdf.pdfwriter.itext.components
 import com.itextpdf.kernel.colors.ColorConstants
 import com.itextpdf.kernel.colors.DeviceRgb
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toJavaInstant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -26,6 +27,10 @@ internal object PdfStyle {
         val Primary = DeviceRgb(66, 133, 244)
         val Background = ColorConstants.WHITE
         val Overlay = ColorConstants.LIGHT_GRAY
+    }
+
+    fun formatDate(date: LocalDate): String {
+        return "${date.dayOfMonth}/${date.monthNumber}/${date.year}"
     }
 
     fun formatDate(instant: Instant): String {

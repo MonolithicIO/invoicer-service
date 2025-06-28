@@ -1,6 +1,7 @@
 package models.invoice
 
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 import models.company.CompanyDetailsModel
 import models.customer.CustomerModel
 import java.util.*
@@ -8,8 +9,8 @@ import java.util.*
 data class CreateInvoiceDTO(
     val invoicerNumber: String,
     val activities: List<CreateInvoiceActivityModel>,
-    val issueDate: Instant,
-    val dueDate: Instant,
+    val issueDate: LocalDate,
+    val dueDate: LocalDate,
     val customerId: UUID,
     val companyId: UUID
 )
@@ -19,8 +20,8 @@ data class CreateInvoiceModel(
     val company: CompanyDetailsModel,
     val invoicerNumber: String,
     val activities: List<CreateInvoiceActivityModel>,
-    val issueDate: Instant,
-    val dueDate: Instant
+    val issueDate: LocalDate,
+    val dueDate: LocalDate
 )
 
 data class CreateInvoiceActivityModel(
