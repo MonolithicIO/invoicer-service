@@ -1,6 +1,8 @@
-package foundation.secrets
+package io.github.alaksion.invoicer.foundation.secrets
 
 import foundation.env.fakes.FakeInvoicerEnvironment
+import io.github.alaksion.invoicer.foundation.env.secrets.EnvSecretsProvider
+import io.github.alaksion.invoicer.foundation.env.secrets.SecretKeys
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals

@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.foundation.messaging.kafka
 
-import foundation.secrets.SecretKeys
-import foundation.secrets.SecretsProvider
+import io.github.alaksion.invoicer.foundation.env.secrets.SecretKeys
+import io.github.alaksion.invoicer.foundation.env.secrets.SecretsProvider
 import io.github.alaksion.invoicer.foundation.log.LogLevel
 import io.github.alaksion.invoicer.foundation.log.Logger
 import io.github.alaksion.invoicer.foundation.messaging.MessageConsumer

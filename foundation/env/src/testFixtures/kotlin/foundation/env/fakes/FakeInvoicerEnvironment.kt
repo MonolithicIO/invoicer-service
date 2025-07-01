@@ -1,6 +1,6 @@
 package foundation.env.fakes
 
-import foundation.env.InvoicerEnvironment
+import io.github.alaksion.invoicer.foundation.env.application.InvoicerEnvironment
 
 class FakeInvoicerEnvironment : InvoicerEnvironment {
 

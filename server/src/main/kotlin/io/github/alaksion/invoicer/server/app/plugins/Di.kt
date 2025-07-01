@@ -1,12 +1,11 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
-import io.github.alaksion.invoicer.foundation.authentication.di.utilsAuthenticationModule
 import foundation.cache.di.cacheDiModule
-import foundation.env.invoicerEnvironmentDiModule
 import foundation.password.di.utilPasswordDi
 import foundation.qrcode.di.qrCodeModule
-import foundation.secrets.di.secretsModule
 import io.github.alaksion.invoicer.consumers.di.consumersDiModule
+import io.github.alaksion.invoicer.foundation.authentication.di.utilsAuthenticationModule
+import io.github.alaksion.invoicer.foundation.env.di.invoicerEnvironmentDiModule
 import io.github.alaksion.invoicer.foundation.log.di.logDiModule
 import io.github.alaksion.invoicer.foundation.messaging.di.messagingDiModule
 import io.github.alaksion.invoicer.foundation.storage.di.storageDiModule
@@ -20,7 +19,6 @@ fun Application.installDi() {
     di {
         import(utilPasswordDi)
         import(utilsAuthenticationModule)
-        import(secretsModule)
         import(servicesImplModule)
         import(repositoryModule)
         import(invoicerEnvironmentDiModule)

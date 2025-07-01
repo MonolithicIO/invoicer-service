@@ -9,7 +9,7 @@ version = "0.0.1"
 
 dependencies {
     implementation(libs.minIO)
-    implementation(projects.foundation.secrets)
+    implementation(projects.foundation.env)
 
     testImplementation(libs.kotlin.test)
     implementation(libs.kodein.server)

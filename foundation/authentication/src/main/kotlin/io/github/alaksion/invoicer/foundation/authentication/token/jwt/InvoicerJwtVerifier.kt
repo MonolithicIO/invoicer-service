@@ -2,9 +2,9 @@ package io.github.alaksion.invoicer.foundation.authentication.token.jwt
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import foundation.secrets.SecretKeys
-import foundation.secrets.SecretsProvider
 import io.github.alaksion.invoicer.foundation.authentication.token.AuthTokenVerifier
+import io.github.alaksion.invoicer.foundation.env.secrets.SecretKeys
+import io.github.alaksion.invoicer.foundation.env.secrets.SecretsProvider
 
 internal class InvoicerJwtVerifierImpl(
     secretsProvider: SecretsProvider

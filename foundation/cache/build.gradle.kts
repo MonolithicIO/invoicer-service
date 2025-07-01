@@ -19,7 +19,7 @@ dependencies {
 
     // Project
     implementation(projects.foundation.exceptions)
-    implementation(projects.foundation.secrets)
+    implementation(projects.foundation.env)
     implementation(projects.foundation.log)
 
     // Fixtures

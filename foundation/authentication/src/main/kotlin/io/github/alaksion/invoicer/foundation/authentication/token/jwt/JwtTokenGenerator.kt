@@ -4,14 +4,14 @@ import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import io.github.alaksion.invoicer.foundation.authentication.token.AuthTokenGenerator
 import io.github.alaksion.invoicer.foundation.authentication.token.AuthTokenManager
-import foundation.secrets.SecretKeys
-import foundation.secrets.SecretsProvider
-import utils.exceptions.http.HttpCode
+import io.github.alaksion.invoicer.foundation.env.secrets.SecretKeys
+import io.github.alaksion.invoicer.foundation.env.secrets.SecretsProvider
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.routing.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toJavaInstant
+import utils.exceptions.http.HttpCode
 import utils.exceptions.http.httpError
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days

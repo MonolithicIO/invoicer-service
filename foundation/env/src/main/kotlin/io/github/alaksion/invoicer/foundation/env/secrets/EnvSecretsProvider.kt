@@ -1,6 +1,6 @@
-package foundation.secrets
+package io.github.alaksion.invoicer.foundation.env.secrets
 
-import foundation.env.InvoicerEnvironment
+import io.github.alaksion.invoicer.foundation.env.application.InvoicerEnvironment
 
 internal class EnvSecretsProvider(
     private val environment: InvoicerEnvironment

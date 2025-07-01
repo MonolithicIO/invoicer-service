@@ -1,7 +1,6 @@
 package io.github.alaksion.invoicer.foundation.storage.remote.minIO
 
-import foundation.secrets.SecretKeys
-import foundation.secrets.SecretsProvider
+import io.github.alaksion.invoicer.foundation.env.secrets.SecretsProvider
 import io.github.alaksion.invoicer.foundation.storage.remote.FileUploader
 import io.minio.MinioClient
 import io.minio.UploadObjectArgs
