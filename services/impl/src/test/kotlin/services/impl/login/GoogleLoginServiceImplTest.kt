@@ -1,10 +1,10 @@
 package services.impl.login
 
-import foundation.authentication.fakes.FakeAuthTokenManager
 import foundation.password.fakes.FakePasswordEncryption
-import io.github.alaksion.foundation.identity.provider.IdentityProviderError
-import io.github.alaksion.foundation.identity.provider.IdentityProviderResult
-import io.github.alaksion.foundation.identity.provider.fakes.FakeIdentityProvider
+import io.github.alaksion.invoicer.foundation.authentication.fakes.FakeAuthTokenManager
+import io.github.alaksion.invoicer.foundation.authentication.fakes.FakeIdentityProvider
+import io.github.alaksion.invoicer.foundation.authentication.provider.IdentityProviderError
+import io.github.alaksion.invoicer.foundation.authentication.provider.IdentityProviderResult
 import kotlinx.coroutines.test.runTest
 import models.fixtures.userModelFixture
 import repository.fakes.FakeUserRepository

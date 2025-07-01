@@ -1,6 +1,6 @@
 package services.impl.qrcodetoken
 
-import foundation.authentication.fakes.FakeAuthTokenManager
+import io.github.alaksion.invoicer.foundation.authentication.fakes.FakeAuthTokenManager
 import io.github.alaksion.invoicer.utils.fakes.FakeClock
 import kotlinx.coroutines.test.runTest
 import models.fixtures.qrCodeTokenModelFixture

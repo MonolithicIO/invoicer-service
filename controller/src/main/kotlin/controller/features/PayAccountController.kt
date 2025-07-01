@@ -2,8 +2,8 @@ package controller.features
 
 import controller.viewmodel.payaccount.UpdatePayAccountViewModel
 import controller.viewmodel.payaccount.toModel
-import foundation.authentication.impl.jwt.jwtProtected
-import foundation.authentication.impl.jwt.jwtUserId
+import io.github.alaksion.invoicer.foundation.authentication.token.jwt.jwtProtected
+import io.github.alaksion.invoicer.foundation.authentication.token.jwt.jwtUserId
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.ktor.http.*
 import io.ktor.server.request.*
