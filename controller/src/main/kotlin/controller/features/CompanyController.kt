@@ -8,11 +8,7 @@ import controller.viewmodel.customer.CreateCustomerResponseViewModel
 import controller.viewmodel.customer.CreateCustomerViewModel
 import controller.viewmodel.customer.toModel
 import controller.viewmodel.customer.toViewModel
-import controller.viewmodel.invoice.CreateInvoiceResponseViewModel
-import controller.viewmodel.invoice.CreateInvoiceViewModel
-import controller.viewmodel.invoice.getInvoiceFilters
-import controller.viewmodel.invoice.toModel
-import controller.viewmodel.invoice.toViewModel
+import controller.viewmodel.invoice.*
 import foundation.authentication.impl.jwt.jwtProtected
 import foundation.authentication.impl.jwt.jwtUserId
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
@@ -24,11 +20,11 @@ import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.company.CreateCompanyService
 import services.api.services.company.GetCompaniesService
+import services.api.services.company.GetUserCompanyDetailsService
 import services.api.services.customer.CreateCustomerService
 import services.api.services.customer.ListCustomersService
 import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.GetCompanyInvoicesService
-import kotlin.getValue
 
 internal fun Routing.companyController() {
     route("/v1/company") {
@@ -45,6 +41,21 @@ internal fun Routing.companyController() {
                                 userId = parseUuid(jwtUserId())
                             )
                         ),
+                    status = HttpStatusCode.Created
+                )
+            }
+        }
+
+        jwtProtected {
+            get("/{companyId}") {
+                val companyId = call.parameters["companyId"]!!
+                val service by closestDI().instance<GetUserCompanyDetailsService>()
+
+                call.respond(
+                    message = service.get(
+                        userId = parseUuid(jwtUserId()),
+                        companyId = parseUuid(companyId)
+                    ).toViewModel(),
                     status = HttpStatusCode.Created
                 )
             }
