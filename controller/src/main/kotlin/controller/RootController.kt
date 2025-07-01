@@ -11,5 +11,6 @@ fun Application.rootController() {
         authController()
         loginCodeController()
         companyController()
+        payAccountController()
     }
 }

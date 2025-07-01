@@ -33,6 +33,8 @@ val companyDetailsFixture = CompanyDetailsModel(
         isDeleted = false,
         createdAt = Instant.parse("2023-01-01T00:00:00Z"),
         updatedAt = Instant.parse("2023-01-02T00:00:00Z"),
+        id = UUID.fromString("123e4567-e89b-12d3-a456-426614174003"),
+        companyId = UUID.fromString("123e4567-e89b-12d3-a456-426614174001"),
     ),
     intermediaryAccount = null,
     user = UserModel(

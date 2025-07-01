@@ -4,10 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
-import services.api.services.company.CreateCompanyService
-import services.api.services.company.GetCompaniesService
-import services.api.services.company.GetCompanyDetailsService
-import services.api.services.company.GetUserCompanyDetailsService
+import services.api.services.company.*
 import services.api.services.customer.CreateCustomerService
 import services.api.services.customer.GetCustomerByIdService
 import services.api.services.customer.ListCustomersService
@@ -45,6 +42,7 @@ import services.impl.login.LoginServiceImpl
 import services.impl.login.RefreshLoginServiceImpl
 import services.impl.login.StoreRefreshTokenServiceImpl
 import services.impl.payaccount.CheckPayAccountDocumentInUseServiceImpl
+import services.impl.payaccount.UpdatePayAccountServiceImpl
 import services.impl.pdf.GenerateInvoicePdfServiceImpl
 import services.impl.pdf.InvoicePdfSecureLinkServiceImpl
 import services.impl.pdf.pdfwriter.InvoicePdfWriter
@@ -227,6 +225,15 @@ private fun DI.Builder.payAccountServices() {
     bindProvider<CheckPayAccountDocumentInUseService> {
         CheckPayAccountDocumentInUseServiceImpl(
             paymentAccountRepository = instance()
+        )
+    }
+
+    bindProvider<UpdatePayAccountService> {
+        UpdatePayAccountServiceImpl(
+            paymentAccountRepository = instance(),
+            getUserCompanyDetailsService = instance(),
+            swiftValidator = instance(),
+            ibanValidator = instance()
         )
     }
 }

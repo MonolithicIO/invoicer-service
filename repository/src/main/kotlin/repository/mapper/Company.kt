@@ -37,6 +37,8 @@ internal fun UserCompanyEntity.toCompanyDetails(): CompanyDetailsModel {
                 isDeleted = it.isDeleted,
                 createdAt = it.createdAt,
                 updatedAt = it.updatedAt,
+                id = it.id.value,
+                companyId = it.company.id.value
             )
         },
         intermediaryAccount = payAccounts.firstOrNull {
@@ -51,6 +53,8 @@ internal fun UserCompanyEntity.toCompanyDetails(): CompanyDetailsModel {
                 isDeleted = it.isDeleted,
                 createdAt = it.createdAt,
                 updatedAt = it.updatedAt,
+                id = it.id.value,
+                companyId = it.company.id.value
             )
         },
         user = user.toModel()

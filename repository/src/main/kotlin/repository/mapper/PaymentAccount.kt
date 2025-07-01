@@ -16,5 +16,7 @@ internal fun PaymentAccountEntity.toModel() = PaymentAccountModel(
     },
     isDeleted = isDeleted,
     createdAt = createdAt,
-    updatedAt = updatedAt
+    updatedAt = updatedAt,
+    companyId = company.id.value,
+    id = id.value
 )

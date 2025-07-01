@@ -58,13 +58,13 @@ internal class CreateCompanyServiceImpl(
         intermediaryIban: String?
     ) {
         if (!ibanValidator.validate(primaryIban)) badRequestError("Invalid IBAN for payment account: $primaryIban")
-        if (checkPayAccountDocumentService.findByIban(primaryIban)) {
+        if (checkPayAccountDocumentService.checkIbanInUse(primaryIban)) {
             badRequestError("IBAN $primaryIban for primary account is already in use.")
         }
 
         intermediaryIban?.let {
             if (!ibanValidator.validate(it)) badRequestError("Invalid IBAN for intermediary account: $intermediaryIban")
-            if (checkPayAccountDocumentService.findByIban(it)) {
+            if (checkPayAccountDocumentService.checkIbanInUse(it)) {
                 badRequestError("IBAN $it for intermediary account is already in use.")
             }
         }
@@ -75,13 +75,13 @@ internal class CreateCompanyServiceImpl(
         intermediarySwift: String?
     ) {
         if (!swiftValidator.validate(primarySwift)) badRequestError("Invalid SWIFT code for payment account: $primarySwift")
-        if (checkPayAccountDocumentService.findBySwift(primarySwift)) {
+        if (checkPayAccountDocumentService.checkSwiftInUse(primarySwift)) {
             badRequestError("SWIFT code $primarySwift for primary account is already in use.")
         }
 
         intermediarySwift?.let {
             if (!swiftValidator.validate(it)) badRequestError("Invalid SWIFT code for intermediary account: $intermediarySwift")
-            if (checkPayAccountDocumentService.findBySwift(it)) {
+            if (checkPayAccountDocumentService.checkSwiftInUse(it)) {
                 badRequestError("SWIFT code $it for intermediary account is already in use.")
             }
 
