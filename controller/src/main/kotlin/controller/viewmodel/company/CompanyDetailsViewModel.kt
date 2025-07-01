@@ -39,7 +39,8 @@ internal data class CompanyDetailsPaymentViewModel(
     val type: String,
     val isDeleted: Boolean,
     val createdAt: Instant,
-    val updatedAt: Instant
+    val updatedAt: Instant,
+    val id: String,
 )
 
 internal fun CompanyDetailsModel.toViewModel(): CompanyDetailsViewModel {
@@ -67,7 +68,8 @@ internal fun CompanyDetailsModel.toViewModel(): CompanyDetailsViewModel {
             type = this.paymentAccount.type.name,
             isDeleted = this.paymentAccount.isDeleted,
             createdAt = this.paymentAccount.createdAt,
-            updatedAt = this.paymentAccount.updatedAt
+            updatedAt = this.paymentAccount.updatedAt,
+            id = this.paymentAccount.id.toString()
         ),
         intermediaryAccount = this.intermediaryAccount?.let {
             CompanyDetailsPaymentViewModel(
@@ -78,7 +80,8 @@ internal fun CompanyDetailsModel.toViewModel(): CompanyDetailsViewModel {
                 type = it.type.name,
                 isDeleted = it.isDeleted,
                 createdAt = it.createdAt,
-                updatedAt = it.updatedAt
+                updatedAt = it.updatedAt,
+                id = it.id.toString()
             )
         },
         user = this.user
