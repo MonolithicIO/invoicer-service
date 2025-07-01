@@ -1,8 +1,8 @@
 package foundation.cache.redis.jedis
 
 import foundation.cache.redis.RedisInstance
-import foundation.secrets.SecretKeys
-import foundation.secrets.SecretsProvider
+import io.github.alaksion.invoicer.foundation.env.secrets.SecretKeys
+import io.github.alaksion.invoicer.foundation.env.secrets.SecretsProvider
 import io.github.alaksion.invoicer.foundation.log.LogLevel
 import io.github.alaksion.invoicer.foundation.log.Logger
 import kotlinx.coroutines.*

@@ -1,4 +1,4 @@
-package foundation.secrets
+package io.github.alaksion.invoicer.foundation.env.secrets
 
 interface SecretsProvider {
     fun getSecret(key: SecretKeys): String

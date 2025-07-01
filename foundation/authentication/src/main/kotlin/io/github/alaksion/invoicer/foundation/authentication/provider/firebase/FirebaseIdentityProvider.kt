@@ -6,11 +6,11 @@ import com.google.firebase.FirebaseOptions
 import com.google.firebase.auth.AuthErrorCode
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
-import foundation.secrets.SecretKeys
-import foundation.secrets.SecretsProvider
 import io.github.alaksion.invoicer.foundation.authentication.provider.IdentityProvider
 import io.github.alaksion.invoicer.foundation.authentication.provider.IdentityProviderError
 import io.github.alaksion.invoicer.foundation.authentication.provider.IdentityProviderResult
+import io.github.alaksion.invoicer.foundation.env.secrets.SecretKeys
+import io.github.alaksion.invoicer.foundation.env.secrets.SecretsProvider
 import io.github.alaksion.invoicer.foundation.log.LogLevel
 import io.github.alaksion.invoicer.foundation.log.Logger
 import io.github.alaksion.invoicer.utils.annotations.IgnoreCoverage

@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.server.app.database
 
-import foundation.secrets.SecretKeys
-import foundation.secrets.SecretsProvider
+import io.github.alaksion.invoicer.foundation.env.secrets.SecretKeys
+import io.github.alaksion.invoicer.foundation.env.secrets.SecretsProvider
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
 import org.kodein.di.instance

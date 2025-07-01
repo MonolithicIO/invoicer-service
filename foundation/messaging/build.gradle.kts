@@ -12,7 +12,7 @@ dependencies {
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kodein.server)
 
-    implementation(projects.foundation.secrets)
+    implementation(projects.foundation.env)
     implementation(projects.foundation.log)
 
     testImplementation(libs.kotlin.coroutines.test)
