@@ -5,7 +5,7 @@ import io.github.alaksion.invoicer.utils.validation.SwiftValidator
 import models.paymentaccount.UpdatePaymentAccountModel
 import repository.PaymentAccountRepository
 import services.api.services.company.GetUserCompanyDetailsService
-import services.api.services.company.UpdatePayAccountService
+import services.api.services.payaccount.UpdatePayAccountService
 import utils.exceptions.http.badRequestError
 import utils.exceptions.http.forbiddenError
 import utils.exceptions.http.notFoundError

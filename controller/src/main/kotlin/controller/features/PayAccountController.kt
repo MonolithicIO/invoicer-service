@@ -11,7 +11,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.company.UpdatePayAccountService
+import services.api.services.payaccount.UpdatePayAccountService
 
 internal fun Routing.payAccountController() {
     route("/v1/company/{companyId}/pay_account") {

@@ -3,6 +3,8 @@ package repository
 import kotlinx.datetime.Clock
 import models.paymentaccount.PaymentAccountModel
 import models.paymentaccount.UpdatePaymentAccountModel
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.update
 import repository.entities.PaymentAccountEntity
@@ -15,6 +17,7 @@ interface PaymentAccountRepository {
     suspend fun getByIban(iban: String): PaymentAccountModel?
     suspend fun update(model: UpdatePaymentAccountModel)
     suspend fun getById(id: UUID): PaymentAccountModel?
+    suspend fun delete(id: UUID)
 }
 
 internal class PaymentAccountRepositoryImpl(
@@ -56,6 +59,14 @@ internal class PaymentAccountRepositoryImpl(
     override suspend fun getById(id: UUID): PaymentAccountModel? {
         return newSuspendedTransaction {
             PaymentAccountEntity.findById(id)?.toModel()
+        }
+    }
+
+    override suspend fun delete(id: UUID) {
+        newSuspendedTransaction {
+            PaymentAccountTable.deleteWhere {
+                PaymentAccountTable.id eq id
+            }
         }
     }
 }
