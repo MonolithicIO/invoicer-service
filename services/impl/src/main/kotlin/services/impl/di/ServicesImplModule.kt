@@ -4,7 +4,10 @@ import kotlinx.coroutines.Dispatchers
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
-import services.api.services.company.*
+import services.api.services.company.CreateCompanyService
+import services.api.services.company.GetCompaniesService
+import services.api.services.company.GetCompanyDetailsService
+import services.api.services.company.GetUserCompanyDetailsService
 import services.api.services.customer.CreateCustomerService
 import services.api.services.customer.GetCustomerByIdService
 import services.api.services.customer.ListCustomersService
@@ -17,6 +20,8 @@ import services.api.services.login.LoginService
 import services.api.services.login.RefreshLoginService
 import services.api.services.login.StoreRefreshTokenService
 import services.api.services.payaccount.CheckPayAccountDocumentInUseService
+import services.api.services.payaccount.DeletePayAccountService
+import services.api.services.payaccount.UpdatePayAccountService
 import services.api.services.pdf.GenerateInvoicePdfService
 import services.api.services.pdf.InvoicePdfSecureLinkService
 import services.api.services.qrcodetoken.AuthorizeQrCodeTokenService
@@ -42,6 +47,7 @@ import services.impl.login.LoginServiceImpl
 import services.impl.login.RefreshLoginServiceImpl
 import services.impl.login.StoreRefreshTokenServiceImpl
 import services.impl.payaccount.CheckPayAccountDocumentInUseServiceImpl
+import services.impl.payaccount.DeletePayAccountServiceImpl
 import services.impl.payaccount.UpdatePayAccountServiceImpl
 import services.impl.pdf.GenerateInvoicePdfServiceImpl
 import services.impl.pdf.InvoicePdfSecureLinkServiceImpl
@@ -234,6 +240,13 @@ private fun DI.Builder.payAccountServices() {
             getUserCompanyDetailsService = instance(),
             swiftValidator = instance(),
             ibanValidator = instance()
+        )
+    }
+
+    bindProvider<DeletePayAccountService> {
+        DeletePayAccountServiceImpl(
+            paymentAccountRepository = instance(),
+            getUserCompanyDetailsService = instance()
         )
     }
 }

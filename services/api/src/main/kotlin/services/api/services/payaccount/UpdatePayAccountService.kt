@@ -1,7 +1,7 @@
-package services.api.services.company
+package services.api.services.payaccount
 
 import models.paymentaccount.UpdatePaymentAccountModel
-import java.util.*
+import java.util.UUID
 
 interface UpdatePayAccountService {
     /***

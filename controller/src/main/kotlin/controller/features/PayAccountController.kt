@@ -11,7 +11,8 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.company.UpdatePayAccountService
+import services.api.services.payaccount.DeletePayAccountService
+import services.api.services.payaccount.UpdatePayAccountService
 
 internal fun Routing.payAccountController() {
     route("/v1/company/{companyId}/pay_account") {
@@ -26,6 +27,21 @@ internal fun Routing.payAccountController() {
                     companyId = parseUuid(companyId),
                     userId = parseUuid(jwtUserId()),
                     model = body.toModel(parseUuid(payAccountId))
+                )
+                call.respond(HttpStatusCode.NoContent)
+            }
+        }
+
+        jwtProtected {
+            delete("/{payAccountId}") {
+                val payAccountId = call.parameters["payAccountId"] ?: ""
+                val companyId = call.parameters["companyId"] ?: ""
+                val service by closestDI().instance<DeletePayAccountService>()
+
+                service.delete(
+                    companyId = parseUuid(companyId),
+                    userId = parseUuid(jwtUserId()),
+                    accountId = parseUuid(payAccountId)
                 )
                 call.respond(HttpStatusCode.NoContent)
             }
