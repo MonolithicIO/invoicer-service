@@ -2,8 +2,8 @@ package controller.features
 
 import controller.viewmodel.invoice.InvoiceDownloadLinkViewModel
 import controller.viewmodel.invoice.toViewModel
-import foundation.authentication.impl.jwt.jwtProtected
-import foundation.authentication.impl.jwt.jwtUserId
+import io.github.alaksion.invoicer.foundation.authentication.token.jwt.jwtProtected
+import io.github.alaksion.invoicer.foundation.authentication.token.jwt.jwtUserId
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.ktor.http.*
 import io.ktor.server.response.*

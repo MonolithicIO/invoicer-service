@@ -1,6 +1,6 @@
 package services.impl.login
 
-import foundation.authentication.fakes.FakeAuthTokenManager
+import io.github.alaksion.invoicer.foundation.authentication.fakes.FakeAuthTokenManager
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.login.RefreshTokenModel

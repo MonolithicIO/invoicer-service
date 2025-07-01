@@ -5,8 +5,8 @@ import controller.viewmodel.qrcodetoken.RequestQrCodeTokenViewModel
 import controller.viewmodel.qrcodetoken.toDomainModel
 import controller.viewmodel.qrcodetoken.toTokenDetailsViewModel
 import controller.viewmodel.qrcodetoken.toTokenResponseViewModel
-import foundation.authentication.impl.jwt.jwtProtected
-import foundation.authentication.impl.jwt.jwtUserId
+import io.github.alaksion.invoicer.foundation.authentication.token.jwt.jwtProtected
+import io.github.alaksion.invoicer.foundation.authentication.token.jwt.jwtUserId
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.ktor.http.*
 import io.ktor.server.plugins.*

@@ -1,9 +1,9 @@
 package services.impl.login
 
-import foundation.authentication.impl.AuthTokenManager
+import io.github.alaksion.invoicer.foundation.authentication.token.AuthTokenManager
 import foundation.password.PasswordEncryption
-import io.github.alaksion.foundation.identity.provider.IdentityProvider
-import io.github.alaksion.foundation.identity.provider.IdentityProviderResult
+import io.github.alaksion.invoicer.foundation.authentication.provider.IdentityProvider
+import io.github.alaksion.invoicer.foundation.authentication.provider.IdentityProviderResult
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import models.login.AuthTokenModel
 import models.user.CreateUserModel

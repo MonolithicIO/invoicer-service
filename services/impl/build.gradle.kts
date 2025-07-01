@@ -27,7 +27,6 @@ dependencies {
     implementation(projects.utils)
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kotlin.serialization)
-    implementation(projects.foundation.identityProvider)
 
     // Fixtures
     testImplementation(testFixtures(projects.models))
@@ -39,7 +38,6 @@ dependencies {
     testImplementation(testFixtures(projects.services.api))
     testImplementation(testFixtures(projects.foundation.log))
     testImplementation(testFixtures(projects.foundation.qrcode))
-    testImplementation(testFixtures(projects.foundation.identityProvider))
 
     // Unit Tests
     testImplementation(libs.kotlin.test)

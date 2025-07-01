@@ -1,6 +1,6 @@
 package services.impl.qrcodetoken
 
-import foundation.authentication.impl.AuthTokenManager
+import io.github.alaksion.invoicer.foundation.authentication.token.AuthTokenManager
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import models.qrcodetoken.AuthorizedQrCodeToken

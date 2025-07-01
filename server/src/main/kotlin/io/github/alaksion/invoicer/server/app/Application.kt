@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.server.app
 
 import controller.rootController
-import io.github.alaksion.foundation.identity.provider.IdentityProvider
+import io.github.alaksion.invoicer.foundation.authentication.provider.IdentityProvider
 import io.github.alaksion.invoicer.server.app.database.connectDatabase
 import io.github.alaksion.invoicer.server.app.plugins.*
 import io.ktor.server.application.*

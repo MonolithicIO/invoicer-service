@@ -9,8 +9,8 @@ import controller.viewmodel.customer.CreateCustomerViewModel
 import controller.viewmodel.customer.toModel
 import controller.viewmodel.customer.toViewModel
 import controller.viewmodel.invoice.*
-import foundation.authentication.impl.jwt.jwtProtected
-import foundation.authentication.impl.jwt.jwtUserId
+import io.github.alaksion.invoicer.foundation.authentication.token.jwt.jwtProtected
+import io.github.alaksion.invoicer.foundation.authentication.token.jwt.jwtUserId
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.ktor.http.*
 import io.ktor.server.request.*
