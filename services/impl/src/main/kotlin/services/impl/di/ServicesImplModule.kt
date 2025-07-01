@@ -7,6 +7,7 @@ import org.kodein.di.instance
 import services.api.services.company.CreateCompanyService
 import services.api.services.company.GetCompaniesService
 import services.api.services.company.GetCompanyDetailsService
+import services.api.services.company.GetUserCompanyDetailsService
 import services.api.services.customer.CreateCustomerService
 import services.api.services.customer.GetCustomerByIdService
 import services.api.services.customer.ListCustomersService
@@ -31,6 +32,7 @@ import services.api.services.user.GetUserByEmailService
 import services.impl.company.CreateCompanyServiceImpl
 import services.impl.company.GetCompaniesServiceImpl
 import services.impl.company.GetCompanyDetailsServiceImpl
+import services.impl.company.GetUserCompanyDetailsServiceImpl
 import services.impl.customer.CreateCustomerServiceImpl
 import services.impl.customer.GetCustomerByIdServiceImpl
 import services.impl.customer.ListCustomerServiceImpl
@@ -250,6 +252,13 @@ private fun DI.Builder.companyServices() {
     bindProvider<GetCompanyDetailsService> {
         GetCompanyDetailsServiceImpl(
             companyRepository = instance()
+        )
+    }
+
+    bindProvider<GetUserCompanyDetailsService> {
+        GetUserCompanyDetailsServiceImpl(
+            companyRepository = instance(),
+            getUserByIdService = instance()
         )
     }
 }
