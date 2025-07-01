@@ -1,4 +1,4 @@
-package services.impl.company
+package services.impl.payaccount
 
 import io.github.alaksion.invoicer.utils.validation.IbanValidator
 import io.github.alaksion.invoicer.utils.validation.SwiftValidator
@@ -9,7 +9,7 @@ import services.api.services.company.UpdatePayAccountService
 import utils.exceptions.http.badRequestError
 import utils.exceptions.http.forbiddenError
 import utils.exceptions.http.notFoundError
-import java.util.*
+import java.util.UUID
 
 internal class UpdatePayAccountServiceImpl(
     private val paymentAccountRepository: PaymentAccountRepository,
