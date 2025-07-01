@@ -13,4 +13,5 @@ version = AppConfig.version
 dependencies {
     implementation(libs.bundles.ktor)
     implementation(libs.kodein.server)
+    testImplementation(kotlin("test"))
 }
