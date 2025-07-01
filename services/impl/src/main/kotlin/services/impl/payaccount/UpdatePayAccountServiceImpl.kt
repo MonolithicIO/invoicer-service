@@ -9,7 +9,7 @@ import services.api.services.company.UpdatePayAccountService
 import utils.exceptions.http.badRequestError
 import utils.exceptions.http.forbiddenError
 import utils.exceptions.http.notFoundError
-import java.util.UUID
+import java.util.*
 
 internal class UpdatePayAccountServiceImpl(
     private val paymentAccountRepository: PaymentAccountRepository,
