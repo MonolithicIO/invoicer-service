@@ -38,7 +38,7 @@ val repositoryModule = DI.Module("invocer-repository") {
         InvoicePdfRepositoryImpl(clock = instance())
     }
 
-    bindProvider<PaymentAccountRepository> { PaymentAccountRepositoryImpl() }
+    bindProvider<PaymentAccountRepository> { PaymentAccountRepositoryImpl(clock = instance()) }
 
     bindProvider<UserCompanyRepository> { UserCompanyRepositoryImpl(clock = instance()) }
 
