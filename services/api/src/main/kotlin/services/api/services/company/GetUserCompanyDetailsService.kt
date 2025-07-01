@@ -7,5 +7,5 @@ interface GetUserCompanyDetailsService {
     suspend fun get(
         userId: UUID,
         companyId: UUID
-    ): CompanyDetailsModel?
+    ): CompanyDetailsModel
 }

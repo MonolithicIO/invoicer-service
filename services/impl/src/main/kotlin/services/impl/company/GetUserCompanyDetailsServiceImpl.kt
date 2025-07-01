@@ -13,7 +13,7 @@ internal class GetUserCompanyDetailsServiceImpl(
     private val getUserByIdService: GetUserByIdService
 
 ) : GetUserCompanyDetailsService {
-    override suspend fun get(userId: UUID, companyId: UUID): CompanyDetailsModel? {
+    override suspend fun get(userId: UUID, companyId: UUID): CompanyDetailsModel {
         val user = getUserByIdService.get(userId)
         val company = companyRepository.getCompanyDetails(companyId) ?: notFoundError("Company not found")
 
