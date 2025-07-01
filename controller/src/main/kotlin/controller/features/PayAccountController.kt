@@ -27,10 +27,7 @@ internal fun Routing.payAccountController() {
                     userId = parseUuid(jwtUserId()),
                     model = body.toModel(parseUuid(payAccountId))
                 )
-                call.respond(
-                    status = HttpStatusCode.OK,
-                    message = Unit
-                )
+                call.respond(HttpStatusCode.NoContent)
             }
         }
     }
