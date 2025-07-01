@@ -2,7 +2,7 @@ package services.api.services.payaccount
 
 interface CheckPayAccountDocumentInUseService {
 
-    suspend fun findBySwift(swift: String): Boolean
+    suspend fun checkSwiftInUse(swift: String): Boolean
 
-    suspend fun findByIban(iban: String): Boolean
+    suspend fun checkIbanInUse(iban: String): Boolean
 }

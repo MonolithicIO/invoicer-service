@@ -8,11 +8,13 @@ import org.jetbrains.exposed.sql.update
 import repository.entities.PaymentAccountEntity
 import repository.entities.PaymentAccountTable
 import repository.mapper.toModel
+import java.util.*
 
 interface PaymentAccountRepository {
     suspend fun getBySwift(swift: String): PaymentAccountModel?
     suspend fun getByIban(iban: String): PaymentAccountModel?
     suspend fun update(model: UpdatePaymentAccountModel)
+    suspend fun getById(id: UUID): PaymentAccountModel?
 }
 
 internal class PaymentAccountRepositoryImpl(
@@ -48,6 +50,12 @@ internal class PaymentAccountRepositoryImpl(
                 it[bankAddress] = model.bankAddress
                 it[updatedAt] = clock.now()
             }
+        }
+    }
+
+    override suspend fun getById(id: UUID): PaymentAccountModel? {
+        return newSuspendedTransaction {
+            PaymentAccountEntity.findById(id)?.toModel()
         }
     }
 }
