@@ -47,7 +47,7 @@ internal fun Routing.companyController() {
         }
 
         jwtProtected {
-            post("/{companyId}") {
+            get("/{companyId}") {
                 val companyId = call.parameters["companyId"]!!
                 val service by closestDI().instance<GetUserCompanyDetailsService>()
 
