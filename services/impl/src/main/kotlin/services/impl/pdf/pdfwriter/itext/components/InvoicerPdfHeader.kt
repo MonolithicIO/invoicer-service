@@ -7,6 +7,7 @@ import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.UnitValue
 
+@Suppress("MagicNumber", "LongParameterList")
 internal fun buildHeader(
     senderCompanyName: String,
     senderCompanyAddress: String,
@@ -66,6 +67,7 @@ private fun logoCell(
     .add(Paragraph(senderCompanyAddress).setFont(regularFont).setFontSize(PdfStyle.FontSize.Small))
     .setBorder(null)
 
+@Suppress("LongParameterList")
 private fun detailsCell(
     externalId: String,
     id: String,

@@ -6,6 +6,7 @@ import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.UnitValue
 
+@Suppress("MagicNumber")
 internal fun invoicePdfRecipient(
     recipientCompanyName: String,
     boldFont: PdfFont

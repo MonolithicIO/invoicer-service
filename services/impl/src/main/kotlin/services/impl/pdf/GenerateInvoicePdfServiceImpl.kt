@@ -10,6 +10,7 @@ import services.api.services.user.GetUserByIdService
 import services.impl.pdf.pdfwriter.InvoicePdfWriter
 import java.util.*
 
+@Suppress("UnusedPrivateProperty")
 internal class GenerateInvoicePdfServiceImpl(
     private val getUserByIdService: GetUserByIdService,
     private val getUserInvoiceByIdService: GetUserInvoiceByIdService,

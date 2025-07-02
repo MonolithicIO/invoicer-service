@@ -1,5 +1,6 @@
 package services.impl.invoice
 
+import java.util.UUID
 import kotlinx.datetime.Instant
 import models.invoice.GetInvoicesFilterModel
 import models.invoice.InvoiceListModel
@@ -11,7 +12,6 @@ import utils.exceptions.http.HttpCode
 import utils.exceptions.http.forbiddenError
 import utils.exceptions.http.httpError
 import utils.exceptions.http.notFoundError
-import java.util.*
 
 internal class GetCompanyInvoicesServiceImpl(
     private val repository: InvoiceRepository,
@@ -54,6 +54,7 @@ internal class GetCompanyInvoicesServiceImpl(
         min: Instant?,
         max: Instant?
     ) {
+        @Suppress("ComplexCondition")
         if ((min == null && max != null) || (min != null && max == null)) {
             httpError(
                 message = "Date filter must contain min and max values.",

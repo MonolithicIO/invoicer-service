@@ -8,6 +8,7 @@ import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.UnitValue
 import models.invoice.InvoicePayAccountModel
 
+@Suppress("MagicNumber")
 internal fun invoicePdfPaymentInfo(
     primary: InvoicePayAccountModel,
     intermediary: InvoicePayAccountModel?,
@@ -76,6 +77,7 @@ private fun paymentCell(
     return cell
 }
 
+@Suppress("LongParameterList")
 private fun Cell.addPaymentInfo(
     label: String,
     iban: String,

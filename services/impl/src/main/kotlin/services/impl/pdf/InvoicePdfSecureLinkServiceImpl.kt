@@ -6,6 +6,7 @@ import services.api.services.invoice.GetUserInvoiceByIdService
 import services.api.services.pdf.InvoicePdfSecureLinkService
 import java.util.*
 
+@Suppress("All")
 internal class InvoicePdfSecureLinkServiceImpl(
     private val secureFileLinkGenerator: SecureFileLinkGenerator,
     private val getUserInvoiceByIdService: GetUserInvoiceByIdService,

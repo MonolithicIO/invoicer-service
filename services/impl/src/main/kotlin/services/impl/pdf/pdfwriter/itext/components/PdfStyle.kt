@@ -24,6 +24,7 @@ internal object PdfStyle {
 
 
     object Color {
+        @Suppress("MagicNumber")
         val Primary = DeviceRgb(66, 133, 244)
         val Background = ColorConstants.WHITE
         val Overlay = ColorConstants.LIGHT_GRAY
@@ -40,6 +41,7 @@ internal object PdfStyle {
         return formatter.format(instant.toJavaInstant())
     }
 
+    @Suppress("MagicNumber")
     fun formatCurrency(value: Long): String {
         val int = value / 100
         val decimals = value % 100

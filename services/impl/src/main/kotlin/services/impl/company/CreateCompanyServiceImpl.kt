@@ -74,13 +74,17 @@ internal class CreateCompanyServiceImpl(
         primarySwift: String,
         intermediarySwift: String?
     ) {
-        if (!swiftValidator.validate(primarySwift)) badRequestError("Invalid SWIFT code for payment account: $primarySwift")
+        if (!swiftValidator.validate(primarySwift))
+            badRequestError("Invalid SWIFT code for payment account: $primarySwift")
+
         if (checkPayAccountDocumentService.checkSwiftInUse(primarySwift)) {
             badRequestError("SWIFT code $primarySwift for primary account is already in use.")
         }
 
         intermediarySwift?.let {
-            if (!swiftValidator.validate(it)) badRequestError("Invalid SWIFT code for intermediary account: $intermediarySwift")
+            if (!swiftValidator.validate(it))
+                badRequestError("Invalid SWIFT code for intermediary account: $intermediarySwift")
+
             if (checkPayAccountDocumentService.checkSwiftInUse(it)) {
                 badRequestError("SWIFT code $it for intermediary account is already in use.")
             }

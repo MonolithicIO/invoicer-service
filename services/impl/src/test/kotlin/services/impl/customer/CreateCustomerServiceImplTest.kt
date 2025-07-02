@@ -1,6 +1,12 @@
 package services.impl.customer
 
 import io.github.alaksion.invoicer.utils.fakes.FakeEmailValidator
+import java.util.UUID
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertTrue
 import kotlinx.coroutines.test.runTest
 import kotlinx.datetime.Instant
 import models.company.CompanyModel
@@ -11,8 +17,6 @@ import repository.fakes.FakeUserCompanyRepository
 import services.api.fakes.user.FakeGetUserByIdService
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
-import java.util.*
-import kotlin.test.*
 
 class CreateCustomerServiceImplTest {
 
