@@ -10,6 +10,7 @@ import java.nio.file.Paths
 import kotlin.io.path.Path
 
 
+@Suppress("UnusedPrivateProperty")
 internal class MinIOFilerDownloader(
     private val secretsProvider: SecretsProvider
 ) : FileDownloader {

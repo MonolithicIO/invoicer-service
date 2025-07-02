@@ -5,6 +5,7 @@ import io.github.alaksion.invoicer.foundation.storage.remote.FileUploader
 import io.minio.MinioClient
 import io.minio.UploadObjectArgs
 
+@Suppress("UnusedPrivateProperty")
 internal class MinIOFileUploader(
     private val secretsProvider: SecretsProvider
 ) : FileUploader {
