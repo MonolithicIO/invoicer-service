@@ -11,6 +11,7 @@ internal class KafkaProducer(
     private val secrets: SecretsProvider
 ) : MessageProducer {
 
+    @Suppress("UnusedPrivateProperty")
     private val producer by lazy {
         val properties = Properties()
         properties["bootstrap.servers"] = secrets.getSecret(SecretKeys.KAFKA_BOOTSTRAP)
