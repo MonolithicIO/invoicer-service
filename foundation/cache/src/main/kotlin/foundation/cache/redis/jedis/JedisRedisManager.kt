@@ -5,13 +5,17 @@ import io.github.alaksion.invoicer.foundation.env.secrets.SecretKeys
 import io.github.alaksion.invoicer.foundation.env.secrets.SecretsProvider
 import io.github.alaksion.invoicer.foundation.log.LogLevel
 import io.github.alaksion.invoicer.foundation.log.Logger
-import kotlinx.coroutines.*
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.toJavaDuration
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.JedisPool
 import redis.clients.jedis.JedisPoolConfig
 import redis.clients.jedis.params.SetParams
-import kotlin.time.Duration.Companion.seconds
-import kotlin.time.toJavaDuration
 
 internal class JedisRedisManager(
     private val secrets: SecretsProvider,
@@ -88,7 +92,9 @@ internal class JedisRedisManager(
             onFailure = {
                 logger.log(
                     type = this::class,
-                    message = "Failed to launch Redis Query: $queryType: ${it.message ?: "Pool connection failed or timed out"}",
+                    message = "Failed to launch Redis Query: $queryType: ${
+                        it.message ?: "Pool connection failed or timed out"
+                    }",
                     level = LogLevel.Error
                 )
                 null
@@ -98,9 +104,9 @@ internal class JedisRedisManager(
 
     private fun createNewPool(): JedisPool? {
         val poolConfig = JedisPoolConfig().apply {
-            maxTotal = 10
-            maxIdle = 5
-            minIdle = 1
+            maxTotal = POOL_SIZE
+            maxIdle = POOL_MAX_IDLE
+            minIdle = POOL_MIN_IDLE
             testOnBorrow = true
             testWhileIdle = true
             setMaxWait(1.seconds.toJavaDuration())
@@ -111,9 +117,9 @@ internal class JedisRedisManager(
                 poolConfig,
                 secrets.getSecret(SecretKeys.REDIS_HOST),
                 secrets.getSecret(SecretKeys.REDIS_PORT).toInt(),
-                2000,
+                TIMEOUT,
                 null, // password
-                0 // database
+                DATABASE // database
             )
         }.fold(
             onSuccess = { it },
@@ -220,5 +226,10 @@ internal class JedisRedisManager(
 
     companion object {
         val BASE_REDIS_HEALTH_CHECK_INTERVAL = 5.seconds
+        const val TIMEOUT = 2000
+        const val DATABASE = 0
+        const val POOL_SIZE = 10
+        const val POOL_MAX_IDLE = 5
+        const val POOL_MIN_IDLE = 1
     }
 }
