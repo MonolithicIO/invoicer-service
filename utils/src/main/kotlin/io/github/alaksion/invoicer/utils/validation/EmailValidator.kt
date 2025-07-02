@@ -9,5 +9,5 @@ internal object EmailValidatorImpl : EmailValidator {
         return email.matches(emailRegex.toRegex())
     }
 
-    private val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
+    private const val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
 }

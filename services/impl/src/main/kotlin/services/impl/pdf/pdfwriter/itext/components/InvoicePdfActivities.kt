@@ -9,6 +9,7 @@ import com.itextpdf.layout.properties.UnitValue
 import models.invoice.InvoiceModelActivityModel
 import services.impl.pdf.pdfwriter.itext.components.PdfStyle.formatCurrency
 
+@Suppress("MagicNumber")
 internal fun invoicePdfActivities(
     activities: List<InvoiceModelActivityModel>,
     regularFont: PdfFont,
@@ -91,6 +92,7 @@ private fun totalColumnTitle(boldFont: PdfFont) = Cell()
     .setFontColor(PdfStyle.Color.Background)
     .setTextAlignment(TextAlignment.RIGHT)
 
+@Suppress("MagicNumber")
 private fun totalLabel(boldFont: PdfFont) = Cell(1, 3)
     .add(
         Paragraph("TOTAL")

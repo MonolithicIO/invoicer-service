@@ -1,7 +1,7 @@
 package controller.viewmodel.invoice
 
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
-import io.ktor.http.*
+import io.ktor.http.Parameters
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable

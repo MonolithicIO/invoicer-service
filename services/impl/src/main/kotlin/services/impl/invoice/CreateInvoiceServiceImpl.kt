@@ -4,6 +4,7 @@ import io.github.alaksion.invoicer.foundation.messaging.MessageProducer
 import io.github.alaksion.invoicer.foundation.messaging.MessageTopic
 import io.github.alaksion.invoicer.utils.date.toLocalDate
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
+import java.util.*
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import models.createinvoice.CreateInvoiceResponseModel
@@ -15,8 +16,10 @@ import services.api.services.company.GetCompanyDetailsService
 import services.api.services.customer.GetCustomerByIdService
 import services.api.services.invoice.CreateInvoiceService
 import services.api.services.user.GetUserByIdService
-import utils.exceptions.http.*
-import java.util.*
+import utils.exceptions.http.badRequestError
+import utils.exceptions.http.conflictError
+import utils.exceptions.http.forbiddenError
+import utils.exceptions.http.notFoundError
 
 
 internal class CreateInvoiceServiceImpl(
@@ -49,9 +52,9 @@ internal class CreateInvoiceServiceImpl(
 
         if (customer.companyId != model.companyId) forbiddenError()
 
-        if (invoiceRepository.getByInvoiceNumber(invoiceNumber = model.invoicerNumber) != null) {
+        if (invoiceRepository.getByInvoiceNumber(invoiceNumber = model.invoicerNumber) != null)
             conflictError("Invoice with externalId: ${model.invoicerNumber} already exists")
-        }
+
 
         val response =
             invoiceRepository.create(
@@ -88,49 +91,31 @@ internal class CreateInvoiceServiceImpl(
         issueDate: LocalDate,
         dueDate: LocalDate
     ) {
-        if (clock.now().toLocalDate() >= issueDate) {
-            httpError(
-                message = "Issue date cannot be past date",
-                code = HttpCode.BadRequest
-            )
-        }
+        if (clock.now().toLocalDate() >= issueDate)
+            badRequestError("Issue date cannot be past date")
 
         if (clock.now().toLocalDate() >= dueDate) {
-            httpError(
-                message = "Due date cannot be past date",
-                code = HttpCode.BadRequest
-            )
+            badRequestError("Due date cannot be past date")
         }
 
         if (issueDate >= dueDate) {
-            throw HttpError(
-                message = "Issue date cannot be after due date",
-                statusCode = HttpCode.BadRequest
-            )
+            badRequestError("Issue date cannot be after due date")
         }
     }
 
     private fun validateActivities(
         services: List<CreateInvoiceActivityModel>
     ) {
-        if (services.isEmpty()) throw HttpError(
-            message = "Invoice must have at least one service",
-            statusCode = HttpCode.BadRequest
-        )
+        if (services.isEmpty())
+            badRequestError("Invoice must have at least one service")
 
         services.forEach {
-            if (it.quantity <= 0) {
-                throw HttpError(
-                    message = "Invoice activity must have quantity > 0",
-                    statusCode = HttpCode.BadRequest
-                )
-            }
+            if (it.quantity <= 0)
+                badRequestError("Invoice activity must have quantity > 0")
+
 
             if (it.unitPrice <= 0) {
-                throw HttpError(
-                    message = "Invoice activity must have unitPrice > 0",
-                    statusCode = HttpCode.BadRequest
-                )
+                badRequestError("Invoice activity must have unitPrice > 0")
             }
         }
     }

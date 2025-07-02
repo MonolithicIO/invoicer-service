@@ -6,7 +6,7 @@ interface AuthTokenManager {
     fun verifyToken(token: String): String?
 
     companion object {
-        val NOT_AUTHENTICATED_MESSAGE = "Session is invalid or expired"
+        const val NOT_AUTHENTICATED_MESSAGE = "Session is invalid or expired"
     }
 
     enum class Tags {

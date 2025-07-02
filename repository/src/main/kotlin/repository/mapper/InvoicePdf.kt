@@ -11,8 +11,8 @@ internal fun InvoicePdfEntity.toModel(): InvoicePdfModel = InvoicePdfModel(
     updatedAt = updatedAt,
     path = filePath,
     status = when (status) {
-        InvoicePdfStatusEntity.pending -> models.invoicepdf.InvoicePdfStatus.Pending
-        InvoicePdfStatusEntity.success -> models.invoicepdf.InvoicePdfStatus.Success
-        InvoicePdfStatusEntity.error -> models.invoicepdf.InvoicePdfStatus.Failed
+        InvoicePdfStatusEntity.Pending -> models.invoicepdf.InvoicePdfStatus.Pending
+        InvoicePdfStatusEntity.Success -> models.invoicepdf.InvoicePdfStatus.Success
+        InvoicePdfStatusEntity.Error -> models.invoicepdf.InvoicePdfStatus.Failed
     }
 )

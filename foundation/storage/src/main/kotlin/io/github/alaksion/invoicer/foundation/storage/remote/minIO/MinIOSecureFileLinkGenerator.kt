@@ -7,7 +7,7 @@ import io.minio.MinioClient
 import io.minio.http.Method
 import java.util.concurrent.TimeUnit
 
-
+@Suppress("UnusedPrivateProperty")
 internal class MinIOSecureFileLinkGenerator(
     private val secretsProvider: SecretsProvider
 ) : SecureFileLinkGenerator {

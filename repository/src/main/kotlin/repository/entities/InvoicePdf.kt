@@ -46,16 +46,16 @@ internal class InvoicePdfEntity(id: EntityID<UUID>) : UUIDEntity(id) {
 }
 
 internal enum class InvoicePdfStatusEntity {
-    pending,
-    error,
-    success;
+    Pending,
+    Error,
+    Success;
 
     companion object {
         fun fromModel(model: InvoicePdfStatus): InvoicePdfStatusEntity {
             return when (model) {
-                InvoicePdfStatus.Pending -> pending
-                InvoicePdfStatus.Failed -> error
-                InvoicePdfStatus.Success -> success
+                InvoicePdfStatus.Pending -> Pending
+                InvoicePdfStatus.Failed -> Error
+                InvoicePdfStatus.Success -> Success
             }
         }
     }

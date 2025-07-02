@@ -13,7 +13,7 @@ sealed interface PasswordStrength {
 internal class PasswordValidatorImpl : PasswordValidator {
 
     override fun validate(password: String): PasswordStrength {
-        val lengthValid = password.length >= 8
+        val lengthValid = password.length >= MIN_LENGTH
         val upperCaseValid = password.any { it.isUpperCase() }
         val lowerCaseValid = password.any { it.isLowerCase() }
         val digitValid = password.any { it.isDigit() }
@@ -27,5 +27,9 @@ internal class PasswordValidatorImpl : PasswordValidator {
             !specialCharValid -> PasswordStrength.WEAK("Password must contain at least one special character")
             else -> PasswordStrength.STRONG
         }
+    }
+
+    companion object {
+        const val MIN_LENGTH = 8
     }
 }

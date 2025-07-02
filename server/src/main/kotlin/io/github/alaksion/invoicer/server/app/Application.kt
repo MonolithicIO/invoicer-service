@@ -3,8 +3,14 @@ package io.github.alaksion.invoicer.server.app
 import controller.rootController
 import io.github.alaksion.invoicer.foundation.authentication.provider.IdentityProvider
 import io.github.alaksion.invoicer.server.app.database.connectDatabase
-import io.github.alaksion.invoicer.server.app.plugins.*
-import io.ktor.server.application.*
+import io.github.alaksion.invoicer.server.app.plugins.configureMonitoring
+import io.github.alaksion.invoicer.server.app.plugins.configureSecurity
+import io.github.alaksion.invoicer.server.app.plugins.configureSerialization
+import io.github.alaksion.invoicer.server.app.plugins.installAuth
+import io.github.alaksion.invoicer.server.app.plugins.installDi
+import io.github.alaksion.invoicer.server.app.plugins.installStatusPages
+import io.github.alaksion.invoicer.server.app.plugins.installWebSocket
+import io.ktor.server.application.Application
 import kotlinx.datetime.Clock
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
@@ -21,9 +27,7 @@ fun Application.module() {
     configureSerialization()
 
     val clock by closestDI().instance<Clock>()
-    installStatusPages(
-        clock = clock
-    )
+    installStatusPages(clock = clock)
     configureMonitoring()
     installWebSocket()
     rootController()

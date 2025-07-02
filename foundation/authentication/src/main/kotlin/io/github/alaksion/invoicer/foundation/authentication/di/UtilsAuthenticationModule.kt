@@ -6,7 +6,7 @@ import io.github.alaksion.invoicer.foundation.authentication.token.AuthTokenGene
 import io.github.alaksion.invoicer.foundation.authentication.token.AuthTokenManager
 import io.github.alaksion.invoicer.foundation.authentication.token.AuthTokenManagerImpl
 import io.github.alaksion.invoicer.foundation.authentication.token.AuthTokenVerifier
-import io.github.alaksion.invoicer.foundation.authentication.token.jwt.InvoicerJwtVerifierImpl
+import io.github.alaksion.invoicer.foundation.authentication.token.jwt.JwtVerifier
 import io.github.alaksion.invoicer.foundation.authentication.token.jwt.JwtTokenGenerator
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
@@ -30,7 +30,7 @@ val utilsAuthenticationModule = DI.Module("utils-authentication") {
     }
 
     bindProvider<AuthTokenVerifier>(tag = AuthTokenManager.Tags.Jwt) {
-        InvoicerJwtVerifierImpl(
+        JwtVerifier(
             secretsProvider = instance()
         )
     }

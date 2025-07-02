@@ -86,7 +86,10 @@ internal class FirebaseIdentityProvider(
         return when (throwable.authErrorCode) {
             AuthErrorCode.EXPIRED_ID_TOKEN, AuthErrorCode.EXPIRED_SESSION_COOKIE -> IdentityProviderError.EXPIRED_TOKEN
             AuthErrorCode.INVALID_ID_TOKEN, AuthErrorCode.REVOKED_ID_TOKEN -> IdentityProviderError.INVALID_TOKEN
-            AuthErrorCode.USER_NOT_FOUND, AuthErrorCode.USER_DISABLED, AuthErrorCode.EMAIL_NOT_FOUND -> IdentityProviderError.USER_NOT_FOUND
+
+            AuthErrorCode.USER_NOT_FOUND, AuthErrorCode.USER_DISABLED,
+            AuthErrorCode.EMAIL_NOT_FOUND -> IdentityProviderError.USER_NOT_FOUND
+
             else -> IdentityProviderError.UNKNOWN_ERROR
         }
     }
