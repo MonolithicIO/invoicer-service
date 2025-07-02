@@ -14,7 +14,6 @@ val companyDetailsFixture = CompanyDetailsModel(
     createdAt = Instant.parse("2023-01-01T00:00:00Z"),
     updatedAt = Instant.parse("2023-01-02T00:00:00Z"),
     isDeleted = false,
-    userId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000"),
     id = UUID.fromString("123e4567-e89b-12d3-a456-426614174001"),
     address = CompanyAddressModel(
         addressLine1 = "123 Test St",

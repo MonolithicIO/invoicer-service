@@ -24,7 +24,6 @@ internal fun UserCompanyEntity.toCompanyDetails(): CompanyDetailsModel {
                 countryCode = it.countryCode,
             )
         },
-        userId = user.id.value,
         paymentAccount = payAccounts.first {
             it.type == "primary"
         }.let {

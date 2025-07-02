@@ -50,7 +50,7 @@ internal fun CompanyDetailsModel.toViewModel(): CompanyDetailsViewModel {
         createdAt = this.createdAt,
         updatedAt = this.updatedAt,
         isDeleted = this.isDeleted,
-        userId = this.userId.toString(),
+        userId = this.user.id.toString(),
         id = this.id.toString(),
         address = CompanyDetailsAddressViewModel(
             addressLine1 = this.address.addressLine1,

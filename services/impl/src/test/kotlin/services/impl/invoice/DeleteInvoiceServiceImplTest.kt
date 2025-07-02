@@ -1,5 +1,10 @@
 package services.impl.invoice
 
+import java.util.*
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlinx.coroutines.test.runTest
 import models.fixtures.companyDetailsFixture
 import models.fixtures.invoiceModelFixture
@@ -7,22 +12,15 @@ import models.fixtures.userModelFixture
 import models.invoice.InvoiceCompanyModel
 import repository.fakes.FakeInvoiceRepository
 import services.api.fakes.company.FakeGetCompanyDetailsService
-import services.api.fakes.invoice.FakeGetUserInvoiceByIdService
 import services.api.fakes.user.FakeGetUserByIdService
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
-import java.util.*
-import kotlin.test.BeforeTest
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 
 class DeleteInvoiceServiceImplTest {
 
     private lateinit var service: DeleteInvoiceServiceImpl
     private lateinit var getUserService: FakeGetUserByIdService
-    private lateinit var getInvoiceService: FakeGetUserInvoiceByIdService
     private lateinit var repository: FakeInvoiceRepository
     private lateinit var getCompanyDetailsService: FakeGetCompanyDetailsService
 
@@ -30,11 +28,9 @@ class DeleteInvoiceServiceImplTest {
     fun setUp() {
         getUserService = FakeGetUserByIdService()
         repository = FakeInvoiceRepository()
-        getInvoiceService = FakeGetUserInvoiceByIdService()
         getCompanyDetailsService = FakeGetCompanyDetailsService()
 
         service = DeleteInvoiceServiceImpl(
-            getUserInvoiceByIdService = getInvoiceService,
             getUserByIdUseCase = getUserService,
             repository = repository,
             getCompanyByIdService = getCompanyDetailsService
@@ -44,7 +40,7 @@ class DeleteInvoiceServiceImplTest {
     @Test
     fun `should delete invoice successfully`() = runTest {
 
-        getInvoiceService.response = { invoice }
+        repository.getInvoiceByIdResponse = { invoice }
         getUserService.response = { user }
         getCompanyDetailsService.response = company
 
@@ -67,7 +63,7 @@ class DeleteInvoiceServiceImplTest {
     @Test
     fun `should throw error if invoice not exists`() = runTest {
         val error = assertFailsWith<HttpError> {
-            getInvoiceService.response = { null }
+            repository.getInvoiceByIdResponse = { null }
             getUserService.response = {
                 userModelFixture.copy(
                     id = UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6")
@@ -88,7 +84,7 @@ class DeleteInvoiceServiceImplTest {
     @Test
     fun `should throw error if invoice company not exists`() = runTest {
         val error = assertFailsWith<HttpError> {
-            getInvoiceService.response = { invoiceModelFixture }
+            repository.getInvoiceByIdResponse = { invoiceModelFixture }
             getCompanyDetailsService.response = null
 
             getUserService.response = {
@@ -111,8 +107,7 @@ class DeleteInvoiceServiceImplTest {
     @Test
     fun `should throw error if invoice company does not belong to user`() = runTest {
         val error = assertFailsWith<HttpError> {
-
-            getInvoiceService.response = { invoice }
+            repository.getInvoiceByIdResponse = { invoice }
             getCompanyDetailsService.response = company.copy(
                 user = userModelFixture.copy(
                     id = UUID.fromString("e143435a-67b7-4daf-9043-8e763877a9c6")
