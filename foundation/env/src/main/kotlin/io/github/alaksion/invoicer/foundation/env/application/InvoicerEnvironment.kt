@@ -1,6 +1,6 @@
 package io.github.alaksion.invoicer.foundation.env.application
 
-import io.ktor.server.application.*
+import io.ktor.server.application.Application
 
 internal interface InvoicerEnvironment {
     fun getVariable(key: String): String?
