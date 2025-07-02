@@ -16,15 +16,11 @@ import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
-import kotlin.getValue
-import kotlin.text.toIntOrNull
-import kotlin.text.toLongOrNull
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.invoice.CreateInvoiceService
 import services.api.services.invoice.GetCompanyInvoicesService
 import services.api.services.invoice.GetUserInvoiceByIdService
-import utils.exceptions.http.notFoundError
 
 internal fun Routing.invoiceController() {
     route("/v1/company/{companyId}") {
@@ -72,13 +68,16 @@ internal fun Routing.invoiceController() {
         jwtProtected {
             get("/invoice/{id}") {
                 val invoiceId = call.parameters["id"]
-                val findOneService by closestDI().instance<GetUserInvoiceByIdService>()
+                val companyId = call.parameters["companyId"]!!
+                val service by closestDI().instance<GetUserInvoiceByIdService>()
 
                 call.respond(
                     status = HttpStatusCode.OK,
-                    message = findOneService.get(
+                    message = service.get(
                         invoiceId = parseUuid(invoiceId!!),
-                    )?.toViewModel() ?: notFoundError("Invoice not found"),
+                        userId = parseUuid(jwtUserId()),
+                        companyId = parseUuid(companyId)
+                    ).toViewModel()
                 )
             }
 
