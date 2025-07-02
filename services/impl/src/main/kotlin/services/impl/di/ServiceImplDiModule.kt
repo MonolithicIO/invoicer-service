@@ -86,7 +86,6 @@ private fun DI.Builder.invoiceServices() {
     bindProvider<DeleteInvoiceService> {
         DeleteInvoiceServiceImpl(
             getUserByIdUseCase = instance(),
-            getUserInvoiceByIdService = instance(),
             repository = instance(),
             getCompanyByIdService = instance()
         )
@@ -122,7 +121,11 @@ private fun DI.Builder.invoiceServices() {
     }
 
     bindProvider<GetUserInvoiceByIdService> {
-        GetUserInvoiceByIdServiceImpl(repository = instance())
+        GetUserInvoiceByIdServiceImpl(
+            repository = instance(),
+            getCompanyDetailsService = instance(),
+            getUserService = instance(),
+        )
     }
 }
 

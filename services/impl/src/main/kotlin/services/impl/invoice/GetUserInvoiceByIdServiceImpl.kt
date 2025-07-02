@@ -23,7 +23,7 @@ internal class GetUserInvoiceByIdServiceImpl(
         val user = getUserService.get(userId)
         val company = getCompanyDetailsService.get(companyId) ?: notFoundError("Company not found")
 
-        if (user.id != company.id) forbiddenError()
+        if (user.id != company.user.id) forbiddenError()
 
         val invoice = repository.getById(invoiceId) ?: notFoundError("Invoice not found")
 

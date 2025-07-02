@@ -17,7 +17,7 @@ internal class GetUserCompanyDetailsServiceImpl(
         val user = getUserByIdService.get(userId)
         val company = companyRepository.getCompanyDetails(companyId) ?: notFoundError("Company not found")
 
-        if (user.id != company.userId) forbiddenError()
+        if (user.id != company.user.id) forbiddenError()
 
         return company
     }

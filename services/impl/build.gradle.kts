@@ -9,24 +9,30 @@ group = "io.github.alaksion.invoicer.service.impl"
 version = "0.0.1"
 
 dependencies {
+
+    // Kotlin
     implementation(libs.kotlin.datetime)
     implementation(libs.kodein.server)
 
     implementation(projects.models)
     implementation(projects.repository)
     implementation(projects.services.api)
+    implementation(projects.utils)
+
+    // Libs
+    implementation(libs.mockk)
+    implementation(libs.pdf.itext)
+    implementation(libs.kotlin.coroutines.core)
+    implementation(libs.kotlin.serialization)
+
+    // Foundation
     implementation(projects.foundation.storage)
     implementation(projects.foundation.messaging)
-
-    implementation(libs.pdf.itext)
     implementation(projects.foundation.exceptions)
     implementation(projects.foundation.authentication)
     implementation(projects.foundation.password)
     implementation(projects.foundation.qrcode)
     implementation(projects.foundation.log)
-    implementation(projects.utils)
-    implementation(libs.kotlin.coroutines.core)
-    implementation(libs.kotlin.serialization)
 
     // Fixtures
     testImplementation(testFixtures(projects.models))
