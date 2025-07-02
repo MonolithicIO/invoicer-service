@@ -39,7 +39,7 @@ internal class InvoicePdfRepositoryImpl(
                 it[createdAt] = clock.now()
                 it[updatedAt] = clock.now()
                 it[filePath] = ""
-                it[status] = InvoicePdfStatusEntity.pending
+                it[status] = InvoicePdfStatusEntity.Pending
             }
         }
     }
@@ -76,9 +76,9 @@ internal class InvoicePdfRepositoryImpl(
                     updatedAt = it.updatedAt,
                     path = it.filePath,
                     status = when (it.status) {
-                        InvoicePdfStatusEntity.pending -> InvoicePdfStatus.Pending
-                        InvoicePdfStatusEntity.success -> InvoicePdfStatus.Success
-                        InvoicePdfStatusEntity.error -> InvoicePdfStatus.Failed
+                        InvoicePdfStatusEntity.Pending -> InvoicePdfStatus.Pending
+                        InvoicePdfStatusEntity.Success -> InvoicePdfStatus.Success
+                        InvoicePdfStatusEntity.Error -> InvoicePdfStatus.Failed
                     }
                 )
             }

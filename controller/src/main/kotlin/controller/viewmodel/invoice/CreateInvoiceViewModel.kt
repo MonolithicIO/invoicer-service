@@ -48,11 +48,14 @@ private fun receiveActivities(activities: List<CreateInvoiceActivityViewModel>):
             badRequestError("Negative activity quantity at index $index")
         }
 
-        if (activityViewModel.unitPrice == null) badRequestError("Missing activity unit price at index $index")
-        if (activityViewModel.unitPrice < 0) {
+        if (activityViewModel.unitPrice == null)
+            badRequestError("Missing activity unit price at index $index")
+
+        if (activityViewModel.unitPrice < 0)
             badRequestError("Negative activity unit price at index $index")
-        }
-        if (activityViewModel.description.isNullOrBlank()) badRequestError("Missing activity description at index $index")
+
+        if (activityViewModel.description.isNullOrBlank())
+            badRequestError("Missing activity description at index $index")
 
         CreateInvoiceActivityModel(
             description = activityViewModel.description,

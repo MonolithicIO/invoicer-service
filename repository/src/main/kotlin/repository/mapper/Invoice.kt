@@ -1,6 +1,11 @@
 package repository.mapper
 
-import models.invoice.*
+import models.invoice.InvoiceCompanyModel
+import models.invoice.InvoiceCustomerModel
+import models.invoice.InvoiceListItemModel
+import models.invoice.InvoiceModel
+import models.invoice.InvoiceModelActivityModel
+import models.invoice.InvoicePayAccountModel
 import repository.entities.InvoiceEntity
 
 internal fun InvoiceEntity.toModel(): InvoiceModel {

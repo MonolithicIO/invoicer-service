@@ -1,16 +1,17 @@
 package io.github.alaksion.invoicer.server.app.plugins
 
-import io.ktor.http.*
-import io.ktor.server.application.*
-import io.ktor.server.plugins.statuspages.*
-import io.ktor.server.response.*
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.application.Application
+import io.ktor.server.application.install
+import io.ktor.server.plugins.statuspages.StatusPages
+import io.ktor.server.response.respond
+import java.time.format.DateTimeParseException
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 import utils.exceptions.InvalidUUIDException
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
-import java.time.format.DateTimeParseException
 
 fun Application.installStatusPages(
     clock: Clock

@@ -6,9 +6,13 @@ import io.github.alaksion.invoicer.foundation.authentication.token.AuthTokenGene
 import io.github.alaksion.invoicer.foundation.authentication.token.AuthTokenManager
 import io.github.alaksion.invoicer.foundation.env.secrets.SecretKeys
 import io.github.alaksion.invoicer.foundation.env.secrets.SecretsProvider
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
-import io.ktor.server.routing.*
+import io.ktor.server.auth.AuthenticationConfig
+import io.ktor.server.auth.authenticate
+import io.ktor.server.auth.jwt.JWTPrincipal
+import io.ktor.server.auth.jwt.jwt
+import io.ktor.server.auth.principal
+import io.ktor.server.routing.Route
+import io.ktor.server.routing.RoutingContext
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toJavaInstant
 import utils.exceptions.http.HttpCode

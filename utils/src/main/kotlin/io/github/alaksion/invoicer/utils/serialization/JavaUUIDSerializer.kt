@@ -1,11 +1,11 @@
 package io.github.alaksion.invoicer.utils.serialization
 
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
+import java.util.UUID
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import java.util.*
 
 class JavaUUIDSerializer : KSerializer<UUID> {
 

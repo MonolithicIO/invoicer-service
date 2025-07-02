@@ -1,10 +1,16 @@
 package controller.features
 
-import controller.viewmodel.login.*
-import io.ktor.http.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import controller.viewmodel.login.GoogleSignInViewModel
+import controller.viewmodel.login.LoginViewModel
+import controller.viewmodel.login.RefreshAuthRequestViewModel
+import controller.viewmodel.login.toDomainModel
+import controller.viewmodel.login.toViewModel
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.request.receive
+import io.ktor.server.response.respond
+import io.ktor.server.routing.Routing
+import io.ktor.server.routing.post
+import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.login.GoogleLoginService
@@ -27,7 +33,7 @@ internal fun Routing.authController() {
         }
 
         post("/refresh") {
-            val body = call.receive<RefreshAuthRequest>()
+            val body = call.receive<RefreshAuthRequestViewModel>()
             val refreshService by closestDI().instance<RefreshLoginService>()
 
             call.respond(

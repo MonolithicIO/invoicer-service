@@ -10,7 +10,7 @@ import io.github.alaksion.invoicer.foundation.log.di.logDiModule
 import io.github.alaksion.invoicer.foundation.messaging.di.messagingDiModule
 import io.github.alaksion.invoicer.foundation.storage.di.storageDiModule
 import io.github.alaksion.invoicer.utils.di.utilDiModule
-import io.ktor.server.application.*
+import io.ktor.server.application.Application
 import org.kodein.di.ktor.di
 import repository.di.repositoryModule
 import services.impl.di.servicesImplModule

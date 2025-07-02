@@ -5,10 +5,13 @@ import controller.viewmodel.payaccount.toModel
 import io.github.alaksion.invoicer.foundation.authentication.token.jwt.jwtProtected
 import io.github.alaksion.invoicer.foundation.authentication.token.jwt.jwtUserId
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
-import io.ktor.http.*
-import io.ktor.server.request.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import io.ktor.http.HttpStatusCode
+import io.ktor.server.request.receive
+import io.ktor.server.response.respond
+import io.ktor.server.routing.Routing
+import io.ktor.server.routing.delete
+import io.ktor.server.routing.put
+import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.payaccount.DeletePayAccountService

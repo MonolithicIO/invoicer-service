@@ -6,7 +6,7 @@ import io.github.alaksion.invoicer.foundation.authentication.token.AuthTokenVeri
 import io.github.alaksion.invoicer.foundation.env.secrets.SecretKeys
 import io.github.alaksion.invoicer.foundation.env.secrets.SecretsProvider
 
-internal class InvoicerJwtVerifierImpl(
+internal class JwtVerifier(
     secretsProvider: SecretsProvider
 ) : AuthTokenVerifier {
 

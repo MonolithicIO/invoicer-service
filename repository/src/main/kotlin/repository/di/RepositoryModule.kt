@@ -3,7 +3,22 @@ package repository.di
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
-import repository.*
+import repository.CustomerRepository
+import repository.CustomerRepositoryImpl
+import repository.InvoicePdfRepository
+import repository.InvoicePdfRepositoryImpl
+import repository.InvoiceRepository
+import repository.InvoiceRepositoryImpl
+import repository.PaymentAccountRepository
+import repository.PaymentAccountRepositoryImpl
+import repository.QrCodeTokenRepository
+import repository.QrCodeTokenRepositoryImpl
+import repository.RefreshTokenRepository
+import repository.RefreshTokenRepositoryImpl
+import repository.UserCompanyRepository
+import repository.UserCompanyRepositoryImpl
+import repository.UserRepository
+import repository.UserRepositoryImpl
 
 
 val repositoryModule = DI.Module("invocer-repository") {
