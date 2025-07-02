@@ -17,7 +17,7 @@ internal data class CompanyDetailsViewModel(
     val address: CompanyDetailsAddressViewModel,
     val paymentAccount: CompanyDetailsPaymentViewModel,
     val intermediaryAccount: CompanyDetailsPaymentViewModel?,
-    val user: UserModel
+    val user: CompanyDetailsUserViewModel
 )
 
 @Serializable
@@ -28,6 +28,12 @@ internal data class CompanyDetailsAddressViewModel(
     val state: String,
     val postalCode: String,
     val countryCode: String,
+)
+
+@Serializable
+internal data class CompanyDetailsUserViewModel(
+    val id: String,
+    val email: String,
 )
 
 @Serializable
@@ -84,6 +90,9 @@ internal fun CompanyDetailsModel.toViewModel(): CompanyDetailsViewModel {
                 id = it.id.toString()
             )
         },
-        user = this.user
+        user = CompanyDetailsUserViewModel(
+            id = this.user.id.toString(),
+            email = this.user.email
+        )
     )
 }
