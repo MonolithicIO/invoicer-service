@@ -111,7 +111,7 @@ internal class CreateInvoiceServiceImpl(
 
         services.forEach {
             if (it.quantity <= 0)
-                badRequestError("Invoice activity must have quantity > 0\"")
+                badRequestError("Invoice activity must have quantity > 0")
 
 
             if (it.unitPrice <= 0) {
