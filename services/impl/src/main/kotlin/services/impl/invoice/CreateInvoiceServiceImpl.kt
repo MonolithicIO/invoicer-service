@@ -91,14 +91,16 @@ internal class CreateInvoiceServiceImpl(
         issueDate: LocalDate,
         dueDate: LocalDate
     ) {
-        if (clock.now().toLocalDate() >= issueDate)
+        val now = clock.now().toLocalDate()
+
+        if (issueDate < now)
             badRequestError("Issue date cannot be past date")
 
-        if (clock.now().toLocalDate() >= dueDate) {
+        if (dueDate < now) {
             badRequestError("Due date cannot be past date")
         }
 
-        if (issueDate >= dueDate) {
+        if (issueDate > dueDate) {
             badRequestError("Issue date cannot be after due date")
         }
     }
