@@ -144,7 +144,7 @@ class CreateInvoiceServiceImplTest {
 
     @Test
     fun `should throw error when issue date is past`() = runTest {
-        val today = Instant.parse("2000-06-19T00:00:00Z")
+        val today = Instant.parse("2000-06-19T03:00:00Z")
 
         clock.nowResponse = today
 
