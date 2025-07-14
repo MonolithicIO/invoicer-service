@@ -1,16 +1,9 @@
 package repository
 
-import kotlinx.datetime.Clock
+import java.util.*
 import models.paymentaccount.PaymentAccountModel
 import models.paymentaccount.UpdatePaymentAccountModel
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import org.jetbrains.exposed.sql.update
-import repository.entities.PaymentAccountEntity
-import repository.entities.PaymentAccountTable
-import repository.mapper.toModel
-import java.util.*
+import repository.datasource.PaymentAccountDataSource
 
 interface PaymentAccountRepository {
     suspend fun getBySwift(swift: String): PaymentAccountModel?
@@ -21,52 +14,26 @@ interface PaymentAccountRepository {
 }
 
 internal class PaymentAccountRepositoryImpl(
-    private val clock: Clock
+    private val dataSource: PaymentAccountDataSource
 ) : PaymentAccountRepository {
 
     override suspend fun getBySwift(swift: String): PaymentAccountModel? {
-        return newSuspendedTransaction {
-            PaymentAccountEntity.find {
-                PaymentAccountTable.swift eq swift
-            }.firstOrNull()?.toModel()
-        }
+        return dataSource.getBySwift(swift = swift)
     }
 
     override suspend fun getByIban(iban: String): PaymentAccountModel? {
-        return newSuspendedTransaction {
-            PaymentAccountEntity.find {
-                PaymentAccountTable.iban eq iban
-            }.firstOrNull()?.toModel()
-        }
+        return dataSource.getByIban(iban = iban)
     }
 
     override suspend fun update(model: UpdatePaymentAccountModel) {
-        return newSuspendedTransaction {
-            PaymentAccountTable.update(
-                where = {
-                    PaymentAccountTable.id eq model.id
-                }
-            ) {
-                it[iban] = model.iban
-                it[swift] = model.swift
-                it[bankName] = model.bankName
-                it[bankAddress] = model.bankAddress
-                it[updatedAt] = clock.now()
-            }
-        }
+        return dataSource.update(model = model)
     }
 
     override suspend fun getById(id: UUID): PaymentAccountModel? {
-        return newSuspendedTransaction {
-            PaymentAccountEntity.findById(id)?.toModel()
-        }
+        return dataSource.getById(id = id)
     }
 
     override suspend fun delete(id: UUID) {
-        newSuspendedTransaction {
-            PaymentAccountTable.deleteWhere {
-                PaymentAccountTable.id eq id
-            }
-        }
+        dataSource.delete(id = id)
     }
 }
