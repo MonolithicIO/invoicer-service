@@ -19,46 +19,108 @@ import repository.UserCompanyRepository
 import repository.UserCompanyRepositoryImpl
 import repository.UserRepository
 import repository.UserRepositoryImpl
+import repository.datasource.CustomerDataSource
+import repository.datasource.CustomerDataSourceImpl
+import repository.datasource.InvoiceDataSource
+import repository.datasource.InvoiceDataSourceImpl
+import repository.datasource.InvoicePdfDataSource
+import repository.datasource.InvoicePdfDataSourceImpl
+import repository.datasource.PaymentAccountDataSource
+import repository.datasource.PaymentAccountDataSourceImpl
+import repository.datasource.QrCodeTokenDataSource
+import repository.datasource.QrCodeTokenDataSourceImpl
+import repository.datasource.RefreshTokenDataSource
+import repository.datasource.RefreshTokenDataSourceImpl
+import repository.datasource.UserCompanyDataSource
+import repository.datasource.UserCompanyDataSourceImpl
+import repository.datasource.UserDataSource
+import repository.datasource.UserDataSourceImpl
 
 
 val repositoryModule = DI.Module("invocer-repository") {
 
     bindProvider<InvoiceRepository> {
         InvoiceRepositoryImpl(
-            clock = instance(),
+            invoiceDataSource = instance(),
             cacheHandler = instance()
         )
     }
 
     bindProvider<UserRepository> {
         UserRepositoryImpl(
-            clock = instance(),
+            userDataSource = instance(),
         )
     }
 
     bindProvider<RefreshTokenRepository> {
         RefreshTokenRepositoryImpl(
-            dateProvider = instance(),
+            dataSource = instance(),
         )
     }
 
     bindProvider<QrCodeTokenRepository> {
         QrCodeTokenRepositoryImpl(
-            clock = instance(),
-            cacheHandler = instance()
+            cacheHandler = instance(),
+            qrCodeTokenDataSource = instance(),
         )
     }
 
     bindProvider<InvoicePdfRepository> {
-        InvoicePdfRepositoryImpl(clock = instance())
+        InvoicePdfRepositoryImpl(invoicePdfDataSource = instance())
     }
 
-    bindProvider<PaymentAccountRepository> { PaymentAccountRepositoryImpl(clock = instance()) }
+    bindProvider<PaymentAccountRepository> { PaymentAccountRepositoryImpl(dataSource = instance()) }
 
-    bindProvider<UserCompanyRepository> { UserCompanyRepositoryImpl(clock = instance()) }
+    bindProvider<UserCompanyRepository> { UserCompanyRepositoryImpl(datasource = instance()) }
 
     bindProvider<CustomerRepository> {
         CustomerRepositoryImpl(
+            customerDataSource = instance(),
+        )
+    }
+
+    bindProvider<CustomerDataSource> {
+        CustomerDataSourceImpl(
+            clock = instance()
+        )
+    }
+
+    bindProvider<InvoiceDataSource> {
+        InvoiceDataSourceImpl(
+            clock = instance(),
+        )
+    }
+
+    bindProvider<InvoicePdfDataSource> {
+        InvoicePdfDataSourceImpl(
+            clock = instance()
+        )
+    }
+
+    bindProvider<QrCodeTokenDataSource> {
+        QrCodeTokenDataSourceImpl(
+            clock = instance(),
+        )
+    }
+
+    bindProvider<RefreshTokenDataSource> {
+        RefreshTokenDataSourceImpl(
+            dateProvider = instance()
+        )
+    }
+
+    bindProvider<UserCompanyDataSource> {
+        UserCompanyDataSourceImpl(
+            clock = instance()
+        )
+    }
+
+    bindProvider<UserDataSource> {
+        UserDataSourceImpl(clock = instance())
+    }
+
+    bindProvider<PaymentAccountDataSource> {
+        PaymentAccountDataSourceImpl(
             clock = instance()
         )
     }

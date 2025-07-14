@@ -1,16 +1,9 @@
 package repository
 
-import kotlinx.datetime.Clock
+import java.util.*
 import models.invoicepdf.InvoicePdfModel
 import models.invoicepdf.InvoicePdfStatus
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import org.jetbrains.exposed.sql.updateReturning
-import repository.entities.InvoicePdfEntity
-import repository.entities.InvoicePdfStatusEntity
-import repository.entities.InvoicePdfTable
-import repository.mapper.toModel
-import java.util.*
+import repository.datasource.InvoicePdfDataSource
 
 interface InvoicePdfRepository {
     suspend fun createInvoicePdf(
@@ -29,19 +22,11 @@ interface InvoicePdfRepository {
 }
 
 internal class InvoicePdfRepositoryImpl(
-    private val clock: Clock
+    private val invoicePdfDataSource: InvoicePdfDataSource
 ) : InvoicePdfRepository {
 
     override suspend fun createInvoicePdf(invoiceId: UUID) {
-        return newSuspendedTransaction {
-            InvoicePdfTable.insert {
-                it[invoice] = invoiceId
-                it[createdAt] = clock.now()
-                it[updatedAt] = clock.now()
-                it[filePath] = ""
-                it[status] = InvoicePdfStatusEntity.Pending
-            }
-        }
+        return invoicePdfDataSource.createInvoicePdf(invoiceId = invoiceId)
     }
 
     override suspend fun updateInvoicePdfState(
@@ -49,39 +34,16 @@ internal class InvoicePdfRepositoryImpl(
         status: InvoicePdfStatus,
         filePath: String
     ): InvoicePdfModel {
-        return newSuspendedTransaction {
-            InvoicePdfTable.updateReturning(
-                where = {
-                    InvoicePdfTable.invoice eq invoiceId
-                }
-            ) { table ->
-                table[updatedAt] = clock.now()
-                table[InvoicePdfTable.status] = InvoicePdfStatusEntity.fromModel(status)
-                table[InvoicePdfTable.filePath] = filePath
-            }.map {
-                InvoicePdfEntity.wrapRow(it)
-            }.first().toModel()
-        }
+        return invoicePdfDataSource.updateInvoicePdfState(
+            invoiceId = invoiceId,
+            status = status,
+            filePath = filePath
+        )
     }
 
     override suspend fun getInvoicePdf(invoiceId: UUID): InvoicePdfModel? {
-        return newSuspendedTransaction {
-            InvoicePdfEntity.find {
-                InvoicePdfTable.invoice eq invoiceId
-            }.firstOrNull()?.let {
-                InvoicePdfModel(
-                    id = it.id.value,
-                    invoiceId = it.invoice.id.value,
-                    createdAt = it.createdAt,
-                    updatedAt = it.updatedAt,
-                    path = it.filePath,
-                    status = when (it.status) {
-                        InvoicePdfStatusEntity.Pending -> InvoicePdfStatus.Pending
-                        InvoicePdfStatusEntity.Success -> InvoicePdfStatus.Success
-                        InvoicePdfStatusEntity.Error -> InvoicePdfStatus.Failed
-                    }
-                )
-            }
-        }
+        return getInvoicePdf(
+            invoiceId = invoiceId
+        )
     }
 }

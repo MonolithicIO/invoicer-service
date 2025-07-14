@@ -1,23 +1,17 @@
 package repository
 
-import java.util.UUID
-import kotlinx.datetime.Clock
+import java.util.*
 import models.company.CompanyDetailsModel
 import models.company.CompanyList
 import models.company.CompanyListItem
 import models.company.CompanyModel
 import models.company.CreateCompanyModel
 import org.jetbrains.exposed.sql.and
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import repository.entities.CompanyAddressTable
-import repository.entities.PaymentAccountTable
-import repository.entities.PaymentAccountType
+import repository.datasource.UserCompanyDataSource
 import repository.entities.UserCompanyEntity
 import repository.entities.UserCompanyTable
-import repository.mapper.toCompanyDetails
 
 interface UserCompanyRepository {
     suspend fun createCompany(
@@ -41,66 +35,17 @@ interface UserCompanyRepository {
 }
 
 internal class UserCompanyRepositoryImpl(
-    private val clock: Clock
+    private val datasource: UserCompanyDataSource
 ) : UserCompanyRepository {
 
     override suspend fun createCompany(
         data: CreateCompanyModel,
         userId: UUID,
     ): String {
-        return newSuspendedTransaction {
-            val companyId = UserCompanyTable.insertAndGetId { entry ->
-                entry[name] = data.name
-                entry[document] = data.document
-                entry[isDeleted] = false
-                entry[createdAt] = clock.now()
-                entry[updatedAt] = clock.now()
-                entry[user] = userId
-            }
-
-            CompanyAddressTable.insert { addressEntry ->
-                addressEntry[addressLine1] = data.address.addressLine1
-                addressEntry[addressLine2] = data.address.addressLine2
-                addressEntry[city] = data.address.city
-                addressEntry[state] = data.address.state
-                addressEntry[postalCode] = data.address.postalCode
-                addressEntry[countryCode] = data.address.countryCode
-                addressEntry[company] = companyId
-                addressEntry[isDeleted] = false
-                addressEntry[createdAt] = clock.now()
-                addressEntry[updatedAt] = clock.now()
-            }
-
-            PaymentAccountTable.insert { primaryAccountEntry ->
-                primaryAccountEntry[iban] = data.paymentAccount.iban
-                primaryAccountEntry[swift] = data.paymentAccount.swift
-                primaryAccountEntry[bankName] = data.paymentAccount.bankName
-                primaryAccountEntry[bankAddress] = data.paymentAccount.bankAddress
-                primaryAccountEntry[type] = PaymentAccountType.Primary.descriptor
-                primaryAccountEntry[company] = companyId
-                primaryAccountEntry[isDeleted] = false
-                primaryAccountEntry[createdAt] = clock.now()
-                primaryAccountEntry[updatedAt] = clock.now()
-            }
-
-            data.intermediaryAccount?.let { intermediaryAccount ->
-                PaymentAccountTable.insert { intermediaryAccountEntry ->
-                    intermediaryAccountEntry[iban] = intermediaryAccount.iban
-                    intermediaryAccountEntry[swift] = intermediaryAccount.swift
-                    intermediaryAccountEntry[bankName] = intermediaryAccount.bankName
-                    intermediaryAccountEntry[bankAddress] = intermediaryAccount.bankAddress
-                    intermediaryAccountEntry[type] = PaymentAccountType.Intermediary.descriptor
-                    intermediaryAccountEntry[company] = companyId
-                    intermediaryAccountEntry[isDeleted] = false
-                    intermediaryAccountEntry[createdAt] = clock.now()
-                    intermediaryAccountEntry[updatedAt] = clock.now()
-                }
-            }
-
-            companyId.toString().also {
-                commit()
-            }
-        }
+        return datasource.createCompany(
+            data = data,
+            userId = userId
+        )
     }
 
     override suspend fun getCompaniesByUserId(
@@ -145,24 +90,12 @@ internal class UserCompanyRepositoryImpl(
     }
 
     override suspend fun getCompanyById(companyId: UUID): CompanyModel? {
-        return newSuspendedTransaction {
-            UserCompanyEntity.findById(companyId)?.let {
-                CompanyModel(
-                    name = it.name,
-                    document = it.document,
-                    createdAt = it.createdAt,
-                    updatedAt = it.updatedAt,
-                    isDeleted = it.isDeleted,
-                    id = it.id.value,
-                    userId = it.user.id.value
-                )
-            }
-        }
+        return datasource.getCompanyById(
+            companyId = companyId
+        )
     }
 
     override suspend fun getCompanyDetails(companyId: UUID): CompanyDetailsModel? {
-        return newSuspendedTransaction {
-            UserCompanyEntity.findById(companyId)?.toCompanyDetails()
-        }
+        return datasource.getCompanyDetails(companyId = companyId)
     }
 }
