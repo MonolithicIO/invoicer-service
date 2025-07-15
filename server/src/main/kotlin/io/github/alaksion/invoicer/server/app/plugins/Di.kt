@@ -13,7 +13,7 @@ import io.github.alaksion.invoicer.utils.di.utilDiModule
 import io.ktor.server.application.Application
 import org.kodein.di.ktor.di
 import repository.di.repositoryModule
-import services.impl.di.servicesImplModule
+import io.github.alaksion.invoicer.services.di.servicesImplModule
 
 fun Application.installDi() {
     di {
