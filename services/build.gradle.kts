@@ -33,7 +33,7 @@ dependencies {
     implementation(projects.foundation.qrcode)
     implementation(projects.foundation.log)
 
-    // Fixtures
+    // Test
     testImplementation(testFixtures(projects.models))
     testImplementation(testFixtures(projects.utils))
     testImplementation(testFixtures(projects.repository))
@@ -42,9 +42,10 @@ dependencies {
     testImplementation(testFixtures(projects.foundation.messaging))
     testImplementation(testFixtures(projects.foundation.log))
     testImplementation(testFixtures(projects.foundation.qrcode))
-    testFixturesImplementation(libs.kotlin.datetime)
-
-    // Unit Tests
     testImplementation(libs.kotlin.test)
     testImplementation(libs.kotlin.coroutines.test)
+
+    // Test Fixtures
+    testFixturesImplementation(libs.kotlin.datetime)
+    testFixturesImplementation(testFixtures(projects.models))
 }
