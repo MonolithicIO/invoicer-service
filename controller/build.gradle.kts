@@ -11,7 +11,7 @@ version = "0.0.1"
 dependencies {
     implementation(libs.kotlin.datetime)
     implementation(libs.bundles.ktor)
-    implementation(projects.services.api)
+    implementation(projects.services)
     implementation(libs.kodein.server)
     implementation(projects.foundation.authentication)
     implementation(projects.models)

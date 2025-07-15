@@ -52,7 +52,7 @@ dependencies {
     implementation(projects.repository)
 
     // Services
-    implementation(projects.services.impl)
+    implementation(projects.services)
 
     // Models
     implementation(projects.models)

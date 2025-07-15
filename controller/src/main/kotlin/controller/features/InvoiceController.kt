@@ -18,7 +18,7 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.invoice.CreateInvoiceService
+import io.github.alaksion.invoicer.services.invoice.CreateInvoiceService
 import services.api.services.invoice.GetCompanyInvoicesService
 import services.api.services.invoice.GetUserInvoiceByIdService
 

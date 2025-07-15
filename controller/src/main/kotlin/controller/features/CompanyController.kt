@@ -18,8 +18,8 @@ import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
 import services.api.services.company.CreateCompanyService
-import services.api.services.company.GetCompaniesService
-import services.api.services.company.GetUserCompanyDetailsService
+import io.github.alaksion.invoicer.services.company.GetCompaniesService
+import io.github.alaksion.invoicer.services.company.GetUserCompanyDetailsService
 
 internal fun Routing.companyController() {
     route("/v1/company") {

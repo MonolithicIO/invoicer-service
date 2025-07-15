@@ -11,7 +11,7 @@ dependencies {
     implementation(projects.utils)
     implementation(projects.foundation.messaging)
     implementation(libs.kotlin.serialization)
-    implementation(projects.services.api)
+    implementation(projects.services)
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kodein.server)
     implementation(projects.foundation.log)
