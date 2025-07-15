@@ -1,7 +1,6 @@
 package io.github.alaksion.invoicer.services.pdf.pdfwriter.itext.components
 
 import com.itextpdf.kernel.font.PdfFont
-import com.itextpdf.layout.element.BlockElement
 import com.itextpdf.layout.element.Cell
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
@@ -13,7 +12,7 @@ internal fun invoicePdfRecipient(
     boldFont: PdfFont
 ): Table {
     val recipientTable = Table(1).apply {
-        BlockElement.setWidth = UnitValue.createPercentValue(100f)
+        width = UnitValue.createPercentValue(100f)
     }
 
     recipientTable.addCell(

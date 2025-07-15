@@ -17,7 +17,7 @@ internal fun invoicePdfPaymentInfo(
     boldFont: PdfFont
 ): Table {
     val paymentTable = Table(1).apply {
-        BlockElement.setWidth = UnitValue.createPercentValue(100f)
+        width = UnitValue.createPercentValue(100f)
     }
 
     paymentTable.addCell(

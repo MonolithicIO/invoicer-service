@@ -1,14 +1,13 @@
 package io.github.alaksion.invoicer.services.pdf.pdfwriter.itext.components
 
 import com.itextpdf.kernel.font.PdfFont
-import com.itextpdf.layout.element.BlockElement
 import com.itextpdf.layout.element.Cell
 import com.itextpdf.layout.element.Paragraph
 import com.itextpdf.layout.element.Table
 import com.itextpdf.layout.properties.TextAlignment
 import com.itextpdf.layout.properties.UnitValue
-import models.invoice.InvoiceModelActivityModel
 import io.github.alaksion.invoicer.services.pdf.pdfwriter.itext.components.PdfStyle.formatCurrency
+import models.invoice.InvoiceModelActivityModel
 
 @Suppress("MagicNumber")
 internal fun invoicePdfActivities(
@@ -21,7 +20,7 @@ internal fun invoicePdfActivities(
             floatArrayOf(40f, 20f, 20f, 20f)
         )
     ).apply {
-        BlockElement.setWidth = UnitValue.createPercentValue(100f)
+        width = UnitValue.createPercentValue(100f)
     }
 
     table.addCell(descriptionColumnTitle(boldFont))

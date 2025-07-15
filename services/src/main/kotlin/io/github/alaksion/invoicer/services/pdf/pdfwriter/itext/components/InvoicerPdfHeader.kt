@@ -21,7 +21,7 @@ internal fun buildHeader(
 ): Table {
     val table = Table(UnitValue.createPercentArray(floatArrayOf(50f, 50f)))
         .apply {
-            BlockElement.setWidth = UnitValue.createPercentValue(100f)
+            width = UnitValue.createPercentValue(100f)
         }
 
     table.addCell(

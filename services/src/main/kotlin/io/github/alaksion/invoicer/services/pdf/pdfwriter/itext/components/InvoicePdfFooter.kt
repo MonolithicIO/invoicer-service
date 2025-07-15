@@ -16,7 +16,7 @@ internal fun invoicePdfFooter(
     regularFont: PdfFont,
 ): Table {
     val footerTable = Table(1).apply {
-        BlockElement.setWidth = UnitValue.createPercentValue(MAX_WIDTH_MULTIPLIER)
+        width = UnitValue.createPercentValue(MAX_WIDTH_MULTIPLIER)
     }
 
     footerTable.addCell(
