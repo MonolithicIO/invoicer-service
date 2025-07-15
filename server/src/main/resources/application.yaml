@@ -1,7 +1,7 @@
 ktor:
   application:
     modules:
-      - io.github.alaksion.invoicer.server.app.ApplicationKt.module
+      - io.github.monolithic.invoicer.server.app.ApplicationKt.module
   deployment:
     port: $INVOICER_API_PORT
 database:
