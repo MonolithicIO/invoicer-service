@@ -1,4 +1,4 @@
-package services.api.services.invoice
+package io.github.alaksion.invoicer.services.invoice
 
 import models.invoice.GetInvoicesFilterModel
 import models.invoice.InvoiceListModel

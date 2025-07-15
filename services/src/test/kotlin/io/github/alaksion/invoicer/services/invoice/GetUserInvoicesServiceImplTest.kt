@@ -14,7 +14,6 @@ import models.fixtures.userModelFixture
 import models.invoice.GetInvoicesFilterModel
 import repository.fakes.FakeInvoiceRepository
 import repository.fakes.FakeUserCompanyRepository
-import services.api.services.invoice.GetCompanyInvoicesServiceImpl
 import utils.exceptions.http.HttpCode
 import utils.exceptions.http.HttpError
 

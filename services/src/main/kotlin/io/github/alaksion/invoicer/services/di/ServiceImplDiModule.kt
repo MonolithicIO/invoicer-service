@@ -51,16 +51,16 @@ import kotlinx.coroutines.Dispatchers
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
-import services.api.services.invoice.GetCompanyInvoicesService
-import services.api.services.invoice.GetCompanyInvoicesServiceImpl
-import services.api.services.invoice.GetUserInvoiceByIdService
-import services.api.services.invoice.GetUserInvoiceByIdServiceImpl
-import services.api.services.payaccount.DeletePayAccountService
-import services.api.services.payaccount.DeletePayAccountServiceImpl
-import services.api.services.payaccount.UpdatePayAccountService
-import services.api.services.payaccount.UpdatePayAccountServiceImpl
-import services.api.services.pdf.InvoicePdfSecureLinkService
-import services.api.services.pdf.InvoicePdfSecureLinkServiceImpl
+import io.github.alaksion.invoicer.services.invoice.GetCompanyInvoicesService
+import io.github.alaksion.invoicer.services.invoice.GetCompanyInvoicesServiceImpl
+import io.github.alaksion.invoicer.services.invoice.GetUserInvoiceByIdService
+import io.github.alaksion.invoicer.services.invoice.GetUserInvoiceByIdServiceImpl
+import io.github.alaksion.invoicer.services.payaccount.DeletePayAccountService
+import io.github.alaksion.invoicer.services.payaccount.DeletePayAccountServiceImpl
+import io.github.alaksion.invoicer.services.payaccount.UpdatePayAccountService
+import io.github.alaksion.invoicer.services.payaccount.UpdatePayAccountServiceImpl
+import io.github.alaksion.invoicer.services.pdf.InvoicePdfSecureLinkService
+import io.github.alaksion.invoicer.services.pdf.InvoicePdfSecureLinkServiceImpl
 
 val servicesImplModule = DI.Module("invoicer-services") {
     invoiceServices()

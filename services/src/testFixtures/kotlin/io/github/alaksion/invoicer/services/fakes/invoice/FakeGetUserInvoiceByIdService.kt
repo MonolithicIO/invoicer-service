@@ -3,7 +3,7 @@ package io.github.alaksion.invoicer.services.fakes.invoice
 import java.util.*
 import models.fixtures.invoiceModelFixture
 import models.invoice.InvoiceModel
-import services.api.services.invoice.GetUserInvoiceByIdService
+import io.github.alaksion.invoicer.services.invoice.GetUserInvoiceByIdService
 
 class FakeGetUserInvoiceByIdService : GetUserInvoiceByIdService {
 

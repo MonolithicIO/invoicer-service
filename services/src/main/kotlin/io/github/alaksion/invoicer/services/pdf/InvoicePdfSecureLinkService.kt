@@ -1,9 +1,9 @@
-package services.api.services.pdf
+package io.github.alaksion.invoicer.services.pdf
 
 import io.github.alaksion.invoicer.foundation.storage.remote.SecureFileLinkGenerator
 import java.util.UUID
 import repository.InvoicePdfRepository
-import services.api.services.invoice.GetUserInvoiceByIdService
+import io.github.alaksion.invoicer.services.invoice.GetUserInvoiceByIdService
 
 interface InvoicePdfSecureLinkService {
     suspend fun generate(

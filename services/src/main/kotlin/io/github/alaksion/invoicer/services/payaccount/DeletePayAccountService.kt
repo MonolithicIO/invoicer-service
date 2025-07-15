@@ -1,4 +1,4 @@
-package services.api.services.payaccount
+package io.github.alaksion.invoicer.services.payaccount
 
 import io.github.alaksion.invoicer.services.company.GetUserCompanyDetailsService
 import java.util.*

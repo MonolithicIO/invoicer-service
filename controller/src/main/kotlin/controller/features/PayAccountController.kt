@@ -14,8 +14,8 @@ import io.ktor.server.routing.put
 import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.payaccount.DeletePayAccountService
-import services.api.services.payaccount.UpdatePayAccountService
+import io.github.alaksion.invoicer.services.payaccount.DeletePayAccountService
+import io.github.alaksion.invoicer.services.payaccount.UpdatePayAccountService
 
 internal fun Routing.payAccountController() {
     route("/v1/company/{companyId}/pay_account") {

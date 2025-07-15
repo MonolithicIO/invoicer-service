@@ -1,4 +1,4 @@
-package services.api.services.invoice
+package io.github.alaksion.invoicer.services.invoice
 
 import io.github.alaksion.invoicer.services.company.GetCompanyDetailsService
 import java.util.*

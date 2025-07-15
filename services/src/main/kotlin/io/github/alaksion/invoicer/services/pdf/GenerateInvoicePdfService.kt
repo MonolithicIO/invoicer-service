@@ -4,7 +4,7 @@ import io.github.alaksion.invoicer.foundation.storage.local.LocalStorage
 import io.github.alaksion.invoicer.foundation.storage.remote.FileUploader
 import java.util.*
 import repository.InvoicePdfRepository
-import services.api.services.invoice.GetUserInvoiceByIdService
+import io.github.alaksion.invoicer.services.invoice.GetUserInvoiceByIdService
 import io.github.alaksion.invoicer.services.user.GetUserByIdService
 import io.github.alaksion.invoicer.services.pdf.pdfwriter.InvoicePdfWriter
 

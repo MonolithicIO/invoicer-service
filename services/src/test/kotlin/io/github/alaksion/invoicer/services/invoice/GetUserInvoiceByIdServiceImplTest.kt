@@ -12,7 +12,6 @@ import models.fixtures.companyDetailsFixture
 import models.fixtures.invoiceModelFixture
 import models.fixtures.userModelFixture
 import repository.InvoiceRepository
-import services.api.services.invoice.GetUserInvoiceByIdServiceImpl
 
 class GetUserInvoiceByIdServiceImplTest {
 
