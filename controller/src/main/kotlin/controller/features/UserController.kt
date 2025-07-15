@@ -15,8 +15,8 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.user.CreateUserService
-import services.api.services.user.DeleteUserService
+import io.github.alaksion.invoicer.services.user.CreateUserService
+import io.github.alaksion.invoicer.services.user.DeleteUserService
 
 internal fun Routing.userController() {
     route("/v1/user") {

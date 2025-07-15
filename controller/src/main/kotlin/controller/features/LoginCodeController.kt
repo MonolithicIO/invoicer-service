@@ -25,10 +25,10 @@ import io.ktor.websocket.close
 import kotlin.time.Duration.Companion.seconds
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.qrcodetoken.AuthorizeQrCodeTokenService
-import services.api.services.qrcodetoken.GetQrCodeTokenByContentIdService
-import services.api.services.qrcodetoken.PollAuthorizedTokenService
-import services.api.services.qrcodetoken.RequestQrCodeTokenService
+import io.github.alaksion.invoicer.services.qrcodetoken.AuthorizeQrCodeTokenService
+import io.github.alaksion.invoicer.services.qrcodetoken.GetQrCodeTokenByContentIdService
+import io.github.alaksion.invoicer.services.qrcodetoken.PollAuthorizedTokenService
+import io.github.alaksion.invoicer.services.qrcodetoken.RequestQrCodeTokenService
 import utils.exceptions.http.forbiddenError
 import utils.exceptions.http.notFoundError
 

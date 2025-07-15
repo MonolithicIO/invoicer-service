@@ -1,7 +1,7 @@
 package io.github.alaksion.invoicer.consumers.strategy
 
 import io.github.alaksion.invoicer.consumers.messages.types.GeneratePdfMessage
-import services.api.services.pdf.GenerateInvoicePdfService
+import io.github.alaksion.invoicer.services.pdf.GenerateInvoicePdfService
 
 internal interface GeneratePdfStrategy {
     suspend fun process(message: GeneratePdfMessage)

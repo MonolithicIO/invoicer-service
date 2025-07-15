@@ -13,9 +13,9 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.login.GoogleLoginService
-import services.api.services.login.LoginService
-import services.api.services.login.RefreshLoginService
+import io.github.alaksion.invoicer.services.login.GoogleLoginService
+import io.github.alaksion.invoicer.services.login.LoginService
+import io.github.alaksion.invoicer.services.login.RefreshLoginService
 import utils.exceptions.http.badRequestError
 import utils.exceptions.http.forbiddenError
 

@@ -7,6 +7,9 @@ import controller.viewmodel.company.toModel
 import controller.viewmodel.company.toViewModel
 import io.github.alaksion.invoicer.foundation.authentication.token.jwt.jwtProtected
 import io.github.alaksion.invoicer.foundation.authentication.token.jwt.jwtUserId
+import io.github.alaksion.invoicer.services.company.CreateCompanyService
+import io.github.alaksion.invoicer.services.company.GetCompaniesService
+import io.github.alaksion.invoicer.services.company.GetUserCompanyDetailsService
 import io.github.alaksion.invoicer.utils.uuid.parseUuid
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.receive
@@ -17,9 +20,6 @@ import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.company.CreateCompanyService
-import services.api.services.company.GetCompaniesService
-import services.api.services.company.GetUserCompanyDetailsService
 
 internal fun Routing.companyController() {
     route("/v1/company") {

@@ -20,8 +20,8 @@ import kotlin.text.toIntOrNull
 import kotlin.text.toLongOrNull
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import services.api.services.customer.CreateCustomerService
-import services.api.services.customer.ListCustomersService
+import io.github.alaksion.invoicer.services.customer.CreateCustomerService
+import io.github.alaksion.invoicer.services.customer.ListCustomersService
 
 internal fun Routing.customerController() {
     route("/v1/company/{companyId}") {
