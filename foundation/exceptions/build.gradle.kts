@@ -5,7 +5,7 @@ plugins {
 }
 
 // Move to build plugin
-group = "io.github.alaksion.invoicer.foundation.exceptions"
+group = "io.github.monolithic.invoicer.foundation.exceptions"
 version = "0.0.1"
 
 dependencies {

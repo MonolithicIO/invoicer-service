@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.detekt)
 }
 
-group = "io.github.alaksion.invoicer.controller"
+group = "io.github.monolithic.invoicer.controller"
 version = "0.0.1"
 
 dependencies {
