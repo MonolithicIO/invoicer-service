@@ -6,7 +6,7 @@ plugins {
 }
 
 // Move to build plugin
-group = "io.github.alaksion.invoicer.foundation.authentication.impl"
+group = "io.github.monolithic.invoicer.foundation.authentication.impl"
 version = "0.0.1"
 
 dependencies {

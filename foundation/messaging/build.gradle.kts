@@ -4,7 +4,7 @@ plugins {
 }
 
 // Move to build plugin
-group = "io.github.alaksion.invoicer.foundation.messaging"
+group = "io.github.monolithic.invoicer.foundation.messaging"
 version = "0.0.1"
 
 dependencies {

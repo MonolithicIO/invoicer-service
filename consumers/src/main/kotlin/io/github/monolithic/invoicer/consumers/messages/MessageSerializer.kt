@@ -15,7 +15,7 @@ import kotlinx.serialization.json.jsonPrimitive
 internal object MessageSerializer : JsonContentPolymorphicSerializer<Message>(Message::class) {
 
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor(
-        serialName = "io.github.alaksion.invoicer.consumers.messages.types.Message"
+        serialName = "io.github.monolithic.invoicer.consumers.messages.types.Message"
     )
 
     override fun selectDeserializer(element: JsonElement): DeserializationStrategy<Message> {

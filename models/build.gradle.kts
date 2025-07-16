@@ -5,7 +5,7 @@ plugins {
 }
 
 // Move to build plugin
-group = "io.github.alaksion.invoicer.models"
+group = "io.github.monolithic.invoicer.models"
 version = "0.0.1"
 
 dependencies {

@@ -7,7 +7,7 @@ plugins {
     `java-test-fixtures`
 }
 
-group = "io.github.alaksion.invoicer.foundation.env.impl"
+group = "io.github.monolithic.invoicer.foundation.env.impl"
 version = AppConfig.version
 
 dependencies {

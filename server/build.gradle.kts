@@ -9,7 +9,7 @@ plugins {
 }
 
 // Move to build plugin
-group = "io.github.alaksion.invoicer.server"
+group = "io.github.monolithic.invoicer.server"
 version = AppConfig.version
 
 application {
@@ -82,7 +82,7 @@ kover {
                 packages("**.fakes")
                 packages("**.fixtures")
                 packages("**.pdfwriter.itext")
-                annotatedBy("io.github.alaksion.invoicer.utils.annotations.IgnoreCoverage")
+                annotatedBy("io.github.monolithic.invoicer.utils.annotations.IgnoreCoverage")
             }
         }
     }
@@ -91,7 +91,7 @@ kover {
 ktor {
     docker {
         jreVersion.set(JavaVersion.VERSION_17)
-        localImageName.set("alaksion/invoicer-api")
+        localImageName.set("monolithic/invoicer-api")
         imageTag.set(AppConfig.version)
 
         externalRegistry.set(
