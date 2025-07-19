@@ -8,6 +8,8 @@ import io.github.monolithic.invoicer.services.company.GetCompanyDetailsService
 import io.github.monolithic.invoicer.services.company.GetCompanyDetailsServiceImpl
 import io.github.monolithic.invoicer.services.company.GetUserCompanyDetailsService
 import io.github.monolithic.invoicer.services.company.GetUserCompanyDetailsServiceImpl
+import io.github.monolithic.invoicer.services.company.UpdateCompanyAddressService
+import io.github.monolithic.invoicer.services.company.UpdateCompanyAddressServiceImpl
 import io.github.monolithic.invoicer.services.customer.CreateCustomerService
 import io.github.monolithic.invoicer.services.customer.CreateCustomerServiceImpl
 import io.github.monolithic.invoicer.services.customer.GetCustomerByIdService
@@ -18,6 +20,10 @@ import io.github.monolithic.invoicer.services.invoice.CreateInvoiceService
 import io.github.monolithic.invoicer.services.invoice.CreateInvoiceServiceImpl
 import io.github.monolithic.invoicer.services.invoice.DeleteInvoiceService
 import io.github.monolithic.invoicer.services.invoice.DeleteInvoiceServiceImpl
+import io.github.monolithic.invoicer.services.invoice.GetCompanyInvoicesService
+import io.github.monolithic.invoicer.services.invoice.GetCompanyInvoicesServiceImpl
+import io.github.monolithic.invoicer.services.invoice.GetUserInvoiceByIdService
+import io.github.monolithic.invoicer.services.invoice.GetUserInvoiceByIdServiceImpl
 import io.github.monolithic.invoicer.services.login.GoogleLoginService
 import io.github.monolithic.invoicer.services.login.GoogleLoginServiceImpl
 import io.github.monolithic.invoicer.services.login.LoginService
@@ -28,8 +34,14 @@ import io.github.monolithic.invoicer.services.login.StoreRefreshTokenService
 import io.github.monolithic.invoicer.services.login.StoreRefreshTokenServiceImpl
 import io.github.monolithic.invoicer.services.payaccount.CheckPayAccountDocumentInUseService
 import io.github.monolithic.invoicer.services.payaccount.CheckPayAccountDocumentInUseServiceImpl
+import io.github.monolithic.invoicer.services.payaccount.DeletePayAccountService
+import io.github.monolithic.invoicer.services.payaccount.DeletePayAccountServiceImpl
+import io.github.monolithic.invoicer.services.payaccount.UpdatePayAccountService
+import io.github.monolithic.invoicer.services.payaccount.UpdatePayAccountServiceImpl
 import io.github.monolithic.invoicer.services.pdf.GenerateInvoicePdfService
 import io.github.monolithic.invoicer.services.pdf.GenerateInvoicePdfServiceImpl
+import io.github.monolithic.invoicer.services.pdf.InvoicePdfSecureLinkService
+import io.github.monolithic.invoicer.services.pdf.InvoicePdfSecureLinkServiceImpl
 import io.github.monolithic.invoicer.services.pdf.pdfwriter.InvoicePdfWriter
 import io.github.monolithic.invoicer.services.pdf.pdfwriter.itext.ItextInvoiceWriter
 import io.github.monolithic.invoicer.services.qrcodetoken.AuthorizeQrCodeTokenService
@@ -51,16 +63,6 @@ import kotlinx.coroutines.Dispatchers
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.instance
-import io.github.monolithic.invoicer.services.invoice.GetCompanyInvoicesService
-import io.github.monolithic.invoicer.services.invoice.GetCompanyInvoicesServiceImpl
-import io.github.monolithic.invoicer.services.invoice.GetUserInvoiceByIdService
-import io.github.monolithic.invoicer.services.invoice.GetUserInvoiceByIdServiceImpl
-import io.github.monolithic.invoicer.services.payaccount.DeletePayAccountService
-import io.github.monolithic.invoicer.services.payaccount.DeletePayAccountServiceImpl
-import io.github.monolithic.invoicer.services.payaccount.UpdatePayAccountService
-import io.github.monolithic.invoicer.services.payaccount.UpdatePayAccountServiceImpl
-import io.github.monolithic.invoicer.services.pdf.InvoicePdfSecureLinkService
-import io.github.monolithic.invoicer.services.pdf.InvoicePdfSecureLinkServiceImpl
 
 val servicesImplModule = DI.Module("invoicer-services") {
     invoiceServices()
@@ -282,6 +284,14 @@ private fun DI.Builder.companyServices() {
         GetUserCompanyDetailsServiceImpl(
             companyRepository = instance(),
             getUserByIdService = instance()
+        )
+    }
+
+    bindProvider<UpdateCompanyAddressService> {
+        UpdateCompanyAddressServiceImpl(
+            getUserByIdService = instance(),
+            getCompanyByIdService = instance(),
+            companyAddressRepository = instance()
         )
     }
 }

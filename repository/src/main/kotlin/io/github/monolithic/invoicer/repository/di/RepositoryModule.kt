@@ -1,12 +1,11 @@
 package io.github.monolithic.invoicer.repository.di
 
+import io.github.monolithic.invoicer.repository.CompanyAddressRepository
+import io.github.monolithic.invoicer.repository.CompanyAddressRepositoryImpl
 import io.github.monolithic.invoicer.repository.CustomerRepository
 import io.github.monolithic.invoicer.repository.CustomerRepositoryImpl
 import io.github.monolithic.invoicer.repository.InvoicePdfRepository
 import io.github.monolithic.invoicer.repository.InvoicePdfRepositoryImpl
-import org.kodein.di.DI
-import org.kodein.di.bindProvider
-import org.kodein.di.instance
 import io.github.monolithic.invoicer.repository.InvoiceRepository
 import io.github.monolithic.invoicer.repository.InvoiceRepositoryImpl
 import io.github.monolithic.invoicer.repository.PaymentAccountRepository
@@ -19,6 +18,8 @@ import io.github.monolithic.invoicer.repository.UserCompanyRepository
 import io.github.monolithic.invoicer.repository.UserCompanyRepositoryImpl
 import io.github.monolithic.invoicer.repository.UserRepository
 import io.github.monolithic.invoicer.repository.UserRepositoryImpl
+import io.github.monolithic.invoicer.repository.datasource.CompanyAddressDataSource
+import io.github.monolithic.invoicer.repository.datasource.CompanyAddressDataSourceImpl
 import io.github.monolithic.invoicer.repository.datasource.CustomerDataSource
 import io.github.monolithic.invoicer.repository.datasource.CustomerDataSourceImpl
 import io.github.monolithic.invoicer.repository.datasource.InvoiceDataSource
@@ -35,6 +36,9 @@ import io.github.monolithic.invoicer.repository.datasource.UserCompanyDataSource
 import io.github.monolithic.invoicer.repository.datasource.UserCompanyDataSourceImpl
 import io.github.monolithic.invoicer.repository.datasource.UserDataSource
 import io.github.monolithic.invoicer.repository.datasource.UserDataSourceImpl
+import org.kodein.di.DI
+import org.kodein.di.bindProvider
+import org.kodein.di.instance
 
 
 val repositoryModule = DI.Module("invocer-repository") {
@@ -122,6 +126,18 @@ val repositoryModule = DI.Module("invocer-repository") {
     bindProvider<PaymentAccountDataSource> {
         PaymentAccountDataSourceImpl(
             clock = instance()
+        )
+    }
+
+    bindProvider<CompanyAddressDataSource> {
+        CompanyAddressDataSourceImpl(
+            clock = instance()
+        )
+    }
+
+    bindProvider<CompanyAddressRepository> {
+        CompanyAddressRepositoryImpl(
+            dataSource = instance()
         )
     }
 }
