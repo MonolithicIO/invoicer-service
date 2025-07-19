@@ -28,6 +28,7 @@ internal class CompanyAddressDataSourceImpl(
                 it[CompanyAddressTable.addressLine2] = model.addressLine2
                 it[CompanyAddressTable.city] = model.city
                 it[CompanyAddressTable.postalCode] = model.postalCode
+                it[CompanyAddressTable.state] = model.state
                 // No country code update in the model, so we leave it as is.
 //                it[CompanyAddressTable.countryCode] = TODO
                 it[CompanyAddressTable.updatedAt] = clock.now()
