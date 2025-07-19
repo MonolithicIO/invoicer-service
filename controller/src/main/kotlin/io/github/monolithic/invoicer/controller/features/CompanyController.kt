@@ -45,7 +45,7 @@ internal fun Routing.companyController() {
         }
 
         jwtProtected {
-            patch("/address") {
+            patch("/{companyId}/address") {
                 val companyId = call.parameters["companyId"]!!
                 val body = call.receive<UpdateCompanyAddressViewModel>()
                 val service by closestDI().instance<UpdateCompanyAddressService>()
