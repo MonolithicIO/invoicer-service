@@ -3,6 +3,7 @@ package io.github.monolithic.invoicer.controller.features
 import io.github.monolithic.invoicer.controller.Constants
 import io.github.monolithic.invoicer.controller.viewmodel.company.CreateCompanyResponseViewModel
 import io.github.monolithic.invoicer.controller.viewmodel.company.CreateCompanyViewModel
+import io.github.monolithic.invoicer.controller.viewmodel.company.UpdateCompanyAddressViewModel
 import io.github.monolithic.invoicer.controller.viewmodel.company.toModel
 import io.github.monolithic.invoicer.controller.viewmodel.company.toViewModel
 import io.github.monolithic.invoicer.foundation.authentication.token.jwt.jwtProtected
@@ -10,12 +11,14 @@ import io.github.monolithic.invoicer.foundation.authentication.token.jwt.jwtUser
 import io.github.monolithic.invoicer.services.company.CreateCompanyService
 import io.github.monolithic.invoicer.services.company.GetCompaniesService
 import io.github.monolithic.invoicer.services.company.GetUserCompanyDetailsService
+import io.github.monolithic.invoicer.services.company.UpdateCompanyAddressService
 import io.github.monolithic.invoicer.utils.uuid.parseUuid
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.receive
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.get
+import io.ktor.server.routing.patch
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import org.kodein.di.instance
@@ -38,6 +41,20 @@ internal fun Routing.companyController() {
                             )
                         ),
                 )
+            }
+        }
+
+        jwtProtected {
+            patch("/address") {
+                val companyId = call.parameters["companyId"]!!
+                val body = call.receive<UpdateCompanyAddressViewModel>()
+                val service by closestDI().instance<UpdateCompanyAddressService>()
+                service.updateCompanyAddress(
+                    model = body.toModel(companyId),
+                    userId = parseUuid(jwtUserId())
+                )
+
+                call.respond(HttpStatusCode.NoContent)
             }
         }
 
