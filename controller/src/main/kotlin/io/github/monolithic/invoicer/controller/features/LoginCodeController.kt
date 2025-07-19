@@ -7,6 +7,12 @@ import io.github.monolithic.invoicer.controller.viewmodel.qrcodetoken.toTokenDet
 import io.github.monolithic.invoicer.controller.viewmodel.qrcodetoken.toTokenResponseViewModel
 import io.github.monolithic.invoicer.foundation.authentication.token.jwt.jwtProtected
 import io.github.monolithic.invoicer.foundation.authentication.token.jwt.jwtUserId
+import io.github.monolithic.invoicer.foundation.exceptions.http.forbiddenError
+import io.github.monolithic.invoicer.foundation.exceptions.http.notFoundError
+import io.github.monolithic.invoicer.services.qrcodetoken.AuthorizeQrCodeTokenService
+import io.github.monolithic.invoicer.services.qrcodetoken.GetQrCodeTokenByContentIdService
+import io.github.monolithic.invoicer.services.qrcodetoken.PollAuthorizedTokenService
+import io.github.monolithic.invoicer.services.qrcodetoken.RequestQrCodeTokenService
 import io.github.monolithic.invoicer.utils.uuid.parseUuid
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.plugins.origin
@@ -25,55 +31,12 @@ import io.ktor.websocket.close
 import kotlin.time.Duration.Companion.seconds
 import org.kodein.di.instance
 import org.kodein.di.ktor.closestDI
-import io.github.monolithic.invoicer.services.qrcodetoken.AuthorizeQrCodeTokenService
-import io.github.monolithic.invoicer.services.qrcodetoken.GetQrCodeTokenByContentIdService
-import io.github.monolithic.invoicer.services.qrcodetoken.PollAuthorizedTokenService
-import io.github.monolithic.invoicer.services.qrcodetoken.RequestQrCodeTokenService
-import io.github.monolithic.invoicer.foundation.exceptions.http.forbiddenError
-import io.github.monolithic.invoicer.foundation.exceptions.http.notFoundError
 
 internal fun Routing.loginCodeController() {
     route("/v1/login_code") {
-        post {
-            val body = call.receive<RequestQrCodeTokenViewModel>()
-            val model = body.toDomainModel(
-                ip = call.request.origin.remoteHost,
-                agent = call.request.header("User-Agent") ?: "Unknown Agent"
-            )
-            val requestCodeService by closestDI().instance<RequestQrCodeTokenService>()
-
-            call.respond(
-                message = requestCodeService.requestQrCodeToken(
-                    request = model
-                ).toTokenResponseViewModel(),
-                status = HttpStatusCode.Created
-            )
-        }
-
-        jwtProtected {
-            post("/{id}/consume") {
-                val qrCodeContentId = call.parameters["id"]!!
-                val service by closestDI().instance<AuthorizeQrCodeTokenService>()
-                service.consume(
-                    contentId = qrCodeContentId,
-                    userUuid = parseUuid(jwtUserId())
-                )
-                call.respond(HttpStatusCode.NoContent)
-            }
-        }
-
-        jwtProtected {
-            get("/{contentId}") {
-                val contentId = call.parameters["contentId"] ?: forbiddenError()
-                val service by closestDI().instance<GetQrCodeTokenByContentIdService>()
-                val result = service.find(contentId) ?: notFoundError("QrCode not found")
-                call.respond(
-                    status = HttpStatusCode.OK,
-                    message = result.toTokenDetailsViewModel()
-                )
-            }
-        }
-
+        requestQrCodeToken()
+        consumeQrCodeToken()
+        getQrCodeTokenByContentId()
         scanStatusWebSocket()
     }
 }
@@ -107,5 +70,45 @@ private fun Route.scanStatusWebSocket() {
                 close(reason = CloseReason(CloseReason.Codes.NORMAL, "Authentication successful"))
             }
         }
+    }
+}
+
+private fun Route.requestQrCodeToken() = post {
+    val body = call.receive<RequestQrCodeTokenViewModel>()
+    val model = body.toDomainModel(
+        ip = call.request.origin.remoteHost,
+        agent = call.request.header("User-Agent") ?: "Unknown Agent"
+    )
+    val requestCodeService by closestDI().instance<RequestQrCodeTokenService>()
+
+    call.respond(
+        message = requestCodeService.requestQrCodeToken(
+            request = model
+        ).toTokenResponseViewModel(),
+        status = HttpStatusCode.Created
+    )
+}
+
+private fun Route.consumeQrCodeToken() = jwtProtected {
+    post("/{id}/consume") {
+        val qrCodeContentId = call.parameters["id"]!!
+        val service by closestDI().instance<AuthorizeQrCodeTokenService>()
+        service.consume(
+            contentId = qrCodeContentId,
+            userUuid = parseUuid(jwtUserId())
+        )
+        call.respond(HttpStatusCode.NoContent)
+    }
+}
+
+private fun Route.getQrCodeTokenByContentId() = jwtProtected {
+    get("/{contentId}") {
+        val contentId = call.parameters["contentId"] ?: forbiddenError()
+        val service by closestDI().instance<GetQrCodeTokenByContentIdService>()
+        val result = service.find(contentId) ?: notFoundError("QrCode not found")
+        call.respond(
+            status = HttpStatusCode.OK,
+            message = result.toTokenDetailsViewModel()
+        )
     }
 }
