@@ -46,7 +46,7 @@ dependencies {
     implementation(projects.foundation.messaging)
     implementation(projects.foundation.log)
     implementation(projects.utils)
-    implementation(projects.processor)
+    implementation(projects.consumers)
 
     // Repository
     implementation(projects.repository)
