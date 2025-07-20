@@ -4,7 +4,7 @@ plugins {
     `java-test-fixtures`
 }
 
-group = "io.github.monolithic.invoicer.consumers"
+group = "io.github.monolithic.invoicer.processor"
 version = "0.0.1"
 
 dependencies {

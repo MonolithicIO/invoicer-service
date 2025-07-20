@@ -3,7 +3,7 @@ package io.github.monolithic.invoicer.server.app.plugins
 import io.github.monolithic.invoicer.foundation.cache.di.cacheDiModule
 import io.github.monolithic.invoicer.foundation.password.di.utilPasswordDi
 import io.github.monolithic.invoicer.foundation.qrcode.di.qrCodeModule
-import io.github.monolithic.invoicer.consumers.di.consumersDiModule
+import io.github.monolithic.invoicer.processor.di.processorDiModule
 import io.github.monolithic.invoicer.foundation.authentication.di.utilsAuthenticationModule
 import io.github.monolithic.invoicer.foundation.env.di.invoicerEnvironmentDiModule
 import io.github.monolithic.invoicer.foundation.log.di.logDiModule
@@ -27,7 +27,7 @@ fun Application.installDi() {
         import(utilDiModule)
         import(storageDiModule)
         import(messagingDiModule)
-        import(consumersDiModule)
+        import(processorDiModule)
         import(logDiModule)
     }
 }
