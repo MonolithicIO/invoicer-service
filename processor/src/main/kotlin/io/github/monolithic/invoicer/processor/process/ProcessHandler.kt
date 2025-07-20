@@ -1,9 +1,8 @@
-package io.github.monolithic.invoicer.processor
+package io.github.monolithic.invoicer.processor.process
 
 import io.github.monolithic.invoicer.foundation.log.LogLevel
 import io.github.monolithic.invoicer.foundation.log.Logger
-import io.github.monolithic.invoicer.processor.context.context.ProcessCommander
-import io.github.monolithic.invoicer.processor.process.Process
+import io.github.monolithic.invoicer.processor.commander.ProcessCommander
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
@@ -27,7 +26,7 @@ internal class ProcessHandler(
 
     private val processorScope = CoroutineScope(dispatcher)
 
-    private val _processFlow = MutableSharedFlow<io.github.monolithic.invoicer.processor.process.Process>()
+    private val _processFlow = MutableSharedFlow<Process>()
 
     override fun startObserving() {
         processorScope.launch {
@@ -35,6 +34,19 @@ internal class ProcessHandler(
                 runProcessCatching(process)
             }
         }
+    }
+
+    override fun close() {
+        processorScope.cancel()
+    }
+
+    override suspend fun submitProcess(process: Process) {
+        logger.log(
+            type = ProcessHandler::class,
+            level = LogLevel.Debug,
+            message = "Submitting process: $process"
+        )
+        _processFlow.emit(process)
     }
 
     private suspend fun runProcessCatching(process: Process) {
@@ -50,18 +62,5 @@ internal class ProcessHandler(
                 throwable = it
             )
         }
-    }
-
-    override fun close() {
-        processorScope.cancel()
-    }
-
-    override suspend fun submitProcess(process: Process) {
-        logger.log(
-            type = ProcessHandler::class,
-            level = LogLevel.Debug,
-            message = "Submitting process: $process"
-        )
-        _processFlow.emit(process)
     }
 }

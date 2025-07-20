@@ -2,7 +2,7 @@ package io.github.monolithic.invoicer.server.app
 
 import io.github.monolithic.invoicer.controller.rootController
 import io.github.monolithic.invoicer.foundation.authentication.provider.IdentityProvider
-import io.github.monolithic.invoicer.processor.ProcessConsumer
+import io.github.monolithic.invoicer.processor.process.ProcessConsumer
 import io.github.monolithic.invoicer.server.app.database.connectDatabase
 import io.github.monolithic.invoicer.server.app.plugins.configureMonitoring
 import io.github.monolithic.invoicer.server.app.plugins.configureSecurity

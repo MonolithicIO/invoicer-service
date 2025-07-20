@@ -1,4 +1,4 @@
-package io.github.monolithic.invoicer.processor.context
+package io.github.monolithic.invoicer.processor.commander.commands
 
 import io.github.monolithic.invoicer.processor.process.Process.InvoicePdfProcess
 import io.github.monolithic.invoicer.services.pdf.GenerateInvoicePdfService
@@ -14,7 +14,8 @@ internal class GeneratePdfCommandImpl(
     override suspend fun process(process: InvoicePdfProcess) {
         invoicePdfService.generate(
             invoiceId = process.invoiceId,
-            userId = process.userId
+            userId = process.userId,
+            companyId = process.companyId
         )
     }
 }

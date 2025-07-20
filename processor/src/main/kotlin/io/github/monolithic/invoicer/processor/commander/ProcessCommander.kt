@@ -1,8 +1,8 @@
-package io.github.monolithic.invoicer.processor.context.context
+package io.github.monolithic.invoicer.processor.commander
 
 import io.github.monolithic.invoicer.foundation.log.LogLevel
 import io.github.monolithic.invoicer.foundation.log.Logger
-import io.github.monolithic.invoicer.processor.context.GeneratePdfCommand
+import io.github.monolithic.invoicer.processor.commander.commands.GeneratePdfCommand
 import io.github.monolithic.invoicer.processor.process.Process
 
 internal interface ProcessCommander {

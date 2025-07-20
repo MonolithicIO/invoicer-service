@@ -5,6 +5,7 @@ import java.util.*
 sealed interface Process {
     data class InvoicePdfProcess(
         val invoiceId: UUID,
-        val userId: UUID
+        val userId: UUID,
+        val companyId: UUID,
     ) : Process
 }
