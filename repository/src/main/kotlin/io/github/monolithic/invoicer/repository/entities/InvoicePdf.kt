@@ -45,6 +45,8 @@ internal class InvoicePdfEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     val invoice by InvoiceEntity.Companion referencedOn InvoicePdfTable.invoice
 }
 
+// Supress enum name to match the database enum values
+@Suppress("EnumNaming")
 internal enum class InvoicePdfStatusEntity {
     pending,
     error,
