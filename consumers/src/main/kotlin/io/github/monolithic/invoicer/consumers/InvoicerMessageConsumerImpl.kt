@@ -33,7 +33,7 @@ internal class InvoicerMessageConsumerImpl(
                 }.onFailure {
                     logger.log(
                         type = InvoicerMessageConsumerImpl::class,
-                        message = "Failed to deserialize kafka message: $message. Check Json Schema",
+                        message = "Failed to deserialize  message: $message. Check Json Schema",
                         level = LogLevel.Error,
                         throwable = it
                     )

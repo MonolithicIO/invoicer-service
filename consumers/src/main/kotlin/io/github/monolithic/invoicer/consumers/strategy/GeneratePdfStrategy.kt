@@ -14,7 +14,8 @@ internal class GeneratePdfStrategyImpl(
     override suspend fun process(message: GeneratePdfMessage) {
         invoicePdfService.generate(
             invoiceId = message.invoiceId,
-            userId = message.userId
+            userId = message.userId,
+            companyId = message.companyId
         )
     }
 }
