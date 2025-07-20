@@ -26,6 +26,7 @@ kafka = "3.6.1"
 loki = "1.4.0"
 firebase-admin = "9.4.3"
 mockk = "1.14.4"
+gcp-storage = "2.53.3"
 
 [libraries]
 kodein-server = { module = "org.kodein.di:kodein-di-framework-ktor-server-jvm", version.ref = "kodein" }
@@ -105,6 +106,10 @@ firebase-admin = { module = "com.google.firebase:firebase-admin", version.ref = 
 
 # Mockk
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+
+# GCP
+gcp-storage = { module = "com.google.cloud:google-cloud-storage", version.ref = "gcp-storage" }
+
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt-plugin" }
