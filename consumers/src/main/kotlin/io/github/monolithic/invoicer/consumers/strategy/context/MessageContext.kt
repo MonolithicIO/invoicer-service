@@ -20,6 +20,12 @@ internal class MessageContextImpl(
 ) : MessageContext {
     override suspend fun executeStrategy(message: Message) {
         runCatching {
+            logger.log(
+                type = MessageContextImpl::class,
+                message = "Type message received: $message",
+                level = LogLevel.Debug
+            )
+
             when (message) {
                 is GeneratePdfMessage -> generatePdfStrategy.process(message)
                 SendEmailMessage -> sendEmailStrategy.process()
@@ -35,7 +41,7 @@ internal class MessageContextImpl(
             logger.log(
                 type = MessageContextImpl::class,
                 message = "Failed to process message: $message",
-                level = LogLevel.Warn,
+                level = LogLevel.Error,
                 throwable = error
             )
         }

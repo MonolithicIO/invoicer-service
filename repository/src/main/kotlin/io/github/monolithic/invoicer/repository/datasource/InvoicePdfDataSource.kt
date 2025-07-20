@@ -39,7 +39,7 @@ internal class InvoicePdfDataSourceImpl(
                 it[createdAt] = clock.now()
                 it[updatedAt] = clock.now()
                 it[filePath] = ""
-                it[status] = InvoicePdfStatusEntity.Pending
+                it[status] = InvoicePdfStatusEntity.pending
             }
         }
     }
@@ -76,9 +76,9 @@ internal class InvoicePdfDataSourceImpl(
                     updatedAt = it.updatedAt,
                     path = it.filePath,
                     status = when (it.status) {
-                        InvoicePdfStatusEntity.Pending -> InvoicePdfStatus.Pending
-                        InvoicePdfStatusEntity.Success -> InvoicePdfStatus.Success
-                        InvoicePdfStatusEntity.Error -> InvoicePdfStatus.Failed
+                        InvoicePdfStatusEntity.pending -> InvoicePdfStatus.Pending
+                        InvoicePdfStatusEntity.success -> InvoicePdfStatus.Success
+                        InvoicePdfStatusEntity.error -> InvoicePdfStatus.Failed
                     }
                 )
             }

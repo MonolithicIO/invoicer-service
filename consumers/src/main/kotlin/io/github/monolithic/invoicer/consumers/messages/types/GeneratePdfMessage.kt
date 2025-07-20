@@ -4,11 +4,12 @@ import io.github.monolithic.invoicer.utils.serialization.JavaUUIDSerializer
 import kotlinx.serialization.Serializable
 import java.util.*
 
-
 @Serializable
 internal data class GeneratePdfMessage(
     @Serializable(with = JavaUUIDSerializer::class)
     val invoiceId: UUID,
     @Serializable(with = JavaUUIDSerializer::class)
-    val userId: UUID
+    val userId: UUID,
+    @Serializable(with = JavaUUIDSerializer::class)
+    val companyId: UUID
 ) : Message
