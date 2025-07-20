@@ -1,5 +1,6 @@
 package io.github.monolithic.invoicer.server.app
 
+import io.github.monolithic.invoicer.consumers.MessageHandler
 import io.github.monolithic.invoicer.controller.rootController
 import io.github.monolithic.invoicer.foundation.authentication.provider.IdentityProvider
 import io.github.monolithic.invoicer.server.app.database.connectDatabase
@@ -34,4 +35,7 @@ fun Application.module() {
 
     val identity by closestDI().instance<IdentityProvider>()
     identity.initialize()
+
+    val messageConsumer by closestDI().instance<MessageHandler>()
+    messageConsumer.consume()
 }

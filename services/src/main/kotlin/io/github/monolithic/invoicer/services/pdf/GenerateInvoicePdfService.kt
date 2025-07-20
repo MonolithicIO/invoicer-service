@@ -70,6 +70,6 @@ internal class GenerateInvoicePdfServiceImpl(
             }
         )
 
-        localStorage.deleteFile(outputPath)
+//        localStorage.deleteFile(outputPath)
     }
 }
