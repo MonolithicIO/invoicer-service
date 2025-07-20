@@ -59,6 +59,7 @@ internal class GenerateInvoicePdfServiceImpl(
                     status = InvoicePdfStatus.Failed,
                     filePath = ""
                 )
+                localStorage.deleteFile(outputPath)
                 throw it
             },
             onSuccess = { fileKey ->
@@ -70,6 +71,6 @@ internal class GenerateInvoicePdfServiceImpl(
             }
         )
 
-//        localStorage.deleteFile(outputPath)
+        localStorage.deleteFile(outputPath)
     }
 }

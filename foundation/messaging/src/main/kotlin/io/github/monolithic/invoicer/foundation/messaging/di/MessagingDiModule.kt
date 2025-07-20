@@ -9,7 +9,7 @@ import org.kodein.di.bindSingleton
 import org.kodein.di.instance
 
 val messagingDiModule = DI.Module("messaging-di") {
-    bindSingleton { LocalMessageHandler() }
+    bindSingleton { LocalMessageHandler(logger = instance()) }
     bindProvider<MessageConsumer> { instance<LocalMessageHandler>() }
     bindProvider<MessageProducer> { instance<LocalMessageHandler>() }
 }

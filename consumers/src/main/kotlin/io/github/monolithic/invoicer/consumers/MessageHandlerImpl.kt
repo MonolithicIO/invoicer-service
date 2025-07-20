@@ -34,6 +34,11 @@ internal class MessageHandlerImpl(
                 .messageStream
                 .collect { message ->
                     runCatching {
+                        logger.log(
+                            type = MessageHandlerImpl::class,
+                            message = "Raw Received message: $message",
+                            level = LogLevel.Debug
+                        )
                         json.decodeFromString(MessageSerializer, message)
                     }.onSuccess { parsedMessage ->
                         messageContext.executeStrategy(parsedMessage)
