@@ -19,6 +19,8 @@ internal class EnvSecretsProvider(
             SecretKeys.REDIS_PORT -> "redis.port"
             SecretKeys.KAFKA_BOOTSTRAP -> "kafka.bootstrap_servers"
             SecretKeys.FIREBASE_ID -> "firebase.project_id"
+            SecretKeys.GCP_PROJECT_ID -> "file_upload.gcp_client_id"
+            SecretKeys.BUCKET_PDFS -> "file_upload.bucket_pdfs"
         }
 
         return environment.getVariable(path).orEmpty()

@@ -15,6 +15,8 @@ enum class SecretKeys {
     REDIS_HOST,
     REDIS_PORT,
     KAFKA_BOOTSTRAP,
-    FIREBASE_ID
+    FIREBASE_ID,
+    GCP_PROJECT_ID,
+    BUCKET_PDFS
 }
 
