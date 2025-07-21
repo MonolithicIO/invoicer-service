@@ -1,14 +1,18 @@
 package io.github.monolithic.invoicer.foundation.storage.remote.google
 
+import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.storage.BlobId
 import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
 import com.google.cloud.storage.StorageOptions
+import io.github.monolithic.invoicer.foundation.env.secrets.SecretKeys
 import io.github.monolithic.invoicer.foundation.env.secrets.SecretsProvider
 import io.github.monolithic.invoicer.foundation.log.LogLevel
 import io.github.monolithic.invoicer.foundation.log.Logger
 import io.github.monolithic.invoicer.foundation.storage.remote.FileUploader
+import java.io.FileInputStream
 import java.nio.file.Paths
+import kotlin.io.path.Path
 
 internal class GoogleFileUploader(
     private val secretsProvider: SecretsProvider,
@@ -19,13 +23,19 @@ internal class GoogleFileUploader(
         logger.log(
             type = GoogleFileUploader::class,
             level = LogLevel.Debug,
-            message = "Uploading file to Google Cloud Storage: $localFilePath as $fileName"
+            message = "Starting file to Google Cloud Storage: $localFilePath as $fileName"
         )
 
-        val projectId = ""
-        val bucketName = ""
+        val credentialsPath = FileInputStream(
+            Path("").toAbsolutePath().toString() + "/etc/invoicer/configs/application_default_credentials.json"
+        )
+        val projectId = secretsProvider.getSecret(SecretKeys.GCP_PROJECT_ID)
+        val bucketName = secretsProvider.getSecret(SecretKeys.BUCKET_PDFS)
 
-        val storage = StorageOptions.newBuilder().setProjectId(projectId).build().service
+        val storage = StorageOptions.newBuilder()
+            .setProjectId(projectId)
+            .setCredentials(GoogleCredentials.fromStream(credentialsPath))
+            .build().service
         val blobId = BlobId.of(bucketName, fileName)
         val blobInfo = BlobInfo.newBuilder(blobId).build()
 
