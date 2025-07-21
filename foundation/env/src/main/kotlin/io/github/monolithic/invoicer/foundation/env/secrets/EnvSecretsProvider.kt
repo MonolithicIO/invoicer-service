@@ -6,25 +6,8 @@ internal class EnvSecretsProvider(
     private val environment: InvoicerEnvironment
 ) : SecretsProvider {
 
+    @Suppress("CyclomaticComplexMethod")
     override fun getSecret(key: SecretKeys): String {
-        val path = when (key) {
-            SecretKeys.DB_PASSWORD -> "database.password"
-            SecretKeys.DB_USERNAME -> "database.username"
-            SecretKeys.DB_URL -> "database.url"
-            SecretKeys.JWT_AUDIENCE -> "jwt.audience"
-            SecretKeys.JWT_ISSUER -> "jwt.issuer"
-            SecretKeys.JWT_SECRET -> "jwt.secret"
-            SecretKeys.JWT_REALM -> "jwt.realm"
-            SecretKeys.REDIS_HOST -> "redis.host"
-            SecretKeys.REDIS_PORT -> "redis.port"
-            SecretKeys.KAFKA_BOOTSTRAP -> "kafka.bootstrap_servers"
-            SecretKeys.FIREBASE_ID -> "firebase.project_id"
-            SecretKeys.GCP_PROJECT_ID -> "file_upload.gcp_client_id"
-            SecretKeys.BUCKET_PDFS -> "file_upload.bucket_pdfs"
-            SecretKeys.GCP_CREDENTIALS_PATH -> "file_upload.gcp_credential_file"
-            SecretKeys.FIREBASE_CREDENTIALS_PATH -> "firebase.service_account_file"
-        }
-
-        return environment.getVariable(path).orEmpty()
+        return environment.getVariable(key.envName).orEmpty()
     }
 }
