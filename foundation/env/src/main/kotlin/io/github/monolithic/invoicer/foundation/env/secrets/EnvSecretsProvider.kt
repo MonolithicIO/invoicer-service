@@ -21,6 +21,8 @@ internal class EnvSecretsProvider(
             SecretKeys.FIREBASE_ID -> "firebase.project_id"
             SecretKeys.GCP_PROJECT_ID -> "file_upload.gcp_client_id"
             SecretKeys.BUCKET_PDFS -> "file_upload.bucket_pdfs"
+            SecretKeys.GCP_CREDENTIALS_PATH -> "file_upload.gcp_credential_file"
+            SecretKeys.FIREBASE_CREDENTIALS_PATH -> "firebase.service_account_file"
         }
 
         return environment.getVariable(path).orEmpty()

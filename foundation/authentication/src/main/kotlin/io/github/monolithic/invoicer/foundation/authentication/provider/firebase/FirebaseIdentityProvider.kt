@@ -15,7 +15,6 @@ import io.github.monolithic.invoicer.foundation.log.LogLevel
 import io.github.monolithic.invoicer.foundation.log.Logger
 import io.github.monolithic.invoicer.utils.annotations.IgnoreCoverage
 import java.io.FileInputStream
-import kotlin.io.path.Path
 
 @IgnoreCoverage
 internal class FirebaseIdentityProvider(
@@ -61,8 +60,7 @@ internal class FirebaseIdentityProvider(
     override fun initialize() {
         runCatching {
             val projectId = secretsProvider.getSecret(SecretKeys.FIREBASE_ID)
-            val configFilePath =
-                Path("").toAbsolutePath().toString() + "/etc/invoicer/configs/firebase-credentials.json"
+            val configFilePath = secretsProvider.getSecret(SecretKeys.FIREBASE_CREDENTIALS_PATH)
 
             val configFile = FileInputStream(configFilePath)
 

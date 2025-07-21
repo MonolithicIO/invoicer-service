@@ -12,7 +12,6 @@ import io.github.monolithic.invoicer.foundation.log.Logger
 import io.github.monolithic.invoicer.foundation.storage.remote.FileUploader
 import java.io.FileInputStream
 import java.nio.file.Paths
-import kotlin.io.path.Path
 
 internal class GoogleFileUploader(
     private val secretsProvider: SecretsProvider,
@@ -26,9 +25,7 @@ internal class GoogleFileUploader(
             message = "Starting file to Google Cloud Storage: $localFilePath as $fileName"
         )
 
-        val credentialsPath = FileInputStream(
-            Path("").toAbsolutePath().toString() + "/etc/invoicer/configs/application_default_credentials.json"
-        )
+        val credentialsPath = FileInputStream(secretsProvider.getSecret(SecretKeys.GCP_CREDENTIALS_PATH))
         val projectId = secretsProvider.getSecret(SecretKeys.GCP_PROJECT_ID)
         val bucketName = secretsProvider.getSecret(SecretKeys.BUCKET_PDFS)
 
