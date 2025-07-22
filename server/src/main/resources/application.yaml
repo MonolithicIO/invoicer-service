@@ -21,3 +21,8 @@ kafka:
   bootstrap_servers: $INVOICER_KAFKA_BOOTSTRAP_SERVERS
 firebase:
   project_id: $INVOICER_FIREBASE_PROJECT_ID
+  service_account_file: $INVOICER_FIREBASE_SERVICE_ACCOUNT_FILE
+file_upload:
+  bucket_pdfs: $INVOICER_PDF_UPLOAD_BUCKET
+  gcp_client_id: $INVOICER_GCP_CLIENT_ID
+  gcp_credential_file: $INVOICER_GCP_CREDENTIAL_FILE

@@ -9,6 +9,8 @@ version = "0.0.1"
 
 dependencies {
     implementation(libs.minIO)
+    implementation(libs.gcp.storage)
+    implementation(projects.foundation.log)
     implementation(projects.foundation.env)
 
     testImplementation(libs.kotlin.test)
