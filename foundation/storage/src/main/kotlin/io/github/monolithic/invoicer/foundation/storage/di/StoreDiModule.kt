@@ -6,6 +6,7 @@ import io.github.monolithic.invoicer.foundation.storage.remote.FileDownloader
 import io.github.monolithic.invoicer.foundation.storage.remote.FileUploader
 import io.github.monolithic.invoicer.foundation.storage.remote.SecureFileLinkGenerator
 import io.github.monolithic.invoicer.foundation.storage.remote.google.GoogleFileUploader
+import io.github.monolithic.invoicer.foundation.storage.remote.google.GoogleSecureLink
 import io.github.monolithic.invoicer.foundation.storage.remote.minIO.MinIOFilerDownloader
 import io.github.monolithic.invoicer.foundation.storage.remote.minIO.MinIOSecureFileLinkGenerator
 import org.kodein.di.DI
@@ -20,9 +21,9 @@ val storageDiModule = DI.Module("storage-di") {
         )
     }
 
-    bindProvider<FileDownloader> { MinIOFilerDownloader(secretsProvider = instance()) }
+    bindProvider<SecureFileLinkGenerator> { GoogleSecureLink(secretsProvider = instance()) }
 
-    bindProvider<SecureFileLinkGenerator> { MinIOSecureFileLinkGenerator(secretsProvider = instance()) }
+    bindProvider<FileDownloader> { MinIOFilerDownloader(secretsProvider = instance()) }
 
     bindProvider<LocalStorage> { LocalStorageHelper() }
 }
