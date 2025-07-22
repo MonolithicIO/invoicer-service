@@ -1,6 +1,7 @@
 package io.github.monolithic.invoicer.foundation.storage.remote.google
 
 import com.google.auth.oauth2.GoogleCredentials
+import com.google.auth.oauth2.ServiceAccountCredentials
 import com.google.cloud.storage.BlobId
 import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.Storage
@@ -18,17 +19,15 @@ internal class GoogleSecureLink(
 
     override suspend fun generateLink(fileKey: String, durationInHours: Int): String {
 
-
         val projectId = secretsProvider.getSecret(SecretKeys.GCP_PROJECT_ID)
-        val credentialsPath =
-            FileInputStream(secretsProvider.getSecret(SecretKeys.GCP_CREDENTIALS_PATH))
+        val serviceAccount =
+            FileInputStream(secretsProvider.getSecret(SecretKeys.GCP_SERVICE_ACCOUNT))
         val bucket = secretsProvider.getSecret(SecretKeys.BUCKET_PDFS)
 
         val storage: Storage = StorageOptions.newBuilder()
             .setProjectId(projectId)
-            .setCredentials(GoogleCredentials.fromStream(credentialsPath))
+            .setCredentials(ServiceAccountCredentials.fromStream(serviceAccount))
             .build().service
-
 
         // Define resource
         val blobInfo = BlobInfo.newBuilder(BlobId.of(bucket, fileKey)).build()

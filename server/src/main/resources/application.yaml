@@ -26,3 +26,4 @@ file_upload:
   bucket_pdfs: $INVOICER_PDF_UPLOAD_BUCKET
   gcp_client_id: $INVOICER_GCP_CLIENT_ID
   gcp_credential_file: $INVOICER_GCP_CREDENTIAL_FILE
+  gcp_service_account_file: $INVOICER_GCP_SERVICE_ACCOUNT
