@@ -60,7 +60,7 @@ internal class FirebaseIdentityProvider(
     override fun initialize() {
         runCatching {
             val projectId = secretsProvider.getSecret(SecretKeys.FIREBASE_ID)
-            val configFilePath = secretsProvider.getSecret(SecretKeys.FIREBASE_CREDENTIALS_PATH)
+            val configFilePath = secretsProvider.getSecret(SecretKeys.FIREBASE_SERVICE_ACCOUNT)
 
             val configFile = FileInputStream(configFilePath)
 

@@ -1,9 +1,9 @@
 package io.github.monolithic.invoicer.repository
 
-import io.github.monolithic.invoicer.repository.datasource.InvoicePdfDataSource
-import java.util.*
 import io.github.monolithic.invoicer.models.invoicepdf.InvoicePdfModel
 import io.github.monolithic.invoicer.models.invoicepdf.InvoicePdfStatus
+import io.github.monolithic.invoicer.repository.datasource.InvoicePdfDataSource
+import java.util.*
 
 interface InvoicePdfRepository {
     suspend fun createInvoicePdf(
@@ -42,7 +42,7 @@ internal class InvoicePdfRepositoryImpl(
     }
 
     override suspend fun getInvoicePdf(invoiceId: UUID): InvoicePdfModel? {
-        return getInvoicePdf(
+        return invoicePdfDataSource.getInvoicePdf(
             invoiceId = invoiceId
         )
     }
