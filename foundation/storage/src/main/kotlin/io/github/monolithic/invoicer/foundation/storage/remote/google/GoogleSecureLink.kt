@@ -42,5 +42,9 @@ internal class GoogleSecureLink(
         return url.toString()
     }
 
-    private fun Int.toMinutes() = this * 60L
+    private fun Int.toMinutes() = this * MINUTES_MULTIPLIER
+
+    companion object {
+        const val MINUTES_MULTIPLIER = 60L
+    }
 }
