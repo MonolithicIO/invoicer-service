@@ -14,6 +14,7 @@ import io.github.monolithic.invoicer.models.login.RefreshTokenModel
 import io.github.monolithic.invoicer.repository.fakes.FakeRefreshTokenRepository
 import io.github.monolithic.invoicer.foundation.exceptions.http.HttpCode
 import io.github.monolithic.invoicer.foundation.exceptions.http.HttpError
+import io.github.monolithic.invoicer.utils.fakes.FakeClock
 
 internal class RefreshLoginServiceImplTest {
 
@@ -33,7 +34,8 @@ internal class RefreshLoginServiceImplTest {
             tokenManager = tokenManager,
             getUserByIdService = getUserByIdService,
             refreshTokenRepository = refreshTokenRepository,
-            storeRefreshTokenService = storeRefreshTokenService
+            storeRefreshTokenService = storeRefreshTokenService,
+            clock = FakeClock()
         )
     }
 
@@ -81,7 +83,7 @@ internal class RefreshLoginServiceImplTest {
         }
 
         assertEquals(
-            expected = HttpCode.Forbidden,
+            expected = HttpCode.UnAuthorized,
             actual = result.statusCode
         )
     }
@@ -153,7 +155,8 @@ internal class RefreshLoginServiceImplTest {
             token = "sampleToken",
             createdAt = Instant.parse("2023-10-05T00:00:00Z"),
             updatedAt = Instant.parse("2023-10-06T00:00:00Z"),
-            enabled = true
+            enabled = true,
+            expiresAt = Instant.parse("2023-12-05T00:00:00Z")
         )
     }
 }

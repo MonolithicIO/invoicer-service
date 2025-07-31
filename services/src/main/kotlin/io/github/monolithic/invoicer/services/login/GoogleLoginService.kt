@@ -71,10 +71,10 @@ internal class GoogleLoginServiceImpl(
     private suspend fun generateTokens(
         userUuid: UUID
     ): AuthTokenModel {
-        val refreshToken = authTokenManager.generateRefreshToken(userUuid.toString())
+        val refreshToken = authTokenManager.generateRefreshToken()
         val accessToken = authTokenManager.generateToken(userUuid.toString())
 
-        storeRefreshTokenService.storeRefreshToken(
+        storeRefreshTokenService.createRefreshToken(
             token = refreshToken,
             userId = userUuid
         )

@@ -8,5 +8,6 @@ data class RefreshTokenModel(
     val token: String,
     val createdAt: Instant,
     val updatedAt: Instant,
-    val enabled: Boolean
+    val enabled: Boolean,
+    val expiresAt: Instant
 )

@@ -1,14 +1,16 @@
 package io.github.monolithic.invoicer.repository
 
+import io.github.monolithic.invoicer.models.login.RefreshTokenModel
 import io.github.monolithic.invoicer.repository.datasource.RefreshTokenDataSource
 import java.util.*
-import io.github.monolithic.invoicer.models.login.RefreshTokenModel
+import kotlinx.datetime.Instant
 
 interface RefreshTokenRepository {
 
     suspend fun createRefreshToken(
         token: String,
-        userId: UUID
+        userId: UUID,
+        expiration: Instant
     )
 
     suspend fun invalidateToken(
@@ -21,7 +23,6 @@ interface RefreshTokenRepository {
     )
 
     suspend fun findUserToken(
-        userId: UUID,
         token: String
     ): RefreshTokenModel?
 }
@@ -30,10 +31,11 @@ internal class RefreshTokenRepositoryImpl(
     private val dataSource: RefreshTokenDataSource
 ) : RefreshTokenRepository {
 
-    override suspend fun createRefreshToken(token: String, userId: UUID) {
+    override suspend fun createRefreshToken(token: String, userId: UUID, expiration: Instant) {
         return dataSource.createRefreshToken(
             token = token,
-            userId = userId
+            userId = userId,
+            expiration = expiration
         )
     }
 
@@ -51,9 +53,8 @@ internal class RefreshTokenRepositoryImpl(
         return dataSource.invalidateAllUserTokens(userId = userId)
     }
 
-    override suspend fun findUserToken(userId: UUID, token: String): RefreshTokenModel? {
-        return dataSource.findUserToken(
-            userId = userId,
+    override suspend fun findUserToken(token: String): RefreshTokenModel? {
+        return dataSource.findRefreshToken(
             token = token
         )
     }

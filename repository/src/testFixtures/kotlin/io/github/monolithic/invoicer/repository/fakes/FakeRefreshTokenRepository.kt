@@ -3,6 +3,7 @@ package io.github.monolithic.invoicer.repository.fakes
 import io.github.monolithic.invoicer.models.login.RefreshTokenModel
 import io.github.monolithic.invoicer.repository.RefreshTokenRepository
 import java.util.*
+import kotlinx.datetime.Instant
 
 class FakeRefreshTokenRepository : RefreshTokenRepository {
 
@@ -10,11 +11,15 @@ class FakeRefreshTokenRepository : RefreshTokenRepository {
 
     var userToken: suspend () -> RefreshTokenModel? = { null }
 
-    var storeCalls = 0
+    var createCalls = 0
         private set
 
-    override suspend fun createRefreshToken(token: String, userId: UUID) {
-        storeCalls++
+    override suspend fun createRefreshToken(
+        token: String,
+        userId: UUID,
+        expiration: Instant
+    ) {
+        createCalls++
     }
 
     override suspend fun invalidateToken(userId: UUID, token: String) {
@@ -23,7 +28,7 @@ class FakeRefreshTokenRepository : RefreshTokenRepository {
 
     override suspend fun invalidateAllUserTokens(userId: UUID) = Unit
 
-    override suspend fun findUserToken(userId: UUID, token: String): RefreshTokenModel? {
+    override suspend fun findUserToken(token: String): RefreshTokenModel? {
         return userToken()
     }
 }

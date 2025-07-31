@@ -39,9 +39,9 @@ internal class LoginServiceImpl(
         }
 
         val accessToken = authTokenManager.generateToken(account.id.toString())
-        val refreshToken = authTokenManager.generateRefreshToken(account.id.toString())
+        val refreshToken = authTokenManager.generateRefreshToken()
 
-        storeRefreshTokenService.storeRefreshToken(
+        storeRefreshTokenService.createRefreshToken(
             token = refreshToken,
             userId = account.id
         )
