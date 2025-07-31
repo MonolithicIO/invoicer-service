@@ -5,6 +5,7 @@ import io.github.monolithic.invoicer.repository.entities.RefreshTokenEntity
 import io.github.monolithic.invoicer.repository.entities.RefreshTokensTable
 import java.util.*
 import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -14,7 +15,8 @@ interface RefreshTokenDataSource {
 
     suspend fun createRefreshToken(
         token: String,
-        userId: UUID
+        userId: UUID,
+        expiration: Instant
     )
 
     suspend fun invalidateToken(
@@ -35,7 +37,7 @@ internal class RefreshTokenDataSourceImpl(
     private val dateProvider: Clock
 ) : RefreshTokenDataSource {
 
-    override suspend fun createRefreshToken(token: String, userId: UUID) {
+    override suspend fun createRefreshToken(token: String, userId: UUID, expiration: Instant) {
         return newSuspendedTransaction {
             RefreshTokensTable.insert {
                 it[refreshToken] = token
@@ -43,6 +45,7 @@ internal class RefreshTokenDataSourceImpl(
                 it[enabled] = true
                 it[createdAt] = dateProvider.now()
                 it[updatedAt] = dateProvider.now()
+                it[RefreshTokensTable.expiresAt] = expiration
             }
         }
     }
@@ -89,7 +92,8 @@ internal class RefreshTokenDataSourceImpl(
                     userId = it.user.id.value,
                     enabled = it.enabled,
                     createdAt = it.createdAt,
-                    updatedAt = it.updatedAt
+                    updatedAt = it.updatedAt,
+                    expiresAt = it.expiresAt
                 )
             }
         }

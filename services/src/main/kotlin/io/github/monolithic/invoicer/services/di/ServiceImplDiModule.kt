@@ -147,13 +147,15 @@ private fun DI.Builder.loginServices() {
             tokenManager = instance(),
             getUserByIdService = instance(),
             refreshTokenRepository = instance(),
-            storeRefreshTokenService = instance()
+            storeRefreshTokenService = instance(),
+            clock = instance()
         )
     }
 
     bindProvider<StoreRefreshTokenService> {
         StoreRefreshTokenServiceImpl(
-            refreshTokenRepository = instance()
+            refreshTokenRepository = instance(),
+            clock = instance()
         )
     }
 

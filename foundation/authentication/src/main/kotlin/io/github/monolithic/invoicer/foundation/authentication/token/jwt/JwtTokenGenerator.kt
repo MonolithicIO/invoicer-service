@@ -34,7 +34,7 @@ internal class JwtTokenGenerator(
         )
     }
 
-    override fun generateRefreshToken(userId: String): String {
+    override fun generateRefreshToken(): String {
         return uuidProvider.generateUuid()
     }
 

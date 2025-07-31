@@ -3,12 +3,14 @@ package io.github.monolithic.invoicer.repository
 import io.github.monolithic.invoicer.models.login.RefreshTokenModel
 import io.github.monolithic.invoicer.repository.datasource.RefreshTokenDataSource
 import java.util.*
+import kotlinx.datetime.Instant
 
 interface RefreshTokenRepository {
 
     suspend fun createRefreshToken(
         token: String,
-        userId: UUID
+        userId: UUID,
+        expiration: Instant
     )
 
     suspend fun invalidateToken(
@@ -29,10 +31,11 @@ internal class RefreshTokenRepositoryImpl(
     private val dataSource: RefreshTokenDataSource
 ) : RefreshTokenRepository {
 
-    override suspend fun createRefreshToken(token: String, userId: UUID) {
+    override suspend fun createRefreshToken(token: String, userId: UUID, expiration: Instant) {
         return dataSource.createRefreshToken(
             token = token,
-            userId = userId
+            userId = userId,
+            expiration = expiration
         )
     }
 

@@ -48,8 +48,9 @@ internal class AuthorizeQrCodeTokenServiceImpl(
         qrCodeTokenRepository.consumeQrCodeToken(token.id)
 
         val accessToken = authTokenManager.generateToken(userUuid.toString())
-        val refreshToken = authTokenManager.generateRefreshToken(userUuid.toString())
-        storeRefreshTokenService.storeRefreshToken(
+        val refreshToken = authTokenManager.generateRefreshToken()
+
+        storeRefreshTokenService.createRefreshToken(
             token = refreshToken,
             userId = userUuid
         )

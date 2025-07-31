@@ -9,7 +9,7 @@ class FakeStoreRefreshTokenService : StoreRefreshTokenService {
 
     var callHistory = mutableListOf<Pair<String, UUID>>()
 
-    override suspend fun storeRefreshToken(token: String, userId: UUID) {
+    override suspend fun createRefreshToken(token: String, userId: UUID) {
         callHistory.add(Pair(token, userId))
         response()
     }

@@ -2,7 +2,7 @@ package io.github.monolithic.invoicer.foundation.authentication.token
 
 interface AuthTokenManager {
     fun generateToken(userId: String): String
-    fun generateRefreshToken(userId: String): String
+    fun generateRefreshToken(): String
     fun verifyToken(token: String): String?
 
     companion object {
@@ -23,8 +23,8 @@ internal class AuthTokenManagerImpl(
         return tokenGenerator.generateAccessToken(userId)
     }
 
-    override fun generateRefreshToken(userId: String): String {
-        return tokenGenerator.generateRefreshToken(userId)
+    override fun generateRefreshToken(): String {
+        return tokenGenerator.generateRefreshToken()
     }
 
     override fun verifyToken(token: String): String? {

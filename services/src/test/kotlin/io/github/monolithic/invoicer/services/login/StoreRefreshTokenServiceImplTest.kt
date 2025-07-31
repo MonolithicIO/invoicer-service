@@ -19,7 +19,7 @@ class StoreRefreshTokenServiceImplTest {
 
     @Test
     fun `when service is called should store token`() = runTest {
-        service.storeRefreshToken(token = "1234", userId = UUID.fromString("550e8400-e29b-41d4-a716-446655440000"))
+        service.createRefreshToken(token = "1234", userId = UUID.fromString("550e8400-e29b-41d4-a716-446655440000"))
 
         assertEquals(
             expected = 1,
