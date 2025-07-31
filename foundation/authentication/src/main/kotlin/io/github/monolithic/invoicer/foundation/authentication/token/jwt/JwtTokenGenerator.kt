@@ -6,6 +6,9 @@ import io.github.monolithic.invoicer.foundation.authentication.token.AuthTokenGe
 import io.github.monolithic.invoicer.foundation.authentication.token.AuthTokenManager
 import io.github.monolithic.invoicer.foundation.env.secrets.SecretKeys
 import io.github.monolithic.invoicer.foundation.env.secrets.SecretsProvider
+import io.github.monolithic.invoicer.foundation.exceptions.http.HttpCode
+import io.github.monolithic.invoicer.foundation.exceptions.http.httpError
+import io.github.monolithic.invoicer.utils.uuid.UuidProvider
 import io.ktor.server.auth.AuthenticationConfig
 import io.ktor.server.auth.authenticate
 import io.ktor.server.auth.jwt.JWTPrincipal
@@ -13,17 +16,15 @@ import io.ktor.server.auth.jwt.jwt
 import io.ktor.server.auth.principal
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.RoutingContext
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toJavaInstant
-import io.github.monolithic.invoicer.foundation.exceptions.http.HttpCode
-import io.github.monolithic.invoicer.foundation.exceptions.http.httpError
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.days
-import kotlin.time.Duration.Companion.hours
 
 internal class JwtTokenGenerator(
     private val clock: Clock,
     private val secretsProvider: SecretsProvider,
+    private val uuidProvider: UuidProvider
 ) : AuthTokenGenerator {
 
     override fun generateAccessToken(userId: String): String {
@@ -34,10 +35,7 @@ internal class JwtTokenGenerator(
     }
 
     override fun generateRefreshToken(userId: String): String {
-        return createToken(
-            userId = userId,
-            expiration = 999.days
-        )
+        return uuidProvider.generateUuid()
     }
 
     private fun createToken(

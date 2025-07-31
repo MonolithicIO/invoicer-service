@@ -2,6 +2,8 @@ package io.github.monolithic.invoicer.utils.di
 
 import io.github.monolithic.invoicer.utils.events.QrCodeEventHandler
 import io.github.monolithic.invoicer.utils.events.QrCodeEventHandlerImpl
+import io.github.monolithic.invoicer.utils.uuid.UuidProvider
+import io.github.monolithic.invoicer.utils.uuid.UuidProviderImpl
 import io.github.monolithic.invoicer.utils.validation.CountryCodeValidator
 import io.github.monolithic.invoicer.utils.validation.CountryCodeValidatorImpl
 import io.github.monolithic.invoicer.utils.validation.EmailValidator
@@ -22,4 +24,5 @@ val utilDiModule = DI.Module("foundationDiModule") {
     bindProvider<SwiftValidator> { SwiftValidatorImpl }
     bindProvider<IbanValidator> { IbanValidatorImpl }
     bindProvider<CountryCodeValidator> { CountryCodeValidatorImpl() }
+    bindProvider<UuidProvider> { UuidProviderImpl }
 }

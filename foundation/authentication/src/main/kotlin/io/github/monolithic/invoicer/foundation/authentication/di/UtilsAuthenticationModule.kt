@@ -6,8 +6,8 @@ import io.github.monolithic.invoicer.foundation.authentication.token.AuthTokenGe
 import io.github.monolithic.invoicer.foundation.authentication.token.AuthTokenManager
 import io.github.monolithic.invoicer.foundation.authentication.token.AuthTokenManagerImpl
 import io.github.monolithic.invoicer.foundation.authentication.token.AuthTokenVerifier
-import io.github.monolithic.invoicer.foundation.authentication.token.jwt.JwtVerifier
 import io.github.monolithic.invoicer.foundation.authentication.token.jwt.JwtTokenGenerator
+import io.github.monolithic.invoicer.foundation.authentication.token.jwt.JwtVerifier
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
 import org.kodein.di.bindSingleton
@@ -26,6 +26,7 @@ val utilsAuthenticationModule = DI.Module("utils-authentication") {
         JwtTokenGenerator(
             clock = instance(),
             secretsProvider = instance(),
+            uuidProvider = instance()
         )
     }
 
