@@ -1,8 +1,8 @@
 package io.github.monolithic.invoicer.repository
 
+import io.github.monolithic.invoicer.models.login.RefreshTokenModel
 import io.github.monolithic.invoicer.repository.datasource.RefreshTokenDataSource
 import java.util.*
-import io.github.monolithic.invoicer.models.login.RefreshTokenModel
 
 interface RefreshTokenRepository {
 
@@ -21,7 +21,6 @@ interface RefreshTokenRepository {
     )
 
     suspend fun findUserToken(
-        userId: UUID,
         token: String
     ): RefreshTokenModel?
 }
@@ -51,9 +50,8 @@ internal class RefreshTokenRepositoryImpl(
         return dataSource.invalidateAllUserTokens(userId = userId)
     }
 
-    override suspend fun findUserToken(userId: UUID, token: String): RefreshTokenModel? {
-        return dataSource.findUserToken(
-            userId = userId,
+    override suspend fun findUserToken(token: String): RefreshTokenModel? {
+        return dataSource.findRefreshToken(
             token = token
         )
     }

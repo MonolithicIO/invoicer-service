@@ -1,14 +1,14 @@
 package io.github.monolithic.invoicer.repository.datasource
 
+import io.github.monolithic.invoicer.models.login.RefreshTokenModel
 import io.github.monolithic.invoicer.repository.entities.RefreshTokenEntity
 import io.github.monolithic.invoicer.repository.entities.RefreshTokensTable
+import java.util.*
 import kotlinx.datetime.Clock
-import io.github.monolithic.invoicer.models.login.RefreshTokenModel
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.update
-import java.util.*
 
 interface RefreshTokenDataSource {
 
@@ -26,8 +26,7 @@ interface RefreshTokenDataSource {
         userId: UUID
     )
 
-    suspend fun findUserToken(
-        userId: UUID,
+    suspend fun findRefreshToken(
         token: String
     ): RefreshTokenModel?
 }
@@ -78,11 +77,10 @@ internal class RefreshTokenDataSourceImpl(
         }
     }
 
-    override suspend fun findUserToken(userId: UUID, token: String): RefreshTokenModel? {
+    override suspend fun findRefreshToken(token: String): RefreshTokenModel? {
         return newSuspendedTransaction {
             val data = RefreshTokenEntity.Companion.find {
-                (RefreshTokensTable.refreshToken eq token) and
-                        (RefreshTokensTable.user eq userId)
+                (RefreshTokensTable.refreshToken eq token)
             }.firstOrNull()
 
             data?.let {

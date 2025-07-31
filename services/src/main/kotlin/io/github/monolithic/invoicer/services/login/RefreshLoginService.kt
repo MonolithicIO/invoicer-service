@@ -1,12 +1,12 @@
 package io.github.monolithic.invoicer.services.login
 
 import io.github.monolithic.invoicer.foundation.authentication.token.AuthTokenManager
-import io.github.monolithic.invoicer.utils.uuid.parseUuid
+import io.github.monolithic.invoicer.foundation.exceptions.http.forbiddenError
+import io.github.monolithic.invoicer.foundation.exceptions.http.unAuthorizedError
 import io.github.monolithic.invoicer.models.login.AuthTokenModel
 import io.github.monolithic.invoicer.repository.RefreshTokenRepository
 import io.github.monolithic.invoicer.services.user.GetUserByIdService
-import io.github.monolithic.invoicer.foundation.exceptions.http.forbiddenError
-import io.github.monolithic.invoicer.foundation.exceptions.http.unAuthorizedError
+import io.github.monolithic.invoicer.utils.uuid.parseUuid
 
 interface RefreshLoginService {
     suspend fun refreshLogin(
@@ -29,7 +29,7 @@ internal class RefreshLoginServiceImpl(
         val user = getUserByIdService.get(parseUuid(extractedUserId))
 
         val findToken =
-            refreshTokenRepository.findUserToken(user.id, refreshToken) ?: unAuthorizedError(
+            refreshTokenRepository.findUserToken(refreshToken) ?: unAuthorizedError(
                 message = "Refresh token already consumed"
             )
 

@@ -1,5 +1,6 @@
 package io.github.monolithic.invoicer.repository.entities
 
+import java.util.*
 import kotlinx.datetime.Instant
 import org.jetbrains.exposed.dao.UUIDEntity
 import org.jetbrains.exposed.dao.UUIDEntityClass
@@ -7,7 +8,6 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
-import java.util.*
 
 internal object RefreshTokensTable : UUIDTable("t_refresh_tokens") {
     val user = reference(name = "user_id", foreign = UserTable, onDelete = ReferenceOption.CASCADE)
@@ -15,6 +15,7 @@ internal object RefreshTokensTable : UUIDTable("t_refresh_tokens") {
     val refreshToken = varchar("token", 1000)
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
+    val expiresAt = timestamp("expiration")
 }
 
 internal class RefreshTokenEntity(id: EntityID<UUID>) : UUIDEntity(id) {
@@ -25,4 +26,5 @@ internal class RefreshTokenEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var refreshToken by RefreshTokensTable.refreshToken
     var createdAt: Instant by RefreshTokensTable.createdAt
     var updatedAt: Instant by RefreshTokensTable.updatedAt
+    var expiresAt: Instant by RefreshTokensTable.expiresAt
 }
