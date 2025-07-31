@@ -2,6 +2,7 @@ package io.github.monolithic.invoicer.services.login
 
 import kotlinx.coroutines.test.runTest
 import io.github.monolithic.invoicer.repository.fakes.FakeRefreshTokenRepository
+import io.github.monolithic.invoicer.utils.fakes.FakeClock
 import java.util.*
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -14,7 +15,10 @@ class StoreRefreshTokenServiceImplTest {
     @BeforeTest
     fun setUp() {
         repository = FakeRefreshTokenRepository()
-        service = StoreRefreshTokenServiceImpl(repository)
+        service = StoreRefreshTokenServiceImpl(
+            refreshTokenRepository = repository,
+            clock = FakeClock()
+        )
     }
 
     @Test
@@ -23,7 +27,7 @@ class StoreRefreshTokenServiceImplTest {
 
         assertEquals(
             expected = 1,
-            actual = repository.storeCalls
+            actual = repository.createCalls
         )
     }
 }

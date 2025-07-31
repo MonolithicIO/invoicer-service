@@ -15,7 +15,7 @@ class FakeAuthTokenManager : AuthTokenManager {
         return token
     }
 
-    override fun generateRefreshToken(userId: String): String {
+    override fun generateRefreshToken(): String {
         generateRefreshTokenCalls++
         return refreshToken
     }
