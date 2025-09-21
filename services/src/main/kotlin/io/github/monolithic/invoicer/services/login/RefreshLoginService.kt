@@ -1,6 +1,8 @@
 package io.github.monolithic.invoicer.services.login
 
 import io.github.monolithic.invoicer.foundation.authentication.token.AuthTokenManager
+import io.github.monolithic.invoicer.foundation.exceptions.http.badRequestError
+import io.github.monolithic.invoicer.foundation.exceptions.http.conflictError
 import io.github.monolithic.invoicer.foundation.exceptions.http.unAuthorizedError
 import io.github.monolithic.invoicer.models.login.AuthTokenModel
 import io.github.monolithic.invoicer.repository.RefreshTokenRepository
@@ -23,16 +25,16 @@ internal class RefreshLoginServiceImpl(
 
     override suspend fun refreshLogin(refreshToken: String): AuthTokenModel {
         val findToken =
-            refreshTokenRepository.findUserToken(refreshToken) ?: unAuthorizedError(
+            refreshTokenRepository.findUserToken(refreshToken) ?: conflictError(
                 message = "Refresh token already consumed"
             )
 
         if (clock.now() > findToken.expiresAt) {
-            unAuthorizedError("Refresh token expired")
+            badRequestError("Refresh token expired")
         }
 
         if (findToken.enabled.not()) {
-            unAuthorizedError("Invalid refresh token")
+            badRequestError("Invalid refresh token")
         }
 
         val user = getUserByIdService.get(findToken.userId)
