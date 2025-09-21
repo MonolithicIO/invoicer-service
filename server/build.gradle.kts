@@ -91,7 +91,7 @@ kover {
 ktor {
     docker {
         jreVersion.set(JavaVersion.VERSION_17)
-        localImageName.set("monolithic/invoicer-api")
+        localImageName.set("alaksion/invoicer-api")
         imageTag.set(AppConfig.version)
 
         externalRegistry.set(
