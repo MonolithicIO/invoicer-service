@@ -2,29 +2,22 @@ package io.github.monolithic.invoicer.repository
 
 import io.github.monolithic.invoicer.models.resetpassword.CreateResetPasswordRequestModel
 import io.github.monolithic.invoicer.models.resetpassword.ResetPasswordRequestModel
-import kotlinx.datetime.Instant
+import io.github.monolithic.invoicer.repository.datasource.PasswordResetDataSource
 
 interface PasswordResetRepository {
     suspend fun createPasswordResetRequest(request: CreateResetPasswordRequestModel): String
     suspend fun getPasswordResetRequestByToken(token: String): ResetPasswordRequestModel?
 }
 
-internal class PasswordResetRepositoryImpl : PasswordResetRepository {
+internal class PasswordResetRepositoryImpl(
+    private val dataSource: PasswordResetDataSource
+) : PasswordResetRepository {
 
     override suspend fun createPasswordResetRequest(request: CreateResetPasswordRequestModel): String {
-        return "123"
+        return dataSource.createPasswordResetRequest(request)
     }
 
     override suspend fun getPasswordResetRequestByToken(token: String): ResetPasswordRequestModel? {
-        return ResetPasswordRequestModel(
-            safeCode = "123",
-            userId = java.util.UUID.randomUUID(),
-            expiresAt = Instant.DISTANT_FUTURE,
-            isConsumed = false,
-            createdAt = Instant.DISTANT_PAST,
-            updatedAt = Instant.DISTANT_PAST,
-            expirationText = "15 minutes"
-        )
+        return dataSource.getPasswordResetRequestByToken(token)
     }
-
 }

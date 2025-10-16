@@ -28,6 +28,8 @@ import io.github.monolithic.invoicer.repository.datasource.InvoiceDataSource
 import io.github.monolithic.invoicer.repository.datasource.InvoiceDataSourceImpl
 import io.github.monolithic.invoicer.repository.datasource.InvoicePdfDataSource
 import io.github.monolithic.invoicer.repository.datasource.InvoicePdfDataSourceImpl
+import io.github.monolithic.invoicer.repository.datasource.PasswordResetDataSource
+import io.github.monolithic.invoicer.repository.datasource.PasswordResetDataSourceImpl
 import io.github.monolithic.invoicer.repository.datasource.PaymentAccountDataSource
 import io.github.monolithic.invoicer.repository.datasource.PaymentAccountDataSourceImpl
 import io.github.monolithic.invoicer.repository.datasource.QrCodeTokenDataSource
@@ -145,5 +147,11 @@ val repositoryModule = DI.Module("invocer-repository") {
 
     bindProvider<PasswordResetRepository> {
         PasswordResetRepositoryImpl()
+    }
+
+    bindProvider<PasswordResetDataSource> {
+        PasswordResetDataSourceImpl(
+            clock = instance()
+        )
     }
 }
