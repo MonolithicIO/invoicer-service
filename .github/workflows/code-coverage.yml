@@ -30,7 +30,7 @@ jobs:
 
       - name: Rename file
         run: |
-          mv build/reports/kover/report.xml server/build/reports/kover/branch-report.xml
+          mv build/reports/kover/report.xml build/reports/kover/branch-report.xml
 
       - name: Store branch report
         uses: actions/upload-artifact@v4
@@ -61,7 +61,7 @@ jobs:
 
       - name: Rename file
         run: |
-          mv build/reports/kover/report.xml server/build/reports/kover/main-report.xml
+          mv build/reports/kover/report.xml build/reports/kover/main-report.xml
 
       - name: Store Main report
         uses: actions/upload-artifact@v4
