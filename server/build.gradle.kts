@@ -64,31 +64,12 @@ dependencies {
     implementation(projects.controller)
 
     testImplementation(libs.kotlin.test)
-
-    // Include all projects into test report
-    rootProject.subprojects.forEach {
-        kover(it)
-    }
 }
 
 // Move to build plugin
 detekt {
     val configPath = rootDir.absolutePath + "/config/detekt/detekt.yml"
     config.setFrom(configPath)
-}
-
-kover {
-    reports {
-        filters {
-            excludes {
-                packages("**.di")
-                packages("**.fakes")
-                packages("**.fixtures")
-                packages("**.pdfwriter.itext")
-                annotatedBy("io.github.monolithic.invoicer.utils.annotations.IgnoreCoverage")
-            }
-        }
-    }
 }
 
 ktor {

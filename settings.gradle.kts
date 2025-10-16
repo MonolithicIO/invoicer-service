@@ -10,6 +10,18 @@ pluginManagement {
     }
 }
 
+plugins {
+    id("org.jetbrains.kotlinx.kover.aggregation") version "0.9.3"
+}
+
+kover {
+    enableCoverage()
+    reports {
+        excludesAnnotatedBy = setOf("io.github.monolithic.invoicer.utils.annotations.IgnoreCoverage")
+        excludedClasses = setOf("**.di", "**.fakes", "**.fixtures", "**.pdfwriter.itext")
+    }
+}
+
 dependencyResolutionManagement {
     repositories {
         mavenLocal()
