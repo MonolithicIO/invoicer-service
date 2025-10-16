@@ -5,6 +5,7 @@ import io.github.monolithic.invoicer.foundation.password.di.utilPasswordDi
 import io.github.monolithic.invoicer.foundation.qrcode.di.qrCodeModule
 import io.github.monolithic.invoicer.consumers.di.consumersDiModule
 import io.github.monolithic.invoicer.foundation.authentication.di.utilsAuthenticationModule
+import io.github.monolithic.invoicer.foundation.email.di.emailDiModule
 import io.github.monolithic.invoicer.foundation.env.di.invoicerEnvironmentDiModule
 import io.github.monolithic.invoicer.foundation.log.di.logDiModule
 import io.github.monolithic.invoicer.foundation.messaging.di.messagingDiModule
@@ -29,5 +30,6 @@ fun Application.installDi() {
         import(messagingDiModule)
         import(consumersDiModule)
         import(logDiModule)
+        import(emailDiModule)
     }
 }

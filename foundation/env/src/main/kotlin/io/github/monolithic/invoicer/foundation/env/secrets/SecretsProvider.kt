@@ -20,5 +20,6 @@ enum class SecretKeys(internal val envName: String) {
     BUCKET_PDFS("file_upload.bucket_pdfs"),
     GCP_CREDENTIALS_PATH("file_upload.gcp_credential_file"),
     FIREBASE_SERVICE_ACCOUNT("firebase.service_account_file"),
-    GCP_SERVICE_ACCOUNT("file_upload.gcp_service_account_file")
+    GCP_SERVICE_ACCOUNT("file_upload.gcp_service_account_file"),
+    RESEND_API_KEY("email.resend_api_key"),
 }

@@ -27,6 +27,7 @@ loki = "1.4.0"
 firebase-admin = "9.4.3"
 mockk = "1.14.4"
 gcp-storage = "2.53.3"
+resend = "4.4.0"
 
 [libraries]
 kodein-server = { module = "org.kodein.di:kodein-di-framework-ktor-server-jvm", version.ref = "kodein" }
@@ -109,6 +110,9 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
 # GCP
 gcp-storage = { module = "com.google.cloud:google-cloud-storage", version.ref = "gcp-storage" }
+
+# Email
+resend = { module = "com.resend:resend-java", version.ref = "resend" }
 
 
 [plugins]

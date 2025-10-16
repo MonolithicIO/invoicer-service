@@ -27,3 +27,5 @@ file_upload:
   gcp_client_id: $INVOICER_GCP_CLIENT_ID
   gcp_credential_file: $INVOICER_GCP_CREDENTIAL_FILE
   gcp_service_account_file: $INVOICER_GCP_SERVICE_ACCOUNT
+email:
+  resend_api_key: $INVOICER_RESEND_API_KEY
