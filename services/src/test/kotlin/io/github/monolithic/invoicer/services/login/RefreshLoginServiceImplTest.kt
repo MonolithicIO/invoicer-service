@@ -40,7 +40,7 @@ internal class RefreshLoginServiceImplTest {
     }
 
     @Test
-    fun `when refresh token is invalid then should throw unauthorized error`() = runTest {
+    fun `when refresh token is invalid then should throw conflict error`() = runTest {
         // Given
         tokenManager.verify = null
 
@@ -49,13 +49,13 @@ internal class RefreshLoginServiceImplTest {
         }
 
         assertEquals(
-            expected = HttpCode.UnAuthorized,
+            expected = HttpCode.Conflict,
             actual = result.statusCode
         )
     }
 
     @Test
-    fun `when refresh token is not found then should throw unauthorized error`() = runTest {
+    fun `when refresh token is not found then should throw conflict error`() = runTest {
         // Given
         refreshTokenRepository.userToken = { null }
 
@@ -64,13 +64,13 @@ internal class RefreshLoginServiceImplTest {
         }
 
         assertEquals(
-            expected = HttpCode.UnAuthorized,
+            expected = HttpCode.Conflict,
             actual = result.statusCode
         )
     }
 
     @Test
-    fun `when refresh token disabled found then should throw unauthorized error`() = runTest {
+    fun `when refresh token disabled found then should throw conflict error`() = runTest {
         // Given
         refreshTokenRepository.userToken = {
             refreshTokenModel.copy(
@@ -83,7 +83,7 @@ internal class RefreshLoginServiceImplTest {
         }
 
         assertEquals(
-            expected = HttpCode.UnAuthorized,
+            expected = HttpCode.BadRequest,
             actual = result.statusCode
         )
     }
