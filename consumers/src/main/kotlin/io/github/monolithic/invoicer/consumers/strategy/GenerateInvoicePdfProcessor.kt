@@ -1,17 +1,17 @@
 package io.github.monolithic.invoicer.consumers.strategy
 
-import io.github.monolithic.invoicer.consumers.messages.types.GeneratePdfMessage
+import io.github.monolithic.invoicer.consumers.messages.types.InvoicePdfMessage
 import io.github.monolithic.invoicer.services.pdf.GenerateInvoicePdfService
 
-internal interface GeneratePdfStrategy {
-    suspend fun process(message: GeneratePdfMessage)
+internal interface GenerateInvoicePdfProcessor {
+    suspend fun process(message: InvoicePdfMessage)
 }
 
-internal class GeneratePdfStrategyImpl(
+internal class GenerateInvoicePdfProcessorImpl(
     private val invoicePdfService: GenerateInvoicePdfService
-) : GeneratePdfStrategy {
+) : GenerateInvoicePdfProcessor {
 
-    override suspend fun process(message: GeneratePdfMessage) {
+    override suspend fun process(message: InvoicePdfMessage) {
         invoicePdfService.generate(
             invoiceId = message.invoiceId,
             userId = message.userId,

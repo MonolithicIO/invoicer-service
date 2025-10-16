@@ -1,6 +1,6 @@
 package io.github.monolithic.invoicer.consumers.messages
 
-import io.github.monolithic.invoicer.consumers.messages.types.GeneratePdfMessage
+import io.github.monolithic.invoicer.consumers.messages.types.InvoicePdfMessage
 import io.github.monolithic.invoicer.consumers.messages.types.Message
 import io.github.monolithic.invoicer.consumers.messages.types.SendEmailMessage
 import io.github.monolithic.invoicer.consumers.messages.types.Unkown
@@ -22,7 +22,7 @@ internal object MessageSerializer : JsonContentPolymorphicSerializer<Message>(Me
         val type = element.jsonObject["type"]?.jsonPrimitive?.content
 
         return when (type) {
-            MessageType.GENERATE_PDF.messageId -> GeneratePdfMessage.serializer()
+            MessageType.GENERATE_PDF.messageId -> InvoicePdfMessage.serializer()
             MessageType.SEND_PDF_EMAIL.messageId -> SendEmailMessage.serializer()
             else -> Unkown.serializer()
         }

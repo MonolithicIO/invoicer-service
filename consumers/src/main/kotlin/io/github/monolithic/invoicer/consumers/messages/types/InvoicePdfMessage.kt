@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import java.util.*
 
 @Serializable
-internal data class GeneratePdfMessage(
+internal data class InvoicePdfMessage(
     @Serializable(with = JavaUUIDSerializer::class)
     val invoiceId: UUID,
     @Serializable(with = JavaUUIDSerializer::class)
