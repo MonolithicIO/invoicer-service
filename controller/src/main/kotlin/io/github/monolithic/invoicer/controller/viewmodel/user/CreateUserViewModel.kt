@@ -1,4 +1,4 @@
-package io.github.monolithic.invoicer.controller.viewmodel.createuser
+package io.github.monolithic.invoicer.controller.viewmodel.user
 
 import kotlinx.serialization.Serializable
 import io.github.monolithic.invoicer.models.user.CreateUserModel
