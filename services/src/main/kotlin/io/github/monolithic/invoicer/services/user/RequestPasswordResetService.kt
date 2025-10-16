@@ -34,7 +34,8 @@ internal class RequestPasswordResetServiceImpl(
         val request = CreateResetPasswordRequestModel(
             safeCode = codeGenerator.generateSixDigitCode(),
             userId = user.id,
-            expiresAt = clock.now().plus(15.minutes)
+            expiresAt = clock.now().plus(CODE_EXPIRATION),
+            expirationText = "${CODE_EXPIRATION.inWholeMinutes} minutes",
         )
 
         val requestToken = passwordResetRepository.createPasswordResetRequest(
@@ -46,11 +47,16 @@ internal class RequestPasswordResetServiceImpl(
             key = "reset-password-${requestToken}",
             value = JsonObject(
                 content = mapOf(
+                    "type" to JsonPrimitive("send_reset_password_email"),
                     "token" to JsonPrimitive(requestToken),
                 )
             ).toString()
         )
 
         return requestToken
+    }
+
+    companion object {
+        val CODE_EXPIRATION = 15.minutes
     }
 }

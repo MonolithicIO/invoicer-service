@@ -1,11 +1,11 @@
-package io.github.monolithic.invoicer.consumers.strategy.context
+package io.github.monolithic.invoicer.consumers.processors.context
 
 import io.github.monolithic.invoicer.consumers.messages.types.InvoicePdfMessage
-import io.github.monolithic.invoicer.consumers.messages.types.Message
+import io.github.monolithic.invoicer.consumers.messages.Message
 import io.github.monolithic.invoicer.consumers.messages.types.SendEmailMessage
 import io.github.monolithic.invoicer.consumers.messages.types.Unkown
-import io.github.monolithic.invoicer.consumers.strategy.GenerateInvoicePdfProcessor
-import io.github.monolithic.invoicer.consumers.strategy.SendEmailProcessor
+import io.github.monolithic.invoicer.consumers.processors.GenerateInvoicePdfProcessor
+import io.github.monolithic.invoicer.consumers.processors.SendEmailProcessor
 import io.github.monolithic.invoicer.foundation.log.LogLevel
 import io.github.monolithic.invoicer.foundation.log.Logger
 

@@ -6,5 +6,6 @@ import kotlinx.datetime.Instant
 data class CreateResetPasswordRequestModel(
     val safeCode: String,
     val userId: UUID,
-    val expiresAt: Instant
+    val expiresAt: Instant,
+    val expirationText: String,
 )

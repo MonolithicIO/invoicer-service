@@ -1,4 +1,4 @@
-package io.github.monolithic.invoicer.consumers.strategy
+package io.github.monolithic.invoicer.consumers.processors
 
 import io.github.monolithic.invoicer.consumers.messages.types.InvoicePdfMessage
 import io.github.monolithic.invoicer.services.pdf.GenerateInvoicePdfService

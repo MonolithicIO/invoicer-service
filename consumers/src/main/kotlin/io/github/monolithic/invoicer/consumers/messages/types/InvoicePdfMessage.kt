@@ -1,5 +1,6 @@
 package io.github.monolithic.invoicer.consumers.messages.types
 
+import io.github.monolithic.invoicer.consumers.messages.Message
 import io.github.monolithic.invoicer.utils.serialization.JavaUUIDSerializer
 import kotlinx.serialization.Serializable
 import java.util.*

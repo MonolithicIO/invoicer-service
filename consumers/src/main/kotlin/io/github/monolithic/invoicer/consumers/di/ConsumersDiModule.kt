@@ -1,12 +1,12 @@
 package io.github.monolithic.invoicer.consumers.di
 
 import io.github.monolithic.invoicer.consumers.MessageHandlerImpl
-import io.github.monolithic.invoicer.consumers.strategy.GenerateInvoicePdfProcessor
-import io.github.monolithic.invoicer.consumers.strategy.GenerateInvoicePdfProcessorImpl
-import io.github.monolithic.invoicer.consumers.strategy.SendEmailProcessor
-import io.github.monolithic.invoicer.consumers.strategy.SendEmailProcessorImpl
-import io.github.monolithic.invoicer.consumers.strategy.context.MessageContext
-import io.github.monolithic.invoicer.consumers.strategy.context.MessageContextImpl
+import io.github.monolithic.invoicer.consumers.processors.GenerateInvoicePdfProcessor
+import io.github.monolithic.invoicer.consumers.processors.GenerateInvoicePdfProcessorImpl
+import io.github.monolithic.invoicer.consumers.processors.SendEmailProcessor
+import io.github.monolithic.invoicer.consumers.processors.SendEmailProcessorImpl
+import io.github.monolithic.invoicer.consumers.processors.context.MessageContext
+import io.github.monolithic.invoicer.consumers.processors.context.MessageContextImpl
 import kotlinx.coroutines.Dispatchers
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
@@ -37,6 +37,8 @@ val consumersDiModule = DI.Module(name = "ConsumersDiModule") {
     }
 
     bindProvider<SendEmailProcessor> {
-        SendEmailProcessorImpl()
+        SendEmailProcessorImpl(
+            resetPasswordEmailService = instance()
+        )
     }
 }
