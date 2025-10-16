@@ -3,10 +3,11 @@ package io.github.monolithic.invoicer.repository
 import io.github.monolithic.invoicer.models.resetpassword.CreateResetPasswordRequestModel
 import io.github.monolithic.invoicer.models.resetpassword.ResetPasswordRequestModel
 import io.github.monolithic.invoicer.repository.datasource.PasswordResetDataSource
+import java.util.*
 
 interface PasswordResetRepository {
     suspend fun createPasswordResetRequest(request: CreateResetPasswordRequestModel): String
-    suspend fun getPasswordResetRequestByToken(token: String): ResetPasswordRequestModel?
+    suspend fun getPasswordResetRequestById(id: UUID): ResetPasswordRequestModel?
 }
 
 internal class PasswordResetRepositoryImpl(
@@ -17,7 +18,7 @@ internal class PasswordResetRepositoryImpl(
         return dataSource.createPasswordResetRequest(request)
     }
 
-    override suspend fun getPasswordResetRequestByToken(token: String): ResetPasswordRequestModel? {
-        return dataSource.getPasswordResetRequestByToken(token)
+    override suspend fun getPasswordResetRequestById(id: UUID): ResetPasswordRequestModel? {
+        return dataSource.getPasswordResetRequestById(id)
     }
 }

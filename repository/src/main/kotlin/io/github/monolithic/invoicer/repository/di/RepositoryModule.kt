@@ -146,7 +146,9 @@ val repositoryModule = DI.Module("invocer-repository") {
     }
 
     bindProvider<PasswordResetRepository> {
-        PasswordResetRepositoryImpl()
+        PasswordResetRepositoryImpl(
+            dataSource = instance()
+        )
     }
 
     bindProvider<PasswordResetDataSource> {

@@ -5,13 +5,14 @@ import io.github.monolithic.invoicer.models.resetpassword.ResetPasswordRequestMo
 import io.github.monolithic.invoicer.repository.entities.ResetPasswordEntity
 import io.github.monolithic.invoicer.repository.entities.ResetPasswordTable
 import io.github.monolithic.invoicer.repository.mapper.toModel
+import java.util.*
 import kotlinx.datetime.Clock
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 
 internal interface PasswordResetDataSource {
     suspend fun createPasswordResetRequest(request: CreateResetPasswordRequestModel): String
-    suspend fun getPasswordResetRequestByToken(token: String): ResetPasswordRequestModel?
+    suspend fun getPasswordResetRequestById(id: UUID): ResetPasswordRequestModel?
 }
 
 internal class PasswordResetDataSourceImpl(
@@ -31,10 +32,10 @@ internal class PasswordResetDataSourceImpl(
         }
     }
 
-    override suspend fun getPasswordResetRequestByToken(token: String): ResetPasswordRequestModel? {
+    override suspend fun getPasswordResetRequestById(id: UUID): ResetPasswordRequestModel? {
         return newSuspendedTransaction {
             ResetPasswordEntity
-                .find { ResetPasswordTable.safeCode eq token }
+                .find { ResetPasswordTable.id eq id }
                 .firstOrNull()
                 ?.toModel()
         }

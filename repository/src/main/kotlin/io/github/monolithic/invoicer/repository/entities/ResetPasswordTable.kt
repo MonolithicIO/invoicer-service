@@ -9,7 +9,7 @@ import org.jetbrains.exposed.sql.ReferenceOption
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
 
 internal object ResetPasswordTable : UUIDTable("t_reset_password") {
-    val safeCode = varchar("safe_code", 50).uniqueIndex()
+    val safeCode = varchar("safe_code", 50)
     val user = reference(name = "user_id", foreign = UserTable, onDelete = ReferenceOption.CASCADE)
     val isConsumed = bool("is_consumed")
     val expirationText = varchar("expiration_text", 255)
