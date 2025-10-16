@@ -1,7 +1,6 @@
 [versions]
 kodein = "7.25.0"
 open-pdf = "2.0.2"
-dotenv = "6.4.1"
 exposed = "0.51.1"
 datetime = "0.6.0"
 detekt-plugin = "1.23.3"
@@ -32,7 +31,6 @@ resend = "4.4.0"
 [libraries]
 kodein-server = { module = "org.kodein.di:kodein-di-framework-ktor-server-jvm", version.ref = "kodein" }
 openpdf = { module = "com.github.librepdf:openpdf", version.ref = "open-pdf" }
-dotenv = { module = "io.github.cdimascio:dotenv-kotlin", version.ref = "dotenv" }
 
 # Exposed
 exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
