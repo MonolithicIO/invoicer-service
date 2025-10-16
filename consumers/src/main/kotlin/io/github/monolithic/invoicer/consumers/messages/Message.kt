@@ -15,6 +15,11 @@ import kotlinx.serialization.json.jsonPrimitive
 @Serializable(with = MessageSerializer::class)
 internal interface Message
 
+object MessageKeys {
+    const val RESET_PASSWORD = "send_reset_password_email"
+    const val INVOICE_PDF_GENERATE = "invoice_generate_pdf"
+}
+
 private object MessageSerializer : JsonContentPolymorphicSerializer<Message>(Message::class) {
 
     override val descriptor: SerialDescriptor = buildClassSerialDescriptor(
@@ -25,8 +30,8 @@ private object MessageSerializer : JsonContentPolymorphicSerializer<Message>(Mes
         val type = element.jsonObject["type"]?.jsonPrimitive?.content
 
         return when (type) {
-            MessageType.INVOICE_PDF_GENERATE.messageId -> InvoicePdfMessage.serializer()
-            MessageType.RESET_PASSWORD_EMAIL.messageId -> SendEmailMessage.serializer()
+            MessageKeys.INVOICE_PDF_GENERATE -> InvoicePdfMessage.serializer()
+            MessageKeys.RESET_PASSWORD -> SendEmailMessage.serializer()
             else -> Unkown.serializer()
         }
     }
