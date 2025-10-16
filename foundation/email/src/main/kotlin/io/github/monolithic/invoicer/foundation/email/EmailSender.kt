@@ -6,4 +6,10 @@ interface EmailSender {
         to: String,
         subject: String
     )
+
+    suspend fun sendTemplateEmail(
+        template: String,
+        to: String,
+        subject: String
+    )
 }
