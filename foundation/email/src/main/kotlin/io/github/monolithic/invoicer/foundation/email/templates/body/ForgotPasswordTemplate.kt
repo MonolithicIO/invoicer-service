@@ -1,5 +1,9 @@
 package io.github.monolithic.invoicer.foundation.email.templates.body
 
+import io.github.monolithic.invoicer.utils.annotations.IgnoreCoverage
+
+@Suppress("LongMethod")
+@IgnoreCoverage
 internal fun forgotPasswordTemplate(
     recoveryCode: String,
     expirationText: String

@@ -17,6 +17,7 @@ dependencies {
     // Foundation
     implementation(projects.foundation.env)
     implementation(projects.foundation.log)
+    implementation(projects.utils)
 
     // Test
     testImplementation(libs.kotlin.test)
