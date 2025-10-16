@@ -1,11 +1,13 @@
 package io.github.monolithic.invoicer.services.user
 
+import io.github.monolithic.invoicer.foundation.exceptions.http.badRequestError
 import io.github.monolithic.invoicer.foundation.messaging.MessageProducer
 import io.github.monolithic.invoicer.foundation.messaging.MessageTopic
 import io.github.monolithic.invoicer.models.resetpassword.CreateResetPasswordRequestModel
 import io.github.monolithic.invoicer.repository.PasswordResetRepository
 import io.github.monolithic.invoicer.utils.code.SixDigitGenerator
 import io.github.monolithic.invoicer.utils.uuid.UuidProvider
+import io.github.monolithic.invoicer.utils.validation.EmailValidator
 import kotlin.time.Duration.Companion.minutes
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.JsonObject
@@ -14,7 +16,7 @@ import kotlinx.serialization.json.JsonPrimitive
 typealias RequestPasswordToken = String
 
 interface RequestPasswordResetService {
-    suspend fun requestReset(email: String): RequestPasswordToken
+    suspend fun requestReset(email: String?): RequestPasswordToken
 }
 
 internal class RequestPasswordResetServiceImpl(
@@ -23,10 +25,15 @@ internal class RequestPasswordResetServiceImpl(
     private val codeGenerator: SixDigitGenerator,
     private val clock: Clock,
     private val messageProducer: MessageProducer,
-    private val passwordResetRepository: PasswordResetRepository
+    private val passwordResetRepository: PasswordResetRepository,
+    private val emailValidator: EmailValidator
 
 ) : RequestPasswordResetService {
-    override suspend fun requestReset(email: String): RequestPasswordToken {
+    override suspend fun requestReset(email: String?): RequestPasswordToken {
+        email ?: badRequestError("Invalid e-mail format")
+        if (!emailValidator.validate(email)) {
+            badRequestError("Invalid e-mail format")
+        }
 
         // User enumeration safeguard
         val user = getUserByEmailService.get(email) ?: return uuidProvider.generateUuid()

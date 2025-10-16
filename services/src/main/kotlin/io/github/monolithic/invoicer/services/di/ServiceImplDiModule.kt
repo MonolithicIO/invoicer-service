@@ -244,7 +244,8 @@ private fun DI.Builder.userServices() {
             codeGenerator = instance(),
             clock = instance(),
             messageProducer = instance(),
-            passwordResetRepository = instance()
+            passwordResetRepository = instance(),
+            emailValidator = instance()
         )
     }
 

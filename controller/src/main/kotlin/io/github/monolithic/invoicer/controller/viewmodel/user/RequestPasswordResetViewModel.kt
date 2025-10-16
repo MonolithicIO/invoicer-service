@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class RequestPasswordResetViewModel(
-    val email: String
+    val email: String? = null
 )
 
 @Serializable
