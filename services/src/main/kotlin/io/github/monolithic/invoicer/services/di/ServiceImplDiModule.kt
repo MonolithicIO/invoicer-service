@@ -59,6 +59,10 @@ import io.github.monolithic.invoicer.services.user.DeleteUserServiceImpl
 import io.github.monolithic.invoicer.services.user.GetUserByEmailService
 import io.github.monolithic.invoicer.services.user.GetUserByEmailServiceImpl
 import io.github.monolithic.invoicer.services.user.GetUserByIdServiceImpl
+import io.github.monolithic.invoicer.services.user.RequestPasswordResetService
+import io.github.monolithic.invoicer.services.user.RequestPasswordResetServiceImpl
+import io.github.monolithic.invoicer.services.user.SendRestPasswordEmailService
+import io.github.monolithic.invoicer.services.user.SendRestPasswordEmailServiceImpl
 import kotlinx.coroutines.Dispatchers
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
@@ -230,6 +234,28 @@ private fun DI.Builder.userServices() {
     bindProvider<GetUserByIdServiceImpl> {
         GetUserByIdServiceImpl(
             userRepository = instance()
+        )
+    }
+
+    bindProvider<RequestPasswordResetService> {
+        RequestPasswordResetServiceImpl(
+            uuidProvider = instance(),
+            getUserByEmailService = instance(),
+            codeGenerator = instance(),
+            clock = instance(),
+            messageProducer = instance(),
+            passwordResetRepository = instance(),
+            emailValidator = instance()
+        )
+    }
+
+    bindProvider<SendRestPasswordEmailService> {
+        SendRestPasswordEmailServiceImpl(
+            emailSender = instance(),
+            resetPasswordRepository = instance(),
+            getUserByIdService = instance(),
+            clock = instance(),
+            logger = instance(),
         )
     }
 }

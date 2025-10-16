@@ -1,12 +1,15 @@
 package io.github.monolithic.invoicer.controller.features
 
-import io.github.monolithic.invoicer.controller.viewmodel.createuser.CreateUserRequestViewModel
-import io.github.monolithic.invoicer.controller.viewmodel.createuser.CreateUserResponseViewModel
-import io.github.monolithic.invoicer.controller.viewmodel.createuser.toDomainModel
+import io.github.monolithic.invoicer.controller.viewmodel.user.CreateUserRequestViewModel
+import io.github.monolithic.invoicer.controller.viewmodel.user.CreateUserResponseViewModel
+import io.github.monolithic.invoicer.controller.viewmodel.user.RequestPasswordResetResponseViewModel
+import io.github.monolithic.invoicer.controller.viewmodel.user.RequestPasswordResetViewModel
+import io.github.monolithic.invoicer.controller.viewmodel.user.toDomainModel
 import io.github.monolithic.invoicer.foundation.authentication.token.jwt.jwtProtected
 import io.github.monolithic.invoicer.foundation.authentication.token.jwt.jwtUserId
 import io.github.monolithic.invoicer.services.user.CreateUserService
 import io.github.monolithic.invoicer.services.user.DeleteUserService
+import io.github.monolithic.invoicer.services.user.RequestPasswordResetService
 import io.github.monolithic.invoicer.utils.uuid.parseUuid
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.receive
@@ -23,6 +26,7 @@ internal fun Routing.userController() {
     route("/v1/user") {
         createUser()
         deleteUser()
+        resetPassword()
     }
 }
 
@@ -42,4 +46,15 @@ private fun Route.deleteUser() = jwtProtected {
         useCase.delete(parseUuid(jwtUserId()))
         call.respond(HttpStatusCode.NoContent)
     }
+}
+
+private fun Route.resetPassword() = post("/reset_password") {
+    val service by closestDI().instance<RequestPasswordResetService>()
+    val request = call.receive<RequestPasswordResetViewModel>()
+    call.respond(
+        status = HttpStatusCode.Created,
+        message = RequestPasswordResetResponseViewModel(
+            resetToken = service.requestReset(email = request.email)
+        )
+    )
 }

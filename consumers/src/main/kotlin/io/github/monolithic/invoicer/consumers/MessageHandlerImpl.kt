@@ -1,7 +1,7 @@
 package io.github.monolithic.invoicer.consumers
 
-import io.github.monolithic.invoicer.consumers.messages.MessageSerializer
-import io.github.monolithic.invoicer.consumers.strategy.context.MessageContext
+import io.github.monolithic.invoicer.consumers.messages.Message
+import io.github.monolithic.invoicer.consumers.processors.context.MessageContext
 import io.github.monolithic.invoicer.foundation.log.LogLevel
 import io.github.monolithic.invoicer.foundation.log.Logger
 import io.github.monolithic.invoicer.foundation.messaging.MessageConsumer
@@ -39,7 +39,7 @@ internal class MessageHandlerImpl(
                             message = "Raw Received message: $message",
                             level = LogLevel.Debug
                         )
-                        json.decodeFromString(MessageSerializer, message)
+                        json.decodeFromString(Message.serializer(), message)
                     }.onSuccess { parsedMessage ->
                         messageContext.executeStrategy(parsedMessage)
                     }.onFailure {
