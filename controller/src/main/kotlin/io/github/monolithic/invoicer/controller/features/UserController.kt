@@ -3,7 +3,7 @@ package io.github.monolithic.invoicer.controller.features
 import io.github.monolithic.invoicer.controller.validation.requiredString
 import io.github.monolithic.invoicer.controller.viewmodel.user.CreateUserRequestViewModel
 import io.github.monolithic.invoicer.controller.viewmodel.user.CreateUserResponseViewModel
-import io.github.monolithic.invoicer.controller.viewmodel.user.RequestPasswordResetResponseViewModel
+import io.github.monolithic.invoicer.controller.viewmodel.user.VerifyResetPasswordResponseViewModel
 import io.github.monolithic.invoicer.controller.viewmodel.user.RequestPasswordResetViewModel
 import io.github.monolithic.invoicer.controller.viewmodel.user.ResetPasswordViewModel
 import io.github.monolithic.invoicer.controller.viewmodel.user.VerifyPasswordResetViewModel
@@ -61,7 +61,7 @@ private fun Route.requestPasswordReset() = post("/reset_password") {
     val request = call.receive<RequestPasswordResetViewModel>()
     call.respond(
         status = HttpStatusCode.Created,
-        message = RequestPasswordResetResponseViewModel(
+        message = VerifyResetPasswordResponseViewModel(
             resetToken = service.requestReset(email = request.email)
         )
     )
@@ -74,7 +74,7 @@ private fun Route.verifyResetPassword() = post("/reset_password/{resetId}/verify
 
     call.respond(
         status = HttpStatusCode.OK,
-        message = RequestPasswordResetResponseViewModel(
+        message = VerifyResetPasswordResponseViewModel(
             resetToken = service.consume(
                 pinCode = request.toParam(),
                 requestId = requestId

@@ -282,7 +282,8 @@ private fun DI.Builder.userServices() {
             passwordEncryption = instance(),
             passwordValidator = instance(),
             userRepository = instance(),
-            messageProducer = instance()
+            messageProducer = instance(),
+            clock = instance()
         )
     }
 

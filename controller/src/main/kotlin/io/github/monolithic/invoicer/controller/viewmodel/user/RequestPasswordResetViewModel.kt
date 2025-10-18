@@ -9,7 +9,7 @@ internal data class RequestPasswordResetViewModel(
 )
 
 @Serializable
-internal data class RequestPasswordResetResponseViewModel(
+internal data class VerifyResetPasswordResponseViewModel(
     val resetToken: String
 )
 

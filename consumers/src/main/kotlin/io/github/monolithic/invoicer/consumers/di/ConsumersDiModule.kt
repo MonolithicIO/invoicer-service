@@ -38,7 +38,8 @@ val consumersDiModule = DI.Module(name = "ConsumersDiModule") {
 
     bindProvider<SendEmailProcessor> {
         SendEmailProcessorImpl(
-            resetPasswordEmailService = instance()
+            resetPasswordEmailService = instance(),
+            sendPasswordResetEmailService = instance()
         )
     }
 }
