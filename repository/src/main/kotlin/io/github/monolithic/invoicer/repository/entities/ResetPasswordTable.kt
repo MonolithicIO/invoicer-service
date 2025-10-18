@@ -16,6 +16,7 @@ internal object ResetPasswordTable : UUIDTable("t_reset_password") {
     val expiresAt = timestamp("expires_at")
     val createdAt = timestamp("created_at")
     val updatedAt = timestamp("updated_at")
+    val attempts = integer("attempts").default(0)
 }
 
 internal class ResetPasswordEntity(id: EntityID<UUID>) : UUIDEntity(id) {
@@ -28,4 +29,5 @@ internal class ResetPasswordEntity(id: EntityID<UUID>) : UUIDEntity(id) {
     var expiresAt: kotlinx.datetime.Instant by ResetPasswordTable.expiresAt
     var createdAt: kotlinx.datetime.Instant by ResetPasswordTable.createdAt
     var updatedAt: kotlinx.datetime.Instant by ResetPasswordTable.updatedAt
+    var attempts by ResetPasswordTable.attempts
 }

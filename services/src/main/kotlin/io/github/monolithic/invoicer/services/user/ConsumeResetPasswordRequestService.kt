@@ -1,6 +1,8 @@
 package io.github.monolithic.invoicer.services.user
 
 import io.github.monolithic.invoicer.foundation.exceptions.http.badRequestError
+import io.github.monolithic.invoicer.foundation.log.LogLevel
+import io.github.monolithic.invoicer.foundation.log.Logger
 import io.github.monolithic.invoicer.repository.PasswordResetRepository
 import io.github.monolithic.invoicer.utils.uuid.UuidProvider
 import java.util.*
@@ -19,7 +21,8 @@ internal class ConsumeResetPasswordRequestServiceImpl(
     private val passwordResetRepository: PasswordResetRepository,
     private val getUserByIdService: GetUserByIdService,
     private val clock: Clock,
-    private val uuidProvider: UuidProvider
+    private val uuidProvider: UuidProvider,
+    private val logger: Logger
 ) : ConsumeResetPasswordRequestService {
 
     override suspend fun consume(
@@ -28,16 +31,40 @@ internal class ConsumeResetPasswordRequestServiceImpl(
     ): ResetPasswordToken {
         val passwordRequest =
             passwordResetRepository.getPasswordResetRequestById(id = requestId)
-                ?: badRequestError(message = "Could not validate reset password request. PIN code is invalid or has expired.")
 
-        getUserByIdService.get(passwordRequest.userId)
+        if (passwordRequest == null) {
+            logger.log(
+                type = ConsumeResetPasswordRequestServiceImpl::class,
+                message = "Password reset request with id $requestId not found.",
+                level = LogLevel.Debug
+            )
+            badRequestError(
+                message = ERROR_MESSAGE
+            )
+        }
+
+        if (passwordRequest.attempts >= 3) {
+            badRequestError(message = "Maximum number of attempts exceeded for reset password request.")
+        }
+
+        val user = getUserByIdService.get(passwordRequest.userId)
 
         if (passwordRequest.isConsumed || clock.now() > passwordRequest.expiresAt) {
-            badRequestError(message = "Could not validate reset password request. PIN code is invalid or has expired.")
+            logger.log(
+                type = ConsumeResetPasswordRequestServiceImpl::class,
+                message = "Password reset request with id $requestId for user ${user.id}is expired.",
+                level = LogLevel.Debug
+            )
+            badRequestError(message = ERROR_MESSAGE)
         }
 
         if (passwordRequest.safeCode != pinCode) {
-            badRequestError(message = "Could not validate reset password request. PIN code is invalid or has expired.")
+            logger.log(
+                type = ConsumeResetPasswordRequestServiceImpl::class,
+                message = "Password reset request with id $requestId for user ${user.id} is wrong pin code.",
+                level = LogLevel.Debug
+            )
+            badRequestError(message = ERROR_MESSAGE)
         }
 
         passwordResetRepository.consumePasswordResetRequest(passwordRequest.id)
@@ -50,6 +77,10 @@ internal class ConsumeResetPasswordRequestServiceImpl(
         )
 
         return resetToken
+    }
+
+    companion object {
+        const val ERROR_MESSAGE = "Could not validate reset password request. PIN code is invalid or has expired."
     }
 
 }

@@ -15,6 +15,7 @@ internal interface PasswordResetDataSource {
     suspend fun createPasswordResetRequest(request: CreateResetPasswordRequestModel): String
     suspend fun getPasswordResetRequestById(id: UUID): ResetPasswordRequestModel?
     suspend fun consumePasswordResetRequest(id: UUID)
+    suspend fun incrementPasswordResetRequestAttempts(id: UUID)
 }
 
 internal class PasswordResetDataSourceImpl(
@@ -49,6 +50,22 @@ internal class PasswordResetDataSourceImpl(
                 where = { ResetPasswordTable.id eq id },
                 body = {
                     it[isConsumed] = true
+                    it[updatedAt] = clock.now()
+                }
+            )
+        }
+    }
+
+    override suspend fun incrementPasswordResetRequestAttempts(id: UUID) {
+        newSuspendedTransaction {
+            val currentAttempts = ResetPasswordEntity
+                .find { ResetPasswordTable.id eq id }
+                .firstOrNull()
+                ?.attempts ?: 0
+            ResetPasswordTable.update(
+                where = { ResetPasswordTable.id eq id },
+                body = {
+                    it[attempts] = currentAttempts + 1
                     it[updatedAt] = clock.now()
                 }
             )

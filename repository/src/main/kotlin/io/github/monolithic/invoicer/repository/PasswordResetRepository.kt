@@ -11,6 +11,7 @@ import kotlin.time.Duration.Companion.minutes
 interface PasswordResetRepository {
     suspend fun createPasswordResetRequest(request: CreateResetPasswordRequestModel): String
     suspend fun getPasswordResetRequestById(id: UUID): ResetPasswordRequestModel?
+    suspend fun incrementPasswordResetRequestAttempts(id: UUID)
     suspend fun consumePasswordResetRequest(id: UUID)
     suspend fun storeResetToken(
         token: String,
@@ -33,6 +34,10 @@ internal class PasswordResetRepositoryImpl(
 
     override suspend fun getPasswordResetRequestById(id: UUID): ResetPasswordRequestModel? {
         return dataSource.getPasswordResetRequestById(id)
+    }
+
+    override suspend fun incrementPasswordResetRequestAttempts(id: UUID) {
+        dataSource.incrementPasswordResetRequestAttempts(id)
     }
 
     override suspend fun consumePasswordResetRequest(id: UUID) {
