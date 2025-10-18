@@ -4,9 +4,11 @@ import io.github.monolithic.invoicer.controller.viewmodel.user.CreateUserRequest
 import io.github.monolithic.invoicer.controller.viewmodel.user.CreateUserResponseViewModel
 import io.github.monolithic.invoicer.controller.viewmodel.user.RequestPasswordResetResponseViewModel
 import io.github.monolithic.invoicer.controller.viewmodel.user.RequestPasswordResetViewModel
+import io.github.monolithic.invoicer.controller.viewmodel.user.VerifyPasswordResetViewModel
 import io.github.monolithic.invoicer.controller.viewmodel.user.toDomainModel
 import io.github.monolithic.invoicer.foundation.authentication.token.jwt.jwtProtected
 import io.github.monolithic.invoicer.foundation.authentication.token.jwt.jwtUserId
+import io.github.monolithic.invoicer.services.user.ConsumeResetPasswordRequestService
 import io.github.monolithic.invoicer.services.user.CreateUserService
 import io.github.monolithic.invoicer.services.user.DeleteUserService
 import io.github.monolithic.invoicer.services.user.RequestPasswordResetService
@@ -26,7 +28,8 @@ internal fun Routing.userController() {
     route("/v1/user") {
         createUser()
         deleteUser()
-        resetPassword()
+        requestPasswordReset()
+        verifyResetPassword()
     }
 }
 
@@ -48,13 +51,29 @@ private fun Route.deleteUser() = jwtProtected {
     }
 }
 
-private fun Route.resetPassword() = post("/reset_password") {
+private fun Route.requestPasswordReset() = post("/reset_password") {
     val service by closestDI().instance<RequestPasswordResetService>()
     val request = call.receive<RequestPasswordResetViewModel>()
     call.respond(
         status = HttpStatusCode.Created,
         message = RequestPasswordResetResponseViewModel(
             resetToken = service.requestReset(email = request.email)
+        )
+    )
+}
+
+private fun Route.verifyResetPassword() = post("/reset_password/{resetId}/verify") {
+    val service by closestDI().instance<ConsumeResetPasswordRequestService>()
+    val request = call.receive<VerifyPasswordResetViewModel>()
+    val requestId = parseUuid(call.parameters["resetId"] ?: "")
+
+    call.respond(
+        status = HttpStatusCode.OK,
+        message = RequestPasswordResetResponseViewModel(
+            resetToken = service.consume(
+                pinCode = request.toParam(),
+                requestId = requestId
+            )
         )
     )
 }
