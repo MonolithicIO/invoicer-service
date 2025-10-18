@@ -52,6 +52,8 @@ import io.github.monolithic.invoicer.services.qrcodetoken.PollAuthorizedTokenSer
 import io.github.monolithic.invoicer.services.qrcodetoken.PollAuthorizedTokenServiceImpl
 import io.github.monolithic.invoicer.services.qrcodetoken.RequestQrCodeTokenService
 import io.github.monolithic.invoicer.services.qrcodetoken.RequestQrCodeTokenServiceImpl
+import io.github.monolithic.invoicer.services.user.ConsumeResetPasswordRequestService
+import io.github.monolithic.invoicer.services.user.ConsumeResetPasswordRequestServiceImpl
 import io.github.monolithic.invoicer.services.user.CreateUserService
 import io.github.monolithic.invoicer.services.user.CreateUserServiceImpl
 import io.github.monolithic.invoicer.services.user.DeleteUserService
@@ -256,6 +258,16 @@ private fun DI.Builder.userServices() {
             getUserByIdService = instance(),
             clock = instance(),
             logger = instance(),
+        )
+    }
+
+    bindProvider<ConsumeResetPasswordRequestService> {
+        ConsumeResetPasswordRequestServiceImpl(
+            passwordResetRepository = instance(),
+            getUserByIdService = instance(),
+            clock = instance(),
+            uuidProvider = instance(),
+            logger = instance()
         )
     }
 }

@@ -11,6 +11,8 @@ internal fun ResetPasswordEntity.toModel(): ResetPasswordRequestModel {
         isConsumed = this.isConsumed,
         createdAt = this.createdAt,
         updatedAt = this.updatedAt,
-        expirationText = this.expirationText
+        expirationText = this.expirationText,
+        id = this.id.value,
+        attempts = this.attempts
     )
 }

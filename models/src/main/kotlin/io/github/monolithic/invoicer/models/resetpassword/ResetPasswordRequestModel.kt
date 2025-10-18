@@ -4,6 +4,7 @@ import java.util.*
 import kotlinx.datetime.Instant
 
 data class ResetPasswordRequestModel(
+    val id: UUID,
     val safeCode: String,
     val userId: UUID,
     val isConsumed: Boolean,
@@ -11,4 +12,5 @@ data class ResetPasswordRequestModel(
     val expiresAt: Instant,
     val createdAt: Instant,
     val updatedAt: Instant,
+    val attempts: Int
 )
