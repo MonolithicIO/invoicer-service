@@ -8,7 +8,7 @@ import io.github.monolithic.invoicer.controller.viewmodel.user.VerifyPasswordRes
 import io.github.monolithic.invoicer.controller.viewmodel.user.toDomainModel
 import io.github.monolithic.invoicer.foundation.authentication.token.jwt.jwtProtected
 import io.github.monolithic.invoicer.foundation.authentication.token.jwt.jwtUserId
-import io.github.monolithic.invoicer.services.user.ConsumeResetPasswordRequestService
+import io.github.monolithic.invoicer.services.user.VerifyResetPasswordRequestService
 import io.github.monolithic.invoicer.services.user.CreateUserService
 import io.github.monolithic.invoicer.services.user.DeleteUserService
 import io.github.monolithic.invoicer.services.user.RequestPasswordResetService
@@ -63,7 +63,7 @@ private fun Route.requestPasswordReset() = post("/reset_password") {
 }
 
 private fun Route.verifyResetPassword() = post("/reset_password/{resetId}/verify") {
-    val service by closestDI().instance<ConsumeResetPasswordRequestService>()
+    val service by closestDI().instance<VerifyResetPasswordRequestService>()
     val request = call.receive<VerifyPasswordResetViewModel>()
     val requestId = parseUuid(call.parameters["resetId"] ?: "")
 

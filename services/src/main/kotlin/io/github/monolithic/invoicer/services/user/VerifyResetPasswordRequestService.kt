@@ -10,20 +10,20 @@ import kotlinx.datetime.Clock
 
 typealias ResetPasswordToken = String
 
-interface ConsumeResetPasswordRequestService {
+interface VerifyResetPasswordRequestService {
     suspend fun consume(
         pinCode: String,
         requestId: UUID
     ): ResetPasswordToken
 }
 
-internal class ConsumeResetPasswordRequestServiceImpl(
+internal class VerifyResetPasswordRequestServiceImpl(
     private val passwordResetRepository: PasswordResetRepository,
     private val getUserByIdService: GetUserByIdService,
     private val clock: Clock,
     private val uuidProvider: UuidProvider,
     private val logger: Logger
-) : ConsumeResetPasswordRequestService {
+) : VerifyResetPasswordRequestService {
 
     override suspend fun consume(
         pinCode: String,
@@ -34,7 +34,7 @@ internal class ConsumeResetPasswordRequestServiceImpl(
 
         if (passwordRequest == null) {
             logger.log(
-                type = ConsumeResetPasswordRequestServiceImpl::class,
+                type = VerifyResetPasswordRequestServiceImpl::class,
                 message = "Password reset request with id $requestId not found.",
                 level = LogLevel.Debug
             )
@@ -51,7 +51,7 @@ internal class ConsumeResetPasswordRequestServiceImpl(
 
         if (passwordRequest.isConsumed || clock.now() > passwordRequest.expiresAt) {
             logger.log(
-                type = ConsumeResetPasswordRequestServiceImpl::class,
+                type = VerifyResetPasswordRequestServiceImpl::class,
                 message = "Password reset request with id $requestId for user ${user.id}is expired.",
                 level = LogLevel.Debug
             )
@@ -60,7 +60,7 @@ internal class ConsumeResetPasswordRequestServiceImpl(
 
         if (passwordRequest.safeCode != pinCode) {
             logger.log(
-                type = ConsumeResetPasswordRequestServiceImpl::class,
+                type = VerifyResetPasswordRequestServiceImpl::class,
                 message = "Password reset request with id $requestId for user ${user.id} is wrong pin code.",
                 level = LogLevel.Debug
             )
