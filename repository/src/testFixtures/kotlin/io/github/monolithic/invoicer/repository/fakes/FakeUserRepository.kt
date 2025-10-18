@@ -31,4 +31,6 @@ class FakeUserRepository : UserRepository {
     override suspend fun deleteUser(id: UUID) {
         deleteUserCallStack.add(id)
     }
+
+    override suspend fun updatePassword(id: UUID, newPassword: String) = Unit
 }
