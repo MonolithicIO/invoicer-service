@@ -19,7 +19,6 @@ dependencies {
     implementation(projects.utils)
 
     // Libs
-    implementation(libs.mockk)
     implementation(libs.pdf.itext)
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kotlin.serialization)
@@ -45,6 +44,7 @@ dependencies {
     testImplementation(testFixtures(projects.foundation.qrcode))
     testImplementation(libs.kotlin.test)
     testImplementation(libs.kotlin.coroutines.test)
+    testImplementation(libs.mockk)
 
     // Test Fixtures
     testFixturesImplementation(libs.kotlin.datetime)
