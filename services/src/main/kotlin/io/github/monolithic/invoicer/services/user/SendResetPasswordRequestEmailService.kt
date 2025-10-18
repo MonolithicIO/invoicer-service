@@ -8,24 +8,24 @@ import io.github.monolithic.invoicer.repository.PasswordResetRepository
 import io.github.monolithic.invoicer.utils.uuid.parseUuid
 import kotlinx.datetime.Clock
 
-interface SendResetPasswordRequestEmail {
+interface SendResetPasswordRequestEmailService {
     suspend fun send(resetRequestId: String)
 }
 
-internal class SendRestPasswordEmailServiceImpl(
+internal class SendResetPasswordEmailServiceServiceImpl(
     private val emailSender: EmailSender,
     private val resetPasswordRepository: PasswordResetRepository,
     private val getUserByIdService: GetUserByIdService,
     private val clock: Clock,
     private val logger: Logger
-) : SendResetPasswordRequestEmail {
+) : SendResetPasswordRequestEmailService {
 
     override suspend fun send(resetRequestId: String) {
         val resetRequest = resetPasswordRepository.getPasswordResetRequestById(id = parseUuid(resetRequestId))
 
         if (resetRequest == null) {
             logger.log(
-                type = SendRestPasswordEmailServiceImpl::class,
+                type = SendResetPasswordEmailServiceServiceImpl::class,
                 message = "Reset password not found for token: $resetRequestId. Skipping email sending.",
                 level = LogLevel.Debug
             )
@@ -33,7 +33,7 @@ internal class SendRestPasswordEmailServiceImpl(
         }
         if (resetRequest.expiresAt < clock.now() || resetRequest.isConsumed) {
             logger.log(
-                type = SendRestPasswordEmailServiceImpl::class,
+                type = SendResetPasswordEmailServiceServiceImpl::class,
                 message = "Reset password request is expired for token: $resetRequestId. Skipping email sending.",
                 level = LogLevel.Debug
             )

@@ -63,10 +63,10 @@ import io.github.monolithic.invoicer.services.user.RequestPasswordResetService
 import io.github.monolithic.invoicer.services.user.RequestPasswordResetServiceImpl
 import io.github.monolithic.invoicer.services.user.ResetPasswordService
 import io.github.monolithic.invoicer.services.user.ResetPasswordServiceImpl
-import io.github.monolithic.invoicer.services.user.SendResetPasswordRequestEmail
-import io.github.monolithic.invoicer.services.user.SendResetPasswordSuccessEmail
-import io.github.monolithic.invoicer.services.user.SendResetPasswordSuccessEmailImpl
-import io.github.monolithic.invoicer.services.user.SendRestPasswordEmailServiceImpl
+import io.github.monolithic.invoicer.services.user.SendResetPasswordRequestEmailService
+import io.github.monolithic.invoicer.services.user.SendResetPasswordSuccessEmailService
+import io.github.monolithic.invoicer.services.user.SendResetPasswordSuccessEmailServiceImpl
+import io.github.monolithic.invoicer.services.user.SendResetPasswordEmailServiceServiceImpl
 import io.github.monolithic.invoicer.services.user.VerifyResetPasswordRequestService
 import io.github.monolithic.invoicer.services.user.VerifyResetPasswordRequestServiceImpl
 import kotlinx.coroutines.Dispatchers
@@ -255,8 +255,8 @@ private fun DI.Builder.userServices() {
         )
     }
 
-    bindProvider<SendResetPasswordRequestEmail> {
-        SendRestPasswordEmailServiceImpl(
+    bindProvider<SendResetPasswordRequestEmailService> {
+        SendResetPasswordEmailServiceServiceImpl(
             emailSender = instance(),
             resetPasswordRepository = instance(),
             getUserByIdService = instance(),
@@ -287,8 +287,8 @@ private fun DI.Builder.userServices() {
         )
     }
 
-    bindProvider<SendResetPasswordSuccessEmail> {
-        SendResetPasswordSuccessEmailImpl(
+    bindProvider<SendResetPasswordSuccessEmailService> {
+        SendResetPasswordSuccessEmailServiceImpl(
             emailSender = instance()
         )
     }

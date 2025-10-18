@@ -5,13 +5,13 @@ import io.github.monolithic.invoicer.foundation.email.templates.EmailTemplates
 import io.github.monolithic.invoicer.utils.date.toFormattedDateTime
 import kotlinx.datetime.Instant
 
-interface SendResetPasswordSuccessEmail {
+interface SendResetPasswordSuccessEmailService {
     suspend fun send(email: String, updateDate: Instant)
 }
 
-internal class SendResetPasswordSuccessEmailImpl(
+internal class SendResetPasswordSuccessEmailServiceImpl(
     private val emailSender: EmailSender
-) : SendResetPasswordSuccessEmail {
+) : SendResetPasswordSuccessEmailService {
 
     override suspend fun send(email: String, updateDate: Instant) {
         emailSender.sendTemplateEmail(
