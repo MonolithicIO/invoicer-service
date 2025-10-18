@@ -13,10 +13,10 @@ import kotlinx.datetime.Clock
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 
-typealias RequestPasswordToken = String
+typealias ResetPasswordRequestId = String
 
 interface RequestPasswordResetService {
-    suspend fun requestReset(email: String?): RequestPasswordToken
+    suspend fun requestReset(email: String?): ResetPasswordRequestId
 }
 
 internal class RequestPasswordResetServiceImpl(
@@ -29,7 +29,7 @@ internal class RequestPasswordResetServiceImpl(
     private val emailValidator: EmailValidator
 
 ) : RequestPasswordResetService {
-    override suspend fun requestReset(email: String?): RequestPasswordToken {
+    override suspend fun requestReset(email: String?): ResetPasswordRequestId {
         email ?: badRequestError("Invalid e-mail format")
         if (!emailValidator.validate(email)) {
             badRequestError("Invalid e-mail format")

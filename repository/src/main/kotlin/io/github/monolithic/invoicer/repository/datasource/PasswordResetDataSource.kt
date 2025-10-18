@@ -9,10 +9,12 @@ import java.util.*
 import kotlinx.datetime.Clock
 import org.jetbrains.exposed.sql.insertAndGetId
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
+import org.jetbrains.exposed.sql.update
 
 internal interface PasswordResetDataSource {
     suspend fun createPasswordResetRequest(request: CreateResetPasswordRequestModel): String
     suspend fun getPasswordResetRequestById(id: UUID): ResetPasswordRequestModel?
+    suspend fun consumePasswordResetRequest(id: UUID)
 }
 
 internal class PasswordResetDataSourceImpl(
@@ -38,6 +40,18 @@ internal class PasswordResetDataSourceImpl(
                 .find { ResetPasswordTable.id eq id }
                 .firstOrNull()
                 ?.toModel()
+        }
+    }
+
+    override suspend fun consumePasswordResetRequest(id: UUID) {
+        newSuspendedTransaction {
+            ResetPasswordTable.update(
+                where = { ResetPasswordTable.id eq id },
+                body = {
+                    it[isConsumed] = true
+                    it[updatedAt] = clock.now()
+                }
+            )
         }
     }
 }
