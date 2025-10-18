@@ -43,7 +43,7 @@ internal class ConsumeResetPasswordRequestServiceImpl(
             )
         }
 
-        if (passwordRequest.attempts >= 3) {
+        if (passwordRequest.attempts >= MAX_ATTEMPTS) {
             badRequestError(message = "Maximum number of attempts exceeded for reset password request.")
         }
 
@@ -81,6 +81,7 @@ internal class ConsumeResetPasswordRequestServiceImpl(
 
     companion object {
         const val ERROR_MESSAGE = "Could not validate reset password request. PIN code is invalid or has expired."
+        const val MAX_ATTEMPTS = 3
     }
 
 }
