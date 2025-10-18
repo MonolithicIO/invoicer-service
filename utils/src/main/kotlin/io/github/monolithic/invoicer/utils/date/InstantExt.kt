@@ -31,6 +31,6 @@ fun Instant.toFormattedDateTime(): String {
         append(":")
         append(second)
         append(" ")
-        append(AppTimeZone.id)
+        append(AppTimeZone.toString())
     }
 }
