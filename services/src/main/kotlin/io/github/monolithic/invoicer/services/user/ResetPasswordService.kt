@@ -38,13 +38,10 @@ internal class ResetPasswordServiceImpl(
 
         val user = getUserByIdService.get(parseUuid(resetToken.userId))
 
-        if (newPassword != confirmNewPassword) {
-            badRequestError(message = "New password and confirmation do not match.")
-        }
-
-        if (passwordValidator.validate(newPassword) is PasswordStrength.WEAK) {
-            badRequestError(message = "New password does not meet security requirements.")
-        }
+        validatePassword(
+            password = newPassword,
+            confirmPassword = confirmNewPassword
+        )
 
         val encryptedPassword = passwordEncryption.encryptPassword(
             rawPassword = newPassword
@@ -68,5 +65,18 @@ internal class ResetPasswordServiceImpl(
                 )
             ).toString()
         )
+    }
+
+    private fun validatePassword(
+        password: String,
+        confirmPassword: String
+    ) {
+        if (password != confirmPassword) {
+            badRequestError(message = "New password and confirmation do not match.")
+        }
+
+        if (passwordValidator.validate(password) is PasswordStrength.WEAK) {
+            badRequestError(message = "New password does not meet security requirements.")
+        }
     }
 }

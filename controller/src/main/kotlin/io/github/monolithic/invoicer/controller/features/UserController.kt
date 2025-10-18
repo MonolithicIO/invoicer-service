@@ -1,17 +1,20 @@
 package io.github.monolithic.invoicer.controller.features
 
+import io.github.monolithic.invoicer.controller.validation.requiredString
 import io.github.monolithic.invoicer.controller.viewmodel.user.CreateUserRequestViewModel
 import io.github.monolithic.invoicer.controller.viewmodel.user.CreateUserResponseViewModel
 import io.github.monolithic.invoicer.controller.viewmodel.user.RequestPasswordResetResponseViewModel
 import io.github.monolithic.invoicer.controller.viewmodel.user.RequestPasswordResetViewModel
+import io.github.monolithic.invoicer.controller.viewmodel.user.ResetPasswordViewModel
 import io.github.monolithic.invoicer.controller.viewmodel.user.VerifyPasswordResetViewModel
 import io.github.monolithic.invoicer.controller.viewmodel.user.toDomainModel
 import io.github.monolithic.invoicer.foundation.authentication.token.jwt.jwtProtected
 import io.github.monolithic.invoicer.foundation.authentication.token.jwt.jwtUserId
-import io.github.monolithic.invoicer.services.user.VerifyResetPasswordRequestService
 import io.github.monolithic.invoicer.services.user.CreateUserService
 import io.github.monolithic.invoicer.services.user.DeleteUserService
 import io.github.monolithic.invoicer.services.user.RequestPasswordResetService
+import io.github.monolithic.invoicer.services.user.ResetPasswordService
+import io.github.monolithic.invoicer.services.user.VerifyResetPasswordRequestService
 import io.github.monolithic.invoicer.utils.uuid.parseUuid
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.request.receive
@@ -19,6 +22,7 @@ import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.Routing
 import io.ktor.server.routing.delete
+import io.ktor.server.routing.patch
 import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import org.kodein.di.instance
@@ -30,6 +34,7 @@ internal fun Routing.userController() {
         deleteUser()
         requestPasswordReset()
         verifyResetPassword()
+        resetPassword()
     }
 }
 
@@ -74,6 +79,21 @@ private fun Route.verifyResetPassword() = post("/reset_password/{resetId}/verify
                 pinCode = request.toParam(),
                 requestId = requestId
             )
+        )
+    )
+}
+
+private fun Route.resetPassword() = patch("/reset_password/{resetToken}/confirm") {
+    val service by closestDI().instance<ResetPasswordService>()
+    val token = call.parameters["resetToken"] ?: ""
+    val request = call.receive<ResetPasswordViewModel>()
+
+    call.respond(
+        status = HttpStatusCode.OK,
+        message = service.reset(
+            token = token,
+            newPassword = requiredString(request.newPassword, "newPassword is required"),
+            confirmNewPassword = requiredString(request.confirmPassword, "confirmPassword is required")
         )
     )
 }
