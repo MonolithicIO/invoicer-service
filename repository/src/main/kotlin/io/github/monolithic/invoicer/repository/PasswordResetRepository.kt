@@ -21,6 +21,10 @@ interface PasswordResetRepository {
     suspend fun getResetToken(
         token: String
     ): ResetPasswordToken?
+
+    suspend fun clearResetToken(
+        token: String
+    )
 }
 
 internal class PasswordResetRepositoryImpl(
@@ -61,5 +65,9 @@ internal class PasswordResetRepositoryImpl(
             key = "reset-password-token-$token",
             serializer = ResetPasswordToken.serializer()
         )
+    }
+
+    override suspend fun clearResetToken(token: String) {
+        cacheHandler.delete(token)
     }
 }

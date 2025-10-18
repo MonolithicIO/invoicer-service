@@ -53,6 +53,8 @@ internal class ResetPasswordServiceImpl(
             newPassword = encryptedPassword
         )
 
+        resetPasswordResetRepository.clearResetToken(token = token)
+
         messageProducer.produceMessage(
             topic = MessageTopic.EMAILS,
             key = "password-reset-completed-${token}",
