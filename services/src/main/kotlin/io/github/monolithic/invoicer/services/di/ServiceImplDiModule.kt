@@ -266,7 +266,8 @@ private fun DI.Builder.userServices() {
             passwordResetRepository = instance(),
             getUserByIdService = instance(),
             clock = instance(),
-            uuidProvider = instance()
+            uuidProvider = instance(),
+            logger = instance()
         )
     }
 }
