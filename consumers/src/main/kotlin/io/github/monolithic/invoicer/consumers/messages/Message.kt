@@ -1,7 +1,8 @@
 package io.github.monolithic.invoicer.consumers.messages
 
 import io.github.monolithic.invoicer.consumers.messages.types.InvoicePdfMessage
-import io.github.monolithic.invoicer.consumers.messages.types.SendEmailMessage
+import io.github.monolithic.invoicer.consumers.messages.types.PasswordResetCompletedMessage
+import io.github.monolithic.invoicer.consumers.messages.types.ResetPasswordMessage
 import io.github.monolithic.invoicer.consumers.messages.types.Unkown
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.Serializable
@@ -16,7 +17,8 @@ import kotlinx.serialization.json.jsonPrimitive
 internal interface Message
 
 object MessageKeys {
-    const val RESET_PASSWORD = "send_reset_password_email"
+    const val SEND_RESET_PASSWORD_EMAIL = "send_reset_password_email"
+    const val SEND_RESET_PASSWORD_COMPLETED_EMAIL = "send_reset_password_completed_email"
     const val INVOICE_PDF_GENERATE = "invoice_generate_pdf"
 }
 
@@ -31,7 +33,8 @@ private object MessageSerializer : JsonContentPolymorphicSerializer<Message>(Mes
 
         return when (type) {
             MessageKeys.INVOICE_PDF_GENERATE -> InvoicePdfMessage.serializer()
-            MessageKeys.RESET_PASSWORD -> SendEmailMessage.serializer()
+            MessageKeys.SEND_RESET_PASSWORD_EMAIL -> ResetPasswordMessage.serializer()
+            MessageKeys.SEND_RESET_PASSWORD_COMPLETED_EMAIL -> PasswordResetCompletedMessage.serializer()
             else -> Unkown.serializer()
         }
     }

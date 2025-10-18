@@ -9,7 +9,7 @@ internal data class RequestPasswordResetViewModel(
 )
 
 @Serializable
-internal data class RequestPasswordResetResponseViewModel(
+internal data class VerifyResetPasswordResponseViewModel(
     val resetToken: String
 )
 
@@ -21,3 +21,9 @@ internal data class VerifyPasswordResetViewModel(
         return requiredString(value = pinCode, missingErrorMessage = "Pin code is required.")
     }
 }
+
+@Serializable
+internal data class ResetPasswordViewModel(
+    val newPassword: String? = null,
+    val confirmPassword: String? = null
+)

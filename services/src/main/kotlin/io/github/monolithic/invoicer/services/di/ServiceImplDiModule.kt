@@ -52,8 +52,6 @@ import io.github.monolithic.invoicer.services.qrcodetoken.PollAuthorizedTokenSer
 import io.github.monolithic.invoicer.services.qrcodetoken.PollAuthorizedTokenServiceImpl
 import io.github.monolithic.invoicer.services.qrcodetoken.RequestQrCodeTokenService
 import io.github.monolithic.invoicer.services.qrcodetoken.RequestQrCodeTokenServiceImpl
-import io.github.monolithic.invoicer.services.user.ConsumeResetPasswordRequestService
-import io.github.monolithic.invoicer.services.user.ConsumeResetPasswordRequestServiceImpl
 import io.github.monolithic.invoicer.services.user.CreateUserService
 import io.github.monolithic.invoicer.services.user.CreateUserServiceImpl
 import io.github.monolithic.invoicer.services.user.DeleteUserService
@@ -63,8 +61,14 @@ import io.github.monolithic.invoicer.services.user.GetUserByEmailServiceImpl
 import io.github.monolithic.invoicer.services.user.GetUserByIdServiceImpl
 import io.github.monolithic.invoicer.services.user.RequestPasswordResetService
 import io.github.monolithic.invoicer.services.user.RequestPasswordResetServiceImpl
-import io.github.monolithic.invoicer.services.user.SendRestPasswordEmailService
-import io.github.monolithic.invoicer.services.user.SendRestPasswordEmailServiceImpl
+import io.github.monolithic.invoicer.services.user.ResetPasswordService
+import io.github.monolithic.invoicer.services.user.ResetPasswordServiceImpl
+import io.github.monolithic.invoicer.services.user.SendResetPasswordRequestEmailService
+import io.github.monolithic.invoicer.services.user.SendResetPasswordSuccessEmailService
+import io.github.monolithic.invoicer.services.user.SendResetPasswordSuccessEmailServiceImpl
+import io.github.monolithic.invoicer.services.user.SendResetPasswordEmailServiceServiceImpl
+import io.github.monolithic.invoicer.services.user.VerifyResetPasswordRequestService
+import io.github.monolithic.invoicer.services.user.VerifyResetPasswordRequestServiceImpl
 import kotlinx.coroutines.Dispatchers
 import org.kodein.di.DI
 import org.kodein.di.bindProvider
@@ -251,8 +255,8 @@ private fun DI.Builder.userServices() {
         )
     }
 
-    bindProvider<SendRestPasswordEmailService> {
-        SendRestPasswordEmailServiceImpl(
+    bindProvider<SendResetPasswordRequestEmailService> {
+        SendResetPasswordEmailServiceServiceImpl(
             emailSender = instance(),
             resetPasswordRepository = instance(),
             getUserByIdService = instance(),
@@ -261,13 +265,31 @@ private fun DI.Builder.userServices() {
         )
     }
 
-    bindProvider<ConsumeResetPasswordRequestService> {
-        ConsumeResetPasswordRequestServiceImpl(
+    bindProvider<VerifyResetPasswordRequestService> {
+        VerifyResetPasswordRequestServiceImpl(
             passwordResetRepository = instance(),
             getUserByIdService = instance(),
             clock = instance(),
             uuidProvider = instance(),
             logger = instance()
+        )
+    }
+
+    bindProvider<ResetPasswordService> {
+        ResetPasswordServiceImpl(
+            resetPasswordResetRepository = instance(),
+            getUserByIdService = instance(),
+            passwordEncryption = instance(),
+            passwordValidator = instance(),
+            userRepository = instance(),
+            messageProducer = instance(),
+            clock = instance()
+        )
+    }
+
+    bindProvider<SendResetPasswordSuccessEmailService> {
+        SendResetPasswordSuccessEmailServiceImpl(
+            emailSender = instance()
         )
     }
 }
