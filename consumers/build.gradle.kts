@@ -15,4 +15,5 @@ dependencies {
     implementation(libs.kotlin.coroutines.core)
     implementation(libs.kodein.server)
     implementation(projects.foundation.log)
+    implementation(libs.kotlin.datetime)
 }

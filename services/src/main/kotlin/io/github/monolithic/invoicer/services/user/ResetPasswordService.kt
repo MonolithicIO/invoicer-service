@@ -9,6 +9,7 @@ import io.github.monolithic.invoicer.foundation.password.PasswordValidator
 import io.github.monolithic.invoicer.repository.PasswordResetRepository
 import io.github.monolithic.invoicer.repository.UserRepository
 import io.github.monolithic.invoicer.utils.uuid.parseUuid
+import kotlinx.datetime.Clock
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 
@@ -26,7 +27,8 @@ internal class ResetPasswordServiceImpl(
     private val passwordEncryption: PasswordEncryption,
     private val passwordValidator: PasswordValidator,
     private val userRepository: UserRepository,
-    private val messageProducer: MessageProducer
+    private val messageProducer: MessageProducer,
+    private val clock: Clock
 ) : ResetPasswordService {
 
     override suspend fun reset(token: String, newPassword: String, confirmNewPassword: String) {
@@ -62,6 +64,7 @@ internal class ResetPasswordServiceImpl(
                 mapOf(
                     "type" to JsonPrimitive("send_reset_password_completed_email"),
                     "email" to JsonPrimitive(user.email),
+                    "updateDate" to JsonPrimitive(clock.now().toString())
                 )
             ).toString()
         )

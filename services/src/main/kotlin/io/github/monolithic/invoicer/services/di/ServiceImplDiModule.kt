@@ -63,7 +63,9 @@ import io.github.monolithic.invoicer.services.user.RequestPasswordResetService
 import io.github.monolithic.invoicer.services.user.RequestPasswordResetServiceImpl
 import io.github.monolithic.invoicer.services.user.ResetPasswordService
 import io.github.monolithic.invoicer.services.user.ResetPasswordServiceImpl
-import io.github.monolithic.invoicer.services.user.SendRestPasswordEmailService
+import io.github.monolithic.invoicer.services.user.SendResetPasswordRequestEmail
+import io.github.monolithic.invoicer.services.user.SendResetPasswordSuccessEmail
+import io.github.monolithic.invoicer.services.user.SendResetPasswordSuccessEmailImpl
 import io.github.monolithic.invoicer.services.user.SendRestPasswordEmailServiceImpl
 import io.github.monolithic.invoicer.services.user.VerifyResetPasswordRequestService
 import io.github.monolithic.invoicer.services.user.VerifyResetPasswordRequestServiceImpl
@@ -253,7 +255,7 @@ private fun DI.Builder.userServices() {
         )
     }
 
-    bindProvider<SendRestPasswordEmailService> {
+    bindProvider<SendResetPasswordRequestEmail> {
         SendRestPasswordEmailServiceImpl(
             emailSender = instance(),
             resetPasswordRepository = instance(),
@@ -281,6 +283,12 @@ private fun DI.Builder.userServices() {
             passwordValidator = instance(),
             userRepository = instance(),
             messageProducer = instance()
+        )
+    }
+
+    bindProvider<SendResetPasswordSuccessEmail> {
+        SendResetPasswordSuccessEmailImpl(
+            emailSender = instance()
         )
     }
 }

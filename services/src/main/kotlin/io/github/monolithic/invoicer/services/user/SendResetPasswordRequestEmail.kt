@@ -8,7 +8,7 @@ import io.github.monolithic.invoicer.repository.PasswordResetRepository
 import io.github.monolithic.invoicer.utils.uuid.parseUuid
 import kotlinx.datetime.Clock
 
-interface SendRestPasswordEmailService {
+interface SendResetPasswordRequestEmail {
     suspend fun send(resetRequestId: String)
 }
 
@@ -18,7 +18,7 @@ internal class SendRestPasswordEmailServiceImpl(
     private val getUserByIdService: GetUserByIdService,
     private val clock: Clock,
     private val logger: Logger
-) : SendRestPasswordEmailService {
+) : SendResetPasswordRequestEmail {
 
     override suspend fun send(resetRequestId: String) {
         val resetRequest = resetPasswordRepository.getPasswordResetRequestById(id = parseUuid(resetRequestId))
