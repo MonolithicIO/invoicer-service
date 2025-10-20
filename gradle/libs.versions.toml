@@ -13,19 +13,16 @@ h2 = "2.1.214"
 swagger = "2.9.0"
 bcrypt = "0.4"
 serialization-json = "1.7.1"
-kover-plugin = "0.9.1"
 detekt-gradle = "1.23.7"
 coroutines = "1.8.1"
 prometheus-micrometer = "1.14.3"
 jedis = "5.2.0"
 zxing = "3.5.3"
 pdf = "9.1.0"
-minIO = "8.5.17"
 kafka = "3.6.1"
 loki = "1.4.0"
 firebase-admin = "9.4.3"
 mockk = "1.14.4"
-gcp-storage = "2.53.3"
 resend = "4.4.0"
 aws-sdk = "2.35.10"
 
@@ -95,9 +92,6 @@ zxing-javase = { module = "com.google.zxing:javase", version.ref = "zxing" }
 # Pdf
 pdf-itext = { module = "com.itextpdf:itext7-core", version.ref = "pdf" }
 
-# MinIO
-minIO = { module = "io.minio:minio", version.ref = "minIO" }
-
 # Kafka
 kafka = { module = "org.apache.kafka:kafka-clients", version.ref = "kafka" }
 
@@ -107,22 +101,17 @@ firebase-admin = { module = "com.google.firebase:firebase-admin", version.ref = 
 # Mockk
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 
-# GCP
-gcp-storage = { module = "com.google.cloud:google-cloud-storage", version.ref = "gcp-storage" }
-
 # Email
 resend = { module = "com.resend:resend-java", version.ref = "resend" }
 
 # AWS
 aws-sdk = { module = "software.amazon.awssdk:aws-sdk-java", version.ref = "aws-sdk" }
 
-
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt-plugin" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover-plugin" }
 
 [bundles]
 logback = ["logback-classic", "logback-encoder"]
