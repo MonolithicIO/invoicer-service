@@ -5,7 +5,6 @@ import io.github.monolithic.invoicer.foundation.env.secrets.SecretsProvider
 import io.github.monolithic.invoicer.foundation.log.LogLevel
 import io.github.monolithic.invoicer.foundation.log.Logger
 import io.github.monolithic.invoicer.foundation.storage.remote.FileUploader
-import io.github.monolithic.invoicer.foundation.storage.remote.google.GoogleFileUploader
 import java.net.URI
 import java.nio.file.Paths
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
@@ -36,7 +35,7 @@ internal class CloudflareFileUploader(
 
     override suspend fun uploadFile(localFilePath: String, fileName: String): String {
         logger.log(
-            type = GoogleFileUploader::class,
+            type = CloudflareFileUploader::class,
             level = LogLevel.Debug,
             message = "Starting file to CloudFlare R2 Storage: $localFilePath as $fileName"
         )
