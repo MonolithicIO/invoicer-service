@@ -22,4 +22,7 @@ enum class SecretKeys(internal val envName: String) {
     FIREBASE_SERVICE_ACCOUNT("firebase.service_account_file"),
     GCP_SERVICE_ACCOUNT("file_upload.gcp_service_account_file"),
     RESEND_API_KEY("email.resend_api_key"),
+    S3_ENDPOINT("s3.endpoint"),
+    S3_ACCESS_KEY("s3.access_key"),
+    S3_SECRET_KEY("s3.secret_key")
 }
