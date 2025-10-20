@@ -1,5 +1,5 @@
 package buildlogic.plugins
 
 object AppConfig {
-    val version = "0.0.28"
+    val version = "0.0.29"
 }
