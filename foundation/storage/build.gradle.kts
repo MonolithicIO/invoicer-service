@@ -9,6 +9,7 @@ version = "0.0.1"
 
 dependencies {
     implementation(libs.minIO)
+    implementation(libs.aws.sdk)
     implementation(libs.gcp.storage)
     implementation(projects.foundation.log)
     implementation(projects.foundation.env)

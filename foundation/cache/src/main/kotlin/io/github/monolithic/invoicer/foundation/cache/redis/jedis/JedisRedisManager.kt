@@ -142,17 +142,11 @@ internal class JedisRedisManager(
 
     private fun reconnectIfNeeded(): Boolean {
         pool?.let { safePool ->
-            logger.log(
-                type = JedisRedisManager::class,
-                message = "Starting Redis Health check",
-                level = LogLevel.Debug
-            )
-
             if (healthCheck(safePool)) return true
             else {
                 logger.log(
                     type = this::class,
-                    message = "Health check failed. Closing existing connection",
+                    message = "Redis Health check failed. Closing existing connection",
                     level = LogLevel.Debug
                 )
                 disconnect()
@@ -189,11 +183,6 @@ internal class JedisRedisManager(
             }
         }.fold(
             onSuccess = {
-                logger.log(
-                    type = JedisRedisManager::class,
-                    message = "Redis healthcheck: healthy",
-                    level = LogLevel.Debug
-                )
                 true
             },
             onFailure = {

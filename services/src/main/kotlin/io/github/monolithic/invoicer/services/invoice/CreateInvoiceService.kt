@@ -82,7 +82,7 @@ internal class CreateInvoiceServiceImpl(
                     "invoiceId": "$response",
                     "userId": "$userId",
                     "companyId": "${model.companyId}",
-                    "type": "generate_pdf"
+                    "type": "invoice_generate_pdf"
                 }
             """.trimIndent()
         )

@@ -24,8 +24,9 @@ firebase:
   service_account_file: $INVOICER_FIREBASE_SERVICE_ACCOUNT_FILE
 file_upload:
   bucket_pdfs: $INVOICER_PDF_UPLOAD_BUCKET
-  gcp_client_id: $INVOICER_GCP_CLIENT_ID
-  gcp_credential_file: $INVOICER_GCP_CREDENTIAL_FILE
-  gcp_service_account_file: $INVOICER_GCP_SERVICE_ACCOUNT
 email:
   resend_api_key: $INVOICER_RESEND_API_KEY
+s3:
+  endpoint: $INVOICER_S3_ENDPOINT
+  access_key: $INVOICER_S3_ACCESS_KEY
+  secret_key: $INVOICER_S3_SECRET_KEY
