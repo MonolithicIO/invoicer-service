@@ -56,7 +56,7 @@ internal class CloudflareFileUploader(
             )
         }.fold(
             onSuccess = {
-                it.eTag()
+                fileName
             },
             onFailure = {
                 logger.log(
