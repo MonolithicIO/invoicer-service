@@ -113,7 +113,7 @@ class CreateInvoiceServiceImplTest {
                     "invoiceId": "${response.invoiceId}",
                     "userId": "${userModelFixture.id}",
                     "companyId": "${company.id}",
-                    "type": "generate_pdf"
+                    "type": "invoice_generate_pdf"
                 }
             """.trimIndent()
             ),
