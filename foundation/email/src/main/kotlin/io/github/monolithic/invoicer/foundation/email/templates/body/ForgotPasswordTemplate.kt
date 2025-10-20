@@ -14,7 +14,7 @@ internal fun forgotPasswordTemplate(
     <link
       rel="preload"
       as="image"
-      href="https://monolithic-io.com/invoicer-logo2.png" />
+      href="https://invc-resources.monolithic-io.com/invoicer-logo2.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;700&display=swap" rel="stylesheet">
@@ -75,7 +75,7 @@ internal fun forgotPasswordTemplate(
                                   <td align="center" bgcolor="#01AE66" style="background-color:#01AE66;padding:20px 0">
                                     <img
                                       alt="Invoicer Logo"
-                                      src="https://monolithic-io.com/invoicer-logo2.png"
+                                      src="https://invc-resources.monolithic-io.com/invoicer-logo2.png"
                                       style="display:block;outline:none;border:none;text-decoration:none"
                                     />
                                   </td>
