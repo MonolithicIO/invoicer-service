@@ -50,7 +50,7 @@ internal class PasswordResetRepositoryImpl(
 
     override suspend fun storeResetToken(token: String, userId: UUID) {
         cacheHandler.set(
-            key = "reset-password-token-$token",
+            key = resetTokenCacheKey(token),
             value = ResetPasswordToken(
                 token = token,
                 userId = userId.toString()
@@ -62,12 +62,16 @@ internal class PasswordResetRepositoryImpl(
 
     override suspend fun getResetToken(token: String): ResetPasswordToken? {
         return cacheHandler.get(
-            key = "reset-password-token-$token",
+            key = resetTokenCacheKey(token),
             serializer = ResetPasswordToken.serializer()
         )
     }
 
     override suspend fun clearResetToken(token: String) {
-        cacheHandler.delete(token)
+        cacheHandler.delete(resetTokenCacheKey(token))
+    }
+
+    companion object {
+        fun resetTokenCacheKey(token: String) = "reset-password-token-$token"
     }
 }
